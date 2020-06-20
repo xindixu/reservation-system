@@ -7,5 +7,9 @@ module Types
     field :manager, Types::ManagerType, null: false
     field :team, Types::TeamType, null: false
     field :visits, [Types::VisitType], null: true
+
+    def visits
+      Visit.where(slot_id: object.id)
+    end
   end
 end

@@ -30,5 +30,50 @@ module Types
       Team.find(id)
     end
 
+    # /clients
+    field :clients, [Types::ClientType], null: false
+
+    def clients
+      Client.all
+    end
+
+    field :client, Types::ClientType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def client
+      Client.find(id)
+    end
+
+    # /slots
+    field :slots, [Types::SlotType], null: false
+
+    def slots
+      Slot.all
+    end
+
+    field :slot, Types::SlotType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def slot
+      Slot.find(id)
+    end
+
+    # /visits
+    field :visits, [Types::VisitType], null: false
+
+    def visits
+      Visit.all
+    end
+
+    field :visit, Types::VisitType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def visit
+      Visit.find(id)
+    end
+
   end
 end
