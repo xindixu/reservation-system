@@ -5,3 +5,28 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+5.times do
+  team = Team.create(
+    name: Faker::Team.mascot,
+    description: Faker::Lorem.sentence(word_count: 10),
+    email: Faker::Internet.email,
+    phone: Faker::PhoneNumber.phone_number
+  )
+
+  5.times do
+    team.managers.create(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.email,
+      phone: Faker::PhoneNumber.phone_number
+    )
+  end
+end
+
+3.times do
+  Treatment.create(
+    name: Faker::Verb.base,
+    description: Faker::Lorem.sentence(word_count: 10)
+  )
+end
