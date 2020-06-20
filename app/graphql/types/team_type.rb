@@ -5,11 +5,12 @@ module Types
     field :description, String, null: false
     field :email, String, null: true
     field :phone, String, null: true
-    field :treatments, [Types::TreatmentType], null: false
-    field :treatments_count, Integer, null: false
+    field :managers, [Types::ManagerType], null: true
+    field :managers_count, Integer, null: false
 
-    def treatment_count
-      object.treatments.size
+    def managers_count
+      object.managers.count
     end
+
   end
 end

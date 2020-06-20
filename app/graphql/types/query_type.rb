@@ -15,22 +15,6 @@ module Types
       Manager.find(id)
     end
 
-
-    # /treatments
-    field :treatments, [Types::TreatmentType], null: false
-
-    def treatments
-      Treatment.all
-    end
-
-    field :treatment, Types::TreatmentType, null: false do
-      argument :id, ID, required: true
-    end
-
-    def treatment(id:)
-      Treatment.find(id)
-    end
-
     # /teams
     field :teams, [Types::TeamType], null: false
 
@@ -45,6 +29,6 @@ module Types
     def team(id:)
       Team.find(id)
     end
-    
+
   end
 end
