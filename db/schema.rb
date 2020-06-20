@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 2020_06_20_081250) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.boolean "all_day"
     t.bigint "client_id", null: false
     t.bigint "slot_id", null: false
