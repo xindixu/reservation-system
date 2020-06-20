@@ -1,6 +1,14 @@
 AllCops:
   NewCops: enable
-
+  Exclude: 
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'
+    - !ruby/regexp /old_and_unused\.rb$/
+  Include:
+    - 'db/seeds.rb'
+    
 # Commonly used screens these days easily fit more than 80 characters.
 Layout/LineLength:
   Max: 120
