@@ -3,13 +3,22 @@ import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { CalendarGlobalStyleOverride } from './styles';
 import { VISIT } from '../../lib/commonTypes';
 
 const Calendar = ({ initialEvents }) => {
   const [showWeekends, setShowWeekends] = useState(true);
-  const [events, setEvents] = useState(initialEvents);
+  const [events, setEvents] = useState(() => initialEvents.map(({
+    id, startsAt, endsAt, allDay, client: { firstName, lastName },
+  }) => ({
+    id,
+    title: `Visit: ${firstName} ${lastName}`,
+    start: startsAt,
+    end: endsAt,
+    allDay,
+    editable: true,
+  })));
 
 
   const calendar = useRef(null);
@@ -20,37 +29,63 @@ const Calendar = ({ initialEvents }) => {
   };
 
   const onDateClick = (arg) => {
-    setEvents([
-      ...events,
-      {
-        title: 'New Event',
-        start: arg.date,
-        allDay: arg.allDay,
-      }]);
+    console.log(arg);
+    // setEvents([
+    //   ...events,
+    //   {
+    //     title: 'New Event',
+    //     start: arg.date,
+    //     allDay: arg.allDay,
+    //   }]);
+  };
+
+  const onEventClick = (arg) => {
+    const {
+      id, allDay, start, end,
+    } = arg.event;
+    console.log(id, allDay, start, end);
+  };
+
+  const onEventMouseEnter = (arg) => {
+    console.log(arg);
+  };
+
+  const addEvent = () => {
+    alert('add event');
+  };
+
+  const customButtons = {
+    addEventButton: {
+      text: 'New Event',
+      click: addEvent,
+    },
+    toggleShowWeekendsButton: {
+      text: `${showWeekends ? 'Hide' : 'Show'} Weekends`,
+      click: () => setShowWeekends(!showWeekends),
+    },
   };
 
   return (
     <>
       <CalendarGlobalStyleOverride />
+      <FullCalendar
+        customButtons={customButtons}
+        defaultView="dayGridMonth"
+        header={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'addEventButton toggleShowWeekendsButton',
+        }}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        droppable
+        ref={calendar}
+        weekends={showWeekends}
+        events={events}
+        eventClick={onEventClick}
+        eventMouseEnter={onEventMouseEnter}
+        dateClick={onDateClick}
+      />
 
-      <button onClick={() => setShowWeekends(!showWeekends)} type="button">toggle weekends</button>
-      <button onClick={goToPast} type="button">go to a date in the past</button>
-
-      <div className="demo-app-calendar">
-        <FullCalendar
-          defaultView="dayGridMonth"
-          header={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-          }}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          ref={calendar}
-          weekends={showWeekends}
-          events={events}
-          dateClick={onDateClick}
-        />
-      </div>
     </>
   );
 };

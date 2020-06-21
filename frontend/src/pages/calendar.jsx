@@ -25,12 +25,6 @@ const VISITS = gql`
 `;
 
 
-const parseVisit = visit => visit.map(({
-  startsAt, endsAt, allDay, client: { firstName, lastName },
-}) => ({
-  title: `Visit: ${firstName} ${lastName}`, start: startsAt, end: endsAt, allDay,
-}));
-
 const CalendarPage = () => {
   const { loading, error, data } = useQuery(VISITS);
   if (loading) {
@@ -41,7 +35,7 @@ const CalendarPage = () => {
   }
 
   return (
-    <Calendar initialEvents={parseVisit(data.visits)} />
+    <Calendar initialEvents={data.visits} />
   );
 };
 
