@@ -13,14 +13,15 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "apollo-boost": "^0.4.9",
-    "date-fns": "^2.14.0",
     "graphql": "^15.1.0",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
+    "react-datetime": "^2.16.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "styled-components": "^5.1.1",
-    "tailwindcss": "^1.4.6"
+    "reactstrap": "^8.5.1",
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "build:style": "tailwind build src/index.css -o src/tailwind.css",
