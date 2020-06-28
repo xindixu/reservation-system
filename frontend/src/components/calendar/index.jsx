@@ -6,8 +6,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { CalendarGlobalStyleOverride } from './styles';
 import { VISIT } from '../../lib/commonTypes';
-import Modal from '../modal';
-import Button from '../button';
+
+import NewEventModal from './new-event-modal';
+
+const MODALS = {
+  newEvent: 'newEvent',
+};
 
 const Calendar = ({ initialEvents }) => {
   const [showWeekends, setShowWeekends] = useState(true);
@@ -22,7 +26,7 @@ const Calendar = ({ initialEvents }) => {
     editable: true,
   })));
 
-  const [showModal, setShowModal] = useState(false);
+  const [modalToShow, setModalToShow] = useState('');
 
 
   const calendar = useRef(null);
@@ -55,8 +59,7 @@ const Calendar = ({ initialEvents }) => {
   };
 
   const addEvent = () => {
-    setShowModal(true);
-    // alert('add event');
+    setModalToShow(MODALS.newEvent);
   };
 
   const customButtons = {
@@ -90,32 +93,9 @@ const Calendar = ({ initialEvents }) => {
         eventMouseEnter={onEventMouseEnter}
         dateClick={onDateClick}
       />
-
-      <Modal
-        title="New Event"
-        show={showModal}
-        footer={(
-          <>
-            <Button
-              filled={false}
-              rounded
-              onClick={() => setShowModal(false)}
-            >
-              Close
-            </Button>
-            <Button
-              onClick={() => setShowModal(false)}
-              rounded
-            >
-              Save
-            </Button>
-          </>
-      )}
-        onClose={() => setShowModal(false)}
-      >
-
-        shshsh
-      </Modal>
+      {modalToShow === MODALS.newEvent
+      && <NewEventModal onClose={() => setModalToShow('')} />
+      }
     </>
   );
 };
