@@ -45,7 +45,6 @@ const Teams = () => {
             {phone}
           </p>
           {managers.map(manager => <Card user={manager} />)}
-
         </div>
       ))}
     </div>

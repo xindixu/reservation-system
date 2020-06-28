@@ -6,3 +6,5 @@ export const VISIT = {
   endsAt: PropTypes.string.isRequired,
   allDay: PropTypes.bool.isRequired,
 };
+
+export const COLORS = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
