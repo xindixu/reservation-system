@@ -5,15 +5,15 @@ import ReactDatetime from 'react-datetime';
 import Base from '../form/base';
 
 const Datepicker = ({
-  onChange, renderDay, format, name, title, placeholder,
+  onChange, renderDay, dateFormat, name, title, placeholder,
 }) => (
   <Base prepend={<i className="ni ni-calendar-grid-58" />} title={title}>
     <ReactDatetime
       inputProps={{
-        placeholder: placeholder || format,
+        placeholder: placeholder || dateFormat,
         name,
       }}
-      dateFormat={format}
+      dateFormat={dateFormat}
       timeFormat={false}
       onChange={onChange}
       renderDay={renderDay}
@@ -21,10 +21,14 @@ const Datepicker = ({
   </Base>
 );
 
+Datepicker.defaultProps = {
+  dateFormat: 'YYYY-MM-DD',
+};
+
 Datepicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   renderDay: PropTypes.func.isRequired,
-  format: PropTypes.string.isRequired,
+  dateFormat: PropTypes.string,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
