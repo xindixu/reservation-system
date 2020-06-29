@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './tailwind.css';
+import './assets/vendor/nucleo/css/nucleo.css';
+import './assets/vendor/font-awesome/css/font-awesome.min.css';
+import './assets/css/argon-design-system-react.css';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
