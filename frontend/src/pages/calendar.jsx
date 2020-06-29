@@ -1,32 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import Calendar from '../components/calendar';
-
-const VISITS = gql`
-  query {
-    visits{
-      id
-      startsAt
-      endsAt
-      slot {
-        name
-      }
-      client{
-        firstName
-        lastName
-        manager{
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-`;
+import { getAllVisits } from '../graphql/visits';
 
 
 const CalendarPage = () => {
-  const { loading, error, data } = useQuery(VISITS);
+  const { loading, error, data } = useQuery(getAllVisits);
   if (loading) {
     return 'loading...';
   }
