@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import {
   FormGroup,
   Label,
@@ -8,29 +6,35 @@ import {
   InputGroupText,
   InputGroup,
 } from 'reactstrap';
+import { BASE_INPUT } from '../../lib/commonTypes';
 
 const Base = ({
   children, title, name, prepend, append,
 }) => (
   <FormGroup>
     <Label for={name}>{title}</Label>
-    <InputGroup className="input-group-alternative">
-      {prepend && (
-      <InputGroupAddon addonType="prepend">
-        <InputGroupText>
-          {prepend}
-        </InputGroupText>
-      </InputGroupAddon>
-      )}
-      {children}
-      {append && (
-      <InputGroupAddon addonType="append">
-        <InputGroupText>
-          {append}
-        </InputGroupText>
-      </InputGroupAddon>
-      )}
-    </InputGroup>
+    { prepend || append ? (
+      <InputGroup className="input-group-alternative">
+        {prepend && (
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>
+            {prepend}
+          </InputGroupText>
+        </InputGroupAddon>
+        )}
+        {children}
+        {append && (
+        <InputGroupAddon addonType="append">
+          <InputGroupText>
+            {append}
+          </InputGroupText>
+        </InputGroupAddon>
+        )}
+      </InputGroup>
+    )
+      : children
+
+  }
   </FormGroup>
 
 );
@@ -40,11 +44,7 @@ Base.defaultProps = {
   append: null,
 };
 Base.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  prepend: PropTypes.node,
-  append: PropTypes.node,
+  ...BASE_INPUT,
 };
 
 export default Base;
