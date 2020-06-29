@@ -12,6 +12,7 @@ import {
   Row,
 } from 'reactstrap';
 
+import BaseDatepicker from './base';
 
 const getClasses = (className, startDate, endDate, currentDate) => {
   if (
@@ -53,51 +54,13 @@ const RangeDatepicker = ({ dateFormat }) => {
     );
   };
 
-
   return (
-
     <Row>
       <Col xs={6}>
-        <FormGroup>
-          Start Date
-          <InputGroup className="input-group-alternative">
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <i className="ni ni-calendar-grid-58" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <ReactDatetime
-              inputProps={{
-                placeholder: 'Date Picker Here',
-              }}
-              timeFormat={false}
-              dateFormat={dateFormat}
-              renderDay={renderDay}
-              onChange={setStartDate}
-            />
-          </InputGroup>
-        </FormGroup>
+        <BaseDatepicker title="Start Date" dateFormat={dateFormat} renderDay={renderDay} onChange={setStartDate} />
       </Col>
       <Col xs={6}>
-        <FormGroup>
-          End Date
-          <InputGroup className="input-group-alternative">
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <i className="ni ni-calendar-grid-58" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <ReactDatetime
-              inputProps={{
-                placeholder: 'Date Picker Here',
-              }}
-              timeFormat={false}
-              dateFormat={dateFormat}
-              renderDay={renderDay}
-              onChange={setEndDate}
-            />
-          </InputGroup>
-        </FormGroup>
+        <BaseDatepicker title="End Date" dateFormat={dateFormat} renderDay={renderDay} onChange={setEndDate} />
       </Col>
     </Row>
   );
