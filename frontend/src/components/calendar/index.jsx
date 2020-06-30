@@ -2,21 +2,15 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
 
 import { CalendarGlobalStyleOverride } from './styles'
 import { VISIT } from '../../lib/commonTypes'
 
-import VisitModal from '../visit-modal'
 
-const MODALS = {
-  newEvent: 'newEvent',
-}
-
-const Calendar = ({ initialEvents, deleteVisit }) => {
+const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
   const [showWeekends, setShowWeekends] = useState(true)
-  const [events, setEvents] = useState(() => initialEvents.map(({
+  const [visits, setVisits] = useState(() => initialVisits.map(({
     id, startsAt, endsAt, allDay, client: { firstName, lastName },
   }) => ({
     id,
@@ -26,8 +20,6 @@ const Calendar = ({ initialEvents, deleteVisit }) => {
     allDay,
     editable: true,
   })))
-
-  const [modalToShow, setModalToShow] = useState('')
 
 
   const calendar = useRef(null)
@@ -39,16 +31,16 @@ const Calendar = ({ initialEvents, deleteVisit }) => {
 
   const onDateClick = (arg) => {
     console.log(arg)
-    // setEvents([
-    //   ...events,
+    // setVisits([
+    //   ...visits,
     //   {
-    //     title: 'New Event',
+    //     title: 'New Visit',
     //     start: arg.date,
     //     allDay: arg.allDay,
     //   }]);
   }
 
-  const onEventClick = (arg) => {
+  const onVisitClick = (arg) => {
     const {
       id, allDay, start, end,
     } = arg.event
@@ -56,18 +48,15 @@ const Calendar = ({ initialEvents, deleteVisit }) => {
     deleteVisit({ variables: { id } })
   }
 
-  const onEventMouseEnter = (arg) => {
+  const onVisitMouseEnter = (arg) => {
     // console.log(arg);
   }
 
-  const addEvent = () => {
-    setModalToShow(MODALS.newEvent)
-  }
 
   const customButtons = {
-    addEventButton: {
-      text: 'New Event',
-      click: addEvent,
+    addVisitButton: {
+      text: 'New Visit',
+      click: () => addVisit(),
     },
     toggleShowWeekendsButton: {
       text: `${showWeekends ? 'Hide' : 'Show'} Weekends`,
@@ -81,30 +70,28 @@ const Calendar = ({ initialEvents, deleteVisit }) => {
       <FullCalendar
         customButtons={customButtons}
         defaultView="dayGridMonth"
-        header={{
-          left: 'prev,next today',
+        headerToolbar={{
+          start: 'prev,next today',
           center: 'title',
-          right: 'addEventButton toggleShowWeekendsButton',
+          end: 'addVisitButton toggleShowWeekendsButton',
         }}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin]}
+        selectable
         droppable
         ref={calendar}
         weekends={showWeekends}
-        events={events}
-        eventClick={onEventClick}
-        eventMouseEnter={onEventMouseEnter}
+        events={visits}
+        eventClick={onVisitClick}
+        eventMouseEnter={onVisitMouseEnter}
         dateClick={onDateClick}
       />
-      {modalToShow === MODALS.newEvent
-      && <VisitModal onClose={() => setModalToShow('')} />
-      }
     </>
   )
 }
 
 
 Calendar.propTypes = {
-  initialEvents: PropTypes.arrayOf(
+  initialVisits: PropTypes.arrayOf(
     VISIT,
   ).isRequired,
 }
