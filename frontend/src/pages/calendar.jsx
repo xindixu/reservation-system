@@ -1,11 +1,12 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import Calendar from '../components/calendar';
-import { getAllVisits } from '../graphql/visits';
+import { GET_ALL_VISITS, DELETE_VISIT } from '../graphql/visits';
 
 
 const CalendarPage = () => {
-  const { loading, error, data } = useQuery(getAllVisits);
+  const { loading, error, data } = useQuery(GET_ALL_VISITS);
+  const [deleteVisit] = useMutation(DELETE_VISIT);
   if (loading) {
     return 'loading...';
   }
@@ -14,7 +15,7 @@ const CalendarPage = () => {
   }
 
   return (
-    <Calendar initialEvents={data.visits} />
+    <Calendar initialEvents={data.visits} deleteVisit={deleteVisit} />
   );
 };
 

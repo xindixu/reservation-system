@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './assets/vendor/nucleo/css/nucleo.css';
-import './assets/vendor/font-awesome/css/font-awesome.min.css';
-import './assets/css/argon-design-system-react.css';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import 'antd/dist/antd.css';
+
 import * as serviceWorker from './serviceWorker';
 import App from './App';
-
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',

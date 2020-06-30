@@ -1,20 +1,20 @@
-import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
-import { CalendarGlobalStyleOverride } from './styles';
-import { VISIT } from '../../lib/commonTypes';
+import React, { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
+import { CalendarGlobalStyleOverride } from './styles'
+import { VISIT } from '../../lib/commonTypes'
 
-import VisitModal from './visit-modal';
+import VisitModal from '../visit-modal'
 
 const MODALS = {
   newEvent: 'newEvent',
-};
+}
 
-const Calendar = ({ initialEvents }) => {
-  const [showWeekends, setShowWeekends] = useState(true);
+const Calendar = ({ initialEvents, deleteVisit }) => {
+  const [showWeekends, setShowWeekends] = useState(true)
   const [events, setEvents] = useState(() => initialEvents.map(({
     id, startsAt, endsAt, allDay, client: { firstName, lastName },
   }) => ({
@@ -24,20 +24,20 @@ const Calendar = ({ initialEvents }) => {
     end: endsAt,
     allDay,
     editable: true,
-  })));
+  })))
 
-  const [modalToShow, setModalToShow] = useState('');
+  const [modalToShow, setModalToShow] = useState('')
 
 
-  const calendar = useRef(null);
+  const calendar = useRef(null)
 
   const goToPast = () => {
-    const calendarApi = calendar.current.getApi();
-    calendarApi.gotoDate('2000-01-01'); // call a method on the Calendar object
-  };
+    const calendarApi = calendar.current.getApi()
+    calendarApi.gotoDate('2000-01-01') // call a method on the Calendar object
+  }
 
   const onDateClick = (arg) => {
-    console.log(arg);
+    console.log(arg)
     // setEvents([
     //   ...events,
     //   {
@@ -45,22 +45,23 @@ const Calendar = ({ initialEvents }) => {
     //     start: arg.date,
     //     allDay: arg.allDay,
     //   }]);
-  };
+  }
 
   const onEventClick = (arg) => {
     const {
       id, allDay, start, end,
-    } = arg.event;
-    console.log(id, allDay, start, end);
-  };
+    } = arg.event
+    console.log(id, allDay, start, end)
+    deleteVisit({ variables: { id } })
+  }
 
   const onEventMouseEnter = (arg) => {
     // console.log(arg);
-  };
+  }
 
   const addEvent = () => {
-    setModalToShow(MODALS.newEvent);
-  };
+    setModalToShow(MODALS.newEvent)
+  }
 
   const customButtons = {
     addEventButton: {
@@ -71,7 +72,7 @@ const Calendar = ({ initialEvents }) => {
       text: `${showWeekends ? 'Hide' : 'Show'} Weekends`,
       click: () => setShowWeekends(!showWeekends),
     },
-  };
+  }
 
   return (
     <>
@@ -97,13 +98,13 @@ const Calendar = ({ initialEvents }) => {
       && <VisitModal onClose={() => setModalToShow('')} />
       }
     </>
-  );
-};
+  )
+}
 
 
 Calendar.propTypes = {
   initialEvents: PropTypes.arrayOf(
     VISIT,
   ).isRequired,
-};
-export default Calendar;
+}
+export default Calendar

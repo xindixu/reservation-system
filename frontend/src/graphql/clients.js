@@ -1,6 +1,6 @@
-import { gql } from 'apollo-boost';
+import { gql } from 'apollo-boost'
 
-export const getAllClients = gql`
+export const GET_ALL_CLIENTS = gql`
   query {
     clients {
       id
@@ -8,4 +8,4 @@ export const getAllClients = gql`
       lastName
     }
   }
-`;
+`

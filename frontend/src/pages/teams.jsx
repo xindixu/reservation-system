@@ -1,11 +1,12 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import Card from '../components/card';
-import { getAllTeams } from '../graphql/teams';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { Card, Col, Row } from 'antd';
+import { GET_ALL_TEAMS } from '../graphql/teams';
 
 
 const Teams = () => {
-  const { loading, error, data } = useQuery(getAllTeams);
+  const { loading, error, data } = useQuery(GET_ALL_TEAMS);
+  // const [] = useMutation(GET_ALL_TEAMS);
 
   if (loading) {
     return 'loading...';
@@ -14,23 +15,22 @@ const Teams = () => {
     return `Error ${error.message}`;
   }
   return (
-    <div className="flex flex-wrap items-center pb-16">
+    <Row gutter={16}>
+
       {data.teams.map(({
         id, name, description, email,
         phone, managers,
       }) => (
-        <div key={id}>
-          <p>{name}</p>
-          <p>{description}</p>
-          <p>
-            {email}
-            {' '}
-            {phone}
-          </p>
-          {managers.map(manager => <Card user={manager} />)}
-        </div>
+        <Col span={8}>
+          <Card title={name} hoverable>
+            {description}
+            <p>{email}</p>
+            <a>{phone}</a>
+
+          </Card>
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 };
 

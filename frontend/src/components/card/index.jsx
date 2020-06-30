@@ -1,24 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Row, Col, Card, CardBody, CardSubtitle, CardLink, CardTitle, CardText,
+} from 'reactstrap';
 
-const Card = ({
+const BaseCard = ({
   user: {
     firstName, lastName, email, phone,
   },
 }) => (
-  <div className="rounded border border-gray-500 bg-yellow-100 p-5 mb-5 mr-5">
-    <p className="text-lg font-medium">
-      {firstName}
-      {' '}
-      {lastName}
-    </p>
-    <p>{email}</p>
-    <p>{phone}</p>
-  </div>
+
+  <Col>
+    <Card>
+      <CardBody>
+        <CardTitle>{title}</CardTitle>
+        <CardSubtitle className="mb-2 text-muted">{subtitle}</CardSubtitle>
+        <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+        <CardLink href="/#/">Card link</CardLink>
+        <CardLink href="/#/">Another link</CardLink>
+      </CardBody>
+    </Card>
+  </Col>
+
 );
 
-Card.propTypes = {
+BaseCard.propTypes = {
 
 };
 
-export default Card;
+export default BaseCard;
