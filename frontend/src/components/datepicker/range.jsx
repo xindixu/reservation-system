@@ -41,11 +41,11 @@ const getClasses = (className, startDate, endDate, currentDate) => {
 };
 
 
-const RangeDatepicker = ({ dateFormat }) => {
+const RangeDatepicker = ({ dateFormat, onChange }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const renderDay = (props, currentDate, selectedDate) => {
+  const renderDay = (props, currentDate) => {
     const classes = getClasses(props.className, startDate, endDate, currentDate);
     return (
       <td {...props} className={classes}>
@@ -57,10 +57,26 @@ const RangeDatepicker = ({ dateFormat }) => {
   return (
     <Row>
       <Col xs={6}>
-        <BaseDatepicker title="Start Date" dateFormat={dateFormat} renderDay={renderDay} onChange={setStartDate} />
+        <BaseDatepicker
+          title="Start Date"
+          dateFormat={dateFormat}
+          renderDay={renderDay}
+          onChange={(e) => {
+            setStartDate(e);
+            onChange({ start: e.toDate() });
+          }}
+        />
       </Col>
       <Col xs={6}>
-        <BaseDatepicker title="End Date" dateFormat={dateFormat} renderDay={renderDay} onChange={setEndDate} />
+        <BaseDatepicker
+          title="End Date"
+          dateFormat={dateFormat}
+          renderDay={renderDay}
+          onChange={(e) => {
+            setEndDate(e);
+            onChange({ end: e.toDate() });
+          }}
+        />
       </Col>
     </Row>
   );

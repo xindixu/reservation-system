@@ -7,7 +7,7 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import { CalendarGlobalStyleOverride } from './styles';
 import { VISIT } from '../../lib/commonTypes';
 
-import NewEventModal from './new-event-modal';
+import VisitModal from './visit-modal';
 
 const MODALS = {
   newEvent: 'newEvent',
@@ -55,7 +55,7 @@ const Calendar = ({ initialEvents }) => {
   };
 
   const onEventMouseEnter = (arg) => {
-    console.log(arg);
+    // console.log(arg);
   };
 
   const addEvent = () => {
@@ -94,7 +94,7 @@ const Calendar = ({ initialEvents }) => {
         dateClick={onDateClick}
       />
       {modalToShow === MODALS.newEvent
-      && <NewEventModal onClose={() => setModalToShow('')} />
+      && <VisitModal onClose={() => setModalToShow('')} />
       }
     </>
   );

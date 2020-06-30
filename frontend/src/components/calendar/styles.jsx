@@ -4,7 +4,8 @@ import '@fullcalendar/daygrid/main.css';
 
 export const CalendarGlobalStyleOverride = createGlobalStyle`
   .fc-event {
-    border: #5a67d8;
-    background-color: #5a67d8;
+    border: #f4f5f7;
+    background-color: #f4f5f7;
   }
+
 `;

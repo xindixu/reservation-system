@@ -12,7 +12,7 @@ const Base = ({
   children, title, name, prepend, append,
 }) => (
   <FormGroup>
-    <Label for={name}>{title}</Label>
+    <Label htmlFor={name}>{title}</Label>
     { prepend || append ? (
       <InputGroup className="input-group-alternative">
         {prepend && (
