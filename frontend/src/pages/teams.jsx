@@ -1,28 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import Card from '../components/card';
+import { getAllTeams } from '../graphql/teams';
 
-const TEAMS = gql`
-  query {
-    teams {
-      id
-      name
-      description
-      email
-      phone
-      managers {
-        firstName
-        lastName
-        email
-        phone
-      }
-    }
-  }
-`;
 
 const Teams = () => {
-  const { loading, error, data } = useQuery(TEAMS);
+  const { loading, error, data } = useQuery(getAllTeams);
 
   if (loading) {
     return 'loading...';

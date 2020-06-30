@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-export const TEAMS = gql`
+export const getAllTeams = gql`
   query {
     teams {
       id
