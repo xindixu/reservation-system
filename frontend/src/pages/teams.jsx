@@ -1,12 +1,22 @@
-import React from "react"
-import { useQuery } from "@apollo/react-hooks"
+import React, { useState } from "react"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Card, Col, Row, Button } from "antd"
 import { PhoneOutlined, MailOutlined } from "@ant-design/icons"
-import { GET_ALL_TEAMS } from "../graphql/teams"
-import FAButton from "../components/floating-action-button"
+
+import { GET_ALL_TEAMS, CREATE_TEAM } from "graphql/teams"
+import Modal from "components/modal"
+import TeamForm from "components/team-form"
+import FAButton from "components/floating-action-button"
+
+const MODALS = {
+  addTeam: "addTeam",
+}
 
 const Teams = () => {
   const { loading, error, data } = useQuery(GET_ALL_TEAMS)
+  const [addTeam] = useMutation(CREATE_TEAM)
+  const [team, setTeam] = useState()
+  const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
     return "loading..."
@@ -44,7 +54,19 @@ const Teams = () => {
           </Col>
         ))}
       </Row>
-      <FAButton>New Team</FAButton>
+      {modalToShow === MODALS.addTeam && (
+        <Modal
+          title="Create New Team"
+          onClose={() => setModalToShow("")}
+          onSubmit={() => {
+            console.log(team)
+            addTeam({ variables: team })
+          }}
+        >
+          <TeamForm team={team} setTeam={setTeam} />
+        </Modal>
+      )}
+      <FAButton onClick={() => setModalToShow(MODALS.addTeam)}>New Team</FAButton>
     </>
   )
 }
