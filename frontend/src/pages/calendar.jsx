@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import Calendar from '../components/calendar'
-import { GET_ALL_VISITS, DELETE_VISIT } from '../graphql/visits'
-
-import Modal from '../components/modal'
-import VisitForm from '../components/visit-form'
+import React, { useState } from "react"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { GET_ALL_VISITS, DELETE_VISIT } from "graphql/visits"
+import Calendar from "components/calendar"
+import Modal from "components/modal"
+import VisitForm from "components/visit-form"
+import FAButton from "components/floating-action-button"
 
 const MODALS = {
-  addVisit: 'addVisit',
+  addVisit: "addVisit",
 }
 
 const CalendarPage = () => {
@@ -15,9 +15,9 @@ const CalendarPage = () => {
   const [deleteVisit] = useMutation(DELETE_VISIT)
 
   const [visit, setVisit] = useState({ allDay: true })
-  const [modalToShow, setModalToShow] = useState('')
+  const [modalToShow, setModalToShow] = useState("")
   if (loading) {
-    return 'loading...'
+    return "loading..."
   }
   if (error) {
     return `Error ${error.message}`
@@ -25,26 +25,15 @@ const CalendarPage = () => {
 
   return (
     <>
-      <Calendar
-        initialVisits={data.visits}
-        deleteVisit={() => {}}
-        addVisit={() => setModalToShow(MODALS.addVisit)}
-      />
-      {modalToShow === MODALS.addVisit
-      && (
-      <Modal
-        title="Create New Visit"
-        onClose={() => setModalToShow('')}
-        onSubmit={() => {
-          console.log()
-        }}
-      >
-        <VisitForm visit={visit} setVisit={setVisit} />
-      </Modal>
+      <Calendar initialVisits={data.visits} deleteVisit={() => {}} />
+      {modalToShow === MODALS.addVisit && (
+        <Modal title="Create New Visit" onClose={() => setModalToShow("")} onSubmit={() => {}}>
+          <VisitForm visit={visit} setVisit={setVisit} />
+        </Modal>
       )}
+      <FAButton onClick={() => setModalToShow(MODALS.addVisit)}>New Visit</FAButton>
     </>
   )
 }
-
 
 export default CalendarPage

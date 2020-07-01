@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Modal as AntdModal } from 'antd'
-import VisitForm from './visit-form'
+import React from "react"
+import PropTypes from "prop-types"
+import { Button, Modal as AntdModal } from "antd"
 
-const Modal = ({
-  title, onClose, onSubmit, children,
-}) => (
+const Modal = ({ title, onClose, onSubmit, children }) => (
   <AntdModal
     title={title}
     visible
@@ -32,6 +29,9 @@ const Modal = ({
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 export default Modal

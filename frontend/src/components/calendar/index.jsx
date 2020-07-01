@@ -1,32 +1,30 @@
-import React, { useRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
+import React, { useRef, useState } from "react"
+import PropTypes from "prop-types"
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 
-import { CalendarGlobalStyleOverride } from './styles'
-import { VISIT } from '../../lib/commonTypes'
+import { CalendarGlobalStyleOverride } from "./styles"
+import { VISIT } from "lib/commonTypes"
 
-
-const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
+const Calendar = ({ initialVisits, deleteVisit }) => {
   const [showWeekends, setShowWeekends] = useState(true)
-  const [visits, setVisits] = useState(() => initialVisits.map(({
-    id, startsAt, endsAt, allDay, client: { firstName, lastName },
-  }) => ({
-    id,
-    title: `Visit: ${firstName} ${lastName}`,
-    start: startsAt,
-    end: endsAt,
-    allDay,
-    editable: true,
-  })))
-
+  const [visits, setVisits] = useState(() =>
+    initialVisits.map(({ id, startsAt, endsAt, allDay, client: { firstName, lastName } }) => ({
+      id,
+      title: `Visit: ${firstName} ${lastName}`,
+      start: startsAt,
+      end: endsAt,
+      allDay,
+      editable: true,
+    }))
+  )
 
   const calendar = useRef(null)
 
   const goToPast = () => {
     const calendarApi = calendar.current.getApi()
-    calendarApi.gotoDate('2000-01-01') // call a method on the Calendar object
+    calendarApi.gotoDate("2000-01-01") // call a method on the Calendar object
   }
 
   const onDateClick = (arg) => {
@@ -41,9 +39,7 @@ const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
   }
 
   const onVisitClick = (arg) => {
-    const {
-      id, allDay, start, end,
-    } = arg.event
+    const { id, allDay, start, end } = arg.event
     console.log(id, allDay, start, end)
     deleteVisit({ variables: { id } })
   }
@@ -52,14 +48,9 @@ const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
     // console.log(arg);
   }
 
-
   const customButtons = {
-    addVisitButton: {
-      text: 'New Visit',
-      click: () => addVisit(),
-    },
     toggleShowWeekendsButton: {
-      text: `${showWeekends ? 'Hide' : 'Show'} Weekends`,
+      text: `${showWeekends ? "Hide" : "Show"} Weekends`,
       click: () => setShowWeekends(!showWeekends),
     },
   }
@@ -71,9 +62,9 @@ const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
         customButtons={customButtons}
         defaultView="dayGridMonth"
         headerToolbar={{
-          start: 'prev,next today',
-          center: 'title',
-          end: 'addVisitButton toggleShowWeekendsButton',
+          start: "prev,next today",
+          center: "title",
+          end: "toggleShowWeekendsButton",
         }}
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable
@@ -89,10 +80,7 @@ const Calendar = ({ initialVisits, deleteVisit, addVisit }) => {
   )
 }
 
-
 Calendar.propTypes = {
-  initialVisits: PropTypes.arrayOf(
-    VISIT,
-  ).isRequired,
+  initialVisits: PropTypes.arrayOf(VISIT).isRequired,
 }
 export default Calendar

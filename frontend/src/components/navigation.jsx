@@ -1,8 +1,7 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Menu } from 'antd'
-import { TeamOutlined, CalendarOutlined } from '@ant-design/icons'
-
+import React from "react"
+import { Link, useLocation } from "react-router-dom"
+import { Menu } from "antd"
+import { TeamOutlined, CalendarOutlined } from "@ant-design/icons"
 
 const Navigation = () => {
   const location = useLocation()

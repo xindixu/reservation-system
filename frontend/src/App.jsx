@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Layout } from 'antd'
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons'
-import Teams from './pages/teams'
-import Calendar from './pages/calendar'
-import Navigation from './components/navigation-bar'
-import { Wrapper } from './styles'
+import React, { useState } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Layout } from "antd"
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
+import Teams from "./pages/teams"
+import Calendar from "./pages/calendar"
+import Navigation from "./components/navigation"
+import { Wrapper } from "./styles"
 
 const { Header, Sider, Content } = Layout
 
@@ -18,11 +15,7 @@ const App = () => {
     <Wrapper>
       <Router>
         <Layout>
-          <Sider
-            trigger={null}
-            collapsible
-            collapsed={navigationCollapsed}
-          >
+          <Sider trigger={null} collapsible collapsed={navigationCollapsed}>
             <Navigation />
           </Sider>
           <Layout>
@@ -32,13 +25,12 @@ const App = () => {
                   className="trigger"
                   onClick={() => setNavigationCollapsed(false)}
                 />
-              )
-                : (
-                  <MenuFoldOutlined
-                    className="trigger"
-                    onClick={() => setNavigationCollapsed(true)}
-                  />
-                )}
+              ) : (
+                <MenuFoldOutlined
+                  className="trigger"
+                  onClick={() => setNavigationCollapsed(true)}
+                />
+              )}
             </Header>
             <Content>
               <Switch>
