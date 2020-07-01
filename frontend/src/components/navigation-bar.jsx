@@ -7,7 +7,7 @@ import { TeamOutlined, CalendarOutlined } from '@ant-design/icons'
 const Navigation = () => {
   const location = useLocation()
   return (
-    <Menu defaultSelectedKeys={location.pathname} mode="horizontal">
+    <Menu theme="dark" defaultSelectedKeys={location.pathname} mode="inline">
       <Menu.Item key="calendar" icon={<CalendarOutlined />}>
         <Link to="calendar">Calendar</Link>
       </Menu.Item>

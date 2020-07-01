@@ -1,38 +1,54 @@
-import React from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { Card, Col, Row } from 'antd';
-import { GET_ALL_TEAMS } from '../graphql/teams';
-
+import React from 'react'
+import { useQuery } from '@apollo/react-hooks'
+import {
+  Card, Col, Row, Button,
+} from 'antd'
+import { PhoneOutlined, MailOutlined } from '@ant-design/icons'
+import { GET_ALL_TEAMS } from '../graphql/teams'
 
 const Teams = () => {
-  const { loading, error, data } = useQuery(GET_ALL_TEAMS);
+  const { loading, error, data } = useQuery(GET_ALL_TEAMS)
   // const [] = useMutation(GET_ALL_TEAMS);
 
   if (loading) {
-    return 'loading...';
+    return 'loading...'
   }
   if (error) {
-    return `Error ${error.message}`;
+    return `Error ${error.message}`
   }
   return (
-    <Row gutter={16}>
-
+    <Row justify="space-between" gutter={[16, 16]}>
       {data.teams.map(({
-        id, name, description, email,
-        phone, managers,
+        id, name, description, email, phone, managers,
       }) => (
-        <Col span={8}>
-          <Card title={name} hoverable>
+        <Col sm={24} md={12} lg={6} key={id}>
+          <Card
+            title={name}
+            hoverable
+            actions={[
+              <Button
+                key="email"
+                type="link"
+                size="small"
+                icon={<MailOutlined />}
+                href={`mailto:${email}`}
+              />,
+              <Button
+                key="phone"
+                type="link"
+                size="small"
+                icon={<PhoneOutlined />}
+                href={`tel:${phone}`}
+              />,
+            ]}
+          >
             {description}
-            <p>{email}</p>
-            <a>{phone}</a>
-
           </Card>
         </Col>
       ))}
     </Row>
-  );
-};
+  )
+}
 
 
-export default Teams;
+export default Teams

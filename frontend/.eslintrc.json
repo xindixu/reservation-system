@@ -15,7 +15,11 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "jsx-a11y",
+        "import",
+        "react",
+        "react-hooks",
+        "prettier"
     ],
     "rules": {
         "max-len": ["error", { "code": 80 }],
