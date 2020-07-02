@@ -6,23 +6,3 @@ export const VISIT = {
   endsAt: PropTypes.string.isRequired,
   allDay: PropTypes.bool.isRequired,
 }
-
-export const COLORS = [
-  "gray",
-  "red",
-  "orange",
-  "yellow",
-  "green",
-  "teal",
-  "blue",
-  "indigo",
-  "purple",
-  "pink",
-]
-
-export const BASE_INPUT = {
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  prepend: PropTypes.node,
-  append: PropTypes.node,
-}

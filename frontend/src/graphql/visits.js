@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from "apollo-boost"
 
 export const GET_ALL_VISITS = gql`
   query {
@@ -19,12 +19,11 @@ export const GET_ALL_VISITS = gql`
       }
     }
   }
-`;
-
+`
 
 export const DELETE_VISIT = gql`
   mutation DeleteVisit($id: String!) {
-    deleteVisit(id: $id){
+    deleteVisit(id: $id) {
       id
       startsAt
       endsAt
@@ -41,4 +40,4 @@ export const DELETE_VISIT = gql`
       }
     }
   }
-`;
+`

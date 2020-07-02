@@ -5,15 +5,9 @@ export const GET_ALL_TEAMS = gql`
     teams {
       id
       name
-      description
       email
       phone
-      managers {
-        firstName
-        lastName
-        email
-        phone
-      }
+      description
     }
   }
 `

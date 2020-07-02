@@ -14,7 +14,18 @@ const MODALS = {
 
 const Teams = () => {
   const { loading, error, data } = useQuery(GET_ALL_TEAMS)
-  const [addTeam] = useMutation(CREATE_TEAM)
+  const [addTeam] = useMutation(CREATE_TEAM, {
+    update: (cache, { data: { createTeam } }) => {
+      const { team } = createTeam
+      const { teams } = cache.readQuery({ query: GET_ALL_TEAMS })
+      cache.writeQuery({
+        query: GET_ALL_TEAMS,
+        data: {
+          teams: [...teams, team],
+        },
+      })
+    },
+  })
   const [team, setTeam] = useState()
   const [modalToShow, setModalToShow] = useState("")
 
@@ -27,7 +38,7 @@ const Teams = () => {
   return (
     <>
       <Row justify="space-between" gutter={[16, 16]}>
-        {data.teams.map(({ id, name, description, email, phone, managers }) => (
+        {data.teams.map(({ id, name, description, email, phone }) => (
           <Col sm={24} md={12} lg={6} key={id}>
             <Card
               title={name}
@@ -58,10 +69,7 @@ const Teams = () => {
         <Modal
           title="Create New Team"
           onClose={() => setModalToShow("")}
-          onSubmit={() => {
-            console.log(team)
-            addTeam({ variables: team })
-          }}
+          onSubmit={() => addTeam({ variables: team })}
         >
           <TeamForm team={team} setTeam={setTeam} />
         </Modal>
