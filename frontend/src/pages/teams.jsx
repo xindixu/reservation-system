@@ -83,7 +83,11 @@ const Teams = () => {
           <TeamForm team={team} setTeam={setTeam} />
         </Modal>
       )}
-      <FAButton onClick={() => setModalToShow(MODALS.addTeam)}>New Team</FAButton>
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addTeam)}
+        ariaLabel="new Team"
+        rotate={modalToShow}
+      />
     </>
   )
 }

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks"
 import "antd/dist/antd.css"
-
+import "./tailwind.css"
 import * as serviceWorker from "./serviceWorker"
 import App from "./App"
 

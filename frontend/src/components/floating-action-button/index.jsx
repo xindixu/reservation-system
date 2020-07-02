@@ -4,20 +4,19 @@ import { Button } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
 import { FAButtonPosition } from "./styles"
 
-const FAButton = ({ onClick, children, icon }) => (
-  <FAButtonPosition>
-    <Button type="primary" shape="round" icon={icon} size="large" onClick={onClick}>
-      {children}
-    </Button>
+const FAButton = ({ onClick, ariaLabel, rotate, icon }) => (
+  <FAButtonPosition rotate={rotate}>
+    <Button type="primary" shape="circle" icon={icon} onClick={onClick} aria-label={ariaLabel} />
   </FAButtonPosition>
 )
+
 FAButton.defaultProps = {
   icon: <PlusOutlined />,
 }
 
 FAButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
   icon: PropTypes.node,
 }
 

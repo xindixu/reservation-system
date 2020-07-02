@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Card, Col, Row, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_TEAM_BY_ID } from "graphql/teams"
+import FAButton from "components/floating-action-button"
 
 const { Title } = Typography
 const { Meta } = Card
@@ -49,9 +50,9 @@ const ManagersGrid = ({ managers }) => (
 )
 
 const PageActions = ({ team: { email, phone } }) => (
-  <Space size="middle">
+  <Space size="middle" className="py-4">
     <Button key="edit" type="primary" icon={<EditOutlined />} onClick={() => {}}>
-      Edit
+      Manage
     </Button>
     <Button
       key="email"
@@ -75,7 +76,11 @@ const PageActions = ({ team: { email, phone } }) => (
   </Space>
 )
 
+const MODALS = {
+  addManager: "addManager",
+}
 const Team = () => {
+  const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
     variables: { id },
@@ -97,6 +102,11 @@ const Team = () => {
       <p>{description}</p>
       <PageActions team={team} />
       <ManagersGrid managers={managers} />
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addManager)}
+        ariaLabel="new manager"
+        rotate={modalToShow}
+      />
     </>
   )
 }

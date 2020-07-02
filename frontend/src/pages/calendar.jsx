@@ -31,7 +31,11 @@ const CalendarPage = () => {
           <VisitForm visit={visit} setVisit={setVisit} />
         </Modal>
       )}
-      <FAButton onClick={() => setModalToShow(MODALS.addVisit)}>New Visit</FAButton>
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addVisit)}
+        ariaLabel="New Visit"
+        rotate={modalToShow}
+      />
     </>
   )
 }
