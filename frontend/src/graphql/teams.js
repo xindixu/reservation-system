@@ -1,13 +1,33 @@
 import { gql } from "apollo-boost"
 
 export const GET_ALL_TEAMS = gql`
-  query {
+  query Teams {
     teams {
       id
       name
       email
       phone
       description
+      managersCount
+    }
+  }
+`
+
+export const GET_TEAM_BY_ID = gql`
+  query Team($id: ID!) {
+    team(id: $id) {
+      id
+      name
+      email
+      phone
+      description
+      managers {
+        firstName
+        lastName
+        email
+        phone
+        clientsCount
+      }
     }
   }
 `
@@ -21,6 +41,7 @@ export const CREATE_TEAM = gql`
         email
         phone
         description
+        managersCount
       }
     }
   }

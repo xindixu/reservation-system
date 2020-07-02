@@ -8,10 +8,10 @@ const Navigation = () => {
   return (
     <Menu theme="dark" defaultSelectedKeys={location.pathname} mode="inline">
       <Menu.Item key="calendar" icon={<CalendarOutlined />}>
-        <Link to="calendar">Calendar</Link>
+        <Link to="/calendar">Calendar</Link>
       </Menu.Item>
       <Menu.Item key="teams" icon={<TeamOutlined />}>
-        <Link to="teams">Teams</Link>
+        <Link to="/teams">Teams</Link>
       </Menu.Item>
     </Menu>
   )
