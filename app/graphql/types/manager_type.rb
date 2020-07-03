@@ -5,6 +5,7 @@ module Types
     field :last_name, String, null: false
     field :email, String, null: true
     field :phone, String, null: true
+    field :avatar, Types::AvatarType, null: true
     field :team, Types::TeamType, null: false
     field :clients, [Types::ClientType], null: true
     field :clients_count, Integer, null: false

@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
 3.times do
   team = Team.create(
     name: Faker::Company.name,
@@ -15,12 +16,20 @@
   )
 
   5.times do
+    first_name = Faker::Name.first_name
     manager = team.managers.create(
-      first_name: Faker::Name.first_name,
+      first_name: first_name,
       last_name: Faker::Name.last_name,
       email: Faker::Internet.email,
-      phone: Faker::PhoneNumber.phone_number
+      phone: Faker::PhoneNumber.phone_number,
+      avatar: {
+        xs: Faker::Avatar.image(slug: first_name, size: "50x50"),
+        sm: Faker::Avatar.image(slug: first_name, size: "100x100"),
+        md: Faker::Avatar.image(slug: first_name, size: "250x250"),
+        lg: Faker::Avatar.image(slug: first_name, size: "500x500"),
+      }
     )
+
 
     slots = []
     clients = []
