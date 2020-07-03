@@ -5,15 +5,15 @@ import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_TEAM_BY_ID } from "graphql/teams"
 import Modal from "components/modal"
-import ManagerForm from "components/manager-form"
+import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
-import ManagersGrid from "components/managers-grid"
+import ManagersGrid from "components/grid/managers-grid"
 
 const { Title } = Typography
 
-const PageActions = ({ team: { email, phone } }) => (
+const PageActions = ({ team: { email, phone }, edit }) => (
   <Space size="middle" className="py-4">
-    <Button key="edit" type="primary" icon={<EditOutlined />} onClick={() => {}}>
+    <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
       Manage
     </Button>
     <Button
@@ -39,7 +39,7 @@ const PageActions = ({ team: { email, phone } }) => (
 )
 
 const MODALS = {
-  addManager: "addManager",
+  addManagerToTeam: "addManagerToTeam",
 }
 
 const Team = () => {
@@ -65,7 +65,7 @@ const Team = () => {
       <div className="flex space-between bg-white rounded-lg p-10 mb-10">
         <div className="flex-grow ">
           <Title>{name}</Title>
-          <p>{description}</p>
+          <Title level={4}>{description}</Title>
           <PageActions team={team} />
         </div>
       </div>

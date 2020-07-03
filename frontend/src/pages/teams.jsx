@@ -5,7 +5,7 @@ import { Button, Card, Typography } from "antd"
 import { MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons"
 import { GET_ALL_TEAMS, CREATE_TEAM } from "graphql/teams"
 import Modal from "components/modal"
-import TeamForm from "components/team-form"
+import TeamForm from "components/forms/team-form"
 import FAButton from "components/floating-action-button"
 
 const { Paragraph } = Typography

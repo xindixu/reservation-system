@@ -6,8 +6,9 @@ import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_MANAGER_BY_ID } from "graphql/managers"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import Modal from "components/modal"
-import ManagerForm from "components/manager-form"
+import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
+import ClientsGrid from "components/grid/clients-grid"
 
 const { Title } = Typography
 
@@ -73,13 +74,14 @@ const Manager = () => {
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
         <div className="flex-grow py-10">
           <Title>{fullName}</Title>
-          <p>{jobTitle}</p>
+          <Title level={4}>{jobTitle}</Title>
           <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
         </div>
         <div className="bg-white rounded-lg">
           <img src={md || getDefaultAvatar(firstName, "md")} alt={fullName} />
         </div>
       </div>
+      <ClientsGrid clients={clients} />
 
       {modalToShow === MODALS.editManager && (
         <Modal

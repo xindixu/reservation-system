@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_ALL_VISITS, DELETE_VISIT } from "graphql/visits"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
-import VisitForm from "components/visit-form"
+import VisitForm from "components/forms/visit-form"
 import FAButton from "components/floating-action-button"
 
 const MODALS = {
