@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space, PageHeader, Descriptions } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
-import { GET_MANAGER_BY_ID } from "graphql/managers"
+import { GET_MANAGER_BY_ID, UPDATE_MANAGER } from "graphql/managers"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
@@ -49,6 +49,8 @@ const Manager = () => {
     variables: { id },
   })
 
+  const [editManager] = useMutation(UPDATE_MANAGER)
+
   const [modalToShow, setModalToShow] = useState("")
   const [updatedManager, setUpdatedManager] = useState(data?.manager)
 
@@ -56,17 +58,11 @@ const Manager = () => {
     return "Loading..."
   }
   if (error) {
-    return `Error! ${error.message}`
+    return `Error!`
   }
 
   const { manager } = data
-  const {
-    firstName,
-    jobTitle,
-    avatar: { md },
-    team,
-    clients,
-  } = manager
+  const { firstName, jobTitle, avatar, team, clients } = manager
 
   const fullName = getFullName(manager)
   return (
@@ -74,11 +70,12 @@ const Manager = () => {
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
         <div className="flex-grow py-10">
           <Title>{fullName}</Title>
-          <Title level={4}>{jobTitle}</Title>
+          <p>Job Title: {jobTitle}</p>
+          <p>Team: {team.name}</p>
           <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
         </div>
         <div className="bg-white rounded-lg">
-          <img src={md || getDefaultAvatar(firstName, "md")} alt={fullName} />
+          <img src={avatar?.md || getDefaultAvatar(firstName, "md")} alt={fullName} />
         </div>
       </div>
       <ClientsGrid clients={clients} />
@@ -88,11 +85,11 @@ const Manager = () => {
           title={`Edit ${fullName}`}
           onClose={() => setModalToShow("")}
           primaryButtonText="Update"
-          // onSubmit={() => addManager({ variables: manager })}
+          onSubmit={() => editManager({ variables: { id, ...updatedManager } })}
         >
           <ManagerForm
             initialValue={{ ...manager, teamId: manager.team.id }}
-            manager={manager}
+            manager={updatedManager}
             setManager={setUpdatedManager}
           />
         </Modal>

@@ -80,15 +80,17 @@ export const CREATE_MANAGER = gql`
 
 export const UPDATE_MANAGER = gql`
   mutation UpdateManager(
-    $firstName: String!
-    $lastName: String!
-    $jobTitle: String!
-    $email: String!
-    $phone: String!
-    $teamId: ID!
+    $id: ID!
+    $firstName: String
+    $lastName: String
+    $jobTitle: String
+    $email: String
+    $phone: String
+    $teamId: ID
   ) {
     updateManager(
       input: {
+        id: $id
         firstName: $firstName
         lastName: $lastName
         jobTitle: $jobTitle
@@ -106,6 +108,10 @@ export const UPDATE_MANAGER = gql`
         phone
         avatar {
           md
+        }
+        team {
+          id
+          name
         }
         clientsCount
       }
