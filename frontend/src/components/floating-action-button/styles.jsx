@@ -3,19 +3,19 @@ import { styleSettings } from "styles/index"
 
 const { shadowXlDark, spacerMd, spacerLg, spacerXl, zStickyFooter } = styleSettings
 
-const rotate45DegIn = keyframes`
+const rotate135DegIn = keyframes`
   from {
     transform: rotate(0deg);
   }
 
-  to{
-    transform: rotate(45deg);
+  to {
+    transform: rotate(-135deg);
   }
 `
 
-const rotate45DegOut = keyframes`
+const rotate135DegOut = keyframes`
   from {
-    transform: rotate(45deg);
+    transform: rotate(-135deg);
   }
 
   to{
@@ -24,12 +24,12 @@ const rotate45DegOut = keyframes`
 `
 
 const rotateIn = css`
-  animation: ${rotate45DegIn} 0.1s linear;
-  transform: rotate(45deg);
+  animation: ${rotate135DegIn} 0.1s linear;
+  transform: rotate(-135deg);
 `
 
 const rotateOut = css`
-  animation: ${rotate45DegOut} 0.1s linear;
+  animation: ${rotate135DegOut} 0.1s linear;
   transform: rotate(0deg);
 `
 
@@ -40,7 +40,6 @@ export const FAButtonPosition = styled.div`
   z-index: ${zStickyFooter};
   box-shadow: ${shadowXlDark};
   border-radius: 50%;
-  ${({ rotate }) => (rotate ? rotateIn : rotateOut)}
 
   button {
     width: ${spacerXl};
@@ -48,6 +47,8 @@ export const FAButtonPosition = styled.div`
     padding: 0;
   }
   svg {
+    transform-origin: center;
+    ${({ rotate }) => (rotate ? rotateIn : rotateOut)}
     width: ${spacerMd};
     height: ${spacerMd};
   }

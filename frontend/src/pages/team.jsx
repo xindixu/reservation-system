@@ -4,6 +4,8 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Card, Col, Row, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_TEAM_BY_ID } from "graphql/teams"
+import Modal from "components/modal"
+import ManagerForm from "components/manager-form"
 import FAButton from "components/floating-action-button"
 
 const { Title } = Typography
@@ -79,7 +81,9 @@ const PageActions = ({ team: { email, phone } }) => (
 const MODALS = {
   addManager: "addManager",
 }
+
 const Team = () => {
+  const [manager, setManager] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
@@ -107,6 +111,15 @@ const Team = () => {
         ariaLabel="new manager"
         rotate={modalToShow}
       />
+      {modalToShow === MODALS.addManager && (
+        <Modal
+          title="Create New Manager"
+          onClose={() => setModalToShow("")}
+          // onSubmit={() => addTeam({ variables: team })}
+        >
+          <ManagerForm manager={manager} setManager={setManager} />
+        </Modal>
+      )}
     </>
   )
 }
