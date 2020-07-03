@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import { Menu } from "antd"
 import { TeamOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons"
 
-const Navigation = () => {
+const Navbar = () => {
   const location = useLocation()
   return (
     <Menu theme="dark" defaultSelectedKeys={location.pathname} mode="inline">
@@ -19,4 +19,4 @@ const Navigation = () => {
     </Menu>
   )
 }
-export default Navigation
+export default Navbar
