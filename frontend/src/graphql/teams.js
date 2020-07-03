@@ -24,8 +24,12 @@ export const GET_TEAM_BY_ID = gql`
       managers {
         firstName
         lastName
+        jobTitle
         email
         phone
+        avatar {
+          md
+        }
         clientsCount
       }
     }

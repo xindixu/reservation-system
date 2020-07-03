@@ -1,55 +1,15 @@
 import React, { useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Typography, Button, Card, Col, Row, Space } from "antd"
+import { Typography, Button, Card, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_TEAM_BY_ID } from "graphql/teams"
 import Modal from "components/modal"
 import ManagerForm from "components/manager-form"
 import FAButton from "components/floating-action-button"
+import ManagersGrid from "components/managers-grid"
 
 const { Title } = Typography
-const { Meta } = Card
-
-const ManagersGrid = ({ managers }) => (
-  <Row justify="space-between" gutter={[16, 16]}>
-    {managers.map(({ id, firstName, lastName, email, phone }) => (
-      <Col sm={24} md={12} lg={6} key={id}>
-        <Link to={`/manager/${id}`}>
-          <Card
-            cover={
-              <img
-                alt={`${firstName} ${lastName}`}
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              />
-            }
-            hoverable
-            actions={[
-              <Button
-                key="email"
-                type="link"
-                size="small"
-                icon={<MailOutlined />}
-                aria-label="email team"
-                href={`mailto:${email}`}
-              />,
-              <Button
-                key="phone"
-                type="link"
-                size="small"
-                icon={<PhoneOutlined />}
-                aria-label="call team"
-                href={`tel:${phone}`}
-              />,
-            ]}
-          >
-            <Meta title={`${firstName} ${lastName}`} />
-          </Card>
-        </Link>
-      </Col>
-    ))}
-  </Row>
-)
 
 const PageActions = ({ team: { email, phone } }) => (
   <Space size="middle" className="py-4">

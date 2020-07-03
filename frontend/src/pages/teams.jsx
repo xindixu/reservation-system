@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Button, Card, Col, Row } from "antd"
+import { Button, Card } from "antd"
 import { MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons"
 import { GET_ALL_TEAMS, CREATE_TEAM } from "graphql/teams"
 import Modal from "components/modal"
@@ -37,43 +37,45 @@ const Teams = () => {
   }
   return (
     <>
-      <Row justify="space-between" gutter={[16, 16]}>
+      <div className="flex flex-wrap -mx-2 overflow-hidden">
         {data.teams.map(({ id, name, description, email, phone, managersCount }) => (
-          <Col sm={24} md={12} lg={6} key={id}>
-            <Link to={`/team/${id}`}>
-              <Card
-                title={name}
-                hoverable
-                actions={[
-                  <Button
-                    key="email"
-                    type="link"
-                    size="small"
-                    icon={<MailOutlined />}
-                    aria-label="email team"
-                    href={`mailto:${email}`}
-                  />,
-                  <Button
-                    key="phone"
-                    type="link"
-                    size="small"
-                    icon={<PhoneOutlined />}
-                    aria-label="call team"
-                    href={`tel:${phone}`}
-                  />,
-                ]}
-                extra={
-                  <>
-                    <UserOutlined alt="managers count" /> {managersCount}
-                  </>
-                }
-              >
-                {description}
-              </Card>
-            </Link>
-          </Col>
+          <Link
+            key={id}
+            to={`/team/${id}`}
+            className="my-2 px-2 w-full overflow-hidden sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4"
+          >
+            <Card
+              title={name}
+              hoverable
+              actions={[
+                <Button
+                  key="email"
+                  type="link"
+                  size="small"
+                  icon={<MailOutlined />}
+                  aria-label="email team"
+                  href={`mailto:${email}`}
+                />,
+                <Button
+                  key="phone"
+                  type="link"
+                  size="small"
+                  icon={<PhoneOutlined />}
+                  aria-label="call team"
+                  href={`tel:${phone}`}
+                />,
+              ]}
+              extra={
+                <>
+                  <UserOutlined alt="managers count" /> {managersCount}
+                </>
+              }
+            >
+              {description}
+            </Card>
+          </Link>
         ))}
-      </Row>
+      </div>
       {modalToShow === MODALS.addTeam && (
         <Modal
           title="Create New Team"

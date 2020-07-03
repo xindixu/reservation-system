@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Menu } from "antd"
-import { TeamOutlined, CalendarOutlined } from "@ant-design/icons"
+import { TeamOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons"
 
 const Navigation = () => {
   const location = useLocation()
@@ -12,6 +12,9 @@ const Navigation = () => {
       </Menu.Item>
       <Menu.Item key="teams" icon={<TeamOutlined />}>
         <Link to="/teams">Teams</Link>
+      </Menu.Item>
+      <Menu.Item key="managers" icon={<UserOutlined />}>
+        <Link to="/managers">Managers</Link>
       </Menu.Item>
     </Menu>
   )
