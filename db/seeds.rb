@@ -24,10 +24,10 @@
       phone: Faker::PhoneNumber.phone_number,
       job_title: Faker::Job.title,
       avatar: {
-        xs: Faker::Avatar.image(slug: first_name, size: "50x50"),
-        sm: Faker::Avatar.image(slug: first_name, size: "100x100"),
-        md: Faker::Avatar.image(slug: first_name, size: "250x250"),
-        lg: Faker::Avatar.image(slug: first_name, size: "500x500"),
+        xs: Faker::Avatar.image(slug: first_name, size: "50x50", set: "set4"),
+        sm: Faker::Avatar.image(slug: first_name, size: "100x100", set: "set4"),
+        md: Faker::Avatar.image(slug: first_name, size: "250x250", set: "set4"),
+        lg: Faker::Avatar.image(slug: first_name, size: "500x500", set: "set4"),
       }
     )
 

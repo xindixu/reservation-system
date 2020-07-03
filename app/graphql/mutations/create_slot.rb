@@ -4,7 +4,7 @@ module Mutations
     argument :description, String, required: false
     argument :shareable, Boolean, required: true
     argument :team_id, Integer, required: true
-    argument :manager_id, Integer, required: true
+    argument :manager_id, ID, required: true
 
     field :slot, Types::SlotType, null: true
     field :errors, [String], null: false

@@ -3,8 +3,8 @@ module Mutations
     argument :starts_at, GraphQL::Types::ISO8601Date, required: true
     argument :ends_at, GraphQL::Types::ISO8601Date, required: true
     argument :all_day, Boolean, required: true
-    argument :client_id, Integer, required: true
-    argument :slot_id, Integer, required: true
+    argument :client_id, ID, required: true
+    argument :slot_id, ID, required: true
 
     field :visit, Types::VisitType, null: true
     field :errors, [String], null: false
