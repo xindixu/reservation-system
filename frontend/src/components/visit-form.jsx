@@ -12,7 +12,7 @@ const VisitForm = ({ visit, setVisit }) => {
   return (
     <Form
       labelCol={{
-        span: 4,
+        span: 24,
       }}
       layout="vertical"
       size="middle"

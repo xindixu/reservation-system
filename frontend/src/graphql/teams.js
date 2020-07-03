@@ -22,6 +22,7 @@ export const GET_TEAM_BY_ID = gql`
       phone
       description
       managers {
+        id
         firstName
         lastName
         jobTitle
