@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost"
 
 export const GET_ALL_MANAGERS = gql`
-  query {
+  query Managers {
     managers {
       id
       firstName
@@ -13,6 +13,26 @@ export const GET_ALL_MANAGERS = gql`
         md
       }
       clientsCount
+    }
+  }
+`
+
+export const GET_MANAGER_BY_ID = gql`
+  query Manager($id: ID!) {
+    manager(id: $id) {
+      id
+      firstName
+      lastName
+      jobTitle
+      email
+      phone
+      avatar {
+        lg
+      }
+      clients {
+        firstName
+        lastName
+      }
     }
   }
 `
