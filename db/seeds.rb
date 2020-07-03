@@ -22,6 +22,7 @@
       last_name: Faker::Name.last_name,
       email: Faker::Internet.email,
       phone: Faker::PhoneNumber.phone_number,
+      job_title: Faker::Job.title,
       avatar: {
         xs: Faker::Avatar.image(slug: first_name, size: "50x50"),
         sm: Faker::Avatar.image(slug: first_name, size: "100x100"),

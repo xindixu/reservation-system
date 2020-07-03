@@ -3,6 +3,7 @@ module Types
     field :id, ID, null: false
     field :first_name, String, null: false
     field :last_name, String, null: false
+    field :job_title, String, null: false
     field :email, String, null: true
     field :phone, String, null: true
     field :avatar, Types::AvatarType, null: true
