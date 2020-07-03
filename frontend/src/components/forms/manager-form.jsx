@@ -19,7 +19,7 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
           <Form.Item label="First Name">
             <Input
               type="text"
-              defaultValue={initialValue.firstName}
+              defaultValue={initialValue?.firstName}
               onChange={(e) => setManager({ ...manager, firstName: e.target.value })}
             />
           </Form.Item>
@@ -28,7 +28,7 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
           <Form.Item label="Last Name">
             <Input
               type="text"
-              defaultValue={initialValue.lastName}
+              defaultValue={initialValue?.lastName}
               onChange={(e) => setManager({ ...manager, lastName: e.target.value })}
             />
           </Form.Item>
@@ -37,27 +37,27 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
       <Form.Item label="Job Title">
         <Input
           type="text"
-          defaultValue={initialValue.jobTitle}
+          defaultValue={initialValue?.jobTitle}
           onChange={(e) => setManager({ ...manager, jobTitle: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Email">
         <Input
           type="email"
-          defaultValue={initialValue.email}
+          defaultValue={initialValue?.email}
           onChange={(e) => setManager({ ...manager, email: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Phone">
         <Input
           type="tel"
-          defaultValue={initialValue.phone}
+          defaultValue={initialValue?.phone}
           onChange={(e) => setManager({ ...manager, phone: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Team">
         <Select
-          defaultValue={initialValue.teamId}
+          defaultValue={initialValue?.teamId}
           onChange={(teamId) => setManager({ ...manager, teamId })}
         >
           {data

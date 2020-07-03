@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom"
 import { useQuery } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
+import AddManagerToTeam from "components/forms/add-manager-to-team"
 import { GET_TEAM_BY_ID } from "graphql/teams"
 import Modal from "components/modal"
-import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
 import ManagersGrid from "components/grid/managers-grid"
 
@@ -40,10 +40,11 @@ const PageActions = ({ team: { email, phone }, edit }) => (
 
 const MODALS = {
   addManagerToTeam: "addManagerToTeam",
+  editTeam: "editTeam",
 }
 
 const Team = () => {
-  const [manager, setManager] = useState({})
+  const [updatedTeam, setUpdatedTeam] = useState({ managers: [] })
   const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
@@ -66,25 +67,27 @@ const Team = () => {
         <div className="flex-grow ">
           <Title>{name}</Title>
           <Title level={4}>{description}</Title>
-          <PageActions team={team} />
+          <PageActions team={team} edit={() => setModalToShow(MODALS.editTeam)} />
         </div>
       </div>
 
       <ManagersGrid managers={managers} />
-      <FAButton
-        onClick={() => setModalToShow(MODALS.addManager)}
-        ariaLabel="new manager"
-        rotate={modalToShow}
-      />
-      {modalToShow === MODALS.addManager && (
+
+      {modalToShow === MODALS.addManagerToTeam && (
         <Modal
-          title="Create New Manager"
+          title={`Add Manager To ${name}`}
           onClose={() => setModalToShow("")}
+          primaryButtonText={`Add ${updatedTeam.managers.length} Managers`}
           // onSubmit={() => manager({ variables: manager })}
         >
-          <ManagerForm manager={manager} setManager={setManager} />
+          <AddManagerToTeam team={updatedTeam} setTeam={setUpdatedTeam} />
         </Modal>
       )}
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addManagerToTeam)}
+        ariaLabel="new manager"
+        rotate={modalToShow === MODALS.addManagerToTeam}
+      />
     </>
   )
 }

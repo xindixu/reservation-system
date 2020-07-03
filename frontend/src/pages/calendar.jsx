@@ -27,7 +27,12 @@ const CalendarPage = () => {
     <>
       <Calendar initialVisits={data.visits} deleteVisit={() => {}} />
       {modalToShow === MODALS.addVisit && (
-        <Modal title="Create New Visit" onClose={() => setModalToShow("")} onSubmit={() => {}}>
+        <Modal
+          title="Create New Visit"
+          onClose={() => setModalToShow("")}
+          onSubmit={() => {}}
+          primaryButtonText="Create"
+        >
           <VisitForm visit={visit} setVisit={setVisit} />
         </Modal>
       )}

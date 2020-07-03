@@ -49,6 +49,7 @@ const Managers = () => {
           title="Create New Manager"
           onClose={() => setModalToShow("")}
           onSubmit={() => addManager({ variables: manager })}
+          primaryButtonText="Create"
         >
           <ManagerForm manager={manager} setManager={setManager} />
         </Modal>
