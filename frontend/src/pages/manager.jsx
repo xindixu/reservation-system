@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Typography, Button, Space, Row, Col, Card } from "antd"
+import { Typography, Button, Space, PageHeader, Descriptions } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_MANAGER_BY_ID } from "graphql/managers"
 import { getFullName, getDefaultAvatar } from "lib/utils"
@@ -11,10 +11,10 @@ import FAButton from "components/floating-action-button"
 
 const { Title } = Typography
 
-const PageActions = ({ manager: { email, phone } }) => (
+const PageActions = ({ manager: { email, phone }, edit }) => (
   <Space size="middle" className="py-4">
-    <Button key="edit" type="primary" icon={<EditOutlined />} onClick={() => {}}>
-      Update
+    <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
+      Edit
     </Button>
     <Button
       key="email"
@@ -39,15 +39,17 @@ const PageActions = ({ manager: { email, phone } }) => (
 )
 
 const MODALS = {
-  addManager: "addManager",
+  editManager: "editManager",
 }
 
 const Manager = () => {
-  const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_MANAGER_BY_ID, {
     variables: { id },
   })
+
+  const [modalToShow, setModalToShow] = useState("")
+  const [updatedManager, setUpdatedManager] = useState(data?.manager)
 
   if (loading) {
     return "Loading..."
@@ -59,22 +61,42 @@ const Manager = () => {
   const { manager } = data
   const {
     firstName,
-    avatar: { lg },
+    jobTitle,
+    avatar: { md },
+    team,
+    clients,
   } = manager
 
+  const fullName = getFullName(manager)
   return (
     <>
-      <Title>{getFullName(manager)}</Title>
-      <PageActions manager={manager} />
-      <div className="bg-white rounded-lg w-2/3">
-        <img src={lg || getDefaultAvatar(firstName, "lg")} alt={getFullName(manager)} />
+      <div className="flex space-between bg-white rounded-lg px-10 mb-10">
+        <div className="flex-grow py-10">
+          <Title>{fullName}</Title>
+          <p>{jobTitle}</p>
+          <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
+        </div>
+        <div className="bg-white rounded-lg">
+          <img src={md || getDefaultAvatar(firstName, "md")} alt={fullName} />
+        </div>
       </div>
 
-      <FAButton
-        onClick={() => setModalToShow(MODALS.addManager)}
-        ariaLabel="new manager"
-        rotate={modalToShow}
-      />
+      {modalToShow === MODALS.editManager && (
+        <Modal
+          title={`Edit ${fullName}`}
+          onClose={() => setModalToShow("")}
+          primaryButtonText="Update"
+          // onSubmit={() => addManager({ variables: manager })}
+        >
+          <ManagerForm
+            initialValue={{ ...manager, teamId: manager.team.id }}
+            manager={manager}
+            setManager={setUpdatedManager}
+          />
+        </Modal>
+      )}
+
+      <FAButton onClick={() => setModalToShow(MODALS.editManager)} ariaLabel="edit" />
     </>
   )
 }

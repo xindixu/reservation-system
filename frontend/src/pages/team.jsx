@@ -62,9 +62,14 @@ const Team = () => {
 
   return (
     <>
-      <Title>{name}</Title>
-      <p>{description}</p>
-      <PageActions team={team} />
+      <div className="flex space-between bg-white rounded-lg p-10 mb-10">
+        <div className="flex-grow ">
+          <Title>{name}</Title>
+          <p>{description}</p>
+          <PageActions team={team} />
+        </div>
+      </div>
+
       <ManagersGrid managers={managers} />
       <FAButton
         onClick={() => setModalToShow(MODALS.addManager)}

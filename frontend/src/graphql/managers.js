@@ -26,8 +26,12 @@ export const GET_MANAGER_BY_ID = gql`
       jobTitle
       email
       phone
+      team {
+        id
+        name
+      }
       avatar {
-        lg
+        md
       }
       clients {
         firstName
@@ -47,6 +51,41 @@ export const CREATE_MANAGER = gql`
     $teamId: ID!
   ) {
     createManager(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        jobTitle: $jobTitle
+        email: $email
+        phone: $phone
+        teamId: $teamId
+      }
+    ) {
+      manager {
+        id
+        firstName
+        lastName
+        jobTitle
+        email
+        phone
+        avatar {
+          md
+        }
+        clientsCount
+      }
+    }
+  }
+`
+
+export const UPDATE_MANAGER = gql`
+  mutation UpdateManager(
+    $firstName: String!
+    $lastName: String!
+    $jobTitle: String!
+    $email: String!
+    $phone: String!
+    $teamId: ID!
+  ) {
+    updateManager(
       input: {
         firstName: $firstName
         lastName: $lastName

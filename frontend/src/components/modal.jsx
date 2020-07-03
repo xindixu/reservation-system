@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Button, Modal as AntdModal } from "antd"
 
-const Modal = ({ title, onClose, onSubmit, children }) => (
+const Modal = ({ title, onClose, onSubmit, children, primaryButtonText }) => (
   <AntdModal
     title={title}
     visible
@@ -18,7 +18,7 @@ const Modal = ({ title, onClose, onSubmit, children }) => (
           onClose()
         }}
       >
-        Create
+        {primaryButtonText}
       </Button>,
     ]}
     onCancel={onClose}
@@ -27,11 +27,16 @@ const Modal = ({ title, onClose, onSubmit, children }) => (
   </AntdModal>
 )
 
+Modal.defaultProps = {
+  primaryButtonText: "Create",
+}
+
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  primaryButtonText: PropTypes.string,
 }
 
 export default Modal
