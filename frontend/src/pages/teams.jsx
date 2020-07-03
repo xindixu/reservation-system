@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Button, Card } from "antd"
+import { Button, Card, Typography } from "antd"
 import { MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons"
 import { GET_ALL_TEAMS, CREATE_TEAM } from "graphql/teams"
 import Modal from "components/modal"
 import TeamForm from "components/team-form"
 import FAButton from "components/floating-action-button"
 
+const { Paragraph } = Typography
 const MODALS = {
   addTeam: "addTeam",
 }
@@ -71,7 +72,7 @@ const Teams = () => {
                 </>
               }
             >
-              {description}
+              <Paragraph ellipsis={{ rows: 2 }}>{description}</Paragraph>
             </Card>
           </Link>
         ))}

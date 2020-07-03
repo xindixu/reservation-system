@@ -75,7 +75,7 @@ const Team = () => {
         <Modal
           title="Create New Manager"
           onClose={() => setModalToShow("")}
-          // onSubmit={() => addTeam({ variables: team })}
+          // onSubmit={() => manager({ variables: manager })}
         >
           <ManagerForm manager={manager} setManager={setManager} />
         </Modal>
