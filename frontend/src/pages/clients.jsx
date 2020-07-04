@@ -1,32 +1,32 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
+import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-import { GET_ALL_CLIENTS, CREATE_MANAGER } from "graphql/clients"
+import { GET_ALL_CLIENTS, CREATE_CLIENT } from "graphql/clients"
 import Modal from "components/modal"
-import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
 
 const MODALS = {
-  addManager: "addManager",
+  addClient: "addClient",
 }
 
 const Clients = () => {
   const { loading, error, data } = useQuery(GET_ALL_CLIENTS)
-  // const [addManager] = useMutation(CREATE_MANAGER, {
-  //   update: (cache, { data: { createManager } }) => {
-  //     const { manager } = createManager
-  //     const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
-  //     cache.writeQuery({
-  //       query: GET_ALL_MANAGERS,
-  //       data: {
-  //         managers: [...managers, manager],
-  //       },
-  //     })
-  //   },
-  // })
+  const [addClient] = useMutation(CREATE_CLIENT, {
+    update: (cache, { data: { createClient } }) => {
+      const { client } = createClient
+      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
+      cache.writeQuery({
+        query: GET_ALL_CLIENTS,
+        data: {
+          clients: [...clients, client],
+        },
+      })
+    },
+  })
 
-  const [manager, setManager] = useState({})
+  const [client, setClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -40,20 +40,20 @@ const Clients = () => {
     <>
       <ClientsTable clients={data.clients} />
       <FAButton
-        onClick={() => setModalToShow(MODALS.addManager)}
-        ariaLabel="new manager"
+        onClick={() => setModalToShow(MODALS.addClient)}
+        ariaLabel="new client"
         rotate={modalToShow}
       />
-      {/* {modalToShow === MODALS.addManager && (
+      {modalToShow === MODALS.addClient && (
         <Modal
-          title="Create New Manager"
+          title="Create New Client"
           onClose={() => setModalToShow("")}
-          onSubmit={() => addManager({ variables: manager })}
+          onSubmit={() => addClient({ variables: client })}
           primaryButtonText="Create"
         >
-          <ManagerForm manager={manager} setManager={setManager} />
+          <ClientFrom client={client} setClient={setClient} />
         </Modal>
-      )} */}
+      )}
     </>
   )
 }
