@@ -5,10 +5,10 @@ import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_MANAGER_BY_ID, UPDATE_MANAGER } from "graphql/managers"
 import { getFullName, getDefaultAvatar } from "lib/utils"
+import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
-import ClientsGrid from "components/grid/clients-grid"
 
 const { Title } = Typography
 
@@ -62,7 +62,7 @@ const Manager = () => {
   }
 
   const { manager } = data
-  const { firstName, jobTitle, team, clients } = manager
+  const { jobTitle, team, clients } = manager
 
   const fullName = getFullName(manager)
   return (
@@ -78,7 +78,7 @@ const Manager = () => {
           <img src={getDefaultAvatar(manager, "md")} alt={fullName} />
         </div>
       </div>
-      <ClientsGrid clients={clients} />
+      <ClientsTable clients={clients} />
 
       {modalToShow === MODALS.editManager && (
         <Modal
@@ -88,18 +88,16 @@ const Manager = () => {
           onSubmit={() => editManager({ variables: { id, ...updatedManager } })}
         >
           <ManagerForm
-            initialValue={{ ...manager, teamId: manager.team.id }}
+            initialManager={{ ...manager, teamId: manager.team.id }}
             manager={updatedManager}
             setManager={setUpdatedManager}
           />
         </Modal>
       )}
 
-      <FAButton onClick={() => setModalToShow(MODALS.editManager)} ariaLabel="edit" />
+      <FAButton onClick={() => {}} ariaLabel="edit" />
     </>
   )
 }
-
-Manager.propTypes = {}
 
 export default Manager

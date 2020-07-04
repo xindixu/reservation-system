@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Typography, Card } from "antd"
 import { getDefaultAvatar } from "lib/utils"
+import { MANAGER } from "lib/commonTypes"
 
 const { Meta } = Card
 const { Paragraph } = Typography
@@ -33,16 +34,7 @@ const ManagersGrid = ({ managers }) => (
 )
 
 ManagersGrid.propTypes = {
-  managers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      jobTitle: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  managers: PropTypes.arrayOf(PropTypes.shape(MANAGER).isRequired).isRequired,
 }
 
 export default ManagersGrid

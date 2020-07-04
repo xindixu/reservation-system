@@ -6,6 +6,8 @@ export const GET_ALL_CLIENTS = gql`
       id
       firstName
       lastName
+      email
+      phone
       cycle
       duration
       manager {

@@ -3,8 +3,10 @@ import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Row, Col } from "antd"
 import { GET_ALL_TEAMS } from "graphql/teams"
+import { MANAGER } from "lib/commonTypes"
 
-const ManagerForm = ({ initialValue, manager, setManager }) => {
+const ManagerForm = ({ initialManager, manager, setManager }) => {
+  const { firstName, lastName, jobTitle, email, phone, teamId } = initialManager
   const { data } = useQuery(GET_ALL_TEAMS)
   return (
     <Form
@@ -19,7 +21,7 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
           <Form.Item label="First Name">
             <Input
               type="text"
-              defaultValue={initialValue?.firstName}
+              defaultValue={firstName}
               onChange={(e) => setManager({ ...manager, firstName: e.target.value })}
             />
           </Form.Item>
@@ -28,7 +30,7 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
           <Form.Item label="Last Name">
             <Input
               type="text"
-              defaultValue={initialValue?.lastName}
+              defaultValue={lastName}
               onChange={(e) => setManager({ ...manager, lastName: e.target.value })}
             />
           </Form.Item>
@@ -37,44 +39,42 @@ const ManagerForm = ({ initialValue, manager, setManager }) => {
       <Form.Item label="Job Title">
         <Input
           type="text"
-          defaultValue={initialValue?.jobTitle}
+          defaultValue={jobTitle}
           onChange={(e) => setManager({ ...manager, jobTitle: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Email">
         <Input
           type="email"
-          defaultValue={initialValue?.email}
+          defaultValue={email}
           onChange={(e) => setManager({ ...manager, email: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Phone">
         <Input
           type="tel"
-          defaultValue={initialValue?.phone}
+          defaultValue={phone}
           onChange={(e) => setManager({ ...manager, phone: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Team">
-        <Select
-          defaultValue={initialValue?.teamId}
-          onChange={(teamId) => setManager({ ...manager, teamId })}
-        >
-          {data
-            ? data.teams.map(({ id, name }) => (
-                <Select.Option value={id} key={id}>
-                  {name}
-                </Select.Option>
-              ))
-            : null}
+        <Select defaultValue={teamId} onChange={(e) => setManager({ ...manager, teamId: e })}>
+          {data?.teams.map(({ id, name }) => (
+            <Select.Option value={id} key={id}>
+              {name}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
     </Form>
   )
 }
 
+ManagerForm.defaultProps = {
+  initialManager: {},
+}
 ManagerForm.propTypes = {
-  initialValue: PropTypes.object.isRequired,
+  initialManager: PropTypes.shape(MANAGER),
   manager: PropTypes.object.isRequired,
   setManager: PropTypes.func.isRequired,
 }

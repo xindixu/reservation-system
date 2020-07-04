@@ -19,13 +19,11 @@ const VisitForm = ({ visit, setVisit }) => {
     >
       <Form.Item label="Client">
         <Select onChange={(client) => setVisit({ ...visit, client })}>
-          {data
-            ? data.clients.map(({ id, firstName, lastName }) => (
-                <Select.Option value={id} key={id}>
-                  {firstName} {lastName}
-                </Select.Option>
-              ))
-            : null}
+          {data?.clients.map(({ id, firstName, lastName }) => (
+            <Select.Option value={id} key={id}>
+              {firstName} {lastName}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
       <Form.Item label="Visit">

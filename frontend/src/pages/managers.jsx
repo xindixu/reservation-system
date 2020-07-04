@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { GET_ALL_MANAGERS, CREATE_MANAGER } from "graphql/managers"
 import Modal from "components/modal"
@@ -57,7 +56,5 @@ const Managers = () => {
     </>
   )
 }
-
-Managers.propTypes = {}
 
 export default Managers

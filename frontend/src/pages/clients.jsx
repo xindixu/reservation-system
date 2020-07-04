@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
@@ -39,11 +38,7 @@ const Clients = () => {
   return (
     <>
       <ClientsTable clients={data.clients} />
-      <FAButton
-        onClick={() => setModalToShow(MODALS.addClient)}
-        ariaLabel="new client"
-        rotate={modalToShow}
-      />
+
       {modalToShow === MODALS.addClient && (
         <Modal
           title="Create New Client"
@@ -54,10 +49,13 @@ const Clients = () => {
           <ClientFrom client={client} setClient={setClient} />
         </Modal>
       )}
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addClient)}
+        ariaLabel="new client"
+        rotate={modalToShow}
+      />
     </>
   )
 }
-
-Clients.propTypes = {}
 
 export default Clients

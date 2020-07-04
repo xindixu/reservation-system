@@ -94,6 +94,19 @@ const Team = () => {
 
       <ManagersGrid managers={managers} />
 
+      {modalToShow === MODALS.editTeam && (
+        <Modal
+          title={`Edit ${name}`}
+          onClose={() => setModalToShow("")}
+          primaryButtonText="Update"
+          onSubmit={() => {
+            editTeam({ variables: { id, ...updatedTeam } })
+            setUpdatedTeam({})
+          }}
+        >
+          <TeamForm initialTeam={team} team={updatedTeam} setTeam={setUpdatedTeam} />
+        </Modal>
+      )}
       {modalToShow === MODALS.addManagerToTeam && (
         <Modal
           title={`Add Manager To ${name}`}
@@ -111,22 +124,9 @@ const Team = () => {
           />
         </Modal>
       )}
-      {modalToShow === MODALS.editTeam && (
-        <Modal
-          title={`Edit ${name}`}
-          onClose={() => setModalToShow("")}
-          primaryButtonText="Update"
-          onSubmit={() => {
-            editTeam({ variables: { id, ...updatedTeam } })
-            setUpdatedTeam({})
-          }}
-        >
-          <TeamForm initialTeam={team} team={updatedTeam} setTeam={setUpdatedTeam} />
-        </Modal>
-      )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addManagerToTeam)}
-        ariaLabel="new manager"
+        ariaLabel="add manager to team"
         rotate={modalToShow === MODALS.addManagerToTeam}
       />
     </>

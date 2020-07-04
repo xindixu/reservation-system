@@ -1,15 +1,19 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
 import { Table, Button } from "antd"
 import { MailOutlined, PhoneOutlined } from "@ant-design/icons"
 import { getFullName } from "lib/utils"
+import { CLIENT } from "lib/commonTypes"
 
 const { Column } = Table
 
 const ClientsTable = ({ clients }) => (
   <Table dataSource={clients} rowKey={({ id }) => id}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
+    {clients[0]?.manager && (
+      <Column title="Manager" key="manager" render={({ manager }) => getFullName(manager)} />
+    )}
+
     <Column title="Cycle" key="cycle" dataIndex="cycle" />
     <Column title="Duration" key="duration" dataIndex="duration" />
     <Column
@@ -38,17 +42,7 @@ const ClientsTable = ({ clients }) => (
 )
 
 ClientsTable.propTypes = {
-  clients: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      cycle: PropTypes.number.isRequired,
-      duration: PropTypes.number.isRequired,
-      email: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
 }
 
 export default ClientsTable

@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Card } from "antd"
+import { CLIENT } from "lib/commonTypes"
 
 const ClientGrid = ({ clients }) => (
   <div className="flex flex-wrap -mx-2 overflow-hidden">
@@ -21,16 +22,7 @@ const ClientGrid = ({ clients }) => (
 )
 
 ClientGrid.propTypes = {
-  clients: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      jobTitle: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
 }
 
 export default ClientGrid

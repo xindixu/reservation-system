@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
-import { duration } from "moment"
+import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
+import { CLIENT } from "lib/commonTypes"
 
 const { Option } = Select
 
@@ -23,14 +24,14 @@ const DurationPicker = ({ defaultValue, onChange }) => {
         defaultValue={defaultValue}
         onChange={(newNum) => {
           setNum(newNum)
-          onChange(duration(newNum, unit).asDays())
+          onChange(durationHelper(newNum, unit).asDays())
         }}
       />
       <Select
         defaultValue={unit}
         onChange={(newUnit) => {
           setUnit(newUnit)
-          onChange(duration(num, newUnit).asDays())
+          onChange(durationHelper(num, newUnit).asDays())
         }}
       >
         {Object.keys(UNITS).map((key) => (
@@ -45,6 +46,7 @@ const DurationPicker = ({ defaultValue, onChange }) => {
 
 const ClientForm = ({ initialClient, client, setClient }) => {
   const { data } = useQuery(GET_ALL_MANAGERS)
+  const { firstName, lastName, email, phone, cycle, duration, managerId } = initialClient
   return (
     <Form
       labelCol={{
@@ -58,7 +60,7 @@ const ClientForm = ({ initialClient, client, setClient }) => {
           <Form.Item label="First Name">
             <Input
               type="text"
-              defaultValue={initialClient?.firstName}
+              defaultValue={firstName}
               onChange={(e) => setClient({ ...client, firstName: e.target.value })}
             />
           </Form.Item>
@@ -67,7 +69,7 @@ const ClientForm = ({ initialClient, client, setClient }) => {
           <Form.Item label="Last Name">
             <Input
               type="text"
-              defaultValue={initialClient?.lastName}
+              defaultValue={lastName}
               onChange={(e) => setClient({ ...client, lastName: e.target.value })}
             />
           </Form.Item>
@@ -76,14 +78,14 @@ const ClientForm = ({ initialClient, client, setClient }) => {
       <Form.Item label="Email">
         <Input
           type="email"
-          defaultValue={initialClient?.email}
+          defaultValue={email}
           onChange={(e) => setClient({ ...client, email: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Phone">
         <Input
           type="tel"
-          defaultValue={initialClient?.phone}
+          defaultValue={phone}
           onChange={(e) => setClient({ ...client, phone: e.target.value })}
         />
       </Form.Item>
@@ -91,7 +93,7 @@ const ClientForm = ({ initialClient, client, setClient }) => {
         <Col span={12}>
           <Form.Item label="Cycle">
             <DurationPicker
-              defaultValue={initialClient?.cycle}
+              defaultValue={cycle}
               onChange={(value) => setClient({ ...client, cycle: value })}
             />
           </Form.Item>
@@ -99,7 +101,7 @@ const ClientForm = ({ initialClient, client, setClient }) => {
         <Col span={12}>
           <Form.Item label="Duration">
             <DurationPicker
-              defaultValue={initialClient?.duration}
+              defaultValue={duration}
               onChange={(value) => setClient({ ...client, duration: value })}
             />
           </Form.Item>
@@ -107,24 +109,26 @@ const ClientForm = ({ initialClient, client, setClient }) => {
       </Row>
       <Form.Item label="Manager">
         <Select
-          defaultValue={initialClient?.managerId}
-          onChange={(managerId) => setClient({ ...client, managerId })}
+          defaultValue={managerId}
+          onChange={(value) => setClient({ ...client, managerId: value })}
         >
-          {data
-            ? data.managers.map((manager) => (
-                <Select.Option value={manager.id} key={manager.id}>
-                  {getFullName(manager)}
-                </Select.Option>
-              ))
-            : null}
+          {data?.managers.map((manager) => (
+            <Select.Option value={manager.id} key={manager.id}>
+              {getFullName(manager)}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
     </Form>
   )
 }
 
+ClientForm.defaultProps = {
+  initialClient: {},
+}
+
 ClientForm.propTypes = {
-  initialClient: PropTypes.object.isRequired,
+  initialClient: PropTypes.shape(CLIENT),
   client: PropTypes.object.isRequired,
   setClient: PropTypes.func.isRequired,
 }
