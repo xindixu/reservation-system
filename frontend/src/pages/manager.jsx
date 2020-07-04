@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Typography, Button, Space, PageHeader, Descriptions } from "antd"
+import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_MANAGER_BY_ID, UPDATE_MANAGER } from "graphql/managers"
 import { getFullName, getDefaultAvatar } from "lib/utils"
@@ -62,7 +62,7 @@ const Manager = () => {
   }
 
   const { manager } = data
-  const { firstName, jobTitle, avatar, team, clients } = manager
+  const { firstName, jobTitle, team, clients } = manager
 
   const fullName = getFullName(manager)
   return (
@@ -75,7 +75,7 @@ const Manager = () => {
           <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
         </div>
         <div className="bg-white rounded-lg">
-          <img src={avatar?.md || getDefaultAvatar(firstName, "md")} alt={fullName} />
+          <img src={getDefaultAvatar(firstName, "md")} alt={fullName} />
         </div>
       </div>
       <ClientsGrid clients={clients} />

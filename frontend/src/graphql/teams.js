@@ -28,9 +28,6 @@ export const GET_TEAM_BY_ID = gql`
         jobTitle
         email
         phone
-        avatar {
-          md
-        }
         clientsCount
       }
     }
@@ -47,6 +44,45 @@ export const CREATE_TEAM = gql`
         phone
         description
         managersCount
+      }
+    }
+  }
+`
+
+export const UPDATE_TEAM = gql`
+  mutation UpdateTeam(
+    $id: ID!
+    $name: String
+    $email: String
+    $phone: String
+    $description: String
+    $managerIds: [ID!]
+  ) {
+    updateTeam(
+      input: {
+        id: $id
+        name: $name
+        email: $email
+        phone: $phone
+        description: $description
+        managerIds: $managerIds
+      }
+    ) {
+      team {
+        id
+        name
+        email
+        phone
+        description
+        managers {
+          id
+          firstName
+          lastName
+          jobTitle
+          email
+          phone
+          clientsCount
+        }
       }
     }
   }

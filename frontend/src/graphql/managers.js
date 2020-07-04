@@ -9,9 +9,6 @@ export const GET_ALL_MANAGERS = gql`
       jobTitle
       email
       phone
-      avatar {
-        md
-      }
       clientsCount
     }
   }
@@ -29,9 +26,6 @@ export const GET_MANAGER_BY_ID = gql`
       team {
         id
         name
-      }
-      avatar {
-        md
       }
       clients {
         firstName
@@ -69,9 +63,6 @@ export const CREATE_MANAGER = gql`
         jobTitle
         email
         phone
-        avatar {
-          md
-        }
         clientsCount
       }
     }
@@ -106,9 +97,6 @@ export const UPDATE_MANAGER = gql`
         jobTitle
         email
         phone
-        avatar {
-          md
-        }
         team {
           id
           name

@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
-import { useQuery } from "@apollo/react-hooks"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import AddManagerToTeam from "components/forms/add-manager-to-team"
-import { GET_TEAM_BY_ID } from "graphql/teams"
+import { GET_TEAM_BY_ID, UPDATE_TEAM, GET_ALL_TEAMS } from "graphql/teams"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import ManagersGrid from "components/grid/managers-grid"
+import TeamForm from "components/forms/team-form"
 
 const { Title } = Typography
 
@@ -44,11 +45,24 @@ const MODALS = {
 }
 
 const Team = () => {
-  const [updatedTeam, setUpdatedTeam] = useState({ managers: [] })
+  const [updatedTeam, setUpdatedTeam] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
     variables: { id },
+  })
+
+  const [editTeam] = useMutation(UPDATE_TEAM, {
+    update: (cache, { data: { updateTeam } }) => {
+      const { team } = updateTeam
+      console.log(team)
+      cache.writeQuery({
+        query: GET_TEAM_BY_ID,
+        data: {
+          team,
+        },
+      })
+    },
   })
 
   if (loading) {
@@ -77,10 +91,26 @@ const Team = () => {
         <Modal
           title={`Add Manager To ${name}`}
           onClose={() => setModalToShow("")}
-          primaryButtonText={`Add ${updatedTeam.managers.length} Managers`}
-          // onSubmit={() => manager({ variables: manager })}
+          primaryButtonText={`Add ${updatedTeam.managerIds?.length || 0} Managers`}
+          onSubmit={() => {
+            editTeam({ variables: { id, ...updatedTeam } })
+            setUpdatedTeam({})
+          }}
         >
           <AddManagerToTeam team={updatedTeam} setTeam={setUpdatedTeam} />
+        </Modal>
+      )}
+      {modalToShow === MODALS.editTeam && (
+        <Modal
+          title={`Edit ${name}`}
+          onClose={() => setModalToShow("")}
+          primaryButtonText="Update"
+          onSubmit={() => {
+            editTeam({ variables: { id, ...updatedTeam } })
+            setUpdatedTeam({})
+          }}
+        >
+          <TeamForm initialValue={team} team={updatedTeam} setTeam={setUpdatedTeam} />
         </Modal>
       )}
       <FAButton

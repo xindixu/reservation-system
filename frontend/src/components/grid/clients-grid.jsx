@@ -33,9 +33,6 @@ ClientGrid.propTypes = {
       jobTitle: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
       phone: PropTypes.string.isRequired,
-      avatar: PropTypes.shape({
-        md: PropTypes.string.isRequired,
-      }).isRequired,
     }).isRequired
   ).isRequired,
 }

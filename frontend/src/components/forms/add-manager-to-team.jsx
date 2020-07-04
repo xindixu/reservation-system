@@ -20,20 +20,12 @@ const AddManagerToTeam = ({ team, setTeam }) => {
       size="middle"
     >
       <Form.Item label="Managers">
-        <Select
-          mode="multiple"
-          onChange={(managerIds) =>
-            setTeam({ ...team, managers: managerIds.map((id) => managers[id]) })
-          }
-        >
-          {managers.map((manager) => {
-            const { id, firstName, lastName } = manager
-            return (
-              <Select.Option value={id} key={id}>
-                {firstName} {lastName}
-              </Select.Option>
-            )
-          }) || null}
+        <Select mode="multiple" onChange={(managerIds) => setTeam({ ...team, managerIds })}>
+          {managers.map(({ id, firstName, lastName }) => (
+            <Select.Option value={id} key={id}>
+              {firstName} {lastName}
+            </Select.Option>
+          ))}
         </Select>
       </Form.Item>
     </Form>
