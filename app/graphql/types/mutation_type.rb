@@ -7,6 +7,6 @@ module Types
     field :create_visit, mutation: Mutations::CreateVisit
 
     field :update_manager, mutation: Mutations::UpdateManager
-
+    field :update_team, mutation: Mutations::UpdateTeam
   end
 end

@@ -66,7 +66,7 @@ const Team = () => {
       <div className="flex space-between bg-white rounded-lg p-10 mb-10">
         <div className="flex-grow ">
           <Title>{name}</Title>
-          <Title level={6}>{description}</Title>
+          <p>{description}</p>
           <PageActions team={team} edit={() => setModalToShow(MODALS.editTeam)} />
         </div>
       </div>
