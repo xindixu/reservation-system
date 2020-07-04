@@ -10,6 +10,9 @@ export const GET_ALL_MANAGERS = gql`
       email
       phone
       clientsCount
+      team {
+        id
+      }
     }
   }
 `

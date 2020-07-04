@@ -5,7 +5,6 @@ const avatarSizes = {
   lg: "500x500",
 }
 
-export const getDefaultAvatar = (key, size) =>
-  `https://robohash.org/${key}.png?size=${avatarSizes[size]}&set=set4`
-
 export const getFullName = (user) => `${user.firstName} ${user.lastName}`
+export const getDefaultAvatar = (user, size) =>
+  `https://robohash.org/${getFullName(user)}.png?size=${avatarSizes[size]}&set=set4`

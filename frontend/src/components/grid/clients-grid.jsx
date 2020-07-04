@@ -2,10 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Typography, Card } from "antd"
-import { getDefaultAvatar } from "lib/utils"
-
-const { Meta } = Card
-const { Paragraph } = Typography
 
 const ClientGrid = ({ clients }) => (
   <div className="flex flex-wrap -mx-2 overflow-hidden">

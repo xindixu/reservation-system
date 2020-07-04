@@ -9,23 +9,26 @@ const { Paragraph } = Typography
 
 const ManagersGrid = ({ managers }) => (
   <div className="flex flex-wrap -mx-2 overflow-hidden">
-    {managers.map(({ id, firstName, lastName, jobTitle, email, phone }) => (
-      <Link
-        key={id}
-        to={`/manager/${id}`}
-        className="my-2 px-2 w-1/2 overflow-hidden sm:w-1/2 md:w-1/4 lg:w-1/6"
-      >
-        <Card
-          cover={<img alt={`${firstName} ${lastName}`} src={getDefaultAvatar(firstName, "md")} />}
-          hoverable
+    {managers.map((manager) => {
+      const { id, firstName, lastName, jobTitle, email, phone } = manager
+      return (
+        <Link
+          key={id}
+          to={`/manager/${id}`}
+          className="my-2 px-2 w-1/2 overflow-hidden sm:w-1/2 md:w-1/4 lg:w-1/6"
         >
-          <Meta
-            title={`${firstName} ${lastName}`}
-            description={<Paragraph ellipsis>{jobTitle}</Paragraph>}
-          />
-        </Card>
-      </Link>
-    ))}
+          <Card
+            cover={<img alt={`${firstName} ${lastName}`} src={getDefaultAvatar(manager, "md")} />}
+            hoverable
+          >
+            <Meta
+              title={`${firstName} ${lastName}`}
+              description={<Paragraph ellipsis>{jobTitle}</Paragraph>}
+            />
+          </Card>
+        </Link>
+      )
+    })}
   </div>
 )
 

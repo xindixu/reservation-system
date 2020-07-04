@@ -4,7 +4,8 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import AddManagerToTeam from "components/forms/add-manager-to-team"
-import { GET_TEAM_BY_ID, UPDATE_TEAM, GET_ALL_TEAMS } from "graphql/teams"
+import { GET_TEAM_BY_ID, UPDATE_TEAM } from "graphql/teams"
+import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import ManagersGrid from "components/grid/managers-grid"
@@ -55,11 +56,17 @@ const Team = () => {
   const [editTeam] = useMutation(UPDATE_TEAM, {
     update: (cache, { data: { updateTeam } }) => {
       const { team } = updateTeam
-      console.log(team)
+      const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
+
+      managers.forEach((manager) => {
+        if (team.managers.some((m) => m.id === manager.id && m.teamId !== team.id)) {
+          manager.team = team
+        }
+      })
       cache.writeQuery({
-        query: GET_TEAM_BY_ID,
+        query: GET_ALL_MANAGERS,
         data: {
-          team,
+          managers,
         },
       })
     },
@@ -97,7 +104,11 @@ const Team = () => {
             setUpdatedTeam({})
           }}
         >
-          <AddManagerToTeam team={updatedTeam} setTeam={setUpdatedTeam} />
+          <AddManagerToTeam
+            initialTeam={team}
+            team={{ id, ...updatedTeam }}
+            setTeam={setUpdatedTeam}
+          />
         </Modal>
       )}
       {modalToShow === MODALS.editTeam && (
@@ -110,7 +121,7 @@ const Team = () => {
             setUpdatedTeam({})
           }}
         >
-          <TeamForm initialValue={team} team={updatedTeam} setTeam={setUpdatedTeam} />
+          <TeamForm initialTeam={team} team={updatedTeam} setTeam={setUpdatedTeam} />
         </Modal>
       )}
       <FAButton
@@ -121,7 +132,5 @@ const Team = () => {
     </>
   )
 }
-
-Team.propTypes = {}
 
 export default Team

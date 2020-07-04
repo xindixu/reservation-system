@@ -75,7 +75,7 @@ const Manager = () => {
           <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
         </div>
         <div className="bg-white rounded-lg">
-          <img src={getDefaultAvatar(firstName, "md")} alt={fullName} />
+          <img src={getDefaultAvatar(manager, "md")} alt={fullName} />
         </div>
       </div>
       <ClientsGrid clients={clients} />

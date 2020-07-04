@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import { Form, Input } from "antd"
 
-const TeamForm = ({ initialValue, team, setTeam }) => {
+const TeamForm = ({ initialTeam, team, setTeam }) => {
   return (
     <Form
       labelCol={{
@@ -15,21 +15,21 @@ const TeamForm = ({ initialValue, team, setTeam }) => {
       <Form.Item label="Name">
         <Input
           type="text"
-          defaultValue={initialValue?.name}
+          defaultValue={initialTeam?.name}
           onChange={(e) => setTeam({ ...team, name: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Email">
         <Input
           type="email"
-          defaultValue={initialValue?.email}
+          defaultValue={initialTeam?.email}
           onChange={(e) => setTeam({ ...team, email: e.target.value })}
         />
       </Form.Item>
       <Form.Item label="Phone">
         <Input
           type="tel"
-          defaultValue={initialValue?.phone}
+          defaultValue={initialTeam?.phone}
           onChange={(e) => setTeam({ ...team, phone: e.target.value })}
         />
       </Form.Item>
@@ -37,7 +37,7 @@ const TeamForm = ({ initialValue, team, setTeam }) => {
         <Input.TextArea
           rows={5}
           allowClear
-          defaultValue={initialValue?.description}
+          defaultValue={initialTeam?.description}
           onChange={(e) => setTeam({ ...team, description: e.target.value })}
         />
       </Form.Item>
@@ -46,6 +46,7 @@ const TeamForm = ({ initialValue, team, setTeam }) => {
 }
 
 TeamForm.propTypes = {
+  initialTeam: PropTypes.object.isRequired,
   team: PropTypes.object.isRequired,
   setTeam: PropTypes.func.isRequired,
 }
