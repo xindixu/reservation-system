@@ -2,6 +2,7 @@ import React from "react"
 import { Switch, Route } from "react-router-dom"
 import Teams from "./pages/teams"
 import Managers from "./pages/managers"
+import Clients from "./pages/clients"
 import Team from "./pages/team"
 import Manager from "./pages/manager"
 import Calendar from "./pages/calendar"
@@ -19,6 +20,9 @@ const Routes = () => (
     </Route>
     <Route path="/managers" exact>
       <Managers />
+    </Route>
+    <Route path="/clients" exact>
+      <Clients />
     </Route>
     <Route path="/team/:id" exact>
       <Team />

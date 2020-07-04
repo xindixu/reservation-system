@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Menu } from "antd"
-import { TeamOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons"
+import { HomeOutlined, TeamOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons"
 
 const Navbar = () => {
   const location = useLocation()
@@ -10,11 +10,14 @@ const Navbar = () => {
       <Menu.Item key="calendar" icon={<CalendarOutlined />}>
         <Link to="/calendar">Calendar</Link>
       </Menu.Item>
-      <Menu.Item key="teams" icon={<TeamOutlined />}>
+      <Menu.Item key="teams" icon={<HomeOutlined />}>
         <Link to="/teams">Teams</Link>
       </Menu.Item>
       <Menu.Item key="managers" icon={<UserOutlined />}>
         <Link to="/managers">Managers</Link>
+      </Menu.Item>
+      <Menu.Item key="clients" icon={<TeamOutlined />}>
+        <Link to="/clients">Clients</Link>
       </Menu.Item>
     </Menu>
   )

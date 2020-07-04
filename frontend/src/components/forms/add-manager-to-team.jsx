@@ -59,4 +59,10 @@ const AddManagerToTeam = ({ initialTeam, team, setTeam }) => {
     </>
   )
 }
+
+AddManagerToTeam.propTypes = {
+  initialTeam: PropTypes.object.isRequired,
+  team: PropTypes.object.isRequired,
+  setTeam: PropTypes.func.isRequired,
+}
 export default AddManagerToTeam
