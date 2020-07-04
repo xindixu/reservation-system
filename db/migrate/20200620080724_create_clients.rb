@@ -5,9 +5,9 @@ class CreateClients < ActiveRecord::Migration[6.0]
       t.string :last_name
       t.string :email
       t.string :phone
-      t.belongs_to :manager, null: false, foreign_key: true
       t.integer :cycle
       t.integer :duration
+      t.belongs_to :manager, null: false, foreign_key: true
 
       t.timestamps
     end

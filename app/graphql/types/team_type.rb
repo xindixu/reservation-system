@@ -2,7 +2,7 @@ module Types
   class TeamType < Types::BaseObject
     field :id, ID, null: false
     field :name, String, null: false
-    field :description, String, null: false
+    field :description, String, null: true
     field :email, String, null: true
     field :phone, String, null: true
     field :managers, [Types::ManagerType], null: true
@@ -11,6 +11,5 @@ module Types
     def managers_count
       object.managers.count
     end
-
   end
 end

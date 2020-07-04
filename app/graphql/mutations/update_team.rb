@@ -10,13 +10,15 @@ module Mutations
     field :team, Types::TeamType, null: true
     field :errors, [String], null: false
 
-    def resolve(id:, manager_ids:, **attributes)
+    def resolve(id:, **options)
       team = Team.find(id)
-      manager_ids.each do |manager_id|
+      options[:manager_ids]&.each do |manager_id|
         manager = Manager.find(manager_id)
         team.managers << manager unless team.managers.include? manager
       end
-      team.update!(attributes)
+      options.except!(:manager_ids)
+
+      team.update!(**options)
 
       if team.save
         {
@@ -29,7 +31,6 @@ module Mutations
           errors: team.errors.full_messages
         }
       end
-
     end
   end
 end
