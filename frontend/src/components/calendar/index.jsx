@@ -4,20 +4,26 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 
-import { CalendarGlobalStyleOverride } from "./styles"
+import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
 import { VISIT } from "lib/commonTypes"
 
-const Calendar = ({ initialVisits, deleteVisit }) => {
+const getTimeFormat = () => ({
+  hour: "2-digit",
+  minute: "2-digit",
+  meridiem: false,
+})
+
+const Calendar = ({ visits, deleteVisit }) => {
   const [showWeekends, setShowWeekends] = useState(true)
-  const [visits, setVisits] = useState(() =>
-    initialVisits.map(({ id, startsAt, endsAt, allDay, client: { firstName, lastName } }) => ({
+  const events = visits.map(
+    ({ id, startsAt, endsAt, allDay, client: { firstName, lastName } }) => ({
       id,
       title: `Visit: ${firstName} ${lastName}`,
       start: startsAt,
       end: endsAt,
       allDay,
       editable: true,
-    }))
+    })
   )
 
   const calendar = useRef(null)
@@ -56,31 +62,37 @@ const Calendar = ({ initialVisits, deleteVisit }) => {
   }
 
   return (
-    <>
+    <Wrapper>
       <CalendarGlobalStyleOverride />
       <FullCalendar
+        height="auto"
         customButtons={customButtons}
         defaultView="dayGridMonth"
         headerToolbar={{
           start: "prev,next today",
           center: "title",
-          end: "toggleShowWeekendsButton",
+          end: "",
         }}
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable
         droppable
         ref={calendar}
         weekends={showWeekends}
-        events={visits}
+        events={events}
         eventClick={onVisitClick}
         eventMouseEnter={onVisitMouseEnter}
         dateClick={onDateClick}
+        themeSystem="standard"
+        eventTextColor="#000"
+        eventBackgroundColor="#bae7ff"
+        eventBorderColor="#bae7ff"
+        eventTimeFormat={getTimeFormat()}
       />
-    </>
+    </Wrapper>
   )
 }
 
 Calendar.propTypes = {
-  initialVisits: PropTypes.arrayOf(VISIT).isRequired,
+  visits: PropTypes.arrayOf(VISIT).isRequired,
 }
 export default Calendar
