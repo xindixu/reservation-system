@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import PropTypes from "prop-types"
-import { Button, Modal as AntdModal } from "antd"
+import { Button, Modal as AntdModal, Form } from "antd"
 
 const Modal = ({
   title,
@@ -13,6 +13,7 @@ const Modal = ({
 }) => {
   const [containerEl] = useState(() => document.getElementById("modal-root"))
 
+  const [form] = Form.useForm()
   return (
     <AntdModal
       title={title}
@@ -41,8 +42,16 @@ const Modal = ({
           key="submit"
           type="primary"
           onClick={() => {
-            onSubmit()
-            onClose()
+            console.log("here")
+            form
+              .validateFields()
+              .then((values) => {
+                console.log(values)
+                form.resetFields()
+                onSubmit(values)
+                onClose()
+              })
+              .catch((info) => console.log("Validate Failed:", info))
           }}
         >
           {submitButtonText}
@@ -50,7 +59,7 @@ const Modal = ({
       ]}
       onCancel={onClose}
     >
-      {children}
+      {typeof children === "function" ? children({ form }) : children}
     </AntdModal>
   )
 }

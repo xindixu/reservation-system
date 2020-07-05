@@ -63,7 +63,6 @@ const CalendarPage = () => {
           setModalToShow(MODALS.editVisit)
         }}
         onEditVisit={(id, start, end) => {
-          console.log(start)
           editVisit({
             variables: {
               id,

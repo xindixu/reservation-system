@@ -33,3 +33,8 @@ export const CLIENT = {
   email: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
 }
+
+export const FORM = {
+  setFieldsValue: PropTypes.func.isRequired,
+  getFieldsValue: PropTypes.func.isRequired,
+}

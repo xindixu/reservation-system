@@ -5,9 +5,23 @@ import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
-import { CLIENT } from "lib/commonTypes"
+import { CLIENT, FORM } from "lib/commonTypes"
 
 const { Option } = Select
+
+const validateMessages = {
+  // eslint-disable-next-line no-template-curly-in-string
+  required: "${label} is required.",
+  durationLessThanCycle: "Duration must be less than cycle.",
+}
+
+const layout = {
+  labelCol: {
+    span: 24,
+  },
+  layout: "vertical",
+  size: "middle",
+}
 
 const DurationPicker = ({ defaultValue, onChange }) => {
   const [num, setNum] = useState(0)
@@ -44,74 +58,71 @@ const DurationPicker = ({ defaultValue, onChange }) => {
   )
 }
 
-const ClientForm = ({ initialClient, client, setClient }) => {
+const ClientForm = ({ initialClient, form }) => {
   const { data } = useQuery(GET_ALL_MANAGERS)
   const { firstName, lastName, email, phone, cycle, duration, managerId } = initialClient
+
   return (
     <Form
-      labelCol={{
-        span: 24,
+      {...layout}
+      form={form}
+      initialValues={{
+        ...initialClient,
       }}
-      layout="vertical"
-      size="middle"
+      scrollToFirstError
+      validateMessages={validateMessages}
     >
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="First Name">
-            <Input
-              type="text"
-              defaultValue={firstName}
-              onChange={(e) => setClient({ ...client, firstName: e.target.value })}
-            />
+          <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+            <Input type="text" defaultValue={firstName} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Last Name">
-            <Input
-              type="text"
-              defaultValue={lastName}
-              onChange={(e) => setClient({ ...client, lastName: e.target.value })}
-            />
+          <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+            <Input type="text" defaultValue={lastName} />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Email">
-        <Input
-          type="email"
-          defaultValue={email}
-          onChange={(e) => setClient({ ...client, email: e.target.value })}
-        />
+      <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+        <Input type="email" defaultValue={email} />
       </Form.Item>
-      <Form.Item label="Phone">
-        <Input
-          type="tel"
-          defaultValue={phone}
-          onChange={(e) => setClient({ ...client, phone: e.target.value })}
-        />
+      <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+        <Input type="tel" defaultValue={phone} />
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Cycle">
+          <Form.Item label="Cycle" name="cycle" rules={[{ required: true }]}>
             <DurationPicker
               defaultValue={cycle}
-              onChange={(value) => setClient({ ...client, cycle: value })}
+              onChange={(value) => form.setFieldsValue({ cycle: value })}
             />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Duration">
+          <Form.Item
+            label="Duration"
+            name="duration"
+            dependencies={["cycle"]}
+            rules={[
+              { required: true },
+              {
+                validator: (_, value) =>
+                  value < form.getFieldsValue().cycle
+                    ? Promise.resolve()
+                    : Promise.reject(validateMessages.durationLessThanCycle),
+              },
+            ]}
+          >
             <DurationPicker
               defaultValue={duration}
-              onChange={(value) => setClient({ ...client, duration: value })}
+              onChange={(value) => form.setFieldsValue({ duration: value })}
             />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Manager">
-        <Select
-          defaultValue={managerId}
-          onChange={(value) => setClient({ ...client, managerId: value })}
-        >
+      <Form.Item label="Manager" name="managerId" rules={[{ required: true }]}>
+        <Select defaultValue={managerId}>
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
               {getFullName(manager)}
@@ -128,9 +139,8 @@ ClientForm.defaultProps = {
 }
 
 ClientForm.propTypes = {
+  form: PropTypes.shape(FORM).isRequired,
   initialClient: PropTypes.shape(CLIENT),
-  client: PropTypes.object.isRequired,
-  setClient: PropTypes.func.isRequired,
 }
 
 export default ClientForm
