@@ -40,16 +40,6 @@ const Slot = () => {
     <>
       <SlotTable slots={data.slots} />
 
-      {/* {modalToShow === MODALS.addClient && (
-        <Modal
-          title="Create New Client"
-          onClose={() => setModalToShow("")}
-          onSubmit={() => addClient({ variables: client })}
-          submitButtonText="Create"
-        >
-          <ClientFrom client={client} setClient={setClient} />
-        </Modal>
-      )} */}
       <FAButton
         onClick={() => setModalToShow(MODALS.addClient)}
         ariaLabel="new client"
