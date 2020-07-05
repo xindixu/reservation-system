@@ -84,7 +84,7 @@ const Manager = () => {
         <Modal
           title={`Edit ${fullName}`}
           onClose={() => setModalToShow("")}
-          primaryButtonText="Update"
+          submitButtonText="Update"
           onSubmit={() => editManager({ variables: { id, ...updatedManager } })}
         >
           <ManagerForm

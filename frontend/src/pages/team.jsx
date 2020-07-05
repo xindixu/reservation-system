@@ -98,7 +98,7 @@ const Team = () => {
         <Modal
           title={`Edit ${name}`}
           onClose={() => setModalToShow("")}
-          primaryButtonText="Update"
+          submitButtonText="Update"
           onSubmit={() => {
             editTeam({ variables: { id, ...updatedTeam } })
             setUpdatedTeam({})
@@ -111,7 +111,7 @@ const Team = () => {
         <Modal
           title={`Add Manager To ${name}`}
           onClose={() => setModalToShow("")}
-          primaryButtonText={`Add ${updatedTeam.managerIds?.length || 0} Managers`}
+          submitButtonText={`Add ${updatedTeam.managerIds?.length || 0} Managers`}
           onSubmit={() => {
             editTeam({ variables: { id, ...updatedTeam } })
             setUpdatedTeam({})

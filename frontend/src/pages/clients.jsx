@@ -44,7 +44,7 @@ const Clients = () => {
           title="Create New Client"
           onClose={() => setModalToShow("")}
           onSubmit={() => addClient({ variables: client })}
-          primaryButtonText="Create"
+          submitButtonText="Create"
         >
           <ClientFrom client={client} setClient={setClient} />
         </Modal>

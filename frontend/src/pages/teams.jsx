@@ -42,7 +42,7 @@ const Teams = () => {
           title="Create New Team"
           onClose={() => setModalToShow("")}
           onSubmit={() => addTeam({ variables: team })}
-          primaryButtonText="Create"
+          submitButtonText="Create"
         >
           <TeamForm team={team} setTeam={setTeam} />
         </Modal>

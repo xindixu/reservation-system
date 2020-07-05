@@ -2,7 +2,15 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { Button, Modal as AntdModal } from "antd"
 
-const Modal = ({ title, onClose, onSubmit, children, primaryButtonText }) => {
+const Modal = ({
+  title,
+  onClose,
+  onDelete,
+  onSubmit,
+  children,
+  submitButtonText,
+  deleteButtonText,
+}) => {
   const [containerEl] = useState(() => document.getElementById("modal-root"))
 
   return (
@@ -11,6 +19,21 @@ const Modal = ({ title, onClose, onSubmit, children, primaryButtonText }) => {
       visible
       getContainer={containerEl}
       footer={[
+        ...(onDelete
+          ? [
+              <Button
+                className="float-left"
+                key="delete"
+                type="danger"
+                onClick={() => {
+                  onDelete()
+                  onClose()
+                }}
+              >
+                {deleteButtonText}
+              </Button>,
+            ]
+          : []),
         <Button key="cancel" type="default" onClick={onClose}>
           Cancel
         </Button>,
@@ -22,7 +45,7 @@ const Modal = ({ title, onClose, onSubmit, children, primaryButtonText }) => {
             onClose()
           }}
         >
-          {primaryButtonText}
+          {submitButtonText}
         </Button>,
       ]}
       onCancel={onClose}
@@ -32,15 +55,19 @@ const Modal = ({ title, onClose, onSubmit, children, primaryButtonText }) => {
   )
 }
 Modal.defaultProps = {
-  primaryButtonText: "Create",
+  submitButtonText: "Create",
+  deleteButtonText: "Delete",
+  onDelete: null,
 }
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   children: PropTypes.node.isRequired,
-  primaryButtonText: PropTypes.string,
+  submitButtonText: PropTypes.string,
+  deleteButtonText: PropTypes.string,
 }
 
 export default Modal
