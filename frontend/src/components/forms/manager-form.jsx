@@ -7,7 +7,6 @@ import { MANAGER, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const ManagerForm = ({ form, initialManager }) => {
-  const { firstName, lastName, jobTitle, email, phone, teamId } = initialManager
   const { data } = useQuery(GET_ALL_TEAMS)
   return (
     <Form
@@ -15,30 +14,31 @@ const ManagerForm = ({ form, initialManager }) => {
       scrollToFirstError
       {...defaultFormLayout}
       validateMessages={defaultValidateMessages}
+      initialValues={initialManager}
     >
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
-            <Input type="text" defaultValue={firstName} />
+            <Input type="text" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
-            <Input type="text" defaultValue={lastName} />
+            <Input type="text" />
           </Form.Item>
         </Col>
       </Row>
       <Form.Item label="Job Title" name="jobTitle" rules={[{ required: true }]}>
-        <Input type="text" defaultValue={jobTitle} />
+        <Input type="text" />
       </Form.Item>
       <Form.Item label="Email" name="email" rules={[{ required: true }]}>
-        <Input type="email" defaultValue={email} />
+        <Input type="email" />
       </Form.Item>
       <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
-        <Input type="tel" defaultValue={phone} />
+        <Input type="tel" />
       </Form.Item>
       <Form.Item label="Team" name="teamId" rules={[{ required: true }]}>
-        <Select defaultValue={teamId}>
+        <Select>
           {data?.teams.map(({ id, name }) => (
             <Select.Option value={id} key={id}>
               {name}
