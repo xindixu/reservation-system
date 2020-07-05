@@ -100,22 +100,11 @@ export const UPDATE_VISIT = gql`
   }
 `
 
-export const DELETE_VISIT = gql`
-  mutation DeleteVisit($id: String!) {
-    deleteVisit(id: $id) {
-      id
-      startsAt
-      endsAt
-      slot {
-        name
-      }
-      client {
-        firstName
-        lastName
-        manager {
-          firstName
-          lastName
-        }
+export const DESTROY_VISIT = gql`
+  mutation DestroyVisit($id: ID!) {
+    destroyVisit(input: { id: $id }) {
+      visit {
+        id
       }
     }
   }
