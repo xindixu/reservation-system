@@ -1,16 +1,8 @@
-import React, { useState, useRef } from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { Button, Modal as AntdModal, Form } from "antd"
 
-const Modal = ({
-  title,
-  onClose,
-  onDelete,
-  onSubmit,
-  children,
-  submitButtonText,
-  deleteButtonText,
-}) => {
+const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteButtonText }) => {
   const [containerEl] = useState(() => document.getElementById("modal-root"))
 
   const [form] = Form.useForm()
@@ -42,16 +34,8 @@ const Modal = ({
           key="submit"
           type="primary"
           onClick={() => {
-            console.log("here")
-            form
-              .validateFields()
-              .then((values) => {
-                console.log(values)
-                form.resetFields()
-                onSubmit(values)
-                onClose()
-              })
-              .catch((info) => console.log("Validate Failed:", info))
+            form.submit()
+            onClose()
           }}
         >
           {submitButtonText}
@@ -72,7 +56,6 @@ Modal.defaultProps = {
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func,
   children: PropTypes.node.isRequired,
   submitButtonText: PropTypes.string,

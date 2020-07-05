@@ -6,29 +6,39 @@ import moment from "moment"
 import { Form, Select, DatePicker, Checkbox } from "antd"
 import { GET_ALL_CLIENTS } from "graphql/clients"
 import { GET_ALL_SLOTS } from "graphql/slots"
-import { VISIT } from "lib/commonTypes"
+import { VISIT, FORM } from "lib/commonTypes"
+import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
+const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
   const { client, slot, startsAt, endsAt } = initialVisit
 
   const [allDay, setAllDay] = useState(true)
 
+  const onFinish = (fieldsValue) => {
+    const { visit } = fieldsValue
+    const values = {
+      ...fieldsValue,
+      startsAt: visit[0]?.toISOString(),
+      endsAt: visit[1]?.toISOString(),
+    }
+    onSubmit(values)
+  }
   return (
     <Form
-      labelCol={{
-        span: 24,
+      {...defaultFormLayout}
+      form={form}
+      initialValues={{
+        clientId: client?.id,
+        slotId: slot?.id,
+        visit: startsAt && endsAt ? [moment(startsAt), moment(endsAt)] : [],
       }}
-      layout="vertical"
-      size="middle"
+      validateMessages={defaultValidateMessages}
+      onFinish={onFinish}
     >
-      <Form.Item label="Client">
-        <Select
-          disabled={disabled.client}
-          defaultValue={client?.id}
-          onChange={(v) => setVisit({ ...visit, clientId: v })}
-        >
+      <Form.Item label="Client" name="clientId" rules={[{ required: true }]}>
+        <Select disabled={disabled.client}>
           {clientData?.clients.map(({ id, firstName, lastName }) => (
             <Select.Option value={id} key={id}>
               {firstName} {lastName}
@@ -36,8 +46,8 @@ const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
           ))}
         </Select>
       </Form.Item>
-      <Form.Item label="Slot">
-        <Select defaultValue={slot?.id} onChange={(v) => setVisit({ ...visit, slotId: v })}>
+      <Form.Item label="Slot" name="slotId" rules={[{ required: true }]}>
+        <Select>
           {slotData?.slots.map(({ id, name }) => (
             <Select.Option value={id} key={id}>
               {name}
@@ -45,18 +55,13 @@ const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
           ))}
         </Select>
       </Form.Item>
-      <Form.Item label="Visit">
+      <Form.Item
+        label="Visit"
+        name="visit"
+        rules={[{ type: "array", required: true, message: "Please select time!" }]}
+      >
         <DatePicker.RangePicker
           style={{ width: "100%" }}
-          defaultValue={startsAt && endsAt ? [moment(startsAt), moment(endsAt)] : []}
-          onCalendarChange={(dateArr) =>
-            dateArr &&
-            setVisit({
-              ...visit,
-              startsAt: dateArr[0]?.toISOString(),
-              endsAt: dateArr[1]?.toISOString(),
-            })
-          }
           ranges={{
             Today: [moment(), moment()],
             "This Week": [moment().startOf("week"), moment().endOf("week")],
@@ -66,7 +71,7 @@ const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Checkbox checked={allDay} onChange={(e) => setAllDay(!allDay)}>
+        <Checkbox checked={allDay} onChange={() => setAllDay(!allDay)}>
           All day
         </Checkbox>
       </Form.Item>
@@ -82,8 +87,8 @@ VisitForm.defaultProps = {
 VisitForm.propTypes = {
   disabled: PropTypes.object,
   initialVisit: PropTypes.shape(VISIT),
-  visit: PropTypes.object.isRequired,
-  setVisit: PropTypes.func.isRequired,
+  form: PropTypes.shape(FORM).isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default VisitForm

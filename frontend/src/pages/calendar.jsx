@@ -42,7 +42,6 @@ const CalendarPage = () => {
     },
   })
 
-  const [visit, setVisit] = useState({})
   const [selectedVisit, setSelectedVisit] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   if (loading) {
@@ -76,35 +75,33 @@ const CalendarPage = () => {
         <Modal
           title={`Edit Visit for ${getFullName(selectedVisit.client)}`}
           onClose={() => setModalToShow("")}
-          onSubmit={() => {
-            editVisit({ variables: { id: selectedVisit.id, ...visit } })
-            setVisit({})
-            setSelectedVisit({})
-          }}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
           }}
           submitButtonText="Update"
         >
-          <VisitForm
-            initialVisit={selectedVisit}
-            visit={visit}
-            setVisit={setVisit}
-            disabled={{ client: true }}
-          />
+          {({ form }) => (
+            <VisitForm
+              initialVisit={selectedVisit}
+              form={form}
+              disabled={{ client: true }}
+              onSubmit={(values) => {
+                editVisit({ variables: { id: selectedVisit.id, ...values } })
+                setSelectedVisit({})
+              }}
+            />
+          )}
         </Modal>
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
           title="Create New Visit"
           onClose={() => setModalToShow("")}
-          onSubmit={() => {
-            addVisit({ variables: { ...visit } })
-            setVisit({})
-          }}
           submitButtonText="Create"
         >
-          <VisitForm visit={visit} setVisit={setVisit} />
+          {({ form }) => (
+            <VisitForm form={form} onSubmit={(values) => addVisit({ variables: values })} />
+          )}
         </Modal>
       )}
       <FAButton
