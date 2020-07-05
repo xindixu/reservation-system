@@ -25,7 +25,6 @@ const Managers = () => {
     },
   })
 
-  const [manager, setManager] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -47,10 +46,10 @@ const Managers = () => {
         <Modal
           title="Create New Manager"
           onClose={() => setModalToShow("")}
-          onSubmit={() => addManager({ variables: manager })}
+          onSubmit={(values) => addManager({ variables: values })}
           submitButtonText="Create"
         >
-          <ManagerForm manager={manager} setManager={setManager} />
+          {({ form }) => <ManagerForm form={form} />}
         </Modal>
       )}
     </>

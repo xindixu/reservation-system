@@ -25,7 +25,6 @@ const Clients = () => {
     },
   })
 
-  const [client, setClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -43,14 +42,10 @@ const Clients = () => {
         <Modal
           title="Create New Client"
           onClose={() => setModalToShow("")}
-          onSubmit={(values) => {
-            console.log("submitting")
-            console.log(values)
-            addClient({ variables: values })
-          }}
+          onSubmit={(values) => addClient({ variables: values })}
           submitButtonText="Create"
         >
-          {({ form }) => <ClientFrom client={client} setClient={setClient} form={form} />}
+          {({ form }) => <ClientFrom form={form} />}
         </Modal>
       )}
       <FAButton

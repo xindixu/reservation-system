@@ -3,62 +3,42 @@ import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Row, Col } from "antd"
 import { GET_ALL_TEAMS } from "graphql/teams"
-import { MANAGER } from "lib/commonTypes"
+import { MANAGER, FORM } from "lib/commonTypes"
+import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const ManagerForm = ({ initialManager, manager, setManager }) => {
+const ManagerForm = ({ form, initialManager }) => {
   const { firstName, lastName, jobTitle, email, phone, teamId } = initialManager
   const { data } = useQuery(GET_ALL_TEAMS)
   return (
     <Form
-      labelCol={{
-        span: 24,
-      }}
-      layout="vertical"
-      size="middle"
+      form={form}
+      scrollToFirstError
+      {...defaultFormLayout}
+      validateMessages={defaultValidateMessages}
     >
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="First Name">
-            <Input
-              type="text"
-              defaultValue={firstName}
-              onChange={(e) => setManager({ ...manager, firstName: e.target.value })}
-            />
+          <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+            <Input type="text" defaultValue={firstName} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Last Name">
-            <Input
-              type="text"
-              defaultValue={lastName}
-              onChange={(e) => setManager({ ...manager, lastName: e.target.value })}
-            />
+          <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+            <Input type="text" defaultValue={lastName} />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Job Title">
-        <Input
-          type="text"
-          defaultValue={jobTitle}
-          onChange={(e) => setManager({ ...manager, jobTitle: e.target.value })}
-        />
+      <Form.Item label="Job Title" name="jobTitle" rules={[{ required: true }]}>
+        <Input type="text" defaultValue={jobTitle} />
       </Form.Item>
-      <Form.Item label="Email">
-        <Input
-          type="email"
-          defaultValue={email}
-          onChange={(e) => setManager({ ...manager, email: e.target.value })}
-        />
+      <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+        <Input type="email" defaultValue={email} />
       </Form.Item>
-      <Form.Item label="Phone">
-        <Input
-          type="tel"
-          defaultValue={phone}
-          onChange={(e) => setManager({ ...manager, phone: e.target.value })}
-        />
+      <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+        <Input type="tel" defaultValue={phone} />
       </Form.Item>
-      <Form.Item label="Team">
-        <Select defaultValue={teamId} onChange={(e) => setManager({ ...manager, teamId: e })}>
+      <Form.Item label="Team" name="teamId" rules={[{ required: true }]}>
+        <Select defaultValue={teamId}>
           {data?.teams.map(({ id, name }) => (
             <Select.Option value={id} key={id}>
               {name}
@@ -74,9 +54,8 @@ ManagerForm.defaultProps = {
   initialManager: {},
 }
 ManagerForm.propTypes = {
+  form: PropTypes.shape(FORM).isRequired,
   initialManager: PropTypes.shape(MANAGER),
-  manager: PropTypes.object.isRequired,
-  setManager: PropTypes.func.isRequired,
 }
 
 export default ManagerForm

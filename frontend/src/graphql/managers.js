@@ -67,6 +67,9 @@ export const CREATE_MANAGER = gql`
         email
         phone
         clientsCount
+        team {
+          id
+        }
       }
     }
   }

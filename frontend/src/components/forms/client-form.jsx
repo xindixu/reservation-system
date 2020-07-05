@@ -5,22 +5,14 @@ import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
+import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import { CLIENT, FORM } from "lib/commonTypes"
 
 const { Option } = Select
 
 const validateMessages = {
-  // eslint-disable-next-line no-template-curly-in-string
-  required: "${label} is required.",
+  ...defaultValidateMessages,
   durationLessThanCycle: "Duration must be less than cycle.",
-}
-
-const layout = {
-  labelCol: {
-    span: 24,
-  },
-  layout: "vertical",
-  size: "middle",
 }
 
 const DurationPicker = ({ defaultValue, onChange }) => {
@@ -64,7 +56,7 @@ const ClientForm = ({ initialClient, form }) => {
 
   return (
     <Form
-      {...layout}
+      {...defaultFormLayout}
       form={form}
       initialValues={{
         ...initialClient,
