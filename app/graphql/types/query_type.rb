@@ -41,7 +41,7 @@ module Types
       argument :id, ID, required: true
     end
 
-    def client
+    def client(id:)
       Client.find(id)
     end
 
@@ -56,7 +56,7 @@ module Types
       argument :id, ID, required: true
     end
 
-    def slot
+    def slot(id:)
       Slot.find(id)
     end
 
@@ -71,7 +71,7 @@ module Types
       argument :id, ID, required: true
     end
 
-    def visit
+    def visit(id:)
       Visit.find(id)
     end
 

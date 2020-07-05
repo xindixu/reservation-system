@@ -8,5 +8,6 @@ module Types
 
     field :update_manager, mutation: Mutations::UpdateManager
     field :update_team, mutation: Mutations::UpdateTeam
+    field :update_visit, mutation: Mutations::UpdateVisit
   end
 end
