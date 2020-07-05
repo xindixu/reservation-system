@@ -4,8 +4,10 @@ import { useQuery } from "@apollo/react-hooks"
 import { Form, Select, List, Avatar } from "antd"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import { GET_ALL_MANAGERS } from "graphql/managers"
+import { TEAM, FORM } from "lib/commonTypes"
+import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const AddManagerToTeam = ({ initialTeam, team, setTeam }) => {
+const AddManagerToTeam = ({ form, initialTeam, setNumOfManagersToAdd }) => {
   const { data, loading } = useQuery(GET_ALL_MANAGERS)
 
   if (loading) {
@@ -27,14 +29,16 @@ const AddManagerToTeam = ({ initialTeam, team, setTeam }) => {
   return (
     <>
       <Form
-        labelCol={{
-          span: 24,
-        }}
-        layout="vertical"
-        size="middle"
+        {...defaultFormLayout}
+        form={form}
+        initialValues={initialTeam}
+        validateMessages={defaultValidateMessages}
       >
-        <Form.Item label="Add Managers">
-          <Select mode="multiple" onChange={(managerIds) => setTeam({ ...team, managerIds })}>
+        <Form.Item label="Add Managers" name="managerIds">
+          <Select
+            mode="multiple"
+            onChange={(managerIds) => setNumOfManagersToAdd(managerIds.length)}
+          >
             {managersNotInTeam.map(({ id, firstName, lastName }) => (
               <Select.Option value={id} key={id}>
                 {firstName} {lastName}
@@ -61,8 +65,8 @@ const AddManagerToTeam = ({ initialTeam, team, setTeam }) => {
 }
 
 AddManagerToTeam.propTypes = {
-  initialTeam: PropTypes.object.isRequired,
-  team: PropTypes.object.isRequired,
-  setTeam: PropTypes.func.isRequired,
+  initialTeam: PropTypes.shape(TEAM).isRequired,
+  form: PropTypes.shape(FORM).isRequired,
+  setManagersCount: PropTypes.func.isRequired,
 }
 export default AddManagerToTeam

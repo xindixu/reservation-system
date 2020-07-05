@@ -46,7 +46,7 @@ const MODALS = {
 }
 
 const Team = () => {
-  const [updatedTeam, setUpdatedTeam] = useState({})
+  const [numOfManagersToAdd, setNumOfManagersToAdd] = useState(0)
   const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
@@ -99,29 +99,29 @@ const Team = () => {
           title={`Edit ${name}`}
           onClose={() => setModalToShow("")}
           submitButtonText="Update"
-          onSubmit={() => {
-            editTeam({ variables: { id, ...updatedTeam } })
-            setUpdatedTeam({})
+          onSubmit={(values) => {
+            editTeam({ variables: { id, ...values } })
           }}
         >
-          <TeamForm initialTeam={team} team={updatedTeam} setTeam={setUpdatedTeam} />
+          {({ form }) => <TeamForm initialTeam={team} form={form} />}
         </Modal>
       )}
       {modalToShow === MODALS.addManagerToTeam && (
         <Modal
           title={`Add Manager To ${name}`}
           onClose={() => setModalToShow("")}
-          submitButtonText={`Add ${updatedTeam.managerIds?.length || 0} Managers`}
-          onSubmit={() => {
-            editTeam({ variables: { id, ...updatedTeam } })
-            setUpdatedTeam({})
+          submitButtonText={`Add ${numOfManagersToAdd} Managers`}
+          onSubmit={(values) => {
+            editTeam({ variables: { id, ...values } })
           }}
         >
-          <AddManagerToTeam
-            initialTeam={team}
-            team={{ id, ...updatedTeam }}
-            setTeam={setUpdatedTeam}
-          />
+          {({ form }) => (
+            <AddManagerToTeam
+              initialTeam={team}
+              form={form}
+              setNumOfManagersToAdd={setNumOfManagersToAdd}
+            />
+          )}
         </Modal>
       )}
       <FAButton

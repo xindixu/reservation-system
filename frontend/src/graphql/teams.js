@@ -21,6 +21,7 @@ export const GET_TEAM_BY_ID = gql`
       email
       phone
       description
+      managersCount
       managers {
         id
         firstName

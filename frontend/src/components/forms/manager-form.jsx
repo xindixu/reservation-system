@@ -10,11 +10,10 @@ const ManagerForm = ({ form, initialManager }) => {
   const { data } = useQuery(GET_ALL_TEAMS)
   return (
     <Form
-      form={form}
-      scrollToFirstError
       {...defaultFormLayout}
-      validateMessages={defaultValidateMessages}
+      form={form}
       initialValues={initialManager}
+      validateMessages={defaultValidateMessages}
     >
       <Row gutter={16}>
         <Col span={12}>

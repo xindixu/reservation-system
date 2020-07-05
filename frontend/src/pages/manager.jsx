@@ -79,7 +79,6 @@ const Manager = () => {
         </div>
       </div>
       <ClientsTable clients={clients} />
-
       {modalToShow === MODALS.editManager && (
         <Modal
           title={`Edit ${fullName}`}
