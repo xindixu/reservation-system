@@ -57,7 +57,6 @@
       Visit.create(
         starts_at: start_at,
         ends_at: start_at + 10.days,
-        all_day: true,
         client_id: clients[Faker::Number.between(from: 0, to: clients.size - 1)].id,
         slot_id: slots[Faker::Number.between(from: 0, to: slots.size - 1)].id,
       )

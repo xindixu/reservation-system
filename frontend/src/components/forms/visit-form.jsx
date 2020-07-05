@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 
@@ -11,7 +11,9 @@ import { VISIT } from "lib/commonTypes"
 const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
-  const { client, slot, startsAt, endsAt, allDay } = initialVisit
+  const { client, slot, startsAt, endsAt } = initialVisit
+
+  const [allDay, setAllDay] = useState(true)
 
   return (
     <Form
@@ -60,15 +62,11 @@ const VisitForm = ({ initialVisit, visit, setVisit, disabled }) => {
             "This Week": [moment().startOf("week"), moment().endOf("week")],
             "This Month": [moment().startOf("month"), moment().endOf("month")],
           }}
-          showTime={!visit.allDay}
+          showTime={!allDay}
         />
       </Form.Item>
       <Form.Item>
-        <Checkbox
-          defaultChecked={allDay || true}
-          checked={visit.allDay}
-          onChange={(e) => setVisit({ ...visit, allDay: e.target.checked })}
-        >
+        <Checkbox checked={allDay} onChange={(e) => setAllDay(!allDay)}>
           All day
         </Checkbox>
       </Form.Item>

@@ -4,7 +4,6 @@ export const VISIT = {
   id: PropTypes.string.isRequired,
   startsAt: PropTypes.string.isRequired,
   endsAt: PropTypes.string.isRequired,
-  allDay: PropTypes.bool.isRequired,
 }
 
 export const TEAM = {

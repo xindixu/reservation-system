@@ -3,13 +3,11 @@
 one:
   start: 2020-06-20 11:35:50
   end: 2020-06-20 11:35:50
-  all_day: false
   client: one
   bed: one
 
 two:
   start: 2020-06-20 11:35:50
   end: 2020-06-20 11:35:50
-  all_day: false
   client: two
   bed: two

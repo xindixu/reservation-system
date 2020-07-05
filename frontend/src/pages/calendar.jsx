@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
+import moment from "moment"
 import { GET_ALL_VISITS, CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
@@ -10,10 +11,6 @@ import { getFullName } from "lib/utils"
 const MODALS = {
   addVisit: "addVisit",
   editVisit: "editVisit",
-}
-
-const INITIAL_VISIT = {
-  allDay: true,
 }
 
 const CalendarPage = () => {
@@ -45,7 +42,7 @@ const CalendarPage = () => {
     },
   })
 
-  const [visit, setVisit] = useState(INITIAL_VISIT)
+  const [visit, setVisit] = useState({})
   const [selectedVisit, setSelectedVisit] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   if (loading) {
@@ -61,9 +58,19 @@ const CalendarPage = () => {
     <>
       <Calendar
         visits={visits}
-        editVisit={(id) => {
+        onClickVisit={(id) => {
           setSelectedVisit(visits.find((v) => v.id === id))
           setModalToShow(MODALS.editVisit)
+        }}
+        onEditVisit={(id, start, end) => {
+          console.log(start)
+          editVisit({
+            variables: {
+              id,
+              startsAt: moment(start).toISOString(true),
+              endsAt: moment(end).toISOString(true),
+            },
+          })
         }}
       />
       {modalToShow === MODALS.editVisit && (
@@ -72,7 +79,7 @@ const CalendarPage = () => {
           onClose={() => setModalToShow("")}
           onSubmit={() => {
             editVisit({ variables: { id: selectedVisit.id, ...visit } })
-            setVisit(INITIAL_VISIT)
+            setVisit({})
             setSelectedVisit({})
           }}
           onDelete={() => {
@@ -94,7 +101,7 @@ const CalendarPage = () => {
           onClose={() => setModalToShow("")}
           onSubmit={() => {
             addVisit({ variables: { ...visit } })
-            setVisit(INITIAL_VISIT)
+            setVisit({})
           }}
           submitButtonText="Create"
         >
