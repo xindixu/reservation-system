@@ -13,8 +13,7 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
-const Calendar = ({ visits, deleteVisit }) => {
-  const [showWeekends, setShowWeekends] = useState(true)
+const Calendar = ({ visits, deleteVisit, editVisit }) => {
   const events = visits.map(
     ({ id, startsAt, endsAt, allDay, client: { firstName, lastName } }) => ({
       id,
@@ -27,11 +26,6 @@ const Calendar = ({ visits, deleteVisit }) => {
   )
 
   const calendar = useRef(null)
-
-  const goToPast = () => {
-    const calendarApi = calendar.current.getApi()
-    calendarApi.gotoDate("2000-01-01") // call a method on the Calendar object
-  }
 
   const onDateClick = (arg) => {
     console.log(arg)
@@ -47,18 +41,11 @@ const Calendar = ({ visits, deleteVisit }) => {
   const onVisitClick = (arg) => {
     const { id, allDay, start, end } = arg.event
     console.log(id, allDay, start, end)
-    deleteVisit({ variables: { id } })
+    editVisit(id)
   }
 
   const onVisitMouseEnter = (arg) => {
     // console.log(arg);
-  }
-
-  const customButtons = {
-    toggleShowWeekendsButton: {
-      text: `${showWeekends ? "Hide" : "Show"} Weekends`,
-      click: () => setShowWeekends(!showWeekends),
-    },
   }
 
   return (
@@ -66,8 +53,6 @@ const Calendar = ({ visits, deleteVisit }) => {
       <CalendarGlobalStyleOverride />
       <FullCalendar
         height="auto"
-        customButtons={customButtons}
-        defaultView="dayGridMonth"
         headerToolbar={{
           start: "prev,next today",
           center: "title",
@@ -77,7 +62,6 @@ const Calendar = ({ visits, deleteVisit }) => {
         selectable
         droppable
         ref={calendar}
-        weekends={showWeekends}
         events={events}
         eventClick={onVisitClick}
         eventMouseEnter={onVisitMouseEnter}
@@ -93,6 +77,6 @@ const Calendar = ({ visits, deleteVisit }) => {
 }
 
 Calendar.propTypes = {
-  visits: PropTypes.arrayOf(VISIT).isRequired,
+  visits: PropTypes.arrayOf(PropTypes.shape(VISIT)).isRequired,
 }
 export default Calendar

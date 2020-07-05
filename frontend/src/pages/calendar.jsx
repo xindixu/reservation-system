@@ -1,13 +1,19 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_ALL_VISITS, CREATE_VISIT } from "graphql/visits"
+import { GET_ALL_VISITS, CREATE_VISIT, UPDATE_VISIT } from "graphql/visits"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
 import VisitForm from "components/forms/visit-form"
 import FAButton from "components/floating-action-button"
+import { getFullName } from "lib/utils"
 
 const MODALS = {
   addVisit: "addVisit",
+  editVisit: "editVisit",
+}
+
+const INITIAL_VISIT = {
+  allDay: true,
 }
 
 const CalendarPage = () => {
@@ -25,7 +31,10 @@ const CalendarPage = () => {
     },
   })
 
-  const [visit, setVisit] = useState({ allDay: true })
+  const [editVisit] = useMutation(UPDATE_VISIT)
+
+  const [visit, setVisit] = useState(INITIAL_VISIT)
+  const [selectedVisit, setSelectedVisit] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   if (loading) {
     return "loading..."
@@ -34,16 +43,44 @@ const CalendarPage = () => {
     return `Error ${error.message}`
   }
 
+  const { visits } = data
+
   return (
     <>
-      <Calendar visits={data.visits} deleteVisit={() => {}} />
+      <Calendar
+        visits={visits}
+        deleteVisit={() => {}}
+        editVisit={(id) => {
+          setSelectedVisit(visits.find((v) => v.id === id))
+          setModalToShow(MODALS.editVisit)
+        }}
+      />
+      {modalToShow === MODALS.editVisit && (
+        <Modal
+          title={`Edit Visit for ${getFullName(selectedVisit.client)}`}
+          onClose={() => setModalToShow("")}
+          onSubmit={() => {
+            editVisit({ variables: { id: selectedVisit.id, ...visit } })
+            setVisit(INITIAL_VISIT)
+            setSelectedVisit({})
+          }}
+          primaryButtonText="Update"
+        >
+          <VisitForm
+            initialVisit={selectedVisit}
+            visit={visit}
+            setVisit={setVisit}
+            disabled={{ client: true }}
+          />
+        </Modal>
+      )}
       {modalToShow === MODALS.addVisit && (
         <Modal
           title="Create New Visit"
           onClose={() => setModalToShow("")}
           onSubmit={() => {
-            console.log(visit)
-            addVisit({ variables: visit })
+            addVisit({ variables: { ...visit } })
+            setVisit(INITIAL_VISIT)
           }}
           primaryButtonText="Create"
         >
