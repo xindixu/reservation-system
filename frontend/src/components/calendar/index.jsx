@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useMemo } from "react"
 import PropTypes from "prop-types"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
@@ -13,39 +13,28 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
-const Calendar = ({ visits, deleteVisit, editVisit }) => {
-  const events = visits.map(
-    ({ id, startsAt, endsAt, allDay, client: { firstName, lastName } }) => ({
-      id,
-      title: `Visit: ${firstName} ${lastName}`,
-      start: startsAt,
-      end: endsAt,
-      allDay,
-      editable: true,
-    })
+const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
+  const events = useMemo(
+    () =>
+      visits.map(({ id, startsAt, endsAt, client: { firstName, lastName } }) => ({
+        id,
+        title: `Visit: ${firstName} ${lastName}`,
+        start: startsAt,
+        end: endsAt,
+        editable: true,
+      })),
+    [visits]
   )
 
   const calendar = useRef(null)
 
-  const onDateClick = (arg) => {
-    console.log(arg)
-    // setVisits([
-    //   ...visits,
-    //   {
-    //     title: 'New Visit',
-    //     start: arg.date,
-    //     allDay: arg.allDay,
-    //   }]);
+  const onEventClick = (arg) => {
+    onClickVisit(arg.event.id)
   }
 
-  const onVisitClick = (arg) => {
-    const { id, allDay, start, end } = arg.event
-    console.log(id, allDay, start, end)
-    editVisit(id)
-  }
-
-  const onVisitMouseEnter = (arg) => {
-    // console.log(arg);
+  const onEventDrop = (arg) => {
+    const { id, start, end } = arg.event
+    onEditVisit(id, start, end)
   }
 
   return (
@@ -60,12 +49,12 @@ const Calendar = ({ visits, deleteVisit, editVisit }) => {
         }}
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable
+        editable
         droppable
         ref={calendar}
         events={events}
-        eventClick={onVisitClick}
-        eventMouseEnter={onVisitMouseEnter}
-        dateClick={onDateClick}
+        eventClick={onEventClick}
+        eventDrop={onEventDrop}
         themeSystem="standard"
         eventTextColor="#000"
         eventBackgroundColor="#bae7ff"
@@ -78,5 +67,6 @@ const Calendar = ({ visits, deleteVisit, editVisit }) => {
 
 Calendar.propTypes = {
   visits: PropTypes.arrayOf(PropTypes.shape(VISIT)).isRequired,
+  onClickVisit: PropTypes.func.isRequired,
 }
 export default Calendar
