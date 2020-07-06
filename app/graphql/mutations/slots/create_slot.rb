@@ -9,9 +9,9 @@ module Mutations
       field :slot, Types::SlotType, null: true
       field :errors, [String], null: false
   
-      def resolve(manager_id:, **attribute)
+      def resolve(manager_id:, **attributes)
         team_id = Manager.find(manager_id).team_id
-        slot = Slot.create(**attribute, manager_id: manager_id, team_id: team_id)
+        slot = Slot.create(**attributes, manager_id: manager_id, team_id: team_id)
   
         if slot.save
           {

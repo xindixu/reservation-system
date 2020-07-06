@@ -10,7 +10,7 @@ module Mutations
       field :errors, [String], null: false
 
       def resolve(**attributes)
-        visit = Visit.create(attributes)
+        visit = Visit.create(**attributes)
 
         if visit.save
           {

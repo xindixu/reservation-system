@@ -12,9 +12,9 @@ module Mutations
       field :client, Types::ClientType, null: true
       field :errors, [String], null: false
 
-      def resolve(manager_id:, **attribute)
+      def resolve(manager_id:, **attributes)
         manager = Manager.find(manager_id)
-        client = manager.clients.create(attribute)
+        client = manager.clients.create(**attributes)
 
         if client.save
           {

@@ -14,7 +14,7 @@ module Mutations
 
       def resolve(id:, **attributes)
         manager = Manager.find(id)
-        manager.update!(attributes)
+        manager.update!(**attributes)
 
         if manager.save
           {

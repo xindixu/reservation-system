@@ -11,15 +11,15 @@ module Mutations
       field :team, Types::TeamType, null: true
       field :errors, [String], null: false
 
-      def resolve(id:, **options)
+      def resolve(id:, **attributes)
         team = Team.find(id)
-        options[:manager_ids]&.each do |manager_id|
+        attributes[:manager_ids]&.each do |manager_id|
           manager = Manager.find(manager_id)
           team.managers << manager unless team.managers.include? manager
         end
-        options.except!(:manager_ids)
+        attributes.except!(:manager_ids)
 
-        team.update!(**options)
+        team.update!(**attributes)
 
         if team.save
           {

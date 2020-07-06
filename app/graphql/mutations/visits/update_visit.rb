@@ -9,9 +9,9 @@ module Mutations
       field :visit, Types::VisitType, null: true
       field :errors, [String], null: false
 
-      def resolve(id:, **options)
+      def resolve(id:, **attributes)
         visit = Visit.find(id)
-        visit.update!(**options)
+        visit.update!(**attributes)
 
         if visit.save
           {

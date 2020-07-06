@@ -9,8 +9,8 @@ module Mutations
       field :team, Types::TeamType, null: true
       field :errors, [String], null: false
 
-      def resolve(name:, description:, email:, phone:)
-        team = Team.create(name: name, description: description, email: email, phone: phone)
+      def resolve(**attributes)
+        team = Team.create(**attributes)
 
         if team.save
           {

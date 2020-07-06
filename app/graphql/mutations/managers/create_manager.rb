@@ -13,7 +13,7 @@ module Mutations
 
       def resolve(team_id:, **attributes)
         team = Team.find(team_id)
-        manager = team.managers.create(attributes)
+        manager = team.managers.create(**attributes)
 
         if manager.save
           {
