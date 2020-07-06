@@ -9,3 +9,7 @@ export const defaultFormLayout = {
   layout: "vertical",
   size: "middle",
 }
+
+export const defaultTableSettings = {
+  pagination: { showQuickJumper: true, defaultPageSize: 15 },
+}

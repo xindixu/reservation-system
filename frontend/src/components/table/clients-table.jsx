@@ -4,14 +4,21 @@ import { Table, Button } from "antd"
 import { MailOutlined, PhoneOutlined } from "@ant-design/icons"
 import { getFullName } from "lib/utils"
 import { CLIENT } from "lib/commonTypes"
+import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const ClientsTable = ({ clients }) => (
-  <Table dataSource={clients} rowKey={({ id }) => id}>
+const ClientsTable = ({ clients, managers }) => (
+  <Table dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
     {clients[0]?.manager && (
-      <Column title="Manager" key="manager" render={({ manager }) => getFullName(manager)} />
+      <Column
+        title="Manager"
+        key="manager"
+        render={({ manager }) => getFullName(manager)}
+        filters={managers.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
+        onFilter={(filter, { manager }) => manager.id === filter}
+      />
     )}
 
     <Column title="Cycle" key="cycle" dataIndex="cycle" />

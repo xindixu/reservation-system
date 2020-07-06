@@ -4,16 +4,13 @@ import { Table } from "antd"
 import { CheckSquareOutlined, BorderOutlined } from "@ant-design/icons"
 import { getFullName } from "lib/utils"
 import { SLOT, MANAGER, TEAM } from "lib/commonTypes"
+import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
 const Slots = ({ slots, managers, teams }) => {
   return (
-    <Table
-      dataSource={slots}
-      rowKey={({ id }) => id}
-      pagination={{ showQuickJumper: true, defaultPageSize: 15 }}
-    >
+    <Table dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
       <Column title="Name" key="name" dataIndex="name" />
       {slots[0]?.manager && (
         <Column

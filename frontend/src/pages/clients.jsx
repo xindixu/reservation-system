@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
 import { GET_ALL_CLIENTS, CREATE_CLIENT } from "graphql/clients"
+import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 
@@ -12,6 +13,8 @@ const MODALS = {
 
 const Clients = () => {
   const { loading, error, data } = useQuery(GET_ALL_CLIENTS)
+  const { data: managersData } = useQuery(GET_ALL_MANAGERS)
+
   const [addClient] = useMutation(CREATE_CLIENT, {
     update: (cache, { data: { createClient } }) => {
       const { client } = createClient
@@ -36,7 +39,7 @@ const Clients = () => {
 
   return (
     <>
-      <ClientsTable clients={data.clients} />
+      <ClientsTable clients={data.clients} managers={managersData.managers} />
 
       {modalToShow === MODALS.addClient && (
         <Modal
