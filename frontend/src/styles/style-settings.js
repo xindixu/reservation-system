@@ -18,8 +18,8 @@ const styleSettings = {
   borderWidthSm: "1px",
   borderWidthMd: "3px",
 
-  borderRadiusBase: "15px",
-  borderRadiusLg: "32px",
+  borderRadiusBase: "2rem",
+  borderRadiusLg: "4rem",
 
   // font
   fontSizeXxs: "8px",

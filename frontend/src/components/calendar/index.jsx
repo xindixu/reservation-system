@@ -1,5 +1,6 @@
-import React, { useRef, useMemo } from "react"
+import React, { useRef, useMemo, useEffect } from "react"
 import PropTypes from "prop-types"
+import { useMeasure } from "react-use"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
@@ -27,6 +28,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
   )
 
   const calendar = useRef(null)
+  const [wrapperRef] = useMeasure()
 
   const onEventClick = (arg) => {
     onClickVisit(arg.event.id)
@@ -38,14 +40,14 @@ const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       <CalendarGlobalStyleOverride />
       <FullCalendar
         height="auto"
         headerToolbar={{
-          start: "prev,next today",
+          start: "prev next",
           center: "title",
-          end: "",
+          end: "today",
         }}
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable
@@ -68,5 +70,6 @@ const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
 Calendar.propTypes = {
   visits: PropTypes.arrayOf(PropTypes.shape(VISIT)).isRequired,
   onClickVisit: PropTypes.func.isRequired,
+  onEditVisit: PropTypes.func.isRequired,
 }
 export default Calendar

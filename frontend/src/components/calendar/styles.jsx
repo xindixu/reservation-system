@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components"
 import { styleSettings } from "styles/index"
 
-const { white } = styleSettings
+const { spacerLg, white, borderRadiusBase } = styleSettings
 
 export const Wrapper = styled.div``
 export const CalendarGlobalStyleOverride = createGlobalStyle`
@@ -12,7 +12,17 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
 
     .fc-button {
       text-transform: capitalize;
+      border-radius: 2px;
+      border-width: 1px;
     }
+
+    .fc-prev-button, .fc-next-button {
+      width: ${spacerLg};
+      height: ${spacerLg};
+      border-radius: ${borderRadiusBase};
+      padding: 0;
+    }
+
     .fc-button-primary {
       background-color: #1890ff;
       border-color: #1890ff;
@@ -37,6 +47,16 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
       box-shadow: none;
       background: #096dd9;
       border-color: #096dd9;
+    }
+
+    .fc-button-primary:disabled {
+      cursor: not-allowed;
+      color: rgba(0,0,0,.25);
+      background: #f5f5f5;
+      border-color: #d9d9d9;
+      text-shadow: none;
+      box-shadow: none;
+      opacity: 1;
     }
   }
 `
