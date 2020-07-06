@@ -8,7 +8,7 @@ import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const ClientsTable = ({ loading, clients, managers, edit }) => (
+const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) => (
   <Table loading={loading} dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
     {clients?.length && clients[0]?.manager && (
@@ -55,7 +55,7 @@ const ClientsTable = ({ loading, clients, managers, edit }) => (
           shape="circle"
           icon={<EditOutlined />}
           aria-label="edit"
-          onClick={() => edit(client)}
+          onClick={() => editClient(client)}
         />,
         <Button
           key={`delete-${client.id}`}
@@ -64,7 +64,7 @@ const ClientsTable = ({ loading, clients, managers, edit }) => (
           shape="circle"
           icon={<DeleteOutlined />}
           aria-label="delete"
-          onClick={() => {}}
+          onClick={() => deleteClient(client)}
         />,
       ]}
     />

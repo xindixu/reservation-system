@@ -11,6 +11,7 @@ module Types
     # Client
     field :create_client, mutation: Mutations::Clients::CreateClient
     field :update_client, mutation: Mutations::Clients::UpdateClient
+    field :destroy_client, mutation: Mutations::Clients::DestroyClient
 
     # Slot
     field :create_slot, mutation: Mutations::Slots::CreateSlot
@@ -19,6 +20,5 @@ module Types
     field :create_visit, mutation: Mutations::Visits::CreateVisit
     field :update_visit, mutation: Mutations::Visits::UpdateVisit
     field :destroy_visit, mutation: Mutations::Visits::DestroyVisit
-
   end
 end

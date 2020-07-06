@@ -1,15 +1,13 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Modal as AntModal } from "antd"
 import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT } from "graphql/clients"
+import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT, DESTROY_CLIENT } from "graphql/clients"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"
-
-const { confirm } = AntModal
+import getConfirm from "components/confirm"
 
 const MODALS = {
   addClient: "addClient",
@@ -35,6 +33,18 @@ const Clients = () => {
   })
 
   const [editClient] = useMutation(UPDATE_CLIENT)
+  const [deleteClient] = useMutation(DESTROY_CLIENT, {
+    update: (cache, { data: { destroyClient } }) => {
+      const { client } = destroyClient
+      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
+      cache.writeQuery({
+        query: GET_ALL_CLIENTS,
+        data: {
+          clients: clients.filter((c) => c.id !== client.id),
+        },
+      })
+    },
+  })
 
   const [selectedClient, setSelectedClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
@@ -49,11 +59,22 @@ const Clients = () => {
         loading={loading}
         clients={data?.clients}
         managers={managersData?.managers}
-        edit={(client) => {
+        editClient={(client) => {
           setSelectedClient(client)
           setModalToShow(MODALS.editClient)
         }}
-        delete={() => setModalToShow(MODALS.deleteClient)}
+        deleteClient={(client) =>
+          getConfirm({
+            content: (
+              <p>
+                You are about to delete <strong>{getFullName(client)}</strong>
+              </p>
+            ),
+            onConfirm: () => {
+              deleteClient({ variables: { id: client.id } })
+            },
+          })
+        }
       />
 
       {modalToShow === MODALS.addClient && (
