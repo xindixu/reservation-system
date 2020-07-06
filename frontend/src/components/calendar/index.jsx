@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from "react"
+import React, { useRef, useMemo } from "react"
 import PropTypes from "prop-types"
 import { useMeasure } from "react-use"
 import FullCalendar from "@fullcalendar/react"

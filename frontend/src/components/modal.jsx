@@ -34,8 +34,13 @@ const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteBut
           key="submit"
           type="primary"
           onClick={() => {
-            form.submit()
-            onClose()
+            form
+              .validateFields()
+              .then(() => {
+                form.submit()
+                onClose()
+              })
+              .catch()
           }}
         >
           {submitButtonText}

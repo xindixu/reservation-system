@@ -52,7 +52,7 @@ const DurationPicker = ({ defaultValue, onChange }) => {
 
 const ClientForm = ({ initialClient, form, onSubmit }) => {
   const { data } = useQuery(GET_ALL_MANAGERS)
-  const { firstName, lastName, email, phone, cycle, duration, managerId } = initialClient
+  const { duration, cycle } = initialClient
 
   return (
     <Form
@@ -68,20 +68,20 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
-            <Input type="text" defaultValue={firstName} />
+            <Input type="text" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
-            <Input type="text" defaultValue={lastName} />
+            <Input type="text" />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Email" name="email" rules={[{ required: true }]}>
-        <Input type="email" defaultValue={email} />
+      <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
+        <Input type="email" />
       </Form.Item>
       <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
-        <Input type="tel" defaultValue={phone} />
+        <Input type="tel" />
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
@@ -115,7 +115,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
         </Col>
       </Row>
       <Form.Item label="Manager" name="managerId" rules={[{ required: true }]}>
-        <Select defaultValue={managerId}>
+        <Select>
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
               {getFullName(manager)}

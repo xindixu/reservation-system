@@ -16,7 +16,7 @@ const TeamForm = ({ initialTeam, form, onSubmit }) => (
     <Form.Item label="Name" name="name" rules={[{ required: true }]}>
       <Input type="text" />
     </Form.Item>
-    <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+    <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
       <Input type="email" />
     </Form.Item>
     <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>

@@ -31,7 +31,7 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
       <Form.Item label="Job Title" name="jobTitle" rules={[{ required: true }]}>
         <Input type="text" />
       </Form.Item>
-      <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+      <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
         <Input type="email" />
       </Form.Item>
       <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
