@@ -6,6 +6,7 @@ const { spacerLg, white, borderRadiusBase } = styleSettings
 export const Wrapper = styled.div``
 export const CalendarGlobalStyleOverride = createGlobalStyle`
   .fc {
+    
     .fc-view-harness {
       background: ${white};
     }
@@ -58,5 +59,24 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
       box-shadow: none;
       opacity: 1;
     }
+
+    .fc-daygrid-day.fc-day-today {
+      background: none;
+    }
   }
+
+  .fc-theme-standard {
+    td, th, .fc-scrollgrid {
+      border: none;
+    }
+    .fc-daygrid-day-frame {
+      margin: 4px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .fc-day-today .fc-daygrid-day-frame {
+        background: rgba(255, 220, 40, 0.15);
+    }
+
+  } 
+
 `
