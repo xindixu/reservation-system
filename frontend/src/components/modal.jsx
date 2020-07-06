@@ -62,7 +62,8 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
+
   submitButtonText: PropTypes.string,
   deleteButtonText: PropTypes.string,
 }

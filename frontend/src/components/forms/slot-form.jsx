@@ -14,7 +14,7 @@ const SlotForm = ({ initialSlot, form, onSubmit }) => {
     <Form
       {...defaultFormLayout}
       form={form}
-      initialValues={initialSlot}
+      initialValues={{ shareable: false, ...initialSlot }}
       validateMessages={defaultValidateMessages}
       onFinish={onSubmit}
     >

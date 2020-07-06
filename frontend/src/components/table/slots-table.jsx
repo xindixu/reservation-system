@@ -17,7 +17,7 @@ const Slots = ({ slots, managers, teams }) => {
           title="Manager"
           key="manager"
           render={({ manager }) => getFullName(manager)}
-          filters={managers.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
+          filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
           onFilter={(filter, { manager }) => manager.id === filter}
         />
       )}
@@ -25,7 +25,7 @@ const Slots = ({ slots, managers, teams }) => {
         title="Team"
         key="team"
         render={({ team }) => team.name}
-        filters={teams.map(({ name, id }) => ({ text: name, value: id }))}
+        filters={teams?.map(({ name, id }) => ({ text: name, value: id }))}
         onFilter={(filter, { team }) => team.id === filter}
       />
       <Column

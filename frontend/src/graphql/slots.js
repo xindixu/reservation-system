@@ -16,13 +16,6 @@ export const GET_ALL_SLOTS = gql`
         firstName
         lastName
       }
-      visits {
-        startsAt
-        endsAt
-        client {
-          firstName
-        }
-      }
     }
   }
 `
@@ -40,20 +33,16 @@ export const CREATE_SLOT = gql`
       slot {
         id
         name
+        description
+        shareable
         manager {
+          id
           firstName
           lastName
-          team {
-            name
-          }
         }
-        description
-        visits {
-          startsAt
-          endsAt
-          client {
-            firstName
-          }
+        team {
+          id
+          name
         }
       }
     }

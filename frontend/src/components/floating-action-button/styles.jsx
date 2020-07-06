@@ -48,8 +48,9 @@ export const FAButtonPosition = styled.div`
   }
   svg {
     transform-origin: center;
-    ${({ rotate }) => (rotate ? rotateIn : rotateOut)}
     width: ${spacerMd};
     height: ${spacerMd};
+
+    ${({ rotate }) => (rotate ? rotateIn : rotateOut)}
   }
 `

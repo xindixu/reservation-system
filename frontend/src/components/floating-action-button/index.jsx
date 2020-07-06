@@ -15,6 +15,7 @@ FAButton.defaultProps = {
 }
 
 FAButton.propTypes = {
+  rotate: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string.isRequired,
   icon: PropTypes.node,
