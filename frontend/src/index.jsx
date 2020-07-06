@@ -4,6 +4,7 @@ import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks"
 import "antd/dist/antd.css"
 import "./tailwind.css"
+import "./index.css"
 import * as serviceWorker from "./serviceWorker"
 import App from "./App"
 
