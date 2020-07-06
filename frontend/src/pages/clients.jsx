@@ -9,6 +9,8 @@ import FAButton from "components/floating-action-button"
 
 const MODALS = {
   addClient: "addClient",
+  editClient: "editClient",
+  deleteClient: "deleteClient",
 }
 
 const Clients = () => {
@@ -30,16 +32,19 @@ const Clients = () => {
 
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
-    return "Loading..."
-  }
   if (error) {
     return `Error! ${error.message}`
   }
 
   return (
     <>
-      <ClientsTable clients={data.clients} managers={managersData.managers} />
+      <ClientsTable
+        loading={loading}
+        clients={data?.clients}
+        managers={managersData?.managers}
+        edit={() => setModalToShow(MODALS.editClient)}
+        delete={() => setModalToShow(MODALS.deleteClient)}
+      />
 
       {modalToShow === MODALS.addClient && (
         <Modal

@@ -1,17 +1,17 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Table, Button } from "antd"
-import { MailOutlined, PhoneOutlined } from "@ant-design/icons"
+import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { getFullName } from "lib/utils"
-import { CLIENT } from "lib/commonTypes"
+import { CLIENT, MANAGER } from "lib/commonTypes"
 import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const ClientsTable = ({ clients, managers }) => (
-  <Table dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
+const ClientsTable = ({ loading, clients, managers }) => (
+  <Table loading={loading} dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
-    {clients[0]?.manager && (
+    {clients?.length && clients[0]?.manager && (
       <Column
         title="Manager"
         key="manager"
@@ -32,7 +32,7 @@ const ClientsTable = ({ clients, managers }) => (
           type="link"
           size="small"
           icon={<MailOutlined />}
-          aria-label="email team"
+          aria-label="email"
           href={`mailto:${email}`}
         />,
         <Button
@@ -40,8 +40,31 @@ const ClientsTable = ({ clients, managers }) => (
           type="link"
           size="small"
           icon={<PhoneOutlined />}
-          aria-label="call team"
+          aria-label="call"
           href={`tel:${phone}`}
+        />,
+      ]}
+    />
+    <Column
+      title="Action"
+      key="actions"
+      render={({ id }) => [
+        <Button
+          key={`edit-${id}`}
+          size="small"
+          shape="circle"
+          icon={<EditOutlined />}
+          aria-label="edit"
+          onClick={() => {}}
+        />,
+        <Button
+          key={`delete-${id}`}
+          size="small"
+          type="danger"
+          shape="circle"
+          icon={<DeleteOutlined />}
+          aria-label="delete"
+          onClick={() => {}}
         />,
       ]}
     />
@@ -49,7 +72,9 @@ const ClientsTable = ({ clients, managers }) => (
 )
 
 ClientsTable.propTypes = {
+  loading: PropTypes.bool.isRequired,
   clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
+  managers: PropTypes.arrayOf(PropTypes.shape(MANAGER)).isRequired,
 }
 
 export default ClientsTable

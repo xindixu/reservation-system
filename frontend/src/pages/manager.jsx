@@ -50,9 +50,7 @@ const Manager = () => {
   })
 
   const [editManager] = useMutation(UPDATE_MANAGER)
-
   const [modalToShow, setModalToShow] = useState("")
-  const [updatedManager, setUpdatedManager] = useState(data?.manager)
 
   if (loading) {
     return "Loading..."

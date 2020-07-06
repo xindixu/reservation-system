@@ -8,19 +8,17 @@ import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const Slots = ({ slots, managers, teams }) => {
+const Slots = ({ loading, slots, managers, teams }) => {
   return (
-    <Table dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
+    <Table loading={loading} dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
       <Column title="Name" key="name" dataIndex="name" />
-      {slots[0]?.manager && (
-        <Column
-          title="Manager"
-          key="manager"
-          render={({ manager }) => getFullName(manager)}
-          filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
-          onFilter={(filter, { manager }) => manager.id === filter}
-        />
-      )}
+      <Column
+        title="Manager"
+        key="manager"
+        render={({ manager }) => getFullName(manager)}
+        filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
+        onFilter={(filter, { manager }) => manager.id === filter}
+      />
       <Column
         title="Team"
         key="team"
@@ -44,6 +42,7 @@ const Slots = ({ slots, managers, teams }) => {
 }
 
 Slots.propTypes = {
+  loading: PropTypes.bool.isRequired,
   slots: PropTypes.arrayOf(PropTypes.shape(SLOT).isRequired).isRequired,
   managers: PropTypes.arrayOf(PropTypes.shape(MANAGER).isRequired).isRequired,
   teams: PropTypes.arrayOf(PropTypes.shape(TEAM).isRequired).isRequired,

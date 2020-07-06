@@ -31,23 +31,22 @@ const Slot = () => {
 
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
-    return "Loading..."
-  }
   if (error) {
     return `Error! ${error.message}`
   }
 
   return (
     <>
-      <SlotTable slots={data.slots} managers={managersData?.managers} teams={teamsData?.teams} />
+      <SlotTable
+        loading={loading}
+        slots={data?.slots}
+        managers={managersData?.managers}
+        teams={teamsData?.teams}
+      />
       {modalToShow === MODALS.addSlot && (
         <Modal title="Create New Slot" onClose={() => setModalToShow("")} submitButtonText="Create">
           {({ form }) => (
-            <SlotForm
-              form={form}
-              onSubmit={(values) => console.log(values) || addSlot({ variables: values })}
-            />
+            <SlotForm form={form} onSubmit={(values) => addSlot({ variables: values })} />
           )}
         </Modal>
       )}
