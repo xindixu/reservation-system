@@ -5,14 +5,17 @@ export const GET_ALL_SLOTS = gql`
     slots {
       id
       name
+      description
+      shareable
+      team {
+        id
+        name
+      }
       manager {
+        id
         firstName
         lastName
-        team {
-          name
-        }
       }
-      description
       visits {
         startsAt
         endsAt
@@ -24,39 +27,33 @@ export const GET_ALL_SLOTS = gql`
   }
 `
 
-export const CREATE_CLIENT = gql`
-  mutation CreateClient(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $phone: String!
-    $cycle: Int!
-    $duration: Int!
-    $managerId: ID!
-  ) {
-    createClient(
+export const CREATE_SLOT = gql`
+  mutation CreateSlot($name: String!, $description: String, $shareable: Boolean!, $managerId: ID!) {
+    createSlot(
       input: {
-        firstName: $firstName
-        lastName: $lastName
-        email: $email
-        phone: $phone
-        cycle: $cycle
-        duration: $duration
+        name: $name
+        description: $description
+        shareable: $shareable
         managerId: $managerId
       }
     ) {
-      client {
+      slot {
         id
-        firstName
-        lastName
-        email
-        phone
-        cycle
-        duration
+        name
         manager {
-          id
           firstName
           lastName
+          team {
+            name
+          }
+        }
+        description
+        visits {
+          startsAt
+          endsAt
+          client {
+            firstName
+          }
         }
       }
     }

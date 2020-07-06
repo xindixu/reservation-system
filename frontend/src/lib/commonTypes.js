@@ -34,6 +34,13 @@ export const CLIENT = {
   phone: PropTypes.string.isRequired,
 }
 
+export const SLOT = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  shareable: PropTypes.bool.isRequired,
+}
+
 export const FORM = {
   setFieldsValue: PropTypes.func.isRequired,
   getFieldsValue: PropTypes.func.isRequired,
