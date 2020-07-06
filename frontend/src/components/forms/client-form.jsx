@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
+import { isEmpty } from "lodash"
 import { useQuery } from "@apollo/react-hooks"
 import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
@@ -12,10 +13,11 @@ const { Option } = Select
 
 const validateMessages = {
   ...defaultValidateMessages,
+  durationRequired: "Duration is required",
   durationLessThanCycle: "Duration must be less than cycle.",
 }
 
-const DurationPicker = ({ defaultValue, onChange }) => {
+const DurationPicker = ({ value, onChange }) => {
   const [num, setNum] = useState(0)
   const [unit, setUnit] = useState("d")
   const UNITS = {
@@ -23,21 +25,38 @@ const DurationPicker = ({ defaultValue, onChange }) => {
     w: "week(s)",
     M: "month(s)",
   }
+
+  const triggerChange = (changedValue) => {
+    if (onChange) {
+      onChange({
+        num,
+        unit,
+        ...value,
+        ...changedValue,
+      })
+    }
+  }
+
   return (
     <Input.Group compact>
       <InputNumber
         min={1}
-        defaultValue={defaultValue}
+        value={value.num}
         onChange={(newNum) => {
           setNum(newNum)
-          onChange(durationHelper(newNum, unit).asDays())
+          triggerChange({
+            num: newNum,
+          })
         }}
       />
+
       <Select
-        defaultValue={unit}
+        value={value.unit}
         onChange={(newUnit) => {
           setUnit(newUnit)
-          onChange(durationHelper(num, newUnit).asDays())
+          triggerChange({
+            unit: newUnit,
+          })
         }}
       >
         {Object.keys(UNITS).map((key) => (
@@ -52,18 +71,36 @@ const DurationPicker = ({ defaultValue, onChange }) => {
 
 const ClientForm = ({ initialClient, form, onSubmit }) => {
   const { data } = useQuery(GET_ALL_MANAGERS)
-  const { duration, cycle } = initialClient
 
+  const initialValues = {
+    ...initialClient,
+    cycle: {
+      num: initialClient.cycle,
+      unit: "d",
+    },
+    duration: {
+      num: initialClient.duration,
+      unit: "d",
+    },
+  }
+
+  const onFinish = (fieldValues) => {
+    const { cycle, duration } = fieldValues
+    const values = {
+      ...fieldValues,
+      cycle: durationHelper(cycle.num, cycle.unit).asDays(),
+      duration: durationHelper(duration.num, duration.unit).asDays(),
+    }
+    onSubmit(values)
+  }
   return (
     <Form
       {...defaultFormLayout}
       form={form}
-      initialValues={{
-        ...initialClient,
-      }}
+      initialValues={initialValues}
       scrollToFirstError
       validateMessages={validateMessages}
-      onFinish={onSubmit}
+      onFinish={onFinish}
     >
       <Row gutter={16}>
         <Col span={12}>
@@ -86,10 +123,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="Cycle" name="cycle" rules={[{ required: true }]}>
-            <DurationPicker
-              defaultValue={cycle}
-              onChange={(value) => form.setFieldsValue({ cycle: value })}
-            />
+            <DurationPicker />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -100,17 +134,22 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
             rules={[
               { required: true },
               {
-                validator: (_, value) =>
-                  value < form.getFieldsValue().cycle
-                    ? Promise.resolve()
-                    : Promise.reject(validateMessages.durationLessThanCycle),
+                validator: (_, value) => {
+                  const { cycle: updatedCycle } = form.getFieldsValue()
+                  const cycleLength = durationHelper(updatedCycle.num, updatedCycle.unit).asDays()
+                  const durationLength = durationHelper(value.num, value.unit).asDays()
+                  if (!durationLength) {
+                    return Promise.reject(validateMessages.durationRequired)
+                  }
+                  if (cycleLength < durationLength) {
+                    return Promise.reject(validateMessages.durationLessThanCycle)
+                  }
+                  return Promise.resolve()
+                },
               },
             ]}
           >
-            <DurationPicker
-              defaultValue={duration}
-              onChange={(value) => form.setFieldsValue({ duration: value })}
-            />
+            <DurationPicker />
           </Form.Item>
         </Col>
       </Row>

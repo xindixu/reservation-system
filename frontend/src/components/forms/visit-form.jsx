@@ -16,10 +16,10 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
 
   const [allDay, setAllDay] = useState(true)
 
-  const onFinish = (fieldsValue) => {
-    const { visit } = fieldsValue
+  const onFinish = (fieldValues) => {
+    const { visit } = fieldValues
     const values = {
-      ...fieldsValue,
+      ...fieldValues,
       startsAt: visit[0]?.toISOString(),
       endsAt: visit[1]?.toISOString(),
     }

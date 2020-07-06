@@ -10,6 +10,7 @@ module Types
 
     # Client
     field :create_client, mutation: Mutations::Clients::CreateClient
+    field :update_client, mutation: Mutations::Clients::UpdateClient
 
     # Slot
     field :create_slot, mutation: Mutations::Slots::CreateSlot

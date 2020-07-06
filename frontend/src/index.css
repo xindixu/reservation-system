@@ -1,3 +1,7 @@
 svg {
   vertical-align: baseline;
 }
+
+.ant-input-group.ant-input-group-compact > *:last-child {
+  border-right-width: 0;
+}

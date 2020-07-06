@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
+import { Modal as AntModal } from "antd"
 import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
 import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT } from "graphql/clients"
@@ -7,6 +8,8 @@ import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"
+
+const { confirm } = AntModal
 
 const MODALS = {
   addClient: "addClient",
@@ -68,13 +71,13 @@ const Clients = () => {
         <Modal
           title={`Edit ${getFullName(selectedClient)}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Create"
+          submitButtonText="Update"
         >
           {({ form }) => (
             <ClientFrom
               form={form}
               initialClient={{ ...selectedClient, managerId: selectedClient.manager.id }}
-              onSubmit={(values) => editClient({ variables: values })}
+              onSubmit={(values) => editClient({ variables: { id: selectedClient.id, ...values } })}
             />
           )}
         </Modal>

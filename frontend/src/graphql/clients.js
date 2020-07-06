@@ -57,3 +57,44 @@ export const CREATE_CLIENT = gql`
     }
   }
 `
+
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient(
+    $id: ID!
+    $firstName: String!
+    $lastName: String
+    $email: String
+    $phone: String
+    $cycle: Int
+    $duration: Int
+    $managerId: ID
+  ) {
+    updateClient(
+      input: {
+        id: $id
+        firstName: $firstName
+        lastName: $lastName
+        email: $email
+        phone: $phone
+        cycle: $cycle
+        duration: $duration
+        managerId: $managerId
+      }
+    ) {
+      client {
+        id
+        firstName
+        lastName
+        email
+        phone
+        cycle
+        duration
+        manager {
+          id
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`

@@ -48,17 +48,17 @@ const ClientsTable = ({ loading, clients, managers, edit }) => (
     <Column
       title="Action"
       key="actions"
-      render={({ id }) => [
+      render={(client) => [
         <Button
-          key={`edit-${id}`}
+          key={`edit-${client.id}`}
           size="small"
           shape="circle"
           icon={<EditOutlined />}
           aria-label="edit"
-          onClick={() => edit(id)}
+          onClick={() => edit(client)}
         />,
         <Button
-          key={`delete-${id}`}
+          key={`delete-${client.id}`}
           size="small"
           type="danger"
           shape="circle"
