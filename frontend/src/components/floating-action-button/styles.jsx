@@ -47,6 +47,7 @@ export const FAButtonPosition = styled.div`
     padding: 0;
   }
   svg {
+    vertical-align: middle;
     transform-origin: center;
     width: ${spacerMd};
     height: ${spacerMd};

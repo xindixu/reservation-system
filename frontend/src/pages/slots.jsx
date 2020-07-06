@@ -53,7 +53,7 @@ const Slot = () => {
       <FAButton
         onClick={() => setModalToShow(MODALS.addSlot)}
         ariaLabel="new client"
-        rotate={modalToShow}
+        rotate={!!modalToShow}
       />
     </>
   )

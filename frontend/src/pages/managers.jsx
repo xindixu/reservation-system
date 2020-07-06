@@ -40,7 +40,7 @@ const Managers = () => {
       <FAButton
         onClick={() => setModalToShow(MODALS.addManager)}
         ariaLabel="new manager"
-        rotate={modalToShow}
+        rotate={!!modalToShow}
       />
       {modalToShow === MODALS.addManager && (
         <Modal

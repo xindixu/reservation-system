@@ -8,7 +8,7 @@ import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const ClientsTable = ({ loading, clients, managers }) => (
+const ClientsTable = ({ loading, clients, managers, edit }) => (
   <Table loading={loading} dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
     {clients?.length && clients[0]?.manager && (
@@ -16,7 +16,7 @@ const ClientsTable = ({ loading, clients, managers }) => (
         title="Manager"
         key="manager"
         render={({ manager }) => getFullName(manager)}
-        filters={managers.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
+        filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
         onFilter={(filter, { manager }) => manager.id === filter}
       />
     )}
@@ -55,7 +55,7 @@ const ClientsTable = ({ loading, clients, managers }) => (
           shape="circle"
           icon={<EditOutlined />}
           aria-label="edit"
-          onClick={() => {}}
+          onClick={() => edit(id)}
         />,
         <Button
           key={`delete-${id}`}

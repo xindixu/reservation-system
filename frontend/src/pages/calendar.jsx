@@ -107,7 +107,7 @@ const CalendarPage = () => {
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
         ariaLabel="New Visit"
-        rotate={modalToShow}
+        rotate={!!modalToShow}
       />
     </>
   )

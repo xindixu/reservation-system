@@ -47,7 +47,7 @@ const Teams = () => {
       <FAButton
         onClick={() => setModalToShow(MODALS.addTeam)}
         ariaLabel="new Team"
-        rotate={modalToShow}
+        rotate={!!modalToShow}
       />
     </>
   )

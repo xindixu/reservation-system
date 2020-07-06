@@ -2,10 +2,11 @@ import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import ClientFrom from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-import { GET_ALL_CLIENTS, CREATE_CLIENT } from "graphql/clients"
+import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT } from "graphql/clients"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
+import { getFullName } from "lib/utils"
 
 const MODALS = {
   addClient: "addClient",
@@ -30,6 +31,9 @@ const Clients = () => {
     },
   })
 
+  const [editClient] = useMutation(UPDATE_CLIENT)
+
+  const [selectedClient, setSelectedClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
   if (error) {
@@ -42,7 +46,10 @@ const Clients = () => {
         loading={loading}
         clients={data?.clients}
         managers={managersData?.managers}
-        edit={() => setModalToShow(MODALS.editClient)}
+        edit={(client) => {
+          setSelectedClient(client)
+          setModalToShow(MODALS.editClient)
+        }}
         delete={() => setModalToShow(MODALS.deleteClient)}
       />
 
@@ -57,10 +64,25 @@ const Clients = () => {
           )}
         </Modal>
       )}
+      {modalToShow === MODALS.editClient && (
+        <Modal
+          title={`Edit ${getFullName(selectedClient)}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText="Create"
+        >
+          {({ form }) => (
+            <ClientFrom
+              form={form}
+              initialClient={{ ...selectedClient, managerId: selectedClient.manager.id }}
+              onSubmit={(values) => editClient({ variables: values })}
+            />
+          )}
+        </Modal>
+      )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addClient)}
         ariaLabel="new client"
-        rotate={modalToShow}
+        rotate={!!modalToShow}
       />
     </>
   )
