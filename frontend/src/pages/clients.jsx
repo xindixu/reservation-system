@@ -42,10 +42,11 @@ const Clients = () => {
         <Modal
           title="Create New Client"
           onClose={() => setModalToShow("")}
-          onSubmit={(values) => addClient({ variables: values })}
           submitButtonText="Create"
         >
-          {({ form }) => <ClientFrom form={form} />}
+          {({ form }) => (
+            <ClientFrom form={form} onSubmit={(values) => addClient({ variables: values })} />
+          )}
         </Modal>
       )}
       <FAButton

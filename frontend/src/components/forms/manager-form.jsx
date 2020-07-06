@@ -6,7 +6,7 @@ import { GET_ALL_TEAMS } from "graphql/teams"
 import { MANAGER, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const ManagerForm = ({ form, initialManager }) => {
+const ManagerForm = ({ form, initialManager, onSubmit }) => {
   const { data } = useQuery(GET_ALL_TEAMS)
   return (
     <Form
@@ -14,6 +14,7 @@ const ManagerForm = ({ form, initialManager }) => {
       form={form}
       initialValues={initialManager}
       validateMessages={defaultValidateMessages}
+      onFinish={onSubmit}
     >
       <Row gutter={16}>
         <Col span={12}>
@@ -55,6 +56,7 @@ ManagerForm.defaultProps = {
 ManagerForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   initialManager: PropTypes.shape(MANAGER),
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default ManagerForm

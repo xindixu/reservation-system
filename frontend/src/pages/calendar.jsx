@@ -84,7 +84,7 @@ const CalendarPage = () => {
             <VisitForm
               initialVisit={selectedVisit}
               form={form}
-              disabled={{ client: true }}
+              disabled={{ clientId: true }}
               onSubmit={(values) => {
                 editVisit({ variables: { id: selectedVisit.id, ...values } })
                 setSelectedVisit({})

@@ -25,7 +25,7 @@ const Teams = () => {
       })
     },
   })
-  const [team, setTeam] = useState()
+
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -38,13 +38,10 @@ const Teams = () => {
     <>
       <TeamsGrid teams={data.teams} />
       {modalToShow === MODALS.addTeam && (
-        <Modal
-          title="Create New Team"
-          onClose={() => setModalToShow("")}
-          onSubmit={(values) => addTeam({ variables: values })}
-          submitButtonText="Create"
-        >
-          {({ form }) => <TeamForm form={form} />}
+        <Modal title="Create New Team" onClose={() => setModalToShow("")} submitButtonText="Create">
+          {({ form }) => (
+            <TeamForm form={form} onSubmit={(values) => addTeam({ variables: values })} />
+          )}
         </Modal>
       )}
       <FAButton

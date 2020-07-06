@@ -5,12 +5,13 @@ import { Form, Input } from "antd"
 import { TEAM, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const TeamForm = ({ initialTeam, form }) => (
+const TeamForm = ({ initialTeam, form, onSubmit }) => (
   <Form
     {...defaultFormLayout}
     form={form}
     initialValues={initialTeam}
     validateMessages={defaultValidateMessages}
+    onFinish={onSubmit}
   >
     <Form.Item label="Name" name="name" rules={[{ required: true }]}>
       <Input type="text" />
@@ -34,6 +35,7 @@ TeamForm.defaultProps = {
 TeamForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   initialTeam: PropTypes.shape(TEAM),
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default TeamForm

@@ -38,7 +38,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
       onFinish={onFinish}
     >
       <Form.Item label="Client" name="clientId" rules={[{ required: true }]}>
-        <Select disabled={disabled.client}>
+        <Select disabled={disabled.clientId}>
           {clientData?.clients.map(({ id, firstName, lastName }) => (
             <Select.Option value={id} key={id}>
               {firstName} {lastName}

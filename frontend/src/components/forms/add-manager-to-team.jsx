@@ -7,7 +7,7 @@ import { GET_ALL_MANAGERS } from "graphql/managers"
 import { TEAM, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const AddManagerToTeam = ({ form, initialTeam, setNumOfManagersToAdd }) => {
+const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }) => {
   const { data, loading } = useQuery(GET_ALL_MANAGERS)
 
   if (loading) {
@@ -33,6 +33,7 @@ const AddManagerToTeam = ({ form, initialTeam, setNumOfManagersToAdd }) => {
         form={form}
         initialValues={initialTeam}
         validateMessages={defaultValidateMessages}
+        onFinish={onSubmit}
       >
         <Form.Item label="Add Managers" name="managerIds">
           <Select
@@ -65,8 +66,9 @@ const AddManagerToTeam = ({ form, initialTeam, setNumOfManagersToAdd }) => {
 }
 
 AddManagerToTeam.propTypes = {
-  initialTeam: PropTypes.shape(TEAM).isRequired,
   form: PropTypes.shape(FORM).isRequired,
+  initialTeam: PropTypes.shape(TEAM).isRequired,
+  onSubmit: PropTypes.func.isRequired,
   setManagersCount: PropTypes.func.isRequired,
 }
 export default AddManagerToTeam

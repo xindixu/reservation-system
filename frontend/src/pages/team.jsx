@@ -95,15 +95,16 @@ const Team = () => {
       <ManagersGrid managers={managers} />
 
       {modalToShow === MODALS.editTeam && (
-        <Modal
-          title={`Edit ${name}`}
-          onClose={() => setModalToShow("")}
-          submitButtonText="Update"
-          onSubmit={(values) => {
-            editTeam({ variables: { id, ...values } })
-          }}
-        >
-          {({ form }) => <TeamForm initialTeam={team} form={form} />}
+        <Modal title={`Edit ${name}`} onClose={() => setModalToShow("")} submitButtonText="Update">
+          {({ form }) => (
+            <TeamForm
+              initialTeam={team}
+              form={form}
+              onSubmit={(values) => {
+                editTeam({ variables: { id, ...values } })
+              }}
+            />
+          )}
         </Modal>
       )}
       {modalToShow === MODALS.addManagerToTeam && (
@@ -111,15 +112,15 @@ const Team = () => {
           title={`Add Manager To ${name}`}
           onClose={() => setModalToShow("")}
           submitButtonText={`Add ${numOfManagersToAdd} Managers`}
-          onSubmit={(values) => {
-            editTeam({ variables: { id, ...values } })
-          }}
         >
           {({ form }) => (
             <AddManagerToTeam
               initialTeam={team}
               form={form}
               setNumOfManagersToAdd={setNumOfManagersToAdd}
+              onSubmit={(values) => {
+                editTeam({ variables: { id, ...values } })
+              }}
             />
           )}
         </Modal>

@@ -50,7 +50,7 @@ const DurationPicker = ({ defaultValue, onChange }) => {
   )
 }
 
-const ClientForm = ({ initialClient, form }) => {
+const ClientForm = ({ initialClient, form, onSubmit }) => {
   const { data } = useQuery(GET_ALL_MANAGERS)
   const { firstName, lastName, email, phone, cycle, duration, managerId } = initialClient
 
@@ -63,6 +63,7 @@ const ClientForm = ({ initialClient, form }) => {
       }}
       scrollToFirstError
       validateMessages={validateMessages}
+      onFinish={onSubmit}
     >
       <Row gutter={16}>
         <Col span={12}>
@@ -133,6 +134,7 @@ ClientForm.defaultProps = {
 ClientForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   initialClient: PropTypes.shape(CLIENT),
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default ClientForm
