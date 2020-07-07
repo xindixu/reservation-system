@@ -75,6 +75,8 @@ ClientsTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
   managers: PropTypes.arrayOf(PropTypes.shape(MANAGER)).isRequired,
+  editClient: PropTypes.func.isRequired,
+  deleteClient: PropTypes.func.isRequired,
 }
 
 export default ClientsTable
