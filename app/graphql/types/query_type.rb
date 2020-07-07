@@ -1,20 +1,5 @@
 module Types
   class QueryType < Types::BaseObject
-    # /managers
-    field :managers, [Types::ManagerType], null: false
-
-    def managers
-      Manager.all
-    end
-
-    field :manager, Types::ManagerType, null: false do
-      argument :id, ID, required: true
-    end
-
-    def manager(id:)
-      Manager.find(id)
-    end
-
     # /teams
     field :teams, [Types::TeamType], null: false
 
@@ -28,6 +13,21 @@ module Types
 
     def team(id:)
       Team.find(id)
+    end
+
+    # /managers
+    field :managers, [Types::ManagerType], null: false
+
+    def managers
+      Manager.all
+    end
+
+    field :manager, Types::ManagerType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def manager(id:)
+      Manager.find(id)
     end
 
     # /clients
@@ -73,6 +73,21 @@ module Types
 
     def visit(id:)
       Visit.find(id)
+    end
+
+    # /serve
+    field :serves, [Types::ServeType], null: false
+
+    def serves
+      Serve.all
+    end
+
+    field :serve, Types::ServeType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def serve(id:)
+      Serve.find(id)
     end
 
   end

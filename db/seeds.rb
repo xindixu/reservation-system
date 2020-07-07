@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-3.times do
+5.times do
   team = Team.create(
     name: Faker::Company.name,
     description: Faker::Lorem.sentence(word_count: 10),
@@ -15,19 +15,19 @@
     phone: Faker::PhoneNumber.phone_number
   )
 
+  slots = []
+  clients = []
+  managers = []
+  
   5.times do
-    first_name = Faker::Name.first_name
     manager = team.managers.create(
-      first_name: first_name,
+      first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
       email: Faker::Internet.email,
       phone: Faker::PhoneNumber.phone_number,
       job_title: Faker::Job.title
     )
-
-
-    slots = []
-    clients = []
+    managers << manager
 
     5.times do 
       slot = Slot.create(
@@ -39,28 +39,35 @@
       )
       slots << slot
     end
+  end
 
-    10.times do
-      client = manager.clients.create(
-        first_name: Faker::Name.first_name,
-        last_name: Faker::Name.last_name,
-        email: Faker::Internet.email,
-        phone: Faker::PhoneNumber.phone_number,
-        cycle: Faker::Number.between(from: 20, to: 40),
-        duration: Faker::Number.between(from: 1, to: 20),
-      )
-      clients << client
-    end
+  10.times do
+    client = Client.create(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.email,
+      phone: Faker::PhoneNumber.phone_number,
+      cycle: Faker::Number.between(from: 20, to: 40),
+      duration: Faker::Number.between(from: 1, to: 20),
+    )
+    clients << client
+  end
 
-    5.times do
-      start_at = Faker::Date.in_date_period
-      Visit.create(
-        starts_at: start_at,
-        ends_at: start_at + 10.days,
-        client_id: clients[Faker::Number.between(from: 0, to: clients.size - 1)].id,
-        slot_id: slots[Faker::Number.between(from: 0, to: slots.size - 1)].id,
-      )
-    end
+  5.times do
+    start_at = Faker::Date.in_date_period
+    Visit.create(
+      starts_at: start_at,
+      ends_at: start_at + 10.days,
+      client_id: clients[Faker::Number.between(from: 0, to: clients.size - 1)].id,
+      slot_id: slots[Faker::Number.between(from: 0, to: slots.size - 1)].id,
+    )
+  end
+
+  5.times do
+    Serve.create(
+      manager_id: managers[Faker::Number.between(from: 0, to: managers.size - 1)].id,
+      client_id: clients[Faker::Number.between(from: 0, to: clients.size - 1)].id,
+    )
   end
 end
 
