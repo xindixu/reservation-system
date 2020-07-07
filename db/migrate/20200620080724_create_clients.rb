@@ -7,7 +7,6 @@ class CreateClients < ActiveRecord::Migration[6.0]
       t.string :phone
       t.integer :cycle
       t.integer :duration
-      t.belongs_to :manager, null: false, foreign_key: true
 
       t.timestamps
     end

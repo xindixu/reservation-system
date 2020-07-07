@@ -3,6 +3,7 @@ class Manager < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   belongs_to :team
-  has_many :clients
+  has_many :serves
+  has_many :clients, through: :serves
   has_many :slots
 end
