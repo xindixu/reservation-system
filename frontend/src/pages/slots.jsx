@@ -8,6 +8,7 @@ import { GET_ALL_SLOTS, CREATE_SLOT, UPDATE_SLOT, DESTROY_SLOT } from "graphql/s
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { GET_ALL_TEAMS } from "graphql/teams"
 import getConfirm from "components/confirm"
+import { GET_ALL_VISITS } from "graphql/visits"
 
 const MODALS = {
   addSlot: "addSlot",
@@ -36,10 +37,17 @@ const Slot = () => {
     update: (cache, { data: { destroySlot } }) => {
       const { slot } = destroySlot
       const { slots } = cache.readQuery({ query: GET_ALL_SLOTS })
+      const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
       cache.writeQuery({
         query: GET_ALL_SLOTS,
         data: {
           slots: slots.filter((s) => s.id !== slot.id),
+        },
+      })
+      cache.writeQuery({
+        query: GET_ALL_VISITS,
+        data: {
+          visits: visits.filter((v) => v.slot.id !== slot.id),
         },
       })
     },
@@ -98,7 +106,7 @@ const Slot = () => {
                 managerId: selectedSlot.manager?.id,
                 teamId: selectedSlot.team?.id,
               }}
-              onSubmit={(values) => editSlot({ variables: values })}
+              onSubmit={(values) => editSlot({ variables: { id: selectedSlot.id, ...values } })}
             />
           )}
         </Modal>
