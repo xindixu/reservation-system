@@ -1,31 +1,22 @@
 import { gql } from "apollo-boost"
+import { FRAGMENT_MANAGER } from "./fragments"
 
 export const GET_ALL_MANAGERS = gql`
   query Managers {
     managers {
-      id
-      firstName
-      lastName
-      jobTitle
-      email
-      phone
-      clientsCount
+      ...Extended
       team {
         id
       }
     }
   }
+  ${FRAGMENT_MANAGER}
 `
 
 export const GET_MANAGER_BY_ID = gql`
   query Manager($id: ID!) {
     manager(id: $id) {
-      id
-      firstName
-      lastName
-      jobTitle
-      email
-      phone
+      ...Extended
       team {
         id
         name
@@ -38,6 +29,7 @@ export const GET_MANAGER_BY_ID = gql`
       }
     }
   }
+  ${FRAGMENT_MANAGER}
 `
 
 export const CREATE_MANAGER = gql`

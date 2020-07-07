@@ -1,22 +1,18 @@
 import { gql } from "apollo-boost"
+import { FRAGMENT_CLIENT } from "./fragments"
 
 export const GET_ALL_CLIENTS = gql`
   query {
     clients {
-      id
-      firstName
-      lastName
-      email
-      phone
-      cycle
-      duration
-      manager {
+      ...Extended
+      managers {
         id
         firstName
         lastName
       }
     }
   }
+  ${FRAGMENT_CLIENT}
 `
 
 export const CREATE_CLIENT = gql`
@@ -48,7 +44,7 @@ export const CREATE_CLIENT = gql`
         phone
         cycle
         duration
-        manager {
+        managers {
           id
           firstName
           lastName
@@ -89,7 +85,7 @@ export const UPDATE_CLIENT = gql`
         phone
         cycle
         duration
-        manager {
+        managers {
           id
           firstName
           lastName

@@ -14,11 +14,6 @@ export const GET_ALL_VISITS = gql`
         id
         firstName
         lastName
-        manager {
-          id
-          firstName
-          lastName
-        }
       }
     }
   }
@@ -46,11 +41,6 @@ export const CREATE_VISIT = gql`
           id
           firstName
           lastName
-          manager {
-            id
-            firstName
-            lastName
-          }
         }
       }
     }
@@ -72,11 +62,6 @@ export const UPDATE_VISIT = gql`
           id
           firstName
           lastName
-          manager {
-            id
-            firstName
-            lastName
-          }
         }
       }
     }
