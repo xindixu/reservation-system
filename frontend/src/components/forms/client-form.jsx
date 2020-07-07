@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { isEmpty } from "lodash"
 import { useQuery } from "@apollo/react-hooks"
 import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
@@ -153,8 +152,8 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Manager" name="managerId" rules={[{ required: true }]}>
-        <Select>
+      <Form.Item label="Managers" name="managerIds">
+        <Select mode="multiple">
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
               {getFullName(manager)}
@@ -172,7 +171,10 @@ ClientForm.defaultProps = {
 
 ClientForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
-  initialClient: PropTypes.shape(CLIENT),
+  initialClient: PropTypes.shape({
+    ...CLIENT,
+    managerIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  }),
   onSubmit: PropTypes.func.isRequired,
 }
 

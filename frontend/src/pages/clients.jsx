@@ -98,7 +98,10 @@ const Clients = () => {
           {({ form }) => (
             <ClientFrom
               form={form}
-              initialClient={{ ...selectedClient, managerId: selectedClient.manager.id }}
+              initialClient={{
+                ...selectedClient,
+                managerIds: selectedClient.managers.map((m) => m.id),
+              }}
               onSubmit={(values) => editClient({ variables: { id: selectedClient.id, ...values } })}
             />
           )}

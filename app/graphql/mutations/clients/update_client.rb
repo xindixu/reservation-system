@@ -8,7 +8,7 @@ module Mutations
       argument :phone, String, required: false
       argument :cycle, Integer, required: false
       argument :duration, Integer, required: false
-      argument :manager_id, ID, required: false
+      argument :manager_ids, [ID], required: false
 
       field :client, Types::ClientType, null: true
       field :errors, [String], null: false

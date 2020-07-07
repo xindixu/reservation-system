@@ -23,7 +23,7 @@ export const CREATE_CLIENT = gql`
     $phone: String!
     $cycle: Int!
     $duration: Int!
-    $managerId: ID!
+    $managerIds: [ID!]
   ) {
     createClient(
       input: {
@@ -33,17 +33,11 @@ export const CREATE_CLIENT = gql`
         phone: $phone
         cycle: $cycle
         duration: $duration
-        managerId: $managerId
+        managerIds: $managerIds
       }
     ) {
       client {
-        id
-        firstName
-        lastName
-        email
-        phone
-        cycle
-        duration
+        ...Extended
         managers {
           id
           firstName
@@ -52,6 +46,7 @@ export const CREATE_CLIENT = gql`
       }
     }
   }
+  ${FRAGMENT_CLIENT}
 `
 
 export const UPDATE_CLIENT = gql`
@@ -63,7 +58,7 @@ export const UPDATE_CLIENT = gql`
     $phone: String
     $cycle: Int
     $duration: Int
-    $managerId: ID
+    $managerIds: [ID!]
   ) {
     updateClient(
       input: {
@@ -74,17 +69,11 @@ export const UPDATE_CLIENT = gql`
         phone: $phone
         cycle: $cycle
         duration: $duration
-        managerId: $managerId
+        managerIds: $managerIds
       }
     ) {
       client {
-        id
-        firstName
-        lastName
-        email
-        phone
-        cycle
-        duration
+        ...Extended
         managers {
           id
           firstName
@@ -93,6 +82,7 @@ export const UPDATE_CLIENT = gql`
       }
     }
   }
+  ${FRAGMENT_CLIENT}
 `
 
 export const DESTROY_CLIENT = gql`

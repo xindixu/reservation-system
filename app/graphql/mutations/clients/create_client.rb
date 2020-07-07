@@ -7,14 +7,13 @@ module Mutations
       argument :phone, String, required: true
       argument :cycle, Integer, required: true
       argument :duration, Integer, required: true
-      argument :manager_id, ID, required: true
+      argument :manager_ids, [ID], required: false
 
       field :client, Types::ClientType, null: true
       field :errors, [String], null: false
 
-      def resolve(manager_id:, **attributes)
-        manager = Manager.find(manager_id)
-        client = manager.clients.create(**attributes)
+      def resolve(**attributes)
+        client = Client.create(**attributes)
 
         if client.save
           {
