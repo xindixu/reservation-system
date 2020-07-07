@@ -64,7 +64,7 @@
   end
 
   5.times do
-    Serve.create(
+    Service.create(
       manager_id: managers[Faker::Number.between(from: 0, to: managers.size - 1)].id,
       client_id: clients[Faker::Number.between(from: 0, to: clients.size - 1)].id,
     )

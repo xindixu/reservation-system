@@ -75,20 +75,19 @@ module Types
       Visit.find(id)
     end
 
-    # /serve
-    field :serves, [Types::ServeType], null: false
+    # /services
+    field :services, [Types::ServiceType], null: false
 
-    def serves
-      Serve.all
+    def services
+      Service.all
     end
 
-    field :serve, Types::ServeType, null: false do
+    field :service, Types::ServiceType, null: false do
       argument :id, ID, required: true
     end
 
-    def serve(id:)
-      Serve.find(id)
+    def service(id:)
+      Service.find(id)
     end
-
   end
 end

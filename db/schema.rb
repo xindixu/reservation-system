@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_07_023939) do
+ActiveRecord::Schema.define(version: 2020_07_07_042236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,13 +39,13 @@ ActiveRecord::Schema.define(version: 2020_07_07_023939) do
     t.index ["team_id"], name: "index_managers_on_team_id"
   end
 
-  create_table "serves", force: :cascade do |t|
+  create_table "services", force: :cascade do |t|
     t.bigint "manager_id", null: false
     t.bigint "client_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["client_id"], name: "index_serves_on_client_id"
-    t.index ["manager_id"], name: "index_serves_on_manager_id"
+    t.index ["client_id"], name: "index_services_on_client_id"
+    t.index ["manager_id"], name: "index_services_on_manager_id"
   end
 
   create_table "slots", force: :cascade do |t|
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 2020_07_07_023939) do
   end
 
   add_foreign_key "managers", "teams"
-  add_foreign_key "serves", "clients"
-  add_foreign_key "serves", "managers"
+  add_foreign_key "services", "clients"
+  add_foreign_key "services", "managers"
   add_foreign_key "slots", "managers"
   add_foreign_key "slots", "teams"
   add_foreign_key "visits", "clients"

@@ -8,21 +8,26 @@ module Types
     field :cycle, Integer, null: true
     field :duration, Integer, null: true
     field :managers, [Types::ManagerType], null: true
-    field :serves, [Types::ServeType], null: true
     field :visits, [Types::VisitType], null: true
-
-    def serves
-      Serve.where(client_id: object.id)
-    end
+    field :managers_count, Integer, null: false
+    field :visits_count, Integer, null: false
 
     def visits
-      Visit.where(client_id: object.id)
+      client = Client.find(object.id)
+      client.visits
     end
 
     def managers
-      manager_ids = object.serves.map(&:manager_id)
-      Manager.where(id: manager_ids)
+      client = Client.find(object.id)
+      client.managers
     end
 
+    def managers_count
+      object.managers.size || 0
+    end
+
+    def visits_count
+      object.visits.size || 0
+    end
   end
 end
