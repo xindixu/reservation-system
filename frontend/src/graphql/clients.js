@@ -4,7 +4,7 @@ import { FRAGMENT_CLIENT } from "./fragments"
 export const GET_ALL_CLIENTS = gql`
   query {
     clients {
-      ...Extended
+      ...ExtendedClient
       managers {
         id
         firstName
@@ -37,7 +37,7 @@ export const CREATE_CLIENT = gql`
       }
     ) {
       client {
-        ...Extended
+        ...ExtendedClient
         managers {
           id
           firstName
@@ -73,7 +73,7 @@ export const UPDATE_CLIENT = gql`
       }
     ) {
       client {
-        ...Extended
+        ...ExtendedClient
         managers {
           id
           firstName

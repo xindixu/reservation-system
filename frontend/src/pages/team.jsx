@@ -46,8 +46,6 @@ const MODALS = {
 }
 
 const Team = () => {
-  const [numOfManagersToAdd, setNumOfManagersToAdd] = useState(0)
-  const [modalToShow, setModalToShow] = useState("")
   const { id } = useParams()
   const { loading, error, data } = useQuery(GET_TEAM_BY_ID, {
     variables: { id },
@@ -71,6 +69,9 @@ const Team = () => {
       })
     },
   })
+
+  const [numOfManagersToAdd, setNumOfManagersToAdd] = useState(0)
+  const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
     return "Loading..."

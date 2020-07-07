@@ -8,6 +8,7 @@ import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
+import AddClientsToManager from "components/forms/add-client-to-manager"
 import FAButton from "components/floating-action-button"
 
 const { Title } = Typography
@@ -41,6 +42,7 @@ const PageActions = ({ manager: { email, phone }, edit }) => (
 
 const MODALS = {
   editManager: "editManager",
+  addClientsToManager: "addClientsToManager",
 }
 
 const Manager = () => {
@@ -48,8 +50,9 @@ const Manager = () => {
   const { loading, error, data } = useQuery(GET_MANAGER_BY_ID, {
     variables: { id },
   })
-
   const [editManager] = useMutation(UPDATE_MANAGER)
+
+  const [numOfClientsToAdd, setNumOfClientsToAdd] = useState(0)
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -93,7 +96,30 @@ const Manager = () => {
         </Modal>
       )}
 
-      <FAButton onClick={() => {}} ariaLabel="edit" />
+      {modalToShow === MODALS.addClientsToManager && (
+        <Modal
+          title={`Add Clients To ${fullName}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText={`Add ${numOfClientsToAdd} Clients`}
+        >
+          {({ form }) => (
+            <AddClientsToManager
+              initialManager={manager}
+              form={form}
+              setNumOfClientsToAdd={setNumOfClientsToAdd}
+              onSubmit={(values) => {
+                editManager({ variables: { id, ...values } })
+              }}
+            />
+          )}
+        </Modal>
+      )}
+
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addClientsToManager)}
+        ariaLabel="add clients to manager"
+        rotate={modalToShow === MODALS.addClientsToManager}
+      />
     </>
   )
 }

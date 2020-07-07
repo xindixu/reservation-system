@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost"
 
 export const FRAGMENT_CLIENT = gql`
-  fragment Extended on Client {
+  fragment ExtendedClient on Client {
     id
     firstName
     lastName
@@ -13,7 +13,7 @@ export const FRAGMENT_CLIENT = gql`
 `
 
 export const FRAGMENT_MANAGER = gql`
-  fragment Extended on Manager {
+  fragment ExtendedManager on Manager {
     id
     firstName
     lastName

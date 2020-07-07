@@ -40,9 +40,9 @@ const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }
             mode="multiple"
             onChange={(managerIds) => setNumOfManagersToAdd(managerIds.length)}
           >
-            {managersNotInTeam.map(({ id, firstName, lastName }) => (
-              <Select.Option value={id} key={id}>
-                {firstName} {lastName}
+            {managersNotInTeam.map((manager) => (
+              <Select.Option value={manager.id} key={manager.id}>
+                {getFullName(manager)}
               </Select.Option>
             ))}
           </Select>
@@ -70,5 +70,6 @@ AddManagerToTeam.propTypes = {
   initialTeam: PropTypes.shape(TEAM).isRequired,
   onSubmit: PropTypes.func.isRequired,
   setManagersCount: PropTypes.func.isRequired,
+  setNumOfManagersToAdd: PropTypes.func.isRequired,
 }
 export default AddManagerToTeam

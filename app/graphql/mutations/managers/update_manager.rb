@@ -7,6 +7,7 @@ module Mutations
       argument :email, String, required: false
       argument :phone, String, required: false
       argument :job_title, String, required: false
+      argument :client_ids, [ID], required: false
       argument :team_id, ID, required: false
 
       field :manager, Types::ManagerType, null: true

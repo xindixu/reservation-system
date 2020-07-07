@@ -1,10 +1,10 @@
 import { gql } from "apollo-boost"
-import { FRAGMENT_MANAGER } from "./fragments"
+import { FRAGMENT_MANAGER, FRAGMENT_CLIENT } from "./fragments"
 
 export const GET_ALL_MANAGERS = gql`
   query Managers {
     managers {
-      ...Extended
+      ...ExtendedManager
       team {
         id
       }
@@ -16,7 +16,7 @@ export const GET_ALL_MANAGERS = gql`
 export const GET_MANAGER_BY_ID = gql`
   query Manager($id: ID!) {
     manager(id: $id) {
-      ...Extended
+      ...ExtendedManager
       team {
         id
         name
@@ -40,6 +40,7 @@ export const CREATE_MANAGER = gql`
     $email: String!
     $phone: String!
     $teamId: ID!
+    $clientIds: [ID!]
   ) {
     createManager(
       input: {
@@ -49,22 +50,18 @@ export const CREATE_MANAGER = gql`
         email: $email
         phone: $phone
         teamId: $teamId
+        clientIds: $clientIds
       }
     ) {
       manager {
-        id
-        firstName
-        lastName
-        jobTitle
-        email
-        phone
-        clientsCount
+        ...ExtendedManager
         team {
           id
         }
       }
     }
   }
+  ${FRAGMENT_MANAGER}
 `
 
 export const UPDATE_MANAGER = gql`
@@ -76,6 +73,7 @@ export const UPDATE_MANAGER = gql`
     $email: String
     $phone: String
     $teamId: ID
+    $clientIds: [ID!]
   ) {
     updateManager(
       input: {
@@ -86,21 +84,21 @@ export const UPDATE_MANAGER = gql`
         email: $email
         phone: $phone
         teamId: $teamId
+        clientIds: $clientIds
       }
     ) {
       manager {
-        id
-        firstName
-        lastName
-        jobTitle
-        email
-        phone
+        ...ExtendedManager
         team {
           id
           name
         }
-        clientsCount
+        clients {
+          ...ExtendedClient
+        }
       }
     }
   }
+  ${FRAGMENT_MANAGER}
+  ${FRAGMENT_CLIENT}
 `
