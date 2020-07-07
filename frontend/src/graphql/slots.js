@@ -48,3 +48,49 @@ export const CREATE_SLOT = gql`
     }
   }
 `
+
+export const UPDATE_SLOT = gql`
+  mutation UpdateSlot(
+    $id: ID!
+    $name: String
+    $description: String
+    $shareable: Boolean
+    $managerId: ID
+  ) {
+    updateSlot(
+      input: {
+        id: $id
+        name: $name
+        description: $description
+        shareable: $shareable
+        managerId: $managerId
+      }
+    ) {
+      slot {
+        id
+        name
+        description
+        shareable
+        manager {
+          id
+          firstName
+          lastName
+        }
+        team {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+export const DESTROY_SLOT = gql`
+  mutation DestroySlot($id: ID!) {
+    destroySlot(input: { id: $id }) {
+      slot {
+        id
+      }
+    }
+  }
+`

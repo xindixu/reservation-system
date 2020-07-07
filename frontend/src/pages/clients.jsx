@@ -67,7 +67,8 @@ const Clients = () => {
           getConfirm({
             content: (
               <p>
-                You are about to delete <strong>{getFullName(client)}</strong>
+                You are about to delete <strong>{getFullName(client)}</strong>. It will remove all
+                data related to this slot, including Visits.
               </p>
             ),
             onConfirm: () => {

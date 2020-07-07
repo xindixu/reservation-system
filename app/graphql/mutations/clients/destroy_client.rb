@@ -8,7 +8,7 @@ module Mutations
 
       def resolve(id:)
         client = Client.find(id)
-  
+
         if client.destroy
           {
             client: client,

@@ -15,6 +15,8 @@ module Types
 
     # Slot
     field :create_slot, mutation: Mutations::Slots::CreateSlot
+    field :update_slot, mutation: Mutations::Slots::UpdateSlot
+    field :destroy_slot, mutation: Mutations::Slots::DestroySlot
 
     # Visit
     field :create_visit, mutation: Mutations::Visits::CreateVisit

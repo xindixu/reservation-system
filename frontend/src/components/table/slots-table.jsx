@@ -1,14 +1,19 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Table } from "antd"
-import { CheckSquareOutlined, BorderOutlined } from "@ant-design/icons"
+import { Table, Button } from "antd"
+import {
+  CheckSquareOutlined,
+  BorderOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons"
 import { getFullName } from "lib/utils"
 import { SLOT, MANAGER, TEAM } from "lib/commonTypes"
 import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table
 
-const Slots = ({ loading, slots, managers, teams }) => {
+const Slots = ({ loading, slots, managers, teams, editSlot, deleteSlot }) => {
   return (
     <Table loading={loading} dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
       <Column title="Name" key="name" dataIndex="name" />
@@ -36,6 +41,29 @@ const Slots = ({ loading, slots, managers, teams }) => {
           { text: <BorderOutlined />, value: false },
         ]}
         onFilter={(filter, { shareable }) => shareable === filter}
+      />
+      <Column
+        title="Action"
+        key="actions"
+        render={(slot) => [
+          <Button
+            key={`edit-${slot.id}`}
+            size="small"
+            shape="circle"
+            icon={<EditOutlined />}
+            aria-label="edit"
+            onClick={() => editSlot(slot)}
+          />,
+          <Button
+            key={`delete-${slot.id}`}
+            size="small"
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            aria-label="delete"
+            onClick={() => deleteSlot(slot)}
+          />,
+        ]}
       />
     </Table>
   )
