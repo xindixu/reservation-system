@@ -9,7 +9,7 @@ import {
   REMOVE_CLIENTS_FROM_MANAGER,
   ADD_CLIENTS_TO_MANAGER,
 } from "graphql/managers"
-import { GET_ALL_CLIENTS, GET_CLIENT_BY_ID } from "graphql/clients"
+import { GET_CLIENT_BY_ID } from "graphql/clients"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"

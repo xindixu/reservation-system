@@ -17,7 +17,7 @@ const MODALS = {
 
 const Clients = () => {
   const { loading, error, data } = useQuery(GET_ALL_CLIENTS)
-  const { data: managersData } = useQuery(GET_ALL_MANAGERS)
+  const { data: managersData, loading: loadingManager } = useQuery(GET_ALL_MANAGERS)
 
   const [addClient] = useMutation(CREATE_CLIENT, {
     update: (cache, { data: { createClient } }) => {
@@ -56,7 +56,7 @@ const Clients = () => {
   return (
     <>
       <ClientsTable
-        loading={loading}
+        loading={loading || loadingManager}
         clients={data?.clients}
         managers={managersData?.managers}
         editClient={(client) => {

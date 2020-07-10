@@ -11,13 +11,15 @@ const { Column } = Table
 const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) => (
   <Table loading={loading} dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
     <Column title="Name" key="name" render={(record) => getFullName(record)} />
-    {clients?.length && clients[0]?.manager && (
+    {clients?.length && clients[0]?.managers && (
       <Column
         title="Manager"
         key="manager"
-        render={({ manager }) => getFullName(manager)}
+        render={({ managers }) =>
+          managers.map((manager) => <span className="mr-4">{getFullName(manager)}</span>)
+        }
         filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
-        onFilter={(filter, { manager }) => manager.id === filter}
+        onFilter={(filter, { managers }) => managers.some(({ id }) => id === filter)}
       />
     )}
 
@@ -71,10 +73,15 @@ const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) 
   </Table>
 )
 
+ClientsTable.defaultProps = {
+  managers: [],
+  loading: false,
+}
+
 ClientsTable.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
-  managers: PropTypes.arrayOf(PropTypes.shape(MANAGER)).isRequired,
+  managers: PropTypes.arrayOf(PropTypes.shape(MANAGER)),
   editClient: PropTypes.func.isRequired,
   deleteClient: PropTypes.func.isRequired,
 }
