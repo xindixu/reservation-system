@@ -22,14 +22,12 @@ export const GET_MANAGER_BY_ID = gql`
         name
       }
       clients {
-        firstName
-        lastName
-        cycle
-        duration
+        ...ExtendedClient
       }
     }
   }
   ${FRAGMENT_MANAGER}
+  ${FRAGMENT_CLIENT}
 `
 
 export const CREATE_MANAGER = gql`
@@ -73,7 +71,6 @@ export const UPDATE_MANAGER = gql`
     $email: String
     $phone: String
     $teamId: ID
-    $clientIds: [ID!]
   ) {
     updateManager(
       input: {
@@ -84,7 +81,6 @@ export const UPDATE_MANAGER = gql`
         email: $email
         phone: $phone
         teamId: $teamId
-        clientIds: $clientIds
       }
     ) {
       manager {
@@ -93,12 +89,34 @@ export const UPDATE_MANAGER = gql`
           id
           name
         }
+      }
+    }
+  }
+  ${FRAGMENT_MANAGER}
+`
+
+export const ADD_CLIENTS_TO_MANAGER = gql`
+  mutation AddClientsToManager($id: ID!, $clientIds: [ID!]!) {
+    addClientsToManager(input: { id: $id, clientIds: $clientIds }) {
+      manager {
+        ...ExtendedManager
         clients {
           ...ExtendedClient
+          managers {
+            id
+          }
         }
       }
     }
   }
   ${FRAGMENT_MANAGER}
   ${FRAGMENT_CLIENT}
+`
+
+export const REMOVE_CLIENT_FROM_MANAGER = gql`
+  mutation RemoveClientFromManager($clientId: ID!, $managerId: ID!) {
+    removeClientFromManager(input: { clientId: $clientId, managerId: $managerId }) {
+      ok
+    }
+  }
 `

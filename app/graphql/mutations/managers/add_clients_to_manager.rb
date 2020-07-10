@@ -1,20 +1,18 @@
 module Mutations
   module Managers
-    class UpdateManager < Mutations::BaseMutation
+    class AddClientsToManager < Mutations::BaseMutation
       argument :id, ID, required: true
-      argument :first_name, String, required: false
-      argument :last_name, String, required: false
-      argument :email, String, required: false
-      argument :phone, String, required: false
-      argument :job_title, String, required: false
-      argument :team_id, ID, required: false
+      argument :client_ids, [ID], required: true
 
       field :manager, Types::ManagerType, null: true
       field :errors, [String], null: false
 
-      def resolve(id:, **attributes)
+      def resolve(id:, client_ids:)
         manager = Manager.find(id)
-        manager.update!(**attributes)
+        clients = Client.find(client_ids)
+        clients.filter do |client|
+          manager.clients << client unless manager.clients.include? client
+        end
 
         if manager.save
           {

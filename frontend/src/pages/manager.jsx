@@ -3,13 +3,20 @@ import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
-import { GET_MANAGER_BY_ID, UPDATE_MANAGER } from "graphql/managers"
+import {
+  GET_MANAGER_BY_ID,
+  UPDATE_MANAGER,
+  REMOVE_CLIENT_FROM_MANAGER,
+  ADD_CLIENTS_TO_MANAGER,
+} from "graphql/managers"
+import { GET_CLIENT_BY_ID, GET_ALL_CLIENTS } from "graphql/clients"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
 import AddClientsToManager from "components/forms/add-client-to-manager"
 import FAButton from "components/floating-action-button"
+import getConfirm from "components/confirm"
 
 const { Title } = Typography
 
@@ -43,6 +50,7 @@ const PageActions = ({ manager: { email, phone }, edit }) => (
 const MODALS = {
   editManager: "editManager",
   addClientsToManager: "addClientsToManager",
+  removeClient: "removeClient",
 }
 
 const Manager = () => {
@@ -51,6 +59,58 @@ const Manager = () => {
     variables: { id },
   })
   const [editManager] = useMutation(UPDATE_MANAGER)
+
+  const [addClients] = useMutation(ADD_CLIENTS_TO_MANAGER, {
+    update: (cache, { data: { addClientsToManager } }) => {
+      const { manager } = addClientsToManager
+      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
+
+      clients.forEach((client) => {
+        if (manager.clients.some((c) => c.id === client.id)) {
+          if (client.managers.every((m) => m.id !== manager.id)) {
+            client.managers = [...client.managers, manager]
+          }
+        }
+      })
+
+      cache.writeQuery({
+        query: GET_ALL_CLIENTS,
+        data: {
+          clients,
+        },
+      })
+    },
+  })
+  const [removeClient] = useMutation(REMOVE_CLIENT_FROM_MANAGER, {
+    update: (cache, { data: { removeClientFromManager } }) => {
+      const { clientId, managerId, ok } = removeClientFromManager
+      if (!ok) {
+        return
+      }
+      const { client } = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id: clientId } })
+
+      cache.writeQuery({
+        query: GET_CLIENT_BY_ID,
+        variables: { id: clientId },
+        data: {
+          client: {
+            ...client,
+            managers: client.managers.filter(({ id }) => id !== managerId),
+          },
+        },
+      })
+      cache.writeQuery({
+        query: GET_MANAGER_BY_ID,
+        variables: { id: managerId },
+        data: {
+          manager: {
+            ...data.manager,
+            clients: data.manager.clients.filter(({ id }) => id !== clientId),
+          },
+        },
+      })
+    },
+  })
 
   const [numOfClientsToAdd, setNumOfClientsToAdd] = useState(0)
   const [modalToShow, setModalToShow] = useState("")
@@ -79,7 +139,21 @@ const Manager = () => {
           <img src={getDefaultAvatar(manager, "md")} alt={fullName} />
         </div>
       </div>
-      <ClientsTable clients={clients} />
+      <ClientsTable
+        clients={clients}
+        deleteClient={(client) => {
+          getConfirm({
+            content: (
+              <p>
+                You are about to remove <strong>{getFullName(client)}</strong> from {fullName}.
+              </p>
+            ),
+            onConfirm: () => {
+              removeClient({ variables: { clientId: client.id, managerId: manager.id } })
+            },
+          })
+        }}
+      />
       {modalToShow === MODALS.editManager && (
         <Modal
           title={`Edit ${fullName}`}
@@ -107,9 +181,7 @@ const Manager = () => {
               initialManager={manager}
               form={form}
               setNumOfClientsToAdd={setNumOfClientsToAdd}
-              onSubmit={(values) => {
-                editManager({ variables: { id, ...values } })
-              }}
+              onSubmit={(values) => addClients({ variables: { id, ...values } })}
             />
           )}
         </Modal>

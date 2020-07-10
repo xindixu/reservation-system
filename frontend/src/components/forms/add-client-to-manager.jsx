@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Select, List, Avatar } from "antd"
 import { getFullName, getDefaultAvatar } from "lib/utils"
-import { TEAM, FORM } from "lib/commonTypes"
+import { FORM, MANAGER } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import { GET_ALL_CLIENTS } from "graphql/clients"
 
@@ -53,7 +53,6 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
             <List.Item.Meta
               avatar={<Avatar src={getDefaultAvatar(client, "xs")} />}
               title={getFullName(client)}
-              // description={client.jobTitle}
             />
           </List.Item>
         )}
@@ -64,9 +63,8 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
 
 AddClientToManager.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
-  initialManager: PropTypes.shape(TEAM).isRequired,
+  initialManager: PropTypes.shape(MANAGER).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  setManagersCount: PropTypes.func.isRequired,
   setNumOfClientsToAdd: PropTypes.func.isRequired,
 }
 export default AddClientToManager
