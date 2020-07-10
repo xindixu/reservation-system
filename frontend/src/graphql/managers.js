@@ -113,10 +113,20 @@ export const ADD_CLIENTS_TO_MANAGER = gql`
   ${FRAGMENT_CLIENT}
 `
 
-export const REMOVE_CLIENT_FROM_MANAGER = gql`
-  mutation RemoveClientFromManager($clientId: ID!, $managerId: ID!) {
-    removeClientFromManager(input: { clientId: $clientId, managerId: $managerId }) {
-      ok
+export const REMOVE_CLIENTS_FROM_MANAGER = gql`
+  mutation RemoveClientsFromManager($id: ID!, $clientIds: [ID!]!) {
+    removeClientsFromManager(input: { id: $id, clientIds: $clientIds }) {
+      manager {
+        ...ExtendedManager
+        clients {
+          ...ExtendedClient
+          managers {
+            id
+          }
+        }
+      }
     }
   }
+  ${FRAGMENT_MANAGER}
+  ${FRAGMENT_CLIENT}
 `

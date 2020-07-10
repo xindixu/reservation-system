@@ -6,10 +6,10 @@ import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import {
   GET_MANAGER_BY_ID,
   UPDATE_MANAGER,
-  REMOVE_CLIENT_FROM_MANAGER,
+  REMOVE_CLIENTS_FROM_MANAGER,
   ADD_CLIENTS_TO_MANAGER,
 } from "graphql/managers"
-import { GET_CLIENT_BY_ID, GET_ALL_CLIENTS } from "graphql/clients"
+import { GET_ALL_CLIENTS, GET_CLIENT_BY_ID } from "graphql/clients"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
@@ -63,51 +63,37 @@ const Manager = () => {
   const [addClients] = useMutation(ADD_CLIENTS_TO_MANAGER, {
     update: (cache, { data: { addClientsToManager } }) => {
       const { manager } = addClientsToManager
-      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
-
-      clients.forEach((client) => {
-        if (manager.clients.some((c) => c.id === client.id)) {
-          if (client.managers.every((m) => m.id !== manager.id)) {
-            client.managers = [...client.managers, manager]
-          }
-        }
-      })
-
-      cache.writeQuery({
-        query: GET_ALL_CLIENTS,
-        data: {
-          clients,
-        },
+      const { clients } = manager
+      const { clients: prevClients } = data.manager
+      const addedClients = clients.filter((pc) => !prevClients.some((c) => c.id === pc.id))
+      addedClients.forEach((client) => {
+        client.managers = [...client.managers, manager]
+        cache.writeQuery({
+          query: GET_CLIENT_BY_ID,
+          variables: { id: client.id },
+          data: {
+            client,
+          },
+        })
       })
     },
   })
-  const [removeClient] = useMutation(REMOVE_CLIENT_FROM_MANAGER, {
-    update: (cache, { data: { removeClientFromManager } }) => {
-      const { clientId, managerId, ok } = removeClientFromManager
-      if (!ok) {
-        return
-      }
-      const { client } = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id: clientId } })
 
-      cache.writeQuery({
-        query: GET_CLIENT_BY_ID,
-        variables: { id: clientId },
-        data: {
-          client: {
-            ...client,
-            managers: client.managers.filter(({ id }) => id !== managerId),
+  const [removeClients] = useMutation(REMOVE_CLIENTS_FROM_MANAGER, {
+    update: (cache, { data: { removeClientsFromManager } }) => {
+      const { manager } = removeClientsFromManager
+      const { clients } = manager
+      const { clients: prevClients } = data.manager
+      const deletedClients = prevClients.filter((pc) => !clients.some((c) => c.id === pc.id))
+      deletedClients.forEach((client) => {
+        client.managers = (client.managers || []).filter((m) => m.id !== manager.id)
+        cache.writeQuery({
+          query: GET_CLIENT_BY_ID,
+          variables: { id: client.id },
+          data: {
+            client,
           },
-        },
-      })
-      cache.writeQuery({
-        query: GET_MANAGER_BY_ID,
-        variables: { id: managerId },
-        data: {
-          manager: {
-            ...data.manager,
-            clients: data.manager.clients.filter(({ id }) => id !== clientId),
-          },
-        },
+        })
       })
     },
   })
@@ -149,7 +135,7 @@ const Manager = () => {
               </p>
             ),
             onConfirm: () => {
-              removeClient({ variables: { clientId: client.id, managerId: manager.id } })
+              removeClients({ variables: { id, clientIds: [client.id] } })
             },
           })
         }}

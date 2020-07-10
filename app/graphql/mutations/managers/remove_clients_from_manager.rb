@@ -1,6 +1,6 @@
 module Mutations
   module Managers
-    class AddClientsToManager < Mutations::BaseMutation
+    class RemoveClientsFromManager < Mutations::BaseMutation
       argument :id, ID, required: true
       argument :client_ids, [ID], required: true
 
@@ -9,11 +9,9 @@ module Mutations
 
       def resolve(id:, client_ids:)
         manager = Manager.find(id)
-        clients = Client.find(client_ids)
-        clients.each do |client|
-          manager.clients << client unless manager.clients.include? client
+        manager.clients.find(client_ids).each do |client|
+          manager.clients.delete(client)
         end
-
         if manager.save
           {
             manager: manager,
@@ -21,7 +19,6 @@ module Mutations
           }
         else
           {
-            manager: nil,
             errors: manager.errors.full_messages
           }
         end

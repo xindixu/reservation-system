@@ -3,10 +3,13 @@ module Types
     # Team
     field :create_team, mutation: Mutations::Teams::CreateTeam
     field :update_team, mutation: Mutations::Teams::UpdateTeam
+    field :add_managers_to_team, mutation: Mutations::Teams::AddManagersToTeam
 
     # Manager
     field :create_manager, mutation: Mutations::Managers::CreateManager
     field :update_manager, mutation: Mutations::Managers::UpdateManager
+    field :add_clients_to_manager, mutation: Mutations::Managers::AddClientsToManager
+    field :remove_clients_from_manager, mutation: Mutations::Managers::RemoveClientsFromManager
 
     # Client
     field :create_client, mutation: Mutations::Clients::CreateClient
