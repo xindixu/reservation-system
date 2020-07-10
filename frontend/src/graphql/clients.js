@@ -15,6 +15,20 @@ export const GET_ALL_CLIENTS = gql`
   ${FRAGMENT_CLIENT}
 `
 
+export const GET_CLIENT_BY_ID = gql`
+  query {
+    client(id: $id) {
+      ...ExtendedClient
+      managers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+  ${FRAGMENT_CLIENT}
+`
+
 export const CREATE_CLIENT = gql`
   mutation CreateClient(
     $firstName: String!

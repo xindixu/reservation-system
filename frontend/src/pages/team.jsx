@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import AddManagerToTeam from "components/forms/add-manager-to-team"
-import { GET_TEAM_BY_ID, UPDATE_TEAM } from "graphql/teams"
+import { GET_TEAM_BY_ID, UPDATE_TEAM, ADD_MANAGERS_TO_TEAM } from "graphql/teams"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
@@ -51,9 +51,11 @@ const Team = () => {
     variables: { id },
   })
 
-  const [editTeam] = useMutation(UPDATE_TEAM, {
-    update: (cache, { data: { updateTeam } }) => {
-      const { team } = updateTeam
+  const [editTeam] = useMutation(UPDATE_TEAM)
+
+  const [addManagers] = useMutation(ADD_MANAGERS_TO_TEAM, {
+    update: (cache, { data: { addManagersToTeam } }) => {
+      const { team } = addManagersToTeam
       const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
 
       managers.forEach((manager) => {
@@ -120,7 +122,8 @@ const Team = () => {
               form={form}
               setNumOfManagersToAdd={setNumOfManagersToAdd}
               onSubmit={(values) => {
-                editTeam({ variables: { id, ...values } })
+                console.log(values)
+                addManagers({ variables: { id, ...values } })
               }}
             />
           )}

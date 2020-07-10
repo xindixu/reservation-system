@@ -1,18 +1,18 @@
 module Mutations
   module Teams
-    class UpdateTeam < Mutations::BaseMutation
+    class AddManagersToTeam < Mutations::BaseMutation
       argument :id, ID, required: true
-      argument :name, String, required: false
-      argument :description, String, required: false
-      argument :email, String, required: false
-      argument :phone, String, required: false
+      argument :manager_ids, [ID], required: true
 
       field :team, Types::TeamType, null: true
       field :errors, [String], null: false
 
-      def resolve(id:, **attributes)
+      def resolve(id:, manager_ids:)
         team = Team.find(id)
-        team.update!(**attributes)
+        manager_ids.each do |manager_id|
+          manager = Manager.find(manager_id)
+          team.managers << manager unless team.managers.include? manager
+        end
 
         if team.save
           {

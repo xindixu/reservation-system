@@ -23,3 +23,14 @@ export const FRAGMENT_MANAGER = gql`
     clientsCount
   }
 `
+
+export const FRAGMENT_TEAM = gql`
+  fragment ExtendedTeam on Team {
+    id
+    name
+    email
+    phone
+    description
+    managersCount
+  }
+`
