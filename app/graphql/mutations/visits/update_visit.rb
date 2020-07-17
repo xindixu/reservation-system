@@ -2,8 +2,8 @@ module Mutations
   module Visits
     class UpdateVisit < Mutations::BaseMutation
       argument :id, ID, required: true
-      argument :starts_at, GraphQL::Types::ISO8601Date, required: false
-      argument :ends_at, GraphQL::Types::ISO8601Date, required: false
+      argument :starts_at, GraphQL::Types::ISO8601DateTime, required: false
+      argument :ends_at, GraphQL::Types::ISO8601DateTime, required: false
       argument :slot_id, ID, required: false
 
       field :visit, Types::VisitType, null: true

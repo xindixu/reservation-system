@@ -12,10 +12,11 @@ const FAButton = ({ onClick, ariaLabel, rotate, icon }) => (
 
 FAButton.defaultProps = {
   icon: <PlusOutlined />,
+  rotate: false,
 }
 
 FAButton.propTypes = {
-  rotate: PropTypes.bool.isRequired,
+  rotate: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string.isRequired,
   icon: PropTypes.node,

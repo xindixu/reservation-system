@@ -21,8 +21,8 @@ export const GET_ALL_VISITS = gql`
 
 export const CREATE_VISIT = gql`
   mutation CreateVisit(
-    $startsAt: ISO8601Date!
-    $endsAt: ISO8601Date!
+    $startsAt: ISO8601DateTime!
+    $endsAt: ISO8601DateTime!
     $slotId: ID!
     $clientId: ID!
   ) {
@@ -48,7 +48,12 @@ export const CREATE_VISIT = gql`
 `
 
 export const UPDATE_VISIT = gql`
-  mutation UpdateVisit($id: ID!, $startsAt: ISO8601Date, $endsAt: ISO8601Date, $slotId: ID) {
+  mutation UpdateVisit(
+    $id: ID!
+    $startsAt: ISO8601DateTime
+    $endsAt: ISO8601DateTime
+    $slotId: ID
+  ) {
     updateVisit(input: { id: $id, startsAt: $startsAt, endsAt: $endsAt, slotId: $slotId }) {
       visit {
         id
