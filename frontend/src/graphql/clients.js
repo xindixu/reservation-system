@@ -16,7 +16,7 @@ export const GET_ALL_CLIENTS = gql`
 `
 
 export const GET_CLIENT_BY_ID = gql`
-  query {
+  query Client($id: ID!) {
     client(id: $id) {
       ...ExtendedClient
       managers {

@@ -6,6 +6,7 @@ import Clients from "./pages/clients"
 import Slots from "./pages/slots"
 import Team from "./pages/team"
 import Manager from "./pages/manager"
+import Client from "./pages/client"
 import Calendar from "./pages/calendar"
 
 const Routes = () => (
@@ -33,6 +34,9 @@ const Routes = () => (
     </Route>
     <Route path="/manager/:id" exact>
       <Manager />
+    </Route>
+    <Route path="/client/:id" exact>
+      <Client />
     </Route>
   </Switch>
 )

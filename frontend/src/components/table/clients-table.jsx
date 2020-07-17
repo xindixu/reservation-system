@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 import { Table, Button } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { getFullName } from "lib/utils"
@@ -10,7 +11,11 @@ const { Column } = Table
 
 const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) => (
   <Table loading={loading} dataSource={clients} rowKey={({ id }) => id} {...defaultTableSettings}>
-    <Column title="Name" key="name" render={(record) => getFullName(record)} />
+    <Column
+      title="Name"
+      key="name"
+      render={(record) => <Link to={`/client/${record.id}`}>{getFullName(record)} </Link>}
+    />
     {clients?.length && clients[0]?.managers && (
       <Column
         title="Manager"
