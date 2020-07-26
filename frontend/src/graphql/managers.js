@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost"
-import { FRAGMENT_MANAGER, FRAGMENT_CLIENT } from "./fragments"
+import { MANAGER, CLIENT } from "./fragments"
 
 export const GET_ALL_MANAGERS = gql`
   query Managers {
@@ -10,7 +10,7 @@ export const GET_ALL_MANAGERS = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
+  ${MANAGER.extended}
 `
 
 export const GET_MANAGER_BY_ID = gql`
@@ -26,8 +26,8 @@ export const GET_MANAGER_BY_ID = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
-  ${FRAGMENT_CLIENT}
+  ${MANAGER.extended}
+  ${CLIENT.extended}
 `
 
 export const CREATE_MANAGER = gql`
@@ -59,7 +59,7 @@ export const CREATE_MANAGER = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
+  ${MANAGER.extended}
 `
 
 export const UPDATE_MANAGER = gql`
@@ -92,7 +92,7 @@ export const UPDATE_MANAGER = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
+  ${MANAGER.extended}
 `
 
 export const ADD_CLIENTS_TO_MANAGER = gql`
@@ -109,8 +109,8 @@ export const ADD_CLIENTS_TO_MANAGER = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
-  ${FRAGMENT_CLIENT}
+  ${MANAGER.extended}
+  ${CLIENT.extended}
 `
 
 export const REMOVE_CLIENTS_FROM_MANAGER = gql`
@@ -127,6 +127,6 @@ export const REMOVE_CLIENTS_FROM_MANAGER = gql`
       }
     }
   }
-  ${FRAGMENT_MANAGER}
-  ${FRAGMENT_CLIENT}
+  ${MANAGER.extended}
+  ${CLIENT.extended}
 `

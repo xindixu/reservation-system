@@ -1,22 +1,17 @@
 import { gql } from "apollo-boost"
+import { VISIT, CLIENT } from "./fragments"
 
 export const GET_ALL_VISITS = gql`
   query {
     visits {
-      id
-      startsAt
-      endsAt
-      slot {
-        id
-        name
-      }
+      ...ExtendedVisit
       client {
-        id
-        firstName
-        lastName
+        ...BasicClient
       }
     }
   }
+  ${VISIT.extended}
+  ${CLIENT.basic}
 `
 
 export const CREATE_VISIT = gql`
@@ -30,21 +25,15 @@ export const CREATE_VISIT = gql`
       input: { startsAt: $startsAt, endsAt: $endsAt, slotId: $slotId, clientId: $clientId }
     ) {
       visit {
-        id
-        startsAt
-        endsAt
-        slot {
-          id
-          name
-        }
+        ...ExtendedVisit
         client {
-          id
-          firstName
-          lastName
+          ...BasicClient
         }
       }
     }
   }
+  ${VISIT.extended}
+  ${CLIENT.basic}
 `
 
 export const UPDATE_VISIT = gql`
@@ -56,21 +45,12 @@ export const UPDATE_VISIT = gql`
   ) {
     updateVisit(input: { id: $id, startsAt: $startsAt, endsAt: $endsAt, slotId: $slotId }) {
       visit {
-        id
-        startsAt
-        endsAt
-        slot {
-          id
-          name
-        }
-        client {
-          id
-          firstName
-          lastName
-        }
+        ...ExtendedVisit
       }
     }
   }
+  ${VISIT.extended}
+  ${CLIENT.basic}
 `
 
 export const DESTROY_VISIT = gql`

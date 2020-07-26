@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost"
-import { FRAGMENT_MANAGER, FRAGMENT_TEAM } from "./fragments"
+import { MANAGER, TEAM } from "./fragments"
 
 export const GET_ALL_TEAMS = gql`
   query Teams {
@@ -7,7 +7,7 @@ export const GET_ALL_TEAMS = gql`
       ...ExtendedTeam
     }
   }
-  ${FRAGMENT_TEAM}
+  ${TEAM.extended}
 `
 
 export const GET_TEAM_BY_ID = gql`
@@ -19,8 +19,8 @@ export const GET_TEAM_BY_ID = gql`
       }
     }
   }
-  ${FRAGMENT_TEAM}
-  ${FRAGMENT_MANAGER}
+  ${TEAM.extended}
+  ${MANAGER.extended}
 `
 
 export const CREATE_TEAM = gql`
@@ -31,7 +31,7 @@ export const CREATE_TEAM = gql`
       }
     }
   }
-  ${FRAGMENT_TEAM}
+  ${TEAM.extended}
 `
 
 export const UPDATE_TEAM = gql`
@@ -53,8 +53,8 @@ export const UPDATE_TEAM = gql`
       }
     }
   }
-  ${FRAGMENT_TEAM}
-  ${FRAGMENT_MANAGER}
+  ${TEAM.extended}
+  ${MANAGER.extended}
 `
 
 export const ADD_MANAGERS_TO_TEAM = gql`
@@ -68,6 +68,6 @@ export const ADD_MANAGERS_TO_TEAM = gql`
       }
     }
   }
-  ${FRAGMENT_TEAM}
-  ${FRAGMENT_MANAGER}
+  ${TEAM.extended}
+  ${MANAGER.extended}
 `
