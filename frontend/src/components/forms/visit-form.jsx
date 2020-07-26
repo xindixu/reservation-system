@@ -18,10 +18,13 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
 
   const onFinish = (fieldValues) => {
     const { visit } = fieldValues
+    const newStartsAt = allDay ? moment(visit[0]).startOf("day") : moment(visit[0])
+    const newEndsAt = allDay ? moment(visit[1]).endOf("day") : moment(visit[1])
+
     const values = {
       ...fieldValues,
-      startsAt: visit[0]?.toISOString(),
-      endsAt: visit[1]?.toISOString(),
+      startsAt: newStartsAt.toISOString(true),
+      endsAt: newEndsAt.toISOString(true),
     }
     onSubmit(values)
   }

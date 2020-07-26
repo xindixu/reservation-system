@@ -23,6 +23,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
         title: `Visit: ${firstName} ${lastName}`,
         start: startsAt,
         end: endsAt,
+        allDay: true,
         editable: true,
       })),
     [visits]
@@ -42,7 +43,11 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
 
   const onSelect = (arg) => {
     const { start, end, allDay } = arg
-    onSelectDateRange(moment(start).toISOString(true), moment(end).toISOString(true), allDay)
+    onSelectDateRange(
+      moment(start).toISOString(true),
+      moment(end).subtract(1, "seconds").toISOString(true),
+      allDay
+    )
   }
 
   return (
