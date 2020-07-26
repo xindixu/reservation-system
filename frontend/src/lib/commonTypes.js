@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 
 export const VISIT = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   startsAt: PropTypes.string.isRequired,
   endsAt: PropTypes.string.isRequired,
 }

@@ -1,5 +1,6 @@
 import React, { useRef, useMemo } from "react"
 import PropTypes from "prop-types"
+import moment from "moment"
 import { useMeasure } from "react-use"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
@@ -14,7 +15,7 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
-const Calendar = ({ visits, onClickVisit, onEditVisit, initialDate }) => {
+const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initialDate }) => {
   const events = useMemo(
     () =>
       visits.map(({ id, startsAt, endsAt, client: { firstName, lastName } }) => ({
@@ -39,6 +40,11 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, initialDate }) => {
     onEditVisit(id, start, end)
   }
 
+  const onSelect = (arg) => {
+    const { start, end, allDay } = arg
+    onSelectDateRange(moment(start).toISOString(true), moment(end).toISOString(true), allDay)
+  }
+
   return (
     <Wrapper ref={wrapperRef}>
       <CalendarGlobalStyleOverride />
@@ -54,15 +60,16 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, initialDate }) => {
         editable
         droppable
         ref={calendar}
-        events={events}
-        eventClick={onEventClick}
-        eventDrop={onEventDrop}
-        themeSystem="standard"
-        eventTextColor="#000"
         eventBackgroundColor="#bae7ff"
         eventBorderColor="#bae7ff"
+        eventTextColor="#000"
+        themeSystem="standard"
+        eventClick={onEventClick}
+        eventDrop={onEventDrop}
+        events={events}
         eventTimeFormat={getTimeFormat()}
         initialDate={initialDate || new Date()}
+        select={onSelect}
       />
     </Wrapper>
   )

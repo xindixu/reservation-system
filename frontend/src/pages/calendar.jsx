@@ -43,6 +43,7 @@ const CalendarPage = () => {
   })
 
   const [selectedVisit, setSelectedVisit] = useState({})
+  const [presetDate, setPresetDate] = useState({})
   const [modalToShow, setModalToShow] = useState("")
   if (loading) {
     return "loading..."
@@ -52,6 +53,12 @@ const CalendarPage = () => {
   }
 
   const { visits } = data
+
+  const modalOnCloseAndReset = () => {
+    setModalToShow("")
+    setPresetDate({})
+    setSelectedVisit({})
+  }
 
   return (
     <>
@@ -70,11 +77,15 @@ const CalendarPage = () => {
             },
           })
         }}
+        onSelectDateRange={(startsAt, endsAt, allDay) => {
+          setPresetDate({ startsAt, endsAt, allDay })
+          setModalToShow(MODALS.addVisit)
+        }}
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
           title={`Edit Visit for ${getFullName(selectedVisit.client)}`}
-          onClose={() => setModalToShow("")}
+          onClose={modalOnCloseAndReset}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
           }}
@@ -94,13 +105,13 @@ const CalendarPage = () => {
         </Modal>
       )}
       {modalToShow === MODALS.addVisit && (
-        <Modal
-          title="Create New Visit"
-          onClose={() => setModalToShow("")}
-          submitButtonText="Create"
-        >
+        <Modal title="Create New Visit" onClose={modalOnCloseAndReset} submitButtonText="Create">
           {({ form }) => (
-            <VisitForm form={form} onSubmit={(values) => addVisit({ variables: values })} />
+            <VisitForm
+              form={form}
+              onSubmit={(values) => addVisit({ variables: values })}
+              initialVisit={{ ...presetDate }}
+            />
           )}
         </Modal>
       )}
