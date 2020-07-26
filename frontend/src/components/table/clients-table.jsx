@@ -21,7 +21,11 @@ const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) 
         title="Manager"
         key="manager"
         render={({ managers }) =>
-          managers.map((manager) => <span className="mr-4">{getFullName(manager)}</span>)
+          managers.map((manager) => (
+            <span className="mr-4" key={manager.id}>
+              {getFullName(manager)}
+            </span>
+          ))
         }
         filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
         onFilter={(filter, { managers }) => managers.some(({ id }) => id === filter)}

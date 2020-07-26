@@ -14,7 +14,7 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
-const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
+const Calendar = ({ visits, onClickVisit, onEditVisit, initialDate }) => {
   const events = useMemo(
     () =>
       visits.map(({ id, startsAt, endsAt, client: { firstName, lastName } }) => ({
@@ -62,14 +62,21 @@ const Calendar = ({ visits, onClickVisit, onEditVisit }) => {
         eventBackgroundColor="#bae7ff"
         eventBorderColor="#bae7ff"
         eventTimeFormat={getTimeFormat()}
+        initialDate={initialDate || new Date()}
       />
     </Wrapper>
   )
+}
+
+Calendar.defaultProps = {
+  initialDate: "",
 }
 
 Calendar.propTypes = {
   visits: PropTypes.arrayOf(PropTypes.shape(VISIT)).isRequired,
   onClickVisit: PropTypes.func.isRequired,
   onEditVisit: PropTypes.func.isRequired,
+  initialDate: PropTypes.string,
 }
+
 export default Calendar

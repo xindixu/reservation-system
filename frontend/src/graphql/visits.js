@@ -50,7 +50,6 @@ export const UPDATE_VISIT = gql`
     }
   }
   ${VISIT.extended}
-  ${CLIENT.basic}
 `
 
 export const DESTROY_VISIT = gql`
