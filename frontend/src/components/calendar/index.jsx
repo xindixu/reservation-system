@@ -15,6 +15,9 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
+const formatStart = (start) => moment(start).toISOString(true)
+const formatEnd = (end) => moment(end).subtract(1, "seconds").toISOString(true)
+
 const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initialDate }) => {
   const events = useMemo(
     () =>
@@ -22,7 +25,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
         id,
         title: `Visit: ${firstName} ${lastName}`,
         start: startsAt,
-        end: endsAt,
+        end: moment(endsAt).add(1, "day").toISOString(true),
         allDay: true,
         editable: true,
       })),
@@ -38,16 +41,12 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
 
   const onEventDrop = (arg) => {
     const { id, start, end } = arg.event
-    onEditVisit(id, start, end)
+    onEditVisit(id, formatStart(start), formatEnd(end))
   }
 
   const onSelect = (arg) => {
     const { start, end, allDay } = arg
-    onSelectDateRange(
-      moment(start).toISOString(true),
-      moment(end).subtract(1, "seconds").toISOString(true),
-      allDay
-    )
+    onSelectDateRange(formatStart(start), formatEnd(end), allDay)
   }
 
   return (
@@ -88,6 +87,7 @@ Calendar.propTypes = {
   visits: PropTypes.arrayOf(PropTypes.shape(VISIT)).isRequired,
   onClickVisit: PropTypes.func.isRequired,
   onEditVisit: PropTypes.func.isRequired,
+  onSelectDateRange: PropTypes.func.isRequired,
   initialDate: PropTypes.string,
 }
 
