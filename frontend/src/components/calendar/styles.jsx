@@ -1,13 +1,19 @@
 import styled, { createGlobalStyle } from "styled-components"
 import { styleSettings } from "styles/index"
 
-const { spacerLg, white, borderRadiusBase } = styleSettings
+const { spacerLg, white } = styleSettings
 
 export const Wrapper = styled.div``
 export const CalendarGlobalStyleOverride = createGlobalStyle`
   .rbc-calendar {
     
-    .fc-view-harness {
+    .rbc-event {
+      background: #bae7ff;
+      color: #000;
+    }
+  
+    
+    .rbc-month-view, .rbc-off-range-bg {
       background: ${white};
     }
 
@@ -15,20 +21,34 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
     .fc-daygrid-day.fc-day-today {
       background: none;
     }
-  }
 
-  .fc-theme-standard {
-    td, th, .fc-scrollgrid {
-      border: none;
+    .rbc-header {
+      border-bottom: none;
+      font-size: 100%;
+      height: ${spacerLg};
+      span {
+        line-height: ${spacerLg};
+      }
     }
-    .fc-daygrid-day-frame {
-      margin: 4px;
+    .rbc-header + .rbc-header, .rbc-day-bg + .rbc-day-bg {
+      border-left: none;
+    }
+    .rbc-month-row + .rbc-month-row {
+      border-top: none;
+    }
+
+
+    .rbc-date-cell {
+      margin: 0 5px;
+      padding: 0;
       border-top: 1px solid #f0f0f0;
     }
-    .fc-day-today .fc-daygrid-day-frame {
-        background: rgba(255, 220, 40, 0.15);
+  }
+
+  .rbc-addons-dnd .rbc-addons-dnd-resizable {
+    padding: 0 10px;
+    .rbc-addons-dnd-resize-ew-icon {
+      height 80%;
     }
-
-  } 
-
+  }
 `
