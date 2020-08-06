@@ -1,12 +1,13 @@
 import React, { useRef, useMemo } from "react"
 import PropTypes from "prop-types"
-import moment from "moment"
+import add from "date-fns/add"
 import { useMeasure } from "react-use"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 
 import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
+import { formatStart, formatEnd, toISOStringWithTZ } from "lib/datetime"
 import { VISIT } from "lib/commonTypes"
 
 const getTimeFormat = () => ({
@@ -15,9 +16,6 @@ const getTimeFormat = () => ({
   meridiem: false,
 })
 
-const formatStart = (start) => moment(start).toISOString(true)
-const formatEnd = (end) => moment(end).subtract(1, "seconds").toISOString(true)
-
 const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initialDate }) => {
   const events = useMemo(
     () =>
@@ -25,7 +23,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
         id,
         title: `Visit: ${firstName} ${lastName}`,
         start: startsAt,
-        end: moment(endsAt).add(1, "day").toISOString(true),
+        end: toISOStringWithTZ(add(new Date(endsAt), { days: 1 })),
         allDay: true,
         editable: true,
       })),

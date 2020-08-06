@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import moment from "moment"
 import { Typography, Button, Space, Tag } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_CLIENT_BY_ID, UPDATE_CLIENT } from "graphql/clients"
@@ -12,6 +11,7 @@ import Calendar from "components/calendar"
 import ClientFrom from "components/forms/client-form"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
+import { toISOStringWithTZ } from "lib/datetime"
 
 const { Title } = Typography
 
@@ -98,7 +98,6 @@ const Client = () => {
   const fullName = getFullName(client)
 
   const [start, end] = calculateNextVisit(client)
-  console.log(start, end)
 
   return (
     <>
@@ -129,8 +128,8 @@ const Client = () => {
           editVisit({
             variables: {
               id,
-              startsAt: moment(start).toISOString(true),
-              endsAt: moment(end).toISOString(true),
+              startsAt: toISOStringWithTZ(new Date(start)),
+              endsAt: toISOStringWithTZ(new Date(end)),
             },
           })
         }}

@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
-import { duration as durationHelper } from "moment"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import { CLIENT, FORM } from "lib/commonTypes"
+import { convertToDays, DURATION_UNITS } from "lib/datetime"
 
 const { Option } = Select
 
@@ -18,12 +18,7 @@ const validateMessages = {
 
 const DurationPicker = ({ value, onChange }) => {
   const [num, setNum] = useState(0)
-  const [unit, setUnit] = useState("d")
-  const UNITS = {
-    d: "day(s)",
-    w: "week(s)",
-    M: "month(s)",
-  }
+  const [unit, setUnit] = useState(Object.keys(DURATION_UNITS)[0])
 
   const triggerChange = (changedValue) => {
     if (onChange) {
@@ -58,9 +53,9 @@ const DurationPicker = ({ value, onChange }) => {
           })
         }}
       >
-        {Object.keys(UNITS).map((key) => (
+        {Object.keys(DURATION_UNITS).map((key) => (
           <Option key={key} value={key}>
-            {UNITS[key]}
+            {DURATION_UNITS[key]}
           </Option>
         ))}
       </Select>
@@ -87,8 +82,8 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
     const { cycle, duration } = fieldValues
     const values = {
       ...fieldValues,
-      cycle: durationHelper(cycle.num, cycle.unit).asDays(),
-      duration: durationHelper(duration.num, duration.unit).asDays(),
+      cycle: convertToDays(cycle.num, cycle.unit),
+      duration: convertToDays(duration.num, duration.unit),
     }
     onSubmit(values)
   }
@@ -135,8 +130,8 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
               {
                 validator: (_, value) => {
                   const { cycle: updatedCycle } = form.getFieldsValue()
-                  const cycleLength = durationHelper(updatedCycle.num, updatedCycle.unit).asDays()
-                  const durationLength = durationHelper(value.num, value.unit).asDays()
+                  const cycleLength = convertToDays(updatedCycle.num, updatedCycle.unit)
+                  const durationLength = convertToDays(value.num, value.unit)
                   if (!durationLength) {
                     return Promise.reject(validateMessages.durationRequired)
                   }

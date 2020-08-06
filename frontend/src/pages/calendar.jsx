@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import moment from "moment"
+
 import { GET_ALL_VISITS, CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
 import VisitForm from "components/forms/visit-form"
 import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"
+import { toISOStringWithTZ } from "lib/datetime"
 
 const MODALS = {
   addVisit: "addVisit",
@@ -72,8 +73,8 @@ const CalendarPage = () => {
           editVisit({
             variables: {
               id,
-              startsAt: moment(start).toISOString(true),
-              endsAt: moment(end).toISOString(true),
+              startsAt: toISOStringWithTZ(new Date(start)),
+              endsAt: toISOStringWithTZ(new Date(end)),
             },
           })
         }}

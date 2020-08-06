@@ -1,5 +1,6 @@
 import { maxBy } from "lodash"
-import moment from "moment"
+import add from "date-fns/add"
+import { toISOStringWithTZ } from "./datetime"
 
 const avatarSizes = {
   xs: "50x50",
@@ -15,11 +16,9 @@ export const getDefaultAvatar = (user, size) =>
 export const calculateNextVisit = (client) => {
   const { cycle, duration, visits } = client
   const lastVisit = maxBy(visits, (visit) => visit.endsAt)
-  const endOfLastVisit = moment(lastVisit.endsAt).add(1, "seconds")
-  const startOfNextVisit = endOfLastVisit.add(cycle, "days")
-  const endOfNextVisit = startOfNextVisit.add(duration, "days").subtract(1, "seconds")
+  const endOfLastVisit = new Date(lastVisit.endsAt)
+  const startOfNextVisit = add(endOfLastVisit, { seconds: 1, days: cycle })
+  const endOfNextVisit = add(startOfNextVisit, { days: duration })
 
-  console.log(lastVisit.endsAt, cycle, duration)
-
-  return [startOfNextVisit.toISOString(true), endOfNextVisit.toISOString(true)]
+  return [toISOStringWithTZ(startOfNextVisit), toISOStringWithTZ(endOfNextVisit)]
 }
