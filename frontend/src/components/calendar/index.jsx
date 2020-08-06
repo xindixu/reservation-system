@@ -6,15 +6,35 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 
-import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
-import { formatStart, formatEnd, toISOStringWithTZ } from "lib/datetime"
-import { VISIT } from "lib/commonTypes"
+import { Calendar as BaseCalendar, Views, Navigate, dateFnsLocalizer } from "react-big-calendar"
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
 
-const getTimeFormat = () => ({
-  hour: "2-digit",
-  minute: "2-digit",
-  meridiem: false,
+import format from "date-fns/format"
+import parse from "date-fns/parse"
+import startOfWeek from "date-fns/startOfWeek"
+import getDay from "date-fns/getDay"
+import EventBank from "./event-bank"
+import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
+import { VISIT } from "lib/commonTypes"
+import { formatStart, formatEnd, toISOStringWithTZ } from "lib/datetime"
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css"
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import { enUS } from "date-fns/locale"
+
+import Toolbar from "./toolbar"
+
+const locales = {
+  "en-US": enUS,
+}
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
 })
+
+const DnDCalendar = withDragAndDrop(BaseCalendar)
 
 const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initialDate }) => {
   const events = useMemo(
@@ -22,8 +42,8 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
       visits.map(({ id, startsAt, endsAt, client: { firstName, lastName } }) => ({
         id,
         title: `Visit: ${firstName} ${lastName}`,
-        start: startsAt,
-        end: toISOStringWithTZ(add(new Date(endsAt), { days: 1 })),
+        start: new Date(startsAt),
+        end: new Date(endsAt),
         allDay: true,
         editable: true,
       })),
@@ -33,48 +53,41 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
   const calendar = useRef(null)
   const [wrapperRef] = useMeasure()
 
-  const onEventClick = (arg) => {
-    onClickVisit(arg.event.id)
-  }
-
-  const onEventDrop = (arg) => {
-    const { id, start, end } = arg.event
+  const onEventDrop = (data) => {
+    const { event, start, end } = data
+    const { id } = event
     onEditVisit(id, formatStart(start), formatEnd(end))
   }
 
-  const onSelect = (arg) => {
-    const { start, end, allDay } = arg
-    onSelectDateRange(formatStart(start), formatEnd(end), allDay)
+  const onSelectEvent = (data) => {
+    onClickVisit(data.id)
+  }
+  const onSelectSlot = (data) => {
+    const { start, end } = data
+    onSelectDateRange(formatStart(start), formatEnd(end), true)
   }
 
   return (
-    <Wrapper ref={wrapperRef}>
-      <CalendarGlobalStyleOverride />
-      <FullCalendar
-        height="auto"
-        headerToolbar={{
-          start: "prev next",
-          center: "title",
-          end: "today",
-        }}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        selectable
-        editable
-        droppable
-        ref={calendar}
-        eventBackgroundColor="#bae7ff"
-        eventBorderColor="#bae7ff"
-        eventTextColor="#000"
-        themeSystem="standard"
-        eventClick={onEventClick}
-        eventDrop={onEventDrop}
-        eventResize={onEventDrop}
-        events={events}
-        eventTimeFormat={getTimeFormat()}
-        initialDate={initialDate || new Date()}
-        select={onSelect}
-      />
-    </Wrapper>
+    <>
+      <Wrapper ref={wrapperRef}>
+        <CalendarGlobalStyleOverride />
+        <DnDCalendar
+          defaultDate={new Date()}
+          defaultView={Views.MONTH}
+          events={events}
+          localizer={localizer}
+          onEventDrop={onEventDrop}
+          onEventResize={onEventDrop}
+          onSelectEvent={onSelectEvent}
+          onSelectSlot={onSelectSlot}
+          resizable
+          selectable
+          style={{ height: "100vh" }}
+          components={{ toolbar: Toolbar }}
+        />
+      </Wrapper>
+      <EventBank />
+    </>
   )
 }
 
