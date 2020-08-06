@@ -1,13 +1,12 @@
 import React, { useState } from "react"
-import PropTypes from "prop-types"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import moment from "moment"
 import { Typography, Button, Space, Tag } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
 import { GET_CLIENT_BY_ID, UPDATE_CLIENT } from "graphql/clients"
-import { CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT, GET_ALL_VISITS } from "graphql/visits"
-import { getFullName } from "lib/utils"
+import { CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
+import { getFullName, calculateNextVisit } from "lib/utils"
 import VisitForm from "components/forms/visit-form"
 import Calendar from "components/calendar"
 import ClientFrom from "components/forms/client-form"
@@ -84,6 +83,7 @@ const Client = () => {
   })
 
   const [selectedVisit, setSelectedVisit] = useState({})
+  const [presetDate, setPresetDate] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
   if (loading) {
@@ -96,6 +96,9 @@ const Client = () => {
   const { client } = data
   const { duration, cycle, managers, visits } = client
   const fullName = getFullName(client)
+
+  const [start, end] = calculateNextVisit(client)
+  console.log(start, end)
 
   return (
     <>
@@ -131,6 +134,10 @@ const Client = () => {
             },
           })
         }}
+        onSelectDateRange={(startsAt, endsAt, allDay) => {
+          setPresetDate({ startsAt, endsAt, allDay })
+          setModalToShow(MODALS.addVisit)
+        }}
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
@@ -156,13 +163,16 @@ const Client = () => {
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
-          title="Create New Visit"
-          onClose={() => setModalToShow("")}
+          title={`Create New Visit for ${getFullName(client)}`}
+          onClose={() => {
+            setModalToShow("")
+            setPresetDate({})
+          }}
           submitButtonText="Create"
         >
           {({ form }) => (
             <VisitForm
-              initialVisit={{ client }}
+              initialVisit={{ client, ...presetDate }}
               form={form}
               onSubmit={(values) => addVisit({ variables: values })}
             />

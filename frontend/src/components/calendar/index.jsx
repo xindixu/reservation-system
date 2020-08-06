@@ -70,6 +70,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
         themeSystem="standard"
         eventClick={onEventClick}
         eventDrop={onEventDrop}
+        eventResize={onEventDrop}
         events={events}
         eventTimeFormat={getTimeFormat()}
         initialDate={initialDate || new Date()}
