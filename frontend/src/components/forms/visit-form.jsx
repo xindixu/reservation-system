@@ -2,13 +2,23 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 
-import moment from "moment"
-import { Form, Select, DatePicker, Checkbox } from "antd"
+import startOfDay from "date-fns/startOfDay"
+import startOfWeek from "date-fns/startOfWeek"
+import startOfMonth from "date-fns/startOfMonth"
+import endOfDay from "date-fns/endOfDay"
+import endOfWeek from "date-fns/endOfWeek"
+import endOfMonth from "date-fns/endOfMonth"
+
+import { Form, Select, Checkbox } from "antd"
+
+import DatePicker from "components/date-picker"
+import { toISOStringWithTZ } from "lib/datetime"
 import { GET_ALL_CLIENTS } from "graphql/clients"
 import { GET_ALL_SLOTS } from "graphql/slots"
 import { VISIT, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
+const TODAY = new Date()
 const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
@@ -18,13 +28,15 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
 
   const onFinish = (fieldValues) => {
     const { visit } = fieldValues
-    const newStartsAt = allDay ? moment(visit[0]).startOf("day") : moment(visit[0])
-    const newEndsAt = allDay ? moment(visit[1]).endOf("day") : moment(visit[1])
+    const startsAtObj = new Date(visit[0])
+    const endsAtObj = new Date(visit[1])
+    const newStartsAt = allDay ? startOfDay(startsAtObj) : startsAtObj
+    const newEndsAt = allDay ? endOfDay(endsAtObj) : endsAtObj
 
     const values = {
       ...fieldValues,
-      startsAt: newStartsAt.toISOString(true),
-      endsAt: newEndsAt.toISOString(true),
+      startsAt: toISOStringWithTZ(newStartsAt),
+      endsAt: toISOStringWithTZ(newEndsAt),
     }
     onSubmit(values)
   }
@@ -35,7 +47,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
       initialValues={{
         clientId: client?.id,
         slotId: slot?.id,
-        visit: startsAt && endsAt ? [moment(startsAt), moment(endsAt)] : [],
+        visit: startsAt && endsAt ? [new Date(startsAt), new Date(endsAt)] : [],
       }}
       validateMessages={defaultValidateMessages}
       onFinish={onFinish}
@@ -66,9 +78,9 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
         <DatePicker.RangePicker
           style={{ width: "100%" }}
           ranges={{
-            Today: [moment(), moment()],
-            "This Week": [moment().startOf("week"), moment().endOf("week")],
-            "This Month": [moment().startOf("month"), moment().endOf("month")],
+            Today: [TODAY, TODAY],
+            "This Week": [startOfWeek(TODAY), endOfWeek(TODAY)],
+            "This Month": [startOfMonth(TODAY), endOfMonth(TODAY)],
           }}
           showTime={!allDay}
         />
