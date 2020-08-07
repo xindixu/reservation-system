@@ -53,6 +53,12 @@ export const TEAM = {
       managersCount
     }
   `,
+  basic: gql`
+    fragment BasicTeam on Team {
+      id
+      name
+    }
+  `,
 }
 
 export const VISIT = {
@@ -65,6 +71,17 @@ export const VISIT = {
         id
         name
       }
+    }
+  `,
+}
+
+export const SLOT = {
+  extended: gql`
+    fragment ExtendedSlot on Slot {
+      id
+      name
+      description
+      shareable
     }
   `,
 }

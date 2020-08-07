@@ -1,23 +1,46 @@
 import { gql } from "apollo-boost"
+import { SLOT, MANAGER, VISIT, TEAM, CLIENT } from "./fragments"
 
 export const GET_ALL_SLOTS = gql`
   query {
     slots {
-      id
-      name
-      description
-      shareable
+      ...ExtendedSlot
       team {
-        id
-        name
+        ...BasicTeam
       }
       manager {
-        id
-        firstName
-        lastName
+        ...BasicManager
       }
     }
   }
+  ${SLOT.extended}
+  ${MANAGER.basic}
+  ${TEAM.basic}
+`
+
+export const GET_SLOT_BY_ID = gql`
+  query Slot($id: ID!) {
+    slot(id: $id) {
+      ...ExtendedSlot
+      team {
+        ...BasicTeam
+      }
+      manager {
+        ...BasicManager
+      }
+      visits {
+        ...ExtendedVisit
+        client {
+          ...BasicClient
+        }
+      }
+    }
+  }
+  ${SLOT.extended}
+  ${MANAGER.basic}
+  ${TEAM.basic}
+  ${VISIT.extended}
+  ${CLIENT.basic}
 `
 
 export const CREATE_SLOT = gql`
@@ -31,22 +54,19 @@ export const CREATE_SLOT = gql`
       }
     ) {
       slot {
-        id
-        name
-        description
-        shareable
-        manager {
-          id
-          firstName
-          lastName
-        }
+        ...ExtendedSlot
         team {
-          id
-          name
+          ...BasicTeam
+        }
+        manager {
+          ...BasicManager
         }
       }
     }
   }
+  ${SLOT.extended}
+  ${MANAGER.basic}
+  ${TEAM.basic}
 `
 
 export const UPDATE_SLOT = gql`
@@ -67,22 +87,19 @@ export const UPDATE_SLOT = gql`
       }
     ) {
       slot {
-        id
-        name
-        description
-        shareable
-        manager {
-          id
-          firstName
-          lastName
-        }
+        ...ExtendedSlot
         team {
-          id
-          name
+          ...BasicTeam
+        }
+        manager {
+          ...BasicManager
         }
       }
     }
   }
+  ${SLOT.extended}
+  ${MANAGER.basic}
+  ${TEAM.basic}
 `
 
 export const DESTROY_SLOT = gql`

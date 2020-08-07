@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 import { Table, Button } from "antd"
 import {
   CheckSquareOutlined,
@@ -16,7 +17,11 @@ const { Column } = Table
 const Slots = ({ loading, slots, managers, teams, editSlot, deleteSlot }) => {
   return (
     <Table loading={loading} dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
-      <Column title="Name" key="name" dataIndex="name" />
+      <Column
+        title="Name"
+        key="name"
+        render={({ name, id }) => <Link to={`/slot/${id}`}>{name}</Link>}
+      />
       <Column
         title="Manager"
         key="manager"

@@ -62,7 +62,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
         </Select>
       </Form.Item>
       <Form.Item label="Slot" name="slotId" rules={[{ required: true }]}>
-        <Select>
+        <Select disabled={disabled.slotId}>
           {slotData?.slots.map(({ id, name }) => (
             <Select.Option value={id} key={id}>
               {name}
