@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components"
+import { blue } from "@ant-design/colors"
 import { styleSettings } from "styles/index"
 
 const { spacerLg, white } = styleSettings
@@ -12,14 +13,8 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
       color: #000;
     }
   
-    
     .rbc-month-view, .rbc-off-range-bg {
       background: ${white};
-    }
-
-
-    .fc-daygrid-day.fc-day-today {
-      background: none;
     }
 
     .rbc-header {
@@ -37,11 +32,17 @@ export const CalendarGlobalStyleOverride = createGlobalStyle`
       border-top: none;
     }
 
-
     .rbc-date-cell {
       margin: 0 5px;
-      padding: 0;
+      padding: 5px;
       border-top: 1px solid #f0f0f0;
+    }
+    .rbc-now {
+      border-color: ${blue.primary};
+    }
+
+    .rbc-day-bg {
+      margin: 0 5px;
     }
   }
 
