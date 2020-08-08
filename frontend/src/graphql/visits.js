@@ -2,8 +2,21 @@ import { gql } from "apollo-boost"
 import { VISIT, CLIENT } from "./fragments"
 
 export const GET_ALL_VISITS = gql`
-  query {
+  query Visits {
     visits {
+      ...ExtendedVisit
+      client {
+        ...BasicClient
+      }
+    }
+  }
+  ${VISIT.extended}
+  ${CLIENT.basic}
+`
+
+export const GET_VISITS = gql`
+  query Visits($managerIds: [ID!], $clientIds: [ID!], $slotIds: [ID!]) {
+    visits(managerIds: $managerIds, clientIds: $clientIds, slotIds: $slotIds) {
       ...ExtendedVisit
       client {
         ...BasicClient

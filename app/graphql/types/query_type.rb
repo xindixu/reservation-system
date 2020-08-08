@@ -4,7 +4,7 @@ module Types
     field :teams, [Types::TeamType], null: false
 
     def teams
-      Team.all
+      Team.all.order(:name, :id)
     end
 
     field :team, Types::TeamType, null: false do
@@ -19,7 +19,7 @@ module Types
     field :managers, [Types::ManagerType], null: false
 
     def managers
-      Manager.all
+      Manager.all.order(:first_name, :last_name, :id)
     end
 
     field :manager, Types::ManagerType, null: false do
@@ -34,7 +34,7 @@ module Types
     field :clients, [Types::ClientType], null: false
 
     def clients
-      Client.all
+      Client.all.order(:first_name, :last_name, :id)
     end
 
     field :client, Types::ClientType, null: false do
@@ -49,7 +49,7 @@ module Types
     field :slots, [Types::SlotType], null: false
 
     def slots
-      Slot.all
+      Slot.all.order(:name, :id)
     end
 
     field :slot, Types::SlotType, null: false do
@@ -64,7 +64,7 @@ module Types
     field :visits, [Types::VisitType], null: false
 
     def visits
-      Visit.all
+      Visit.all.order(:starts_at, :ends_at, :id)
     end
 
     field :visit, Types::VisitType, null: false do
@@ -91,6 +91,7 @@ module Types
 
       Visit.where(client_id: [*options[:client_ids], *client_ids_for_manager])
            .or(Visit.where(slot_id: options[:slot_ids]))
+           .order(:starts_at, :ends_at, :id)
     end
 
     # /services
