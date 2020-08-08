@@ -14,9 +14,9 @@ export const GET_ALL_VISITS = gql`
   ${CLIENT.basic}
 `
 
-export const GET_VISITS = gql`
-  query Visits($managerIds: [ID!], $clientIds: [ID!], $slotIds: [ID!]) {
-    visits(managerIds: $managerIds, clientIds: $clientIds, slotIds: $slotIds) {
+export const SEARCH_VISITS = gql`
+  query SearchVisits($managerIds: [ID!], $clientIds: [ID!], $slotIds: [ID!]) {
+    searchVisits(managerIds: $managerIds, clientIds: $clientIds, slotIds: $slotIds) {
       ...ExtendedVisit
       client {
         ...BasicClient
