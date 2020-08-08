@@ -9,9 +9,8 @@ import endOfDay from "date-fns/endOfDay"
 import endOfWeek from "date-fns/endOfWeek"
 import endOfMonth from "date-fns/endOfMonth"
 
-import { Form, Select, Checkbox, Switch } from "antd"
+import { Form, Select, Switch } from "antd"
 
-import { isEmpty } from "lodash"
 import { VISIT, FORM } from "lib/common-types"
 import { getFullName } from "lib/utils"
 import DatePicker from "components/date-picker"

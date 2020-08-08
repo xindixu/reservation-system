@@ -1,4 +1,5 @@
 module Types
+
   class QueryType < Types::BaseObject
     # /teams
     field :teams, [Types::TeamType], null: false
@@ -82,15 +83,14 @@ module Types
     end
 
     def search_visits(options={})
-      client_ids_for_manager =
-        if options[:manager_ids].present?
-          Manager.preload(:clients).find(options[:manager_ids]).map(&:clients).flatten.pluck(:id)
-        else
-          []
-        end
+      if options[:manager_ids].present?
+        managers = Manager.preload(:clients, :slots).find(options[:manager_ids])
+        client_ids_for_manager = managers.map(&:clients).flatten.pluck(:id)
+        slot_ids_for_manager = managers.map(&:slots).flatten.pluck(:id)
+      end
 
       Visit.where(client_id: [*options[:client_ids], *client_ids_for_manager])
-           .or(Visit.where(slot_id: options[:slot_ids]))
+           .or(Visit.where(slot_id: [*options[:slot_ids], *slot_ids_for_manager]))
            .order(:starts_at, :ends_at, :id)
     end
 
