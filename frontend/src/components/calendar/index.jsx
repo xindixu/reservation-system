@@ -30,7 +30,14 @@ const localizer = dateFnsLocalizer({
 
 const DnDCalendar = withDragAndDrop(BaseCalendar)
 
-const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initialDate }) => {
+const Calendar = ({
+  visits,
+  onClickVisit,
+  onEditVisit,
+  onSelectDateRange,
+  onDropVisit,
+  initialDate,
+}) => {
   const [draggedEvent, setDraggedEvent] = useState(null)
 
   const events = useMemo(
@@ -59,6 +66,7 @@ const Calendar = ({ visits, onClickVisit, onEditVisit, onSelectDateRange, initia
       end,
       isAllDay: allDay,
     }
+    onDropVisit(draggedEvent, start, end, allDay)
     setDraggedEvent(null)
 
     console.log(event)
