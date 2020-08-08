@@ -11,8 +11,36 @@ import {
   DESTROY_VISIT,
 } from "graphql/visits"
 
+const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { createVisit } }) => {
+  const { visit } = createVisit
+
+  if (searching) {
+    const { clientIds, slotIds } = searchParams
+    const { client, slot } = visit
+
+    if ((clientIds || []).includes(client.id) || (slotIds || []).includes(slot.id)) {
+      const { searchVisits } = cache.readQuery({ query: SEARCH_VISITS, variables: searchParams })
+      cache.writeQuery({
+        query: SEARCH_VISITS,
+        variables: searchParams,
+        data: {
+          searchVisits: [...searchVisits, visit],
+        },
+      })
+    }
+  }
+  const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
+  cache.writeQuery({
+    query: GET_ALL_VISITS,
+    data: {
+      visits: [...visits, visit],
+    },
+  })
+}
+
 const CalendarPage = () => {
   const [searchParams, setSearchParams] = useState({})
+  const searching = !isEmpty(searchParams)
   const { loading: loadingAllVisits, error, data: allVisitData } = useQuery(GET_ALL_VISITS)
   const [searchVisits, { loading: loadingSearchVisits, data: searchedVisitsData }] = useLazyQuery(
     SEARCH_VISITS,
@@ -21,16 +49,7 @@ const CalendarPage = () => {
     }
   )
   const [addVisit] = useMutation(CREATE_VISIT, {
-    update: (cache, { data: { createVisit } }) => {
-      const { visit } = createVisit
-      const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
-      cache.writeQuery({
-        query: GET_ALL_VISITS,
-        data: {
-          visits: [...visits, visit],
-        },
-      })
-    },
+    update: (...args) => updateAfterCreateVisit({ searching, searchParams }, ...args),
   })
 
   const [editVisit] = useMutation(UPDATE_VISIT)
@@ -51,18 +70,19 @@ const CalendarPage = () => {
     return `Error ${error.message}`
   }
 
-  const visits = isEmpty(searchParams) ? allVisitData?.visits : searchedVisitsData?.searchVisits
-  const loading = isEmpty(searchParams) ? loadingAllVisits : loadingSearchVisits
+  const visits = searching ? searchedVisitsData?.searchVisits : allVisitData?.visits
+  const loading = searching ? loadingSearchVisits : loadingAllVisits
   return (
     <>
       <Spin spinning={loading}>
         <Page
-          visits={visits || []}
-          setSearchParams={setSearchParams}
-          searchVisits={searchVisits}
-          editVisit={editVisit}
-          deleteVisit={deleteVisit}
           addVisit={addVisit}
+          deleteVisit={deleteVisit}
+          editVisit={editVisit}
+          searchParams={searchParams}
+          searchVisits={searchVisits}
+          setSearchParams={setSearchParams}
+          visits={visits || []}
         />
       </Spin>
     </>
