@@ -86,6 +86,7 @@ const Calendar = ({
       <Wrapper>
         <CalendarGlobalStyleOverride />
         <DnDCalendar
+          popup
           defaultDate={new Date()}
           defaultView={Views.MONTH}
           events={events}
