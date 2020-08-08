@@ -2,8 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Row, Col } from "antd"
+import { MANAGER, FORM } from "lib/common-types"
 import { GET_ALL_TEAMS } from "graphql/teams"
-import { MANAGER, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const ManagerForm = ({ form, initialManager, onSubmit }) => {

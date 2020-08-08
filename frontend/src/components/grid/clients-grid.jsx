@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Card } from "antd"
-import { CLIENT } from "lib/commonTypes"
+import { CLIENT } from "lib/common-types"
 
 const ClientGrid = ({ clients }) => (
   <div className="flex flex-wrap -mx-2 overflow-hidden">

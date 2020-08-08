@@ -3,11 +3,11 @@ import PropTypes from "prop-types"
 import { isEmpty, pickBy } from "lodash"
 
 import Toolbar from "./toolbar"
+import { VISIT } from "lib/common-types"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
 import VisitForm from "components/forms/visit-form"
 import FAButton from "components/floating-action-button"
-import { VISIT } from "lib/commonTypes"
 import { getFullName } from "lib/utils"
 import { toISOStringWithTZ } from "lib/datetime"
 

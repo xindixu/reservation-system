@@ -11,11 +11,11 @@ import endOfMonth from "date-fns/endOfMonth"
 
 import { Form, Select, Checkbox } from "antd"
 
+import { VISIT, FORM } from "lib/common-types"
 import DatePicker from "components/date-picker"
 import { toISOStringWithTZ } from "lib/datetime"
 import { GET_ALL_CLIENTS } from "graphql/clients"
 import { GET_ALL_SLOTS } from "graphql/slots"
-import { VISIT, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const TODAY = new Date()

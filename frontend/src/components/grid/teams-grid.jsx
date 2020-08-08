@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Typography, Button, Card } from "antd"
 import { MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons"
-import { TEAM } from "lib/commonTypes"
+import { TEAM } from "lib/common-types"
 
 const { Paragraph } = Typography
 

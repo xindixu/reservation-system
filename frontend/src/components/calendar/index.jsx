@@ -14,7 +14,7 @@ import { enUS } from "date-fns/locale"
 import Toolbar from "./toolbar"
 import EventBank from "./event-bank"
 import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
-import { VISIT } from "lib/commonTypes"
+import { VISIT } from "lib/common-types"
 import { formatStart, formatEnd } from "lib/datetime"
 
 const locales = {

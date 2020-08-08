@@ -2,9 +2,9 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Checkbox } from "antd"
+import { TEAM, FORM } from "lib/common-types"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
-import { TEAM, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const SlotForm = ({ initialSlot, form, onSubmit }) => {

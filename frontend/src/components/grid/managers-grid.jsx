@@ -2,8 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Typography, Card } from "antd"
+import { MANAGER } from "lib/common-types"
 import { getDefaultAvatar } from "lib/utils"
-import { MANAGER } from "lib/commonTypes"
 
 const { Meta } = Card
 const { Paragraph } = Typography

@@ -2,9 +2,9 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Select, List, Avatar } from "antd"
+import { TEAM, FORM } from "lib/common-types"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import { GET_ALL_MANAGERS } from "graphql/managers"
-import { TEAM, FORM } from "lib/commonTypes"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }) => {

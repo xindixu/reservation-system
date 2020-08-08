@@ -8,8 +8,8 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons"
+import { SLOT, MANAGER, TEAM } from "lib/common-types"
 import { getFullName } from "lib/utils"
-import { SLOT, MANAGER, TEAM } from "lib/commonTypes"
 import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table

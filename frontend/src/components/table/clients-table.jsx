@@ -3,8 +3,8 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Table, Button } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
+import { CLIENT, MANAGER } from "lib/common-types"
 import { getFullName } from "lib/utils"
-import { CLIENT, MANAGER } from "lib/commonTypes"
 import { defaultTableSettings } from "lib/constants"
 
 const { Column } = Table

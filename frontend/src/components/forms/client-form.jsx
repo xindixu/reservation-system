@@ -2,10 +2,10 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
+import { CLIENT, FORM } from "lib/common-types"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
-import { CLIENT, FORM } from "lib/commonTypes"
 import { convertToDays, DURATION_UNITS } from "lib/datetime"
 
 const { Option } = Select
