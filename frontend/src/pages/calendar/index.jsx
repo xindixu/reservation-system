@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 
+import Toolbar from "./toolbar"
 import { GET_ALL_VISITS, CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
@@ -63,6 +64,7 @@ const CalendarPage = () => {
 
   return (
     <>
+      <Toolbar onFilterChange={(filter) => console.log(filter)} />
       <Calendar
         visits={visits}
         onClickVisit={(id) => {
