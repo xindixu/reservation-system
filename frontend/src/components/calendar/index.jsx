@@ -42,9 +42,9 @@ const Calendar = ({
 
   const events = useMemo(
     () =>
-      visits.map(({ id, startsAt, endsAt, client: { firstName, lastName } }) => ({
+      visits.map(({ id, startsAt, endsAt, client: { firstName, lastName }, slot: { name } }) => ({
         id,
-        title: `Visit: ${firstName} ${lastName}`,
+        title: `Visit: ${firstName} ${lastName} at ${name}`,
         start: new Date(startsAt),
         end: new Date(endsAt),
         allDay: true,

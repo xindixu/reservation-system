@@ -9,9 +9,11 @@ import endOfDay from "date-fns/endOfDay"
 import endOfWeek from "date-fns/endOfWeek"
 import endOfMonth from "date-fns/endOfMonth"
 
-import { Form, Select, Checkbox } from "antd"
+import { Form, Select, Checkbox, Switch } from "antd"
 
+import { isEmpty } from "lodash"
 import { VISIT, FORM } from "lib/common-types"
+import { getFullName } from "lib/utils"
 import DatePicker from "components/date-picker"
 import { toISOStringWithTZ } from "lib/datetime"
 import { GET_ALL_CLIENTS } from "graphql/clients"
@@ -19,7 +21,41 @@ import { GET_ALL_SLOTS } from "graphql/slots"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const TODAY = new Date()
-const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
+
+const SelectWithFilterAndDisable = ({
+  data,
+  disabled = false,
+  filtered = [],
+  itemToString,
+  label,
+  name,
+}) => {
+  const [showAll, setShowAll] = useState(filtered.length === 0)
+
+  const itemsToShow = showAll ? data : data.filter(({ id }) => filtered.includes(id))
+
+  return (
+    <>
+      <Form.Item label={label} name={name} rules={[{ required: true }]}>
+        <Select disabled={!!disabled}>
+          {(itemsToShow || []).map((item) => (
+            <Select.Option value={item.id} key={item.id}>
+              {itemToString(item)}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      {filtered.length > 0 && (
+        <div className="flex space-x-2 mb-4 justify-end">
+          <span>Showing All</span>
+          <Switch checked={showAll} onChange={setShowAll} />
+        </div>
+      )}
+    </>
+  )
+}
+
+const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
   const { client, slot, startsAt, endsAt } = initialVisit
@@ -40,6 +76,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
     }
     onSubmit(values)
   }
+
   return (
     <Form
       {...defaultFormLayout}
@@ -52,24 +89,23 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
       validateMessages={defaultValidateMessages}
       onFinish={onFinish}
     >
-      <Form.Item label="Client" name="clientId" rules={[{ required: true }]}>
-        <Select disabled={disabled.clientId}>
-          {clientData?.clients.map(({ id, firstName, lastName }) => (
-            <Select.Option value={id} key={id}>
-              {firstName} {lastName}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item label="Slot" name="slotId" rules={[{ required: true }]}>
-        <Select disabled={disabled.slotId}>
-          {slotData?.slots.map(({ id, name }) => (
-            <Select.Option value={id} key={id}>
-              {name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
+      <SelectWithFilterAndDisable
+        label="Client"
+        name="clientId"
+        data={clientData?.clients}
+        filtered={filtered.clientIds}
+        disabled={disabled.clientId}
+        itemToString={(item) => getFullName(item)}
+      />
+
+      <SelectWithFilterAndDisable
+        label="Slot"
+        name="slotId"
+        data={slotData?.slots}
+        filtered={filtered.slotIds}
+        disabled={disabled.slotId}
+        itemToString={(item) => item.name}
+      />
       <Form.Item
         label="Visit"
         name="visit"
@@ -85,11 +121,10 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
           showTime={!allDay}
         />
       </Form.Item>
-      <Form.Item>
-        <Checkbox checked={allDay} onChange={() => setAllDay(!allDay)}>
-          All day
-        </Checkbox>
-      </Form.Item>
+      <div className="flex space-x-2 mb-4 justify-end">
+        <span>All day</span>
+        <Switch checked={allDay} onChange={setAllDay} />
+      </div>
     </Form>
   )
 }
@@ -97,10 +132,12 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit }) => {
 VisitForm.defaultProps = {
   initialVisit: {},
   disabled: {},
+  filtered: {},
 }
 
 VisitForm.propTypes = {
   disabled: PropTypes.object,
+  filtered: PropTypes.object,
   initialVisit: PropTypes.shape(VISIT),
   form: PropTypes.shape(FORM).isRequired,
   onSubmit: PropTypes.func.isRequired,
