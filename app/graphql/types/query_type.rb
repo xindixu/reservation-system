@@ -75,6 +75,24 @@ module Types
       Visit.find(id)
     end
 
+    field :search_visits, [Types::VisitType], null: true do
+      argument :manager_ids, [ID], required: false
+      argument :client_ids, [ID], required: false
+      argument :slot_ids, [ID], required: false
+    end
+
+    def search_visits(options={})
+      client_ids_for_manager =
+        if options[:manager_ids].present?
+          Manager.preload(:clients).find(options[:manager_ids]).map(&:clients).flatten.pluck(:id)
+        else
+          []
+        end
+
+      Visit.where(client_id: [*options[:client_ids], *client_ids_for_manager])
+           .or(Visit.where(slot_id: options[:slot_ids]))
+    end
+
     # /services
     field :services, [Types::ServiceType], null: false
 
