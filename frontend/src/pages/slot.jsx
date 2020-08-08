@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Typography, Button, Space, Tag } from "antd"
-import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
+import { Typography, Button, Space } from "antd"
+import { EditOutlined } from "@ant-design/icons"
 import { GET_SLOT_BY_ID, UPDATE_SLOT } from "graphql/slots"
 import { CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
 import { getFullName } from "lib/utils"
@@ -95,7 +95,7 @@ const Slot = () => {
   }
 
   const { slot } = data
-  const { name, visits, team, manager } = slot
+  const { name, sharable, visits, team, manager } = slot
 
   return (
     <>
@@ -104,6 +104,8 @@ const Slot = () => {
           <Title>{name}</Title>
 
           <p>Manager: {getFullName(manager)}</p>
+          <p>Team: {team.name}</p>
+          <p>Shareable: {sharable ? "yes" : "no"} </p>
           <PageActions slot={slot} edit={() => setModalToShow(MODALS.editSlot)} />
         </div>
       </div>
@@ -114,6 +116,9 @@ const Slot = () => {
         onClickVisit={(id) => {
           setSelectedVisit(visits.find((v) => v.id === id))
           setModalToShow(MODALS.editVisit)
+        }}
+        onDropVisit={(event, start, end, allDay) => {
+          console.log(event, start, end, allDay)
         }}
         onEditVisit={(id, start, end) => {
           editVisit({

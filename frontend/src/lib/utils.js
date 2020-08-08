@@ -13,10 +13,10 @@ export const getFullName = (user) => `${user.firstName} ${user.lastName}`
 export const getDefaultAvatar = (user, size) =>
   `https://robohash.org/${getFullName(user)}.png?size=${avatarSizes[size]}&set=set4`
 
-export const calculateNextVisit = (client) => {
-  const { cycle, duration, visits } = client
+export const calculateNextVisit = (client, visits) => {
+  const { cycle, duration } = client
   const lastVisit = maxBy(visits, (visit) => visit.endsAt)
-  const endOfLastVisit = new Date(lastVisit.endsAt)
+  const endOfLastVisit = lastVisit ? new Date(lastVisit.endsAt) : new Date()
   const startOfNextVisit = add(endOfLastVisit, { seconds: 1, days: cycle })
   const endOfNextVisit = add(startOfNextVisit, { days: duration })
 

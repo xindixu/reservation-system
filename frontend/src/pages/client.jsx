@@ -97,7 +97,7 @@ const Client = () => {
   const { duration, cycle, managers, visits } = client
   const fullName = getFullName(client)
 
-  const [start, end] = calculateNextVisit(client)
+  const [start, end] = calculateNextVisit(client, visits)
 
   return (
     <>
