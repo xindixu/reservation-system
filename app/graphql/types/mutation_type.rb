@@ -25,5 +25,8 @@ module Types
     field :create_visit, mutation: Mutations::Visits::CreateVisit
     field :update_visit, mutation: Mutations::Visits::UpdateVisit
     field :destroy_visit, mutation: Mutations::Visits::DestroyVisit
+
+    # User
+    field :create_user, mutation: Mutations::CreateUser
   end
 end
