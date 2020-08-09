@@ -108,5 +108,14 @@ module Types
     def service(id:)
       Service.find(id)
     end
+
+    # /user
+    field :user, Types::UserType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def user(id:)
+      User.find(id)
+    end
   end
 end
