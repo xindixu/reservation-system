@@ -3,7 +3,7 @@ module Mutations
     class DestroySlot < Mutations::BaseMutation
       argument :id, ID, required: true
 
-      field :slot, Types::SlotType, null: true
+      field :slot, Types::Models::SlotType, null: true
       field :errors, [String], null: false
 
       def resolve(id:)

@@ -9,7 +9,7 @@ module Mutations
       argument :job_title, String, required: false
       argument :team_id, ID, required: false
 
-      field :manager, Types::ManagerType, null: true
+      field :manager, Types::Models::ManagerType, null: true
       field :errors, [String], null: false
 
       def resolve(id:, **attributes)

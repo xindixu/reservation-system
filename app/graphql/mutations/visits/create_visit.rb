@@ -6,7 +6,7 @@ module Mutations
       argument :client_id, ID, required: true
       argument :slot_id, ID, required: true
 
-      field :visit, Types::VisitType, null: true
+      field :visit, Types::Models::VisitType, null: true
       field :errors, [String], null: false
 
       def resolve(**attributes)

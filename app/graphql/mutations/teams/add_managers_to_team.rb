@@ -4,7 +4,7 @@ module Mutations
       argument :id, ID, required: true
       argument :manager_ids, [ID], required: true
 
-      field :team, Types::TeamType, null: true
+      field :team, Types::Models::TeamType, null: true
       field :errors, [String], null: false
 
       def resolve(id:, manager_ids:)

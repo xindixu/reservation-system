@@ -9,7 +9,7 @@ module Mutations
       argument :client_ids, [ID], required: false
       argument :team_id, ID, required: true
 
-      field :manager, Types::ManagerType, null: true
+      field :manager, Types::Models::ManagerType, null: true
       field :errors, [String], null: false
 
       def resolve(team_id:, **attributes)

@@ -3,7 +3,7 @@ module Mutations
     class DestroyVisit < Mutations::BaseMutation
       argument :id, ID, required: true
 
-      field :visit, Types::VisitType, null: true
+      field :visit, Types::Models::VisitType, null: true
       field :errors, [String], null: false
 
       def resolve(id:)

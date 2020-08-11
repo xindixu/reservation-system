@@ -6,7 +6,7 @@ module Mutations
       argument :email, String, required: false
       argument :phone, String, required: false
 
-      field :team, Types::TeamType, null: true
+      field :team, Types::Models::TeamType, null: true
       field :errors, [String], null: false
 
       def resolve(**attributes)

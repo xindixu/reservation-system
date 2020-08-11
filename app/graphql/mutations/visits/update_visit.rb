@@ -6,7 +6,7 @@ module Mutations
       argument :ends_at, GraphQL::Types::ISO8601DateTime, required: false
       argument :slot_id, ID, required: false
 
-      field :visit, Types::VisitType, null: true
+      field :visit, Types::Models::VisitType, null: true
       field :errors, [String], null: false
 
       def resolve(id:, **attributes)

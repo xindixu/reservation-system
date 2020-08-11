@@ -7,7 +7,7 @@ module Mutations
       argument :shareable, Boolean, required: false
       argument :manager_id, ID, required: false
 
-      field :slot, Types::SlotType, null: true
+      field :slot, Types::Models::SlotType, null: true
       field :errors, [String], null: false
 
       def resolve(id:, **attributes)

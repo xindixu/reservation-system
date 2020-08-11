@@ -2,13 +2,13 @@ module Types
 
   class QueryType < Types::BaseObject
     # /teams
-    field :teams, [Types::TeamType], null: false
+    field :teams, [Types::Models::TeamType], null: false
 
     def teams
       Team.all.order(:name, :id)
     end
 
-    field :team, Types::TeamType, null: false do
+    field :team, Types::Models::TeamType, null: false do
       argument :id, ID, required: true
     end
 
@@ -17,13 +17,13 @@ module Types
     end
 
     # /managers
-    field :managers, [Types::ManagerType], null: false
+    field :managers, [Types::Models::ManagerType], null: false
 
     def managers
       Manager.all.order(:first_name, :last_name, :id)
     end
 
-    field :manager, Types::ManagerType, null: false do
+    field :manager, Types::Models::ManagerType, null: false do
       argument :id, ID, required: true
     end
 
@@ -32,13 +32,13 @@ module Types
     end
 
     # /clients
-    field :clients, [Types::ClientType], null: false
+    field :clients, [Types::Models::ClientType], null: false
 
     def clients
       Client.all.order(:first_name, :last_name, :id)
     end
 
-    field :client, Types::ClientType, null: false do
+    field :client, Types::Models::ClientType, null: false do
       argument :id, ID, required: true
     end
 
@@ -47,13 +47,13 @@ module Types
     end
 
     # /slots
-    field :slots, [Types::SlotType], null: false
+    field :slots, [Types::Models::SlotType], null: false
 
     def slots
       Slot.all.order(:name, :id)
     end
 
-    field :slot, Types::SlotType, null: false do
+    field :slot, Types::Models::SlotType, null: false do
       argument :id, ID, required: true
     end
 
@@ -62,13 +62,13 @@ module Types
     end
 
     # /visits
-    field :visits, [Types::VisitType], null: false
+    field :visits, [Types::Models::VisitType], null: false
 
     def visits
       Visit.all.order(:starts_at, :ends_at, :id)
     end
 
-    field :visit, Types::VisitType, null: false do
+    field :visit, Types::Models::VisitType, null: false do
       argument :id, ID, required: true
     end
 
@@ -76,7 +76,7 @@ module Types
       Visit.find(id)
     end
 
-    field :search_visits, [Types::VisitType], null: true do
+    field :search_visits, [Types::Models::VisitType], null: true do
       argument :manager_ids, [ID], required: false
       argument :client_ids, [ID], required: false
       argument :slot_ids, [ID], required: false
@@ -95,13 +95,13 @@ module Types
     end
 
     # /services
-    field :services, [Types::ServiceType], null: false
+    field :services, [Types::Models::ServiceType], null: false
 
     def services
       Service.all
     end
 
-    field :service, Types::ServiceType, null: false do
+    field :service, Types::Models::ServiceType, null: false do
       argument :id, ID, required: true
     end
 
@@ -110,7 +110,7 @@ module Types
     end
 
     # /user
-    field :user, Types::UserType, null: false do
+    field :user, Types::Models::UserType, null: false do
       argument :id, ID, required: true
     end
 
