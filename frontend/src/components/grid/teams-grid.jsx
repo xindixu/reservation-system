@@ -13,7 +13,7 @@ const TeamsGrid = ({ teams }) => (
       <Link
         key={id}
         to={`/team/${id}`}
-        className="my-2 px-2 w-full overflow-hidden sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4"
+        className="my-2 p-4 w-full overflow-hidden sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/4"
       >
         <Card
           title={name}

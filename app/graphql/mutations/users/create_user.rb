@@ -1,20 +1,17 @@
 module Mutations
   module Users
     class CreateUser < BaseMutation
-      class AuthProviderSignupData < Types::BaseInputObject
-        argument :credentials, Types::AuthProviderCredentialsInput, required: false
-      end
       argument :role, String, required: true
-      argument :auth_provider, AuthProviderSignupData, required: false
+      argument :credentials, Types::Inputs::AuthProviderCredentialsInput, required: true
 
       field :user, Types::Models::UserType, null: true
       field :errors, [String], null: false
 
-      def resolve(role:, auth_provider: nil)
+      def resolve(role:, credentials:)
         user = User.create(
           role: role,
-          email: auth_provider&.[](:credentials)&.[](:email),
-          password: auth_provider&.[](:credentials)&.[](:password)
+          email: credentials[:email],
+          password: credentials[:password]
         )
 
         if user.save
