@@ -37,6 +37,7 @@
     "no-underscore-dangle": 0,
     "no-unused-expressions": 0,
     "prefer-promise-reject-errors": 0,
+    "import/prefer-default-export": 0,
     "import/extensions": [
       "error",
       "always",

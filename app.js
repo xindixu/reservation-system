@@ -2,20 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import { ApolloServer, gql } from "apollo-server-express"
 import mongoose from "mongoose"
-// import typeDefs from "./graphql/schema/index.js"
-// import resolvers from "./graphql/resolvers/index.js"
-
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: () => "yay",
-  },
-}
+import typeDefs from "./graphql/schema/index.js"
+import resolvers from "./graphql/resolvers/index.js"
 
 const server = new ApolloServer({ typeDefs, resolvers })
 const app = express()
