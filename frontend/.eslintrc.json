@@ -3,13 +3,6 @@
     "browser": true
   },
   "extends": ["airbnb", "prettier", "prettier/react"],
-  "globals": {
-    "gon": "writeable",
-    "moment": "readable",
-    "Pingboard": "writeable",
-    "test": "writable",
-    "fixture": "writable"
-  },
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
