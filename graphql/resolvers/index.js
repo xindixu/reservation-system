@@ -1,9 +1,9 @@
-import { teams, createTeam } from "./team.js"
+import { team, teams, createTeam } from "./team.js"
 
 const resolvers = {
   Query: {
     teams,
-    team: (id) => {},
+    team,
   },
   Mutation: {
     createTeam,

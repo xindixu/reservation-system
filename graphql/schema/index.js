@@ -11,7 +11,7 @@ const typeDefs = gql`
 
   type Query {
     teams: [Team!]
-    team: Team
+    team(id: ID!): Team!
   }
 `
 

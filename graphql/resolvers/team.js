@@ -4,6 +4,8 @@ const parseTeam = ({ _doc }) => ({
   ..._doc,
 })
 
+const team = async (_, { id }) => Team.findById(id)
+
 const teams = async () => {
   const allTeams = await Team.find()
   return allTeams.map(parseTeam)
@@ -14,14 +16,14 @@ const createTeam = async (_, { teamInput }) => {
   //   throw new Error("Unauthenticated")
   // }
   const { name, description, email, phone } = teamInput
-  const team = await new Team({
+  const newTeam = await new Team({
     name,
     description,
     email,
     phone,
   }).save()
 
-  return parseTeam(team)
+  return parseTeam(newTeam)
 }
 
-export { teams, createTeam }
+export { team, teams, createTeam }
