@@ -2,7 +2,7 @@ import express from "express"
 import bodyParser from "body-parser"
 import { ApolloServer } from "apollo-server-express"
 import mongoose from "mongoose"
-import typeDefs from "./graphql/schema/index.js"
+import typeDefs from "./graphql/typeDefs/index.js"
 import resolvers from "./graphql/resolvers/index.js"
 
 const server = new ApolloServer({ typeDefs, resolvers })

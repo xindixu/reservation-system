@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import { UserInputError } from "apollo-server-express"
 import Manager from "../../models/manager.js"
 import Team from "../../models/team.js"
@@ -7,11 +8,10 @@ const parseManager = ({ _doc }) => ({
 })
 
 const manager = async (_, { id }) => {
-  const theManager = await Manager.findById(id)
-  if (!theManager) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new UserInputError(`${id} is not a valid manager id.`)
   }
-  return theManager
+  return Manager.findById(id)
 }
 
 const managers = async () => {
