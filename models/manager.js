@@ -3,12 +3,12 @@ import { phone } from "../utils/validators.js"
 
 const { Schema } = mongoose
 
-const teamSchema = new Schema({
-  name: {
+const managerSchema = new Schema({
+  firstName: {
     type: String,
     required: true,
   },
-  description: {
+  lastName: {
     type: String,
     required: true,
   },
@@ -20,7 +20,7 @@ const teamSchema = new Schema({
     type: String,
     validate: phone,
   },
-  managers: [{ type: Schema.Types.ObjectId, ref: "Manager" }],
+  team: { type: Schema.Types.ObjectId, ref: "Team" },
 })
 
-export default mongoose.model("Team", teamSchema)
+export default mongoose.model("Manager", managerSchema)

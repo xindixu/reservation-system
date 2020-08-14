@@ -1,17 +1,20 @@
 import { gql } from "apollo-server-express"
-import { Team, TeamInput } from "./team.js"
+import Team from "./team.js"
+import Manager from "./manager.js"
 
 const typeDefs = gql`
   ${Team}
-  ${TeamInput}
+
+  ${Manager}
+  ${ManagerInput}
 
   type Mutation {
-    createTeam(teamInput: TeamInput): Team
+    createManager(managerInput: ManagerInput): Manager
   }
 
   type Query {
-    teams: [Team!]
-    team(id: ID!): Team!
+    managers: [Manager!]
+    manager(id: ID!): Manager!
   }
 `
 
