@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express"
 
-const Manager = gql`
+export default gql`
   type Manager {
     _id: ID!
     firstName: String!
@@ -10,9 +10,7 @@ const Manager = gql`
     jobTitle: String!
     team: Team!
   }
-`
 
-const ManagerInput = gql`
   input ManagerInput {
     firstName: String!
     lastName: String!
@@ -21,6 +19,13 @@ const ManagerInput = gql`
     jobTitle: String!
     teamId: ID!
   }
-`
 
-export { Manager, ManagerInput }
+  extend type Query {
+    managers: [Manager!]
+    manager(id: ID!): Manager!
+  }
+
+  extend type Mutation {
+    createManager(managerInput: ManagerInput): Manager
+  }
+`

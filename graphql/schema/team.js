@@ -1,22 +1,29 @@
 import { gql } from "apollo-server-express"
 
-const Team = gql`
+export default gql`
   type Team {
     _id: ID!
     name: String!
     description: String!
     email: String!
     phone: String!
+    managers: [Manager!]
   }
-`
 
-const TeamInput = gql`
   input TeamInput {
     name: String!
     description: String!
     email: String!
     phone: String!
+    managerIds: [ID!]
+  }
+
+  extend type Query {
+    teams: [Team!]
+    team(id: ID!): Team!
+  }
+
+  extend type Mutation {
+    createTeam(teamInput: TeamInput): Team
   }
 `
-
-export { Team, TeamInput }

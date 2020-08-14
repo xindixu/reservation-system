@@ -1,3 +1,4 @@
+import { UserInputError } from "apollo-server-express"
 import Manager from "../../models/manager.js"
 import Team from "../../models/team.js"
 
@@ -5,7 +6,13 @@ const parseManager = ({ _doc }) => ({
   ..._doc,
 })
 
-const manager = async (_, { id }) => Manager.findById(id)
+const manager = async (_, { id }) => {
+  const theManager = await Manager.findById(id)
+  if (!theManager) {
+    throw new UserInputError(`${id} is not a valid manager id.`)
+  }
+  return theManager
+}
 
 const managers = async () => {
   const allManagers = await Manager.find()
@@ -18,6 +25,9 @@ const createManager = async (_, { managerInput }) => {
   // }
   const { firstName, lastName, jobTitle, email, phone, teamId } = managerInput
   const team = await Team.findOne({ _id: teamId })
+  if (!team) {
+    throw new UserInputError(`${teamId} is not a valid team id.`)
+  }
   const newManager = await new Manager({
     firstName,
     lastName,
