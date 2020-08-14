@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { UserInputError } from "apollo-server-express"
 import User from "../../models/user.js"
+import userValidator from "../../schemas/user.js"
 
 const parseUser = ({ _doc }) => ({
   ..._doc,
@@ -19,14 +20,16 @@ const users = async () => {
 }
 
 const signUp = async (_, { userInput }) => {
-  // if (!isAuth) {
-  //   throw new Error("Unauthenticated")
-  // }
   const { email, password } = userInput
-  const newUser = await new User({
+  const { error } = userValidator.validate({ email, password }, { abortEarly: false })
+
+  if (error) {
+    throw new UserInputError(error)
+  }
+  const newUser = await User.create({
     email,
     password,
-  }).save()
+  })
 
   return parseUser(newUser)
 }

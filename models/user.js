@@ -7,7 +7,10 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
+      validate: {
+        validator: async (email) => User.doesntExist({ email }),
+        message: ({ value }) => `Email ${value} has already been taken!`,
+      },
     },
     password: {
       type: String,
@@ -21,14 +24,15 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    try {
-      this.password = await hash(this.password, 10)
-    } catch (error) {
-      next(error)
-    }
+    this.password = await hash(this.password, 10)
   }
 
   next()
 })
 
-export default mongoose.model("User", userSchema)
+userSchema.statics.doesntExist = async function (options) {
+  return (await this.where(options).countDocuments()) === 0
+}
+
+const User = mongoose.model("User", userSchema)
+export default User
