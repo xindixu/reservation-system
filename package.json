@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -r esm index.js"
+    "start": "eval $(cat .env) nodemon -r esm index.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
