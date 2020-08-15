@@ -1,10 +1,11 @@
 import express from "express"
 import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
 import { ApolloServer, AuthenticationError } from "apollo-server-express"
 import mongoose from "mongoose"
+import jwt from "jsonwebtoken"
 import typeDefs from "./graphql/typeDefs/index.js"
 import resolvers from "./graphql/resolvers/index.js"
-import { getUser } from "./utils/auth.js"
 
 const server = new ApolloServer({
   typeDefs,
@@ -21,6 +22,20 @@ const server = new ApolloServer({
 })
 
 const app = express()
+app.use(cookieParser())
+app.use((req, _, next) => {
+  const accessToken = req.cookies["access-token"]
+
+  try {
+    if (accessToken) {
+      const data = jwt.verify(accessToken, process.env.JWT_HASH)
+      req.userId = data.userId
+    }
+  } catch (error) {
+    console.error(error)
+  }
+  next()
+})
 
 server.applyMiddleware({ app })
 

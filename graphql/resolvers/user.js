@@ -1,12 +1,12 @@
 import mongoose from "mongoose"
 import { compare } from "bcryptjs"
-import { sign } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 import { UserInputError } from "apollo-server-express"
 import User from "../../models/user.js"
 import userValidator from "../../schemas/user.js"
 
-const accessTokenAge = 60 * 60 * 2 // 2 hrs
-const refreshTokenAge = 60 * 60 * 24 * 7 // 7 days
+const accessTokenAge = 60 * 60 * 60 * 2 // 2 hrs
+const refreshTokenAge = 60 * 60 * 60 * 24 * 7 // 7 days
 
 const parseUser = ({ _doc }) => ({
   ..._doc,
@@ -22,6 +22,13 @@ const user = async (_, { id }) => {
 const users = async () => {
   const allUsers = await User.find()
   return allUsers.map(parseUser)
+}
+
+const me = async (_, args, { req }) => {
+  if (!req.userId) {
+    return null
+  }
+  return User.findById(req.userId)
 }
 
 const signIn = async (_, { userInput }, { res }) => {
@@ -40,11 +47,11 @@ const signIn = async (_, { userInput }, { res }) => {
   }
   // TODO: get/store user role
 
-  const accessToken = sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
+  const accessToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
     expiresIn: accessTokenAge,
   })
 
-  const refreshToken = sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
+  const refreshToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
     expiresIn: refreshTokenAge,
   })
 
@@ -75,4 +82,4 @@ const signUp = async (_, { userInput }) => {
   return parseUser(newUser)
 }
 
-export { user, users, signUp, signIn }
+export { me, user, users, signUp, signIn }

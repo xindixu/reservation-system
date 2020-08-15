@@ -1,6 +1,6 @@
 import { team, teams, createTeam } from "./team.js"
 import { manager, managers, createManager } from "./manager.js"
-import { user, users, signIn, signUp } from "./user.js"
+import { me, user, users, signIn, signUp } from "./user.js"
 
 const resolvers = {
   Query: {
@@ -10,6 +10,7 @@ const resolvers = {
     managers,
     user,
     users,
+    me,
   },
   Mutation: {
     createTeam,
