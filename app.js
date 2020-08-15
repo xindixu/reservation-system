@@ -1,11 +1,25 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { ApolloServer } from "apollo-server-express"
+import { ApolloServer, AuthenticationError } from "apollo-server-express"
 import mongoose from "mongoose"
 import typeDefs from "./graphql/typeDefs/index.js"
 import resolvers from "./graphql/resolvers/index.js"
+import { getUser } from "./utils/auth.js"
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req, res }) => {
+    // const authHeader = req.get("Authorization") || ""
+    // const user = getUser(authHeader)
+    // if (!user) {
+    //   throw new AuthenticationError("you must be logged in")
+    // }
+
+    return { req, res }
+  },
+})
+
 const app = express()
 
 server.applyMiddleware({ app })

@@ -4,7 +4,8 @@ export default gql`
   type User {
     _id: ID!
     email: String!
-    password: String!
+    accessToken: String
+    refreshToken: String
   }
 
   input UserInput {
@@ -19,5 +20,6 @@ export default gql`
 
   extend type Mutation {
     signUp(userInput: UserInput): User
+    signIn(userInput: UserInput): User
   }
 `
