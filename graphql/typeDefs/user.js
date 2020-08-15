@@ -22,5 +22,6 @@ export default gql`
   extend type Mutation {
     signUp(userInput: UserInput): User
     signIn(userInput: UserInput): User
+    invalidateTokens: Boolean!
   }
 `

@@ -1,12 +1,9 @@
 import mongoose from "mongoose"
 import { compare } from "bcryptjs"
-import jwt from "jsonwebtoken"
 import { UserInputError } from "apollo-server-express"
 import User from "../../models/user.js"
 import userValidator from "../../schemas/user.js"
-
-const accessTokenAge = 60 * 60 * 60 * 2 // 2 hrs
-const refreshTokenAge = 60 * 60 * 60 * 24 * 7 // 7 days
+import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
 
 const parseUser = ({ _doc }) => ({
   ..._doc,
@@ -24,7 +21,7 @@ const users = async () => {
   return allUsers.map(parseUser)
 }
 
-const me = async (_, args, { req }) => {
+const me = async (_, __, { req }) => {
   if (!req.userId) {
     return null
   }
@@ -45,16 +42,8 @@ const signIn = async (_, { userInput }, { res }) => {
   if (!valid) {
     throw new UserInputError("Password is incorrect")
   }
-  // TODO: get/store user role
 
-  const accessToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
-    expiresIn: accessTokenAge,
-  })
-
-  const refreshToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_HASH, {
-    expiresIn: refreshTokenAge,
-  })
-
+  const { accessToken, refreshToken } = createToken(user)
   res.cookie("access-token", accessToken, { maxAge: accessTokenAge })
   res.cookie("refresh-token", refreshToken, { maxAge: refreshTokenAge })
 
@@ -82,4 +71,21 @@ const signUp = async (_, { userInput }) => {
   return parseUser(newUser)
 }
 
-export { me, user, users, signUp, signIn }
+const invalidateTokens = async (_, __, { req, res }) => {
+  if (!req.userId) {
+    return false
+  }
+
+  const user = await User.findById(req.userId)
+  if (!user) {
+    return false
+  }
+  user.lastSeen = Date.now()
+  await user.save()
+  console.log(user)
+  res.clearCookie("access-token")
+
+  return true
+}
+
+export { me, user, users, signUp, signIn, invalidateTokens }

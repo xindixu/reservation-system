@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import uniqueValidator from "mongoose-unique-validator"
 import { hash } from "bcryptjs"
 
 const { Schema } = mongoose
@@ -7,14 +8,16 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      validate: {
-        validator: async (email) => User.doesntExist({ email }),
-        message: ({ value }) => `Email ${value} has already been taken!`,
-      },
+      unique: true,
     },
     password: {
       type: String,
       required: true,
+    },
+    lastSeen: {
+      type: Date,
+      required: true,
+      default: Date.now,
     },
   },
   {
@@ -30,9 +33,7 @@ userSchema.pre("save", async function (next) {
   next()
 })
 
-userSchema.statics.doesntExist = async function (options) {
-  return (await this.where(options).countDocuments()) === 0
-}
+userSchema.plugin(uniqueValidator)
 
 const User = mongoose.model("User", userSchema)
 export default User
