@@ -8,35 +8,33 @@ const parseTeam = ({ _doc }) => ({
   id: _doc._id,
 })
 
-const team = async (_, { id }) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new UserInputError(`${id} is not a valid manager id.`)
-  }
-  return Team.findById(id)
+const resolvers = {
+  Query: {
+    team: async (_, { id }) => {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new UserInputError(`${id} is not a valid manager id.`)
+      }
+      return Team.findById(id)
+    },
+    teams: async () => {
+      const allTeams = await Team.find()
+      return allTeams.map(parseTeam)
+    },
+  },
+
+  Mutation: {
+    createTeam: async (_, { input }) => {
+      const { name, description, email, phone } = input
+      const newTeam = await new Team({
+        name,
+        description,
+        email,
+        phone,
+      }).save()
+
+      return parseTeam(newTeam)
+    },
+  },
 }
 
-const teams = async () => {
-  const allTeams = await Team.find()
-  return allTeams.map(parseTeam)
-}
-
-const createTeam = async (_, { input }) => {
-  const { name, description, email, phone } = input
-  const newTeam = await new Team({
-    name,
-    description,
-    email,
-    phone,
-  }).save()
-
-  return parseTeam(newTeam)
-}
-
-export const teamQueries = {
-  team,
-  teams,
-}
-
-export const teamMutations = {
-  createTeam,
-}
+export default resolvers

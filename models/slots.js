@@ -1,11 +1,10 @@
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
-import { phone } from "../utils/validators.js"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
 
-const teamSchema = new Schema(
+const slotSchema = new Schema(
   {
     name: {
       type: String,
@@ -16,13 +15,9 @@ const teamSchema = new Schema(
       type: String,
       required: true,
     },
-    email: {
-      type: String,
+    shareable: {
+      type: Boolean,
       required: true,
-    },
-    phone: {
-      type: String,
-      validate: phone,
     },
     managers: [
       {
@@ -30,10 +25,15 @@ const teamSchema = new Schema(
         ref: "Manager",
       },
     ],
+    team: {
+      type: ObjectId,
+      ref: "Team",
+      required: true,
+    },
   },
   { timestamps: true }
 )
 
-teamSchema.plugin(uniqueValidator)
+slotSchema.plugin(uniqueValidator)
 
-export default mongoose.model("Team", teamSchema)
+export default mongoose.model("Slot", slotSchema)

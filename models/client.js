@@ -5,24 +5,32 @@ import { phone } from "../utils/validators.js"
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
 
-const teamSchema = new Schema(
+const clientSchema = new Schema(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
-      unique: true,
     },
-    description: {
+    lastName: {
       type: String,
       required: true,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       type: String,
       validate: phone,
+    },
+    cycle: {
+      type: Number,
+      required: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
     },
     managers: [
       {
@@ -34,6 +42,6 @@ const teamSchema = new Schema(
   { timestamps: true }
 )
 
-teamSchema.plugin(uniqueValidator)
+clientSchema.plugin(uniqueValidator)
 
-export default mongoose.model("Team", teamSchema)
+export default mongoose.model("Client", clientSchema)

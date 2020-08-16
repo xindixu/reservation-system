@@ -1,18 +1,5 @@
-import { teamQueries, teamMutations } from "./team.js"
-import { managerQueries, managerMutations } from "./manager.js"
-import { userQueries, userMutations } from "./user.js"
+import teamResolvers from "./team.js"
+import managerResolvers from "./manager.js"
+import userResolvers from "./user.js"
 
-const resolvers = {
-  Query: {
-    ...teamQueries,
-    ...managerQueries,
-    ...userQueries,
-  },
-  Mutation: {
-    ...teamMutations,
-    ...managerMutations,
-    ...userMutations,
-  },
-}
-
-export default resolvers
+export default [teamResolvers, managerResolvers, userResolvers]
