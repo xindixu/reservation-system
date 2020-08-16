@@ -1,33 +1,26 @@
 import { compare } from "bcryptjs"
 import { UserInputError } from "apollo-server-express"
+import { checkObjectId } from "../../utils/validators.js"
 import User from "../../models/user.js"
-import { signUp, signIn, objectId } from "../../validators/index.js"
+import { signUp, signIn } from "../../validators/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
-
-const parseUser = ({ _doc }) => ({
-  ..._doc,
-  _id: undefined,
-  id: _doc._id,
-})
 
 const resolvers = {
   Query: {
     me: async (_, __, { req }) => {
-      return User.findById(req.userId)
+      const { userId } = req
+      if (userId) {
+        return User.findById(userId)
+      }
+      return null
     },
 
     user: async (_, { id }) => {
-      const { error } = await objectId.validate(id)
-      if (error) {
-        throw new UserInputError(`${id} is not a valid object id.`)
-      }
+      await checkObjectId(id)
       return User.findById(id)
     },
 
-    users: async () => {
-      const allUsers = await User.find()
-      return allUsers.map(parseUser)
-    },
+    users: async () => User.find(),
   },
 
   Mutation: {
@@ -70,12 +63,10 @@ const resolvers = {
       if (error) {
         throw new UserInputError(error)
       }
-      const newUser = await User.create({
+      return User.create({
         email,
         password,
       })
-
-      return parseUser(newUser)
     },
 
     signOut: async (_, __, { req, res }) => {

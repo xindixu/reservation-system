@@ -1,3 +1,4 @@
+import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators.js"
@@ -37,4 +38,14 @@ const clientSchema = new Schema(
 
 clientSchema.plugin(uniqueValidator)
 
-export default mongoose.model("Client", clientSchema)
+const Client = mongoose.model("Client", clientSchema)
+
+export const findClientById = async (id) => {
+  const client = await Client.findById(id)
+  if (!client) {
+    throw new UserInputError(`Client ${id} not found.`)
+  }
+  return client
+}
+
+export default Client

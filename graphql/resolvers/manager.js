@@ -1,7 +1,6 @@
-import { UserInputError } from "apollo-server-express"
 import { checkObjectId } from "../../utils/validators.js"
 import Manager from "../../models/manager.js"
-import Team from "../../models/team.js"
+import { findTeamById } from "../../models/team.js"
 
 const resolvers = {
   Query: {
@@ -17,12 +16,7 @@ const resolvers = {
   Mutation: {
     createManager: async (_, { input }) => {
       const { firstName, lastName, jobTitle, email, phone, teamId } = input
-      await checkObjectId(teamId)
-
-      const team = await Team.findById(teamId)
-      if (!team) {
-        throw new UserInputError(`Team ${teamId} not found.`)
-      }
+      const team = await findTeamById(teamId)
       const manager = await Manager.create({
         firstName,
         lastName,
@@ -39,17 +33,10 @@ const resolvers = {
       const { id, teamId, ...updates } = input
       await checkObjectId(id)
 
-      if (teamId) {
-        await checkObjectId(teamId)
-        const team = await Team.findById(teamId)
-        if (!team) {
-          throw new UserInputError(`Team ${teamId} not found.`)
-        }
-      }
-
+      const team = teamId ? await findTeamById(teamId) : undefined
       const manager = await Manager.findByIdAndUpdate(
         id,
-        { ...updates, team: teamId },
+        { ...updates, team },
         {
           new: true,
           omitUndefined: true,

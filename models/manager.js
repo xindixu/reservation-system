@@ -1,3 +1,4 @@
+import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators.js"
@@ -36,5 +37,14 @@ const managerSchema = new Schema(
 )
 
 managerSchema.plugin(uniqueValidator)
+const Manager = mongoose.model("Manager", managerSchema)
 
-export default mongoose.model("Manager", managerSchema)
+export const areManagerIdsValid = async (ids) => {
+  const idsFound = await Manager.where("_id").in(ids).countDocuments()
+  if (idsFound !== ids.length) {
+    throw new UserInputError("One or more Managers not found.")
+  }
+  return idsFound
+}
+
+export default Manager

@@ -1,8 +1,6 @@
-import { UserInputError } from "apollo-server-express"
 import { checkObjectId } from "../../utils/validators.js"
 import Slot from "../../models/slot.js"
-import Manager from "../../models/manager.js"
-import Team from "../../models/team.js"
+import { findTeamById } from "../../models/team.js"
 
 const resolvers = {
   Query: {
@@ -16,10 +14,7 @@ const resolvers = {
   Mutation: {
     createSlot: async (_, { input }) => {
       const { name, description, shareable, teamId } = input
-      const team = await Team.findById(teamId)
-      if (!team) {
-        throw new UserInputError(`Team ${teamId} not found.`)
-      }
+      const team = await findTeamById(teamId)
       const slot = await Slot.create({
         name,
         description,
@@ -34,17 +29,10 @@ const resolvers = {
       const { id, teamId, ...updates } = input
       await checkObjectId(id)
 
-      if (teamId) {
-        await checkObjectId(teamId)
-        const team = await Team.findById(teamId)
-        if (!team) {
-          throw new UserInputError(`Team ${teamId} not found.`)
-        }
-      }
-
+      const team = teamId ? await findTeamById(teamId) : undefined
       const slot = await Slot.findByIdAndUpdate(
         id,
-        { ...updates, team: teamId },
+        { ...updates, team },
         { new: true, omitUndefined: true }
       )
       return slot

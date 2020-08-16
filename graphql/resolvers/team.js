@@ -1,8 +1,7 @@
-import { UserInputError } from "apollo-server-express"
 import { checkObjectId } from "../../utils/validators.js"
 import Team from "../../models/team.js"
-import Manager from "../../models/manager.js"
-import Slot from "../../models/slot.js"
+import Manager, { areManagerIdsValid } from "../../models/manager.js"
+import Slot, { areSlotIdsValid } from "../../models/slot.js"
 
 const resolvers = {
   Query: {
@@ -16,13 +15,12 @@ const resolvers = {
   Mutation: {
     createTeam: async (_, { input }) => {
       const { name, description, email, phone } = input
-      const team = await Team.create({
+      return Team.create({
         name,
         description,
         email,
         phone,
       })
-      return team
     },
 
     updateTeam: async (_, { input }) => {
@@ -30,23 +28,15 @@ const resolvers = {
       await checkObjectId(id)
 
       if (managerIds) {
-        const managerIdsFound = await Manager.where("_id").in(managerIds).countDocuments()
-        if (managerIdsFound !== managerIds.length) {
-          throw new UserInputError("One or more Managers not found")
-        }
+        await areManagerIdsValid(managerIds)
         await Manager.updateMany({ _id: { $in: managerIds } }, { team: id })
       }
 
       if (slotIds) {
-        const slotIdsFound = await Slot.where("_id").in(slotIds).countDocuments()
-        if (slotIdsFound !== slotIds.length) {
-          throw new UserInputError("One or more Slots not found")
-        }
+        await areSlotIdsValid(slotIds)
         await Slot.updateMany({ _id: { $in: slotIds } }, { team: id })
       }
-
-      const team = await Team.findByIdAndUpdate(id, updates, { new: true })
-      return team
+      return Team.findByIdAndUpdate(id, updates, { new: true })
     },
 
     deleteTeam: async (_, { id }) => {
@@ -60,15 +50,9 @@ const resolvers = {
   },
 
   Team: {
-    managers: async (team) => {
-      const managers = await Manager.where("team").equals(team.id)
-      return managers
-    },
+    managers: async (team) => Manager.where("team").equals(team.id),
 
-    slots: async (team) => {
-      const slots = await Slot.where("team").equals(team.id)
-      return slots
-    },
+    slots: async (team) => Slot.where("team").equals(team.id),
   },
 }
 
