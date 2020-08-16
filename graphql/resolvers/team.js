@@ -32,15 +32,12 @@ const resolvers = {
         const managerIdsFound = await Manager.where("_id").in(managerIds).countDocuments()
 
         if (managerIdsFound !== managerIds.length) {
-          throw new UserInputError("One or more Manager IDs are invalid.")
+          throw new UserInputError("One or more Managers not found")
         }
         await Manager.updateMany({ _id: { $in: managerIds } }, { team: id })
       }
 
-      const team = await Team.findByIdAndUpdate(id, updates, {
-        new: true,
-      })
-
+      const team = await Team.findByIdAndUpdate(id, updates, { new: true })
       return team
     },
 

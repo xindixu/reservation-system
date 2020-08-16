@@ -1,5 +1,5 @@
 import { UserInputError } from "apollo-server-express"
-import { objectId } from "../../validators/index.js"
+import { checkObjectId } from "../../utils/validators.js"
 import Manager from "../../models/manager.js"
 import Team from "../../models/team.js"
 
@@ -11,10 +11,7 @@ const parseManager = ({ _doc }) => ({
 const resolvers = {
   Query: {
     manager: async (_, { id }) => {
-      const { error } = await objectId.validate(id)
-      if (error) {
-        throw new UserInputError(`${id} is not a valid object id.`)
-      }
+      await checkObjectId(id)
       return Manager.findById(id)
     },
     managers: async () => {
@@ -25,13 +22,11 @@ const resolvers = {
   Mutation: {
     createManager: async (_, { input }) => {
       const { firstName, lastName, jobTitle, email, phone, teamId } = input
-      const { error } = await objectId.validate(teamId)
-      if (error) {
-        throw new UserInputError(`${teamId} is not a valid object id.`)
-      }
+      await checkObjectId(teamId)
+
       const team = await Team.findOne({ _id: teamId })
       if (!team) {
-        throw new UserInputError(`${teamId} is not a valid team id.`)
+        throw new UserInputError(`Team ${teamId} not found.`)
       }
       const newManager = await new Manager({
         firstName,
@@ -45,6 +40,13 @@ const resolvers = {
       team.managers.push(newManager)
       await team.save()
       return parseManager(newManager)
+    },
+
+    updateManager: async (_, { input }) => {
+      const { id, teamId, ...updates } = input
+      await checkObjectId(teamId)
+      const manager = await Manager.findByIdAndUpdate(id, updates, { new: true })
+      return manager
     },
   },
 

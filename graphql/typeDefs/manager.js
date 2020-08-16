@@ -20,6 +20,16 @@ export default gql`
     teamId: ID!
   }
 
+  input ManagerInputWithId {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    jobTitle: String
+    teamId: ID
+  }
+
   extend type Query {
     managers: [Manager!]
     manager(id: ID!): Manager!
@@ -27,5 +37,6 @@ export default gql`
 
   extend type Mutation {
     createManager(input: ManagerInput): Manager @auth
+    updateManager(input: ManagerInputWithId): Manager @auth
   }
 `
