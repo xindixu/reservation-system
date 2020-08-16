@@ -7,6 +7,7 @@ export default gql`
     description: String!
     shareable: Boolean!
     team: Team!
+    managers: [Manager!]
   }
 
   input SlotInput {
@@ -33,5 +34,7 @@ export default gql`
     createSlot(input: SlotInput): Slot @auth
     updateSlot(input: SlotInputWithID): Slot @auth
     deleteSlot(id: ID!): Boolean @auth
+    addManagersToSlot(id: ID!, managerIds: [ID!]!): Slot @auth
+    removeManagersFromSlot(id: ID!, managerIds: [ID!]!): Slot @auth
   }
 `

@@ -39,6 +39,14 @@ const managerSchema = new Schema(
 managerSchema.plugin(uniqueValidator)
 const Manager = mongoose.model("Manager", managerSchema)
 
+export const isManagerIdValid = async (id) => {
+  const idFound = await Manager.count({ _id: id })
+  if (idFound !== 1) {
+    throw new UserInputError(`Manager ${id} not found.`)
+  }
+  return idFound
+}
+
 export const areManagerIdsValid = async (ids) => {
   const idsFound = await Manager.where("_id").in(ids).countDocuments()
   if (idsFound !== ids.length) {

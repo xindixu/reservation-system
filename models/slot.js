@@ -1,6 +1,7 @@
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
+import { isManagerIdValid, areManagerIdsValid } from "./manager.js"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -54,5 +55,32 @@ export const areSlotIdsValid = async (ids) => {
   }
   return idsFound
 }
+
+export const addManagersToSlot = async (slotId, managerIds) => {
+  await areManagerIdsValid(managerIds)
+  return Slot.findByIdAndUpdate(
+    slotId,
+    { $push: { managers: { $each: managerIds } } },
+    { new: true }
+  )
+}
+
+export const addSlotsToManager = async (managerId, slotIds) => {
+  await isManagerIdValid(managerId)
+  await Slot.updateMany({ _id: { $in: slotIds } }, { $push: { managers: managerId } })
+}
+
+export const removeManagersFromSlot = async (slotId, managerIds) =>
+  Slot.findByIdAndUpdate(slotId, { $pullAll: { managers: managerIds } }, { new: true })
+
+export const removeSlotsFromManager = async (mangerId, slotsIds) =>
+  Slot.updateMany({ _id: { $in: slotsIds } }, { $pull: { managers: mangerId } })
+
+export const getManagersForSlot = async (slot) => {
+  await slot.populate({ path: "managers" }).execPopulate()
+  return slot.managers
+}
+
+export const getSlotsForManager = async (manager) => Slot.where("managers").in(manager.id)
 
 export default Slot

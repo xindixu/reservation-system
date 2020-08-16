@@ -1,5 +1,9 @@
 import { checkObjectId } from "../../utils/validators.js"
-import Slot from "../../models/slot.js"
+import Slot, {
+  addManagersToSlot,
+  removeManagersFromSlot,
+  getManagersForSlot,
+} from "../../models/slot.js"
 import { findTeamById } from "../../models/team.js"
 
 const resolvers = {
@@ -43,6 +47,10 @@ const resolvers = {
       const result = await Slot.deleteOne({ _id: id })
       return result.n === 1
     },
+
+    addManagersToSlot: async (_, { id, managerIds }) => addManagersToSlot(id, managerIds),
+
+    removeManagersFromSlot: async (_, { id, managerIds }) => removeManagersFromSlot(id, managerIds),
   },
 
   Slot: {
@@ -50,6 +58,8 @@ const resolvers = {
       await slot.populate({ path: "team" }).execPopulate()
       return slot.team
     },
+
+    managers: async (slot) => getManagersForSlot(slot),
   },
 }
 
