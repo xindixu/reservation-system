@@ -4,6 +4,7 @@ import Team from "./team.js"
 import Manager from "./manager.js"
 import Client from "./client.js"
 import Slot from "./slot.js"
+import Visit from "./visit.js"
 import User from "./user.js"
 
 const typeDefs = gql`
@@ -18,6 +19,7 @@ const typeDefs = gql`
   ${Manager}
   ${Client}
   ${Slot}
+  ${Visit}
   ${User}
 
   type Query {

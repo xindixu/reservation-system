@@ -3,6 +3,7 @@ import teamResolvers from "./team.js"
 import managerResolvers from "./manager.js"
 import clientResolvers from "./client.js"
 import slotResolvers from "./slot.js"
+import visitResolvers from "./visit.js"
 import userResolvers from "./user.js"
 
 const utils = {
@@ -17,5 +18,6 @@ export default [
   managerResolvers,
   clientResolvers,
   slotResolvers,
+  visitResolvers,
   userResolvers,
 ]
