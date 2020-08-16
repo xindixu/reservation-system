@@ -7,9 +7,8 @@ export default gql`
     lastName: String!
     email: String!
     phone: String!
-    cycles: Number!
-    duration: Number!
-    managers: [Managers]
+    cycle: Int!
+    duration: Int!
   }
 
   input ClientInput {
@@ -17,9 +16,18 @@ export default gql`
     lastName: String!
     email: String!
     phone: String!
-    cycles: Number!
-    duration: Number!
-    managers: [Managers]
+    cycle: Int!
+    duration: Int!
+  }
+
+  input ClientInputWithID {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    cycle: Int
+    duration: Int
   }
 
   extend type Query {
@@ -29,5 +37,7 @@ export default gql`
 
   extend type Mutation {
     createClient(input: ClientInput): Client @auth
+    updateClient(input: ClientInputWithID): Client @auth
+    deleteClient(id: ID!): Boolean @auth
   }
 `
