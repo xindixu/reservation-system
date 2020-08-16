@@ -44,6 +44,8 @@
       {
         "js": "always"
       }
-    ]
+    ],
+    "class-methods-use-this": 0,
+    "func-names": 0
   }
 }

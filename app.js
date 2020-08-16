@@ -8,10 +8,12 @@ import User from "./models/user.js"
 import typeDefs from "./graphql/typeDefs/index.js"
 import resolvers from "./graphql/resolvers/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "./utils/auth.js"
+import schemaDirectives from "./graphql/directives/index.js"
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  schemaDirectives,
   context: ({ req, res }) => {
     // const authHeader = req.get("Authorization") || ""
     // const user = getUser(authHeader)
@@ -63,7 +65,7 @@ app.use(async (req, res, next) => {
   return next()
 })
 
-server.applyMiddleware({ app })
+server.applyMiddleware({ app, cors: false })
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

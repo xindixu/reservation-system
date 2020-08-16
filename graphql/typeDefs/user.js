@@ -14,14 +14,14 @@ export default gql`
   }
 
   extend type Query {
-    users: [User!]
-    user(id: ID!): User!
-    me: User
+    users: [User!] @auth
+    user(id: ID!): User! @auth
+    me: User @auth
   }
 
   extend type Mutation {
-    signUp(userInput: UserInput): User
-    signIn(userInput: UserInput): User
-    invalidateTokens: Boolean!
+    signUp(userInput: UserInput): User @guest
+    signIn(userInput: UserInput): User @guest
+    signOut: Boolean! @auth
   }
 `

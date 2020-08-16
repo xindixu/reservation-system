@@ -9,6 +9,10 @@ const parseUser = ({ _doc }) => ({
   ..._doc,
 })
 
+const me = async (_, __, { req }) => {
+  return User.findById(req.userId)
+}
+
 const user = async (_, { id }) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new UserInputError(`${id} is not a valid user id.`)
@@ -19,13 +23,6 @@ const user = async (_, { id }) => {
 const users = async () => {
   const allUsers = await User.find()
   return allUsers.map(parseUser)
-}
-
-const me = async (_, __, { req }) => {
-  if (!req.userId) {
-    return null
-  }
-  return User.findById(req.userId)
 }
 
 const signIn = async (_, { userInput }, { res }) => {
@@ -82,7 +79,6 @@ const invalidateTokens = async (_, __, { req, res }) => {
   }
   user.lastSeen = Date.now()
   await user.save()
-  console.log(user)
   res.clearCookie("access-token")
 
   return true

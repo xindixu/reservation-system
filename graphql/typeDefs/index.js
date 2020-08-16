@@ -4,16 +4,19 @@ import Manager from "./manager.js"
 import User from "./user.js"
 
 const typeDefs = gql`
+  directive @auth on FIELD_DEFINITION
+  directive @guest on FIELD_DEFINITION
+
   ${Team}
   ${Manager}
   ${User}
 
   type Query {
-    welcome: String!
+    _: String!
   }
 
   type Mutation {
-    welcomeUser(string: String): String
+    _: String
   }
 `
 

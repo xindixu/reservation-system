@@ -19,9 +19,6 @@ const teams = async () => {
 }
 
 const createTeam = async (_, { teamInput }) => {
-  // if (!isAuth) {
-  //   throw new Error("Unauthenticated")
-  // }
   const { name, description, email, phone } = teamInput
   const newTeam = await new Team({
     name,
