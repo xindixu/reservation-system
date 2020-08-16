@@ -9,6 +9,7 @@ export default gql`
     phone: String!
     cycle: Int!
     duration: Int!
+    managers: [Manager!]
   }
 
   input ClientInput {
@@ -39,5 +40,7 @@ export default gql`
     createClient(input: ClientInput): Client @auth
     updateClient(input: ClientInputWithID): Client @auth
     deleteClient(id: ID!): Boolean @auth
+    addManagersToClient(id: ID!, managerIds: [ID!]!): Client @auth
+    removeManagersFromClient(id: ID!, managerIds: [ID!]!): Client @auth
   }
 `

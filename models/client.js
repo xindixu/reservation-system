@@ -2,6 +2,7 @@ import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators.js"
+import { isManagerIdValid, areManagerIdsValid } from "./manager.js"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -54,5 +55,33 @@ export const findClientById = async (id) => {
   }
   return client
 }
+
+// client -> managers
+export const addManagersToClient = async (clientId, managerIds) => {
+  await areManagerIdsValid(managerIds)
+  return Client.findByIdAndUpdate(
+    clientId,
+    { $push: { managers: { $each: managerIds } } },
+    { new: true }
+  )
+}
+export const removeManagersFromClient = async (clientId, managerIds) =>
+  Client.findByIdAndUpdate(clientId, { $pullAll: { managers: managerIds } }, { new: true })
+
+export const getManagersForClient = async (client) => {
+  await client.populate({ path: "managers" }).execPopulate()
+  return client.managers
+}
+
+// manager -> clients
+export const addClientsToManager = async (managerId, clientIds) => {
+  await isManagerIdValid(managerId)
+  await Client.updateMany({ _id: { $in: clientIds } }, { $push: { managers: managerId } })
+}
+
+export const removeClientsFromManager = async (mangerId, clientIds) =>
+  Client.updateMany({ _id: { $in: clientIds } }, { $pull: { managers: mangerId } })
+
+export const getClientsForManager = async (manager) => Client.where("managers").in(manager.id)
 
 export default Client

@@ -1,5 +1,9 @@
 import { checkObjectId } from "../../utils/validators.js"
-import Client from "../../models/client.js"
+import Client, {
+  addManagersToClient,
+  removeManagersFromClient,
+  getManagersForClient,
+} from "../../models/client.js"
 
 const resolvers = {
   Query: {
@@ -43,6 +47,15 @@ const resolvers = {
       const result = await Client.deleteOne({ _id: id })
       return result.n === 1
     },
+
+    addManagersToClient: async (_, { id, managerIds }) => addManagersToClient(id, managerIds),
+
+    removeManagersFromClient: async (_, { id, managerIds }) =>
+      removeManagersFromClient(id, managerIds),
+  },
+
+  Client: {
+    managers: async (client) => getManagersForClient(client),
   },
 }
 

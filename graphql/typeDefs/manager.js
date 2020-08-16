@@ -10,6 +10,7 @@ export default gql`
     jobTitle: String!
     team: Team!
     slots: [Slot!]
+    clients: [Client!]
   }
 
   input ManagerInput {
@@ -42,5 +43,7 @@ export default gql`
     deleteManager(id: ID!): Boolean @auth
     addSlotsToManager(id: ID!, slotIds: [ID]): Manager @auth
     removeSlotsFromManager(id: ID!, slotIds: [ID]): Manager @auth
+    addClientsToManager(id: ID!, clientIds: [ID]): Manager @auth
+    removeClientsFromManager(id: ID!, clientIds: [ID]): Manager @auth
   }
 `

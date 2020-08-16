@@ -56,6 +56,7 @@ export const areSlotIdsValid = async (ids) => {
   return idsFound
 }
 
+// slot -> managers
 export const addManagersToSlot = async (slotId, managerIds) => {
   await areManagerIdsValid(managerIds)
   return Slot.findByIdAndUpdate(
@@ -64,22 +65,22 @@ export const addManagersToSlot = async (slotId, managerIds) => {
     { new: true }
   )
 }
-
-export const addSlotsToManager = async (managerId, slotIds) => {
-  await isManagerIdValid(managerId)
-  await Slot.updateMany({ _id: { $in: slotIds } }, { $push: { managers: managerId } })
-}
-
 export const removeManagersFromSlot = async (slotId, managerIds) =>
   Slot.findByIdAndUpdate(slotId, { $pullAll: { managers: managerIds } }, { new: true })
-
-export const removeSlotsFromManager = async (mangerId, slotsIds) =>
-  Slot.updateMany({ _id: { $in: slotsIds } }, { $pull: { managers: mangerId } })
 
 export const getManagersForSlot = async (slot) => {
   await slot.populate({ path: "managers" }).execPopulate()
   return slot.managers
 }
+
+// manager -> slots
+export const addSlotsToManager = async (managerId, slotIds) => {
+  await isManagerIdValid(managerId)
+  await Slot.updateMany({ _id: { $in: slotIds } }, { $push: { managers: managerId } })
+}
+
+export const removeSlotsFromManager = async (mangerId, slotIds) =>
+  Slot.updateMany({ _id: { $in: slotIds } }, { $pull: { managers: mangerId } })
 
 export const getSlotsForManager = async (manager) => Slot.where("managers").in(manager.id)
 

@@ -2,6 +2,11 @@ import { checkObjectId } from "../../utils/validators.js"
 import Manager from "../../models/manager.js"
 import { findTeamById } from "../../models/team.js"
 import { getSlotsForManager, addSlotsToManager, removeSlotsFromManager } from "../../models/slot.js"
+import {
+  getClientsForManager,
+  addClientsToManager,
+  removeClientsFromManager,
+} from "../../models/client.js"
 
 const resolvers = {
   Query: {
@@ -61,6 +66,16 @@ const resolvers = {
       await removeSlotsFromManager(id, slotIds)
       return Manager.findById(id)
     },
+
+    addClientsToManager: async (_, { id, clientIds }) => {
+      await addClientsToManager(id, clientIds)
+      return Manager.findById(id)
+    },
+
+    removeClientsFromManager: async (_, { id, clientIds }) => {
+      await removeClientsFromManager(id, clientIds)
+      return Manager.findById(id)
+    },
   },
 
   Manager: {
@@ -70,6 +85,8 @@ const resolvers = {
     },
 
     slots: async (manager) => getSlotsForManager(manager),
+
+    clients: async (manager) => getClientsForManager(manager),
   },
 }
 
