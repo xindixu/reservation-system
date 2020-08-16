@@ -29,18 +29,6 @@ const managerSchema = new Schema(
       ref: "Team",
       required: true,
     },
-    clients: [
-      {
-        type: ObjectId,
-        ref: "Client",
-      },
-    ],
-    slots: [
-      {
-        type: ObjectId,
-        ref: "Slot",
-      },
-    ],
   },
   {
     timestamps: true,

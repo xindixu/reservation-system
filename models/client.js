@@ -3,7 +3,6 @@ import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators.js"
 
 const { Schema } = mongoose
-const { ObjectId } = Schema.Types
 
 const clientSchema = new Schema(
   {
@@ -32,12 +31,6 @@ const clientSchema = new Schema(
       type: Number,
       required: true,
     },
-    managers: [
-      {
-        type: ObjectId,
-        ref: "Manager",
-      },
-    ],
   },
   { timestamps: true }
 )
