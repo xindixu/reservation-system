@@ -23,14 +23,14 @@ const resolvers = {
       if (!team) {
         throw new UserInputError(`Team ${teamId} not found.`)
       }
-      const manager = await new Manager({
+      const manager = await Manager.create({
         firstName,
         lastName,
         jobTitle,
         email,
         phone,
         team,
-      }).save()
+      })
 
       return manager
     },

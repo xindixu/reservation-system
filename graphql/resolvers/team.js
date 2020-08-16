@@ -15,12 +15,12 @@ const resolvers = {
   Mutation: {
     createTeam: async (_, { input }) => {
       const { name, description, email, phone } = input
-      const team = await new Team({
+      const team = await Team.create({
         name,
         description,
         email,
         phone,
-      }).save()
+      })
       return team
     },
 
