@@ -2,6 +2,7 @@ import { UserInputError } from "apollo-server-express"
 import { checkObjectId } from "../../utils/validators.js"
 import Team from "../../models/team.js"
 import Manager from "../../models/manager.js"
+import Slot from "../../models/slot.js"
 
 const resolvers = {
   Query: {
@@ -25,7 +26,7 @@ const resolvers = {
     },
 
     updateTeam: async (_, { input }) => {
-      const { id, managerIds, ...updates } = input
+      const { id, managerIds, slotIds, ...updates } = input
       await checkObjectId(id)
 
       if (managerIds) {
@@ -36,6 +37,14 @@ const resolvers = {
         await Manager.updateMany({ _id: { $in: managerIds } }, { team: id })
       }
 
+      if (slotIds) {
+        const slotIdsFound = await Slot.where("_id").in(slotIds).countDocuments()
+        if (slotIdsFound !== slotIds.length) {
+          throw new UserInputError("One or more Slots not found")
+        }
+        await Slot.updateMany({ _id: { $in: slotIds } }, { team: id })
+      }
+
       const team = await Team.findByIdAndUpdate(id, updates, { new: true })
       return team
     },
@@ -43,6 +52,9 @@ const resolvers = {
     deleteTeam: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Team.deleteOne({ _id: id })
+      // delete dependent managers and slots
+      await Manager.deleteMany({ team: id })
+      await Slot.deleteMany({ team: id })
       return result.n === 1
     },
   },
@@ -51,6 +63,11 @@ const resolvers = {
     managers: async (team) => {
       const managers = await Manager.where("team").equals(team.id)
       return managers
+    },
+
+    slots: async (team) => {
+      const slots = await Slot.where("team").equals(team.id)
+      return slots
     },
   },
 }

@@ -8,6 +8,7 @@ export default gql`
     email: String!
     phone: String!
     managers: [Manager!]
+    slots: [Slot!]
   }
 
   input TeamInput {
@@ -16,6 +17,7 @@ export default gql`
     email: String!
     phone: String!
     managerIds: [ID!]
+    slotIds: [ID!]
   }
 
   input TeamInputWithId {
@@ -25,6 +27,7 @@ export default gql`
     email: String
     phone: String
     managerIds: [ID!]
+    slotIds: [ID!]
   }
 
   extend type Query {

@@ -2,6 +2,7 @@ import { gql } from "apollo-server-express"
 import Team from "./team.js"
 import Manager from "./manager.js"
 import Client from "./client.js"
+import Slot from "./slot.js"
 import User from "./user.js"
 
 const typeDefs = gql`
@@ -11,6 +12,7 @@ const typeDefs = gql`
   ${Team}
   ${Manager}
   ${Client}
+  ${Slot}
   ${User}
 
   type Query {
