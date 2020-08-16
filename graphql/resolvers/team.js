@@ -1,15 +1,12 @@
 import { UserInputError } from "apollo-server-express"
-import { objectId } from "../../validators/index.js"
+import { checkObjectId } from "../../utils/validators.js"
 import Team from "../../models/team.js"
 import Manager from "../../models/manager.js"
 
 const resolvers = {
   Query: {
     team: async (_, { id }) => {
-      const { error } = await objectId.validate(id)
-      if (error) {
-        throw new UserInputError(`${id} is not a valid object id.`)
-      }
+      await checkObjectId(id)
       return Team.findById(id)
     },
     teams: async () => Team.find(),
@@ -28,12 +25,8 @@ const resolvers = {
     },
 
     updateTeam: async (_, { input }) => {
-      const { id, managerIds, ...rest } = input
-      const { error } = await objectId.validate(id)
-
-      if (error) {
-        throw new UserInputError(`${id} is not a valid object id.`)
-      }
+      const { id, managerIds, ...updates } = input
+      await checkObjectId(id)
 
       if (managerIds) {
         const managerIdsFound = await Manager.where("_id").in(managerIds).countDocuments()
@@ -41,27 +34,21 @@ const resolvers = {
         if (managerIdsFound !== managerIds.length) {
           throw new UserInputError("One or more Manager IDs are invalid.")
         }
-        await Manager.updateMany(
-          {
-            _id: { $in: managerIds },
-          },
-          {
-            team: id,
-          }
-        )
+        await Manager.updateMany({ _id: { $in: managerIds } }, { team: id })
       }
 
-      const team = await Team.findByIdAndUpdate(
-        id,
-        {
-          ...rest,
-        },
-        {
-          new: true,
-        }
-      )
+      const team = await Team.findByIdAndUpdate(id, updates, {
+        new: true,
+      })
 
       return team
+    },
+
+    deleteTeam: async (_, { id }) => {
+      await checkObjectId(id)
+      const result = await Team.deleteOne({ _id: id })
+
+      return result.n === 1
     },
   },
 
