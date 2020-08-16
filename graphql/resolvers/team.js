@@ -1,12 +1,14 @@
-import mongoose from "mongoose"
 import { UserInputError } from "apollo-server-express"
+import { objectId } from "../../validators/index.js"
 import Team from "../../models/team.js"
+import Manager from "../../models/manager.js"
 
 const resolvers = {
   Query: {
     team: async (_, { id }) => {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new UserInputError(`${id} is not a valid manager id.`)
+      const { error } = await objectId.validate(id)
+      if (error) {
+        throw new UserInputError(`${id} is not a valid object id.`)
       }
       return Team.findById(id)
     },
@@ -22,6 +24,43 @@ const resolvers = {
         email,
         phone,
       }).save()
+      return team
+    },
+
+    updateTeam: async (_, { input }) => {
+      const { id, managerIds, ...rest } = input
+      const { error } = await objectId.validate(id)
+
+      if (error) {
+        throw new UserInputError(`${id} is not a valid object id.`)
+      }
+
+      if (managerIds) {
+        const managerIdsFound = await Manager.where("_id").in(managerIds).countDocuments()
+
+        if (managerIdsFound !== managerIds.length) {
+          throw new UserInputError("One or more Manager IDs are invalid.")
+        }
+        await Manager.updateMany(
+          {
+            _id: { $in: managerIds },
+          },
+          {
+            team: id,
+          }
+        )
+      }
+
+      const team = await Team.findByIdAndUpdate(
+        id,
+        {
+          ...rest,
+          managers: managerIds || undefined,
+        },
+        {
+          new: true,
+        }
+      )
 
       return team
     },

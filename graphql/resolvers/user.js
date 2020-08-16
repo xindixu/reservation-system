@@ -18,9 +18,8 @@ const resolvers = {
 
     user: async (_, { id }) => {
       const { error } = await objectId.validate(id)
-
       if (error) {
-        throw new UserInputError(`${id} is not a valid user id.`)
+        throw new UserInputError(`${id} is not a valid object id.`)
       }
       return User.findById(id)
     },

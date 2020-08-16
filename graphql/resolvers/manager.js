@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
 import { UserInputError } from "apollo-server-express"
+import { objectId } from "../../validators/index.js"
 import Manager from "../../models/manager.js"
 import Team from "../../models/team.js"
 
@@ -11,8 +11,9 @@ const parseManager = ({ _doc }) => ({
 const resolvers = {
   Query: {
     manager: async (_, { id }) => {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new UserInputError(`${id} is not a valid manager id.`)
+      const { error } = await objectId.validate(id)
+      if (error) {
+        throw new UserInputError(`${id} is not a valid object id.`)
       }
       return Manager.findById(id)
     },
@@ -24,6 +25,10 @@ const resolvers = {
   Mutation: {
     createManager: async (_, { input }) => {
       const { firstName, lastName, jobTitle, email, phone, teamId } = input
+      const { error } = await objectId.validate(teamId)
+      if (error) {
+        throw new UserInputError(`${teamId} is not a valid object id.`)
+      }
       const team = await Team.findOne({ _id: teamId })
       if (!team) {
         throw new UserInputError(`${teamId} is not a valid team id.`)

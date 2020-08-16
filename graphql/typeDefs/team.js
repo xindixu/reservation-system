@@ -34,5 +34,6 @@ export default gql`
 
   extend type Mutation {
     createTeam(input: TeamInput): Team @auth
+    updateTeam(input: TeamInputWithId): Team @auth
   }
 `
