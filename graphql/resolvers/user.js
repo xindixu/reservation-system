@@ -1,8 +1,7 @@
-import mongoose from "mongoose"
 import { compare } from "bcryptjs"
 import { UserInputError } from "apollo-server-express"
 import User from "../../models/user.js"
-import userValidator from "../../schemas/user.js"
+import { signUp, signIn, objectId } from "../../validators/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
 
 const parseUser = ({ _doc }) => ({
@@ -18,7 +17,9 @@ const resolvers = {
     },
 
     user: async (_, { id }) => {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
+      const { error } = await objectId.validate(id)
+
+      if (error) {
         throw new UserInputError(`${id} is not a valid user id.`)
       }
       return User.findById(id)
@@ -33,6 +34,10 @@ const resolvers = {
   Mutation: {
     signIn: async (_, { input }, { res }) => {
       const { email, password } = input
+      const { error } = signIn.validate({ email, password }, { abortEarly: false })
+      if (error) {
+        throw new UserInputError(error)
+      }
 
       const user = await User.findOne({
         email,
@@ -61,7 +66,7 @@ const resolvers = {
 
     signUp: async (_, { input }) => {
       const { email, password } = input
-      const { error } = userValidator.validate({ email, password }, { abortEarly: false })
+      const { error } = signUp.validate({ email, password }, { abortEarly: false })
 
       if (error) {
         throw new UserInputError(error)
