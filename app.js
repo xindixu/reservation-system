@@ -73,7 +73,7 @@ app.listen({ port: 4000 }, () =>
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reservation-system.bqumh.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 )
 
 mongoose.connection.once("open", () => console.log("🥭 MongoDB is connected!"))

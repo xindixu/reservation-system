@@ -30,7 +30,6 @@ const resolvers = {
 
       if (managerIds) {
         const managerIdsFound = await Manager.where("_id").in(managerIds).countDocuments()
-
         if (managerIdsFound !== managerIds.length) {
           throw new UserInputError("One or more Managers not found")
         }
@@ -44,7 +43,6 @@ const resolvers = {
     deleteTeam: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Team.deleteOne({ _id: id })
-
       return result.n === 1
     },
   },
