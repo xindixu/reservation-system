@@ -68,11 +68,7 @@ const signUp = async (_, { userInput }) => {
   return parseUser(newUser)
 }
 
-const invalidateTokens = async (_, __, { req, res }) => {
-  if (!req.userId) {
-    return false
-  }
-
+const signOut = async (_, __, { req, res }) => {
   const user = await User.findById(req.userId)
   if (!user) {
     return false
@@ -80,8 +76,19 @@ const invalidateTokens = async (_, __, { req, res }) => {
   user.lastSeen = Date.now()
   await user.save()
   res.clearCookie("access-token")
-
+  res.clearCookie("refresh-token")
   return true
 }
 
-export { me, user, users, signUp, signIn, invalidateTokens }
+const invalidateToken = async (_, __, { req, res }) => {
+  const user = await User.findById(req.userId)
+  if (!user) {
+    return false
+  }
+  user.lastSeen = Date.now()
+  await user.save()
+  res.clearCookie("access-token")
+  return true
+}
+
+export { me, user, users, signUp, signIn, signOut, invalidateToken }

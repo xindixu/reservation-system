@@ -23,5 +23,6 @@ export default gql`
     signUp(userInput: UserInput): User @guest
     signIn(userInput: UserInput): User @guest
     signOut: Boolean! @auth
+    invalidateToken: Boolean! @auth
   }
 `

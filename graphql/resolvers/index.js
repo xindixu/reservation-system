@@ -1,6 +1,6 @@
 import { team, teams, createTeam } from "./team.js"
 import { manager, managers, createManager } from "./manager.js"
-import { me, user, users, signIn, signUp, invalidateTokens } from "./user.js"
+import { me, user, users, signIn, signUp, signOut, invalidateToken } from "./user.js"
 
 const resolvers = {
   Query: {
@@ -17,7 +17,8 @@ const resolvers = {
     createManager,
     signIn,
     signUp,
-    invalidateTokens,
+    signOut,
+    invalidateToken,
   },
 }
 
