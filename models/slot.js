@@ -20,17 +20,17 @@ const slotSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    team: {
+      type: ObjectId,
+      ref: "Team",
+      required: true,
+    },
     managers: [
       {
         type: ObjectId,
         ref: "Manager",
       },
     ],
-    team: {
-      type: ObjectId,
-      ref: "Team",
-      required: true,
-    },
   },
   { timestamps: true }
 )
