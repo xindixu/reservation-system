@@ -2,12 +2,6 @@ import mongoose from "mongoose"
 import { UserInputError } from "apollo-server-express"
 import Team from "../../models/team.js"
 
-const parseTeam = ({ _doc }) => ({
-  ..._doc,
-  _id: undefined,
-  id: _doc._id,
-})
-
 const resolvers = {
   Query: {
     team: async (_, { id }) => {
@@ -16,23 +10,27 @@ const resolvers = {
       }
       return Team.findById(id)
     },
-    teams: async () => {
-      const allTeams = await Team.find()
-      return allTeams.map(parseTeam)
-    },
+    teams: async () => Team.find(),
   },
 
   Mutation: {
     createTeam: async (_, { input }) => {
       const { name, description, email, phone } = input
-      const newTeam = await new Team({
+      const team = await new Team({
         name,
         description,
         email,
         phone,
       }).save()
 
-      return parseTeam(newTeam)
+      return team
+    },
+  },
+
+  Team: {
+    managers: async (team) => {
+      await team.populate("managers").execPopulate()
+      return team.managers
     },
   },
 }

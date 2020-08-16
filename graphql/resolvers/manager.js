@@ -42,6 +42,13 @@ const resolvers = {
       return parseManager(newManager)
     },
   },
+
+  Manager: {
+    team: async (manager) => {
+      await manager.populate({ path: "team" }).execPopulate()
+      return manager.team
+    },
+  },
 }
 
 export default resolvers
