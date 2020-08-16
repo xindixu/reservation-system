@@ -55,7 +55,6 @@ const resolvers = {
         id,
         {
           ...rest,
-          managers: managerIds || undefined,
         },
         {
           new: true,
@@ -68,8 +67,8 @@ const resolvers = {
 
   Team: {
     managers: async (team) => {
-      await team.populate("managers").execPopulate()
-      return team.managers
+      const managers = await Manager.where("team").equals(team.id)
+      return managers
     },
   },
 }
