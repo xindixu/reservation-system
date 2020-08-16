@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express"
 
 export default gql`
   type User {
-    _id: ID!
+    id: ID!
     email: String!
     accessToken: String
     refreshToken: String
@@ -20,8 +20,8 @@ export default gql`
   }
 
   extend type Mutation {
-    signUp(userInput: UserInput): User @guest
-    signIn(userInput: UserInput): User @guest
+    signUp(input: UserInput): User @guest
+    signIn(input: UserInput): User @guest
     signOut: Boolean! @auth
     invalidateToken: Boolean! @auth
   }

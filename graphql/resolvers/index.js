@@ -1,24 +1,17 @@
-import { team, teams, createTeam } from "./team.js"
-import { manager, managers, createManager } from "./manager.js"
-import { me, user, users, signIn, signUp, signOut, invalidateToken } from "./user.js"
+import { teamQueries, teamMutations } from "./team.js"
+import { managerQueries, managerMutations } from "./manager.js"
+import { userQueries, userMutations } from "./user.js"
 
 const resolvers = {
   Query: {
-    teams,
-    team,
-    manager,
-    managers,
-    user,
-    users,
-    me,
+    ...teamQueries,
+    ...managerQueries,
+    ...userQueries,
   },
   Mutation: {
-    createTeam,
-    createManager,
-    signIn,
-    signUp,
-    signOut,
-    invalidateToken,
+    ...teamMutations,
+    ...managerMutations,
+    ...userMutations,
   },
 }
 

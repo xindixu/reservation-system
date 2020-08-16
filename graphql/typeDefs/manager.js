@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express"
 
 export default gql`
   type Manager {
-    _id: ID!
+    id: ID!
     firstName: String!
     lastName: String!
     email: String!
@@ -26,6 +26,6 @@ export default gql`
   }
 
   extend type Mutation {
-    createManager(managerInput: ManagerInput): Manager
+    createManager(input: ManagerInput): Manager @auth
   }
 `

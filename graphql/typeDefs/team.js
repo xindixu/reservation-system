@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express"
 
 export default gql`
   type Team {
-    _id: ID!
+    id: ID!
     name: String!
     description: String!
     email: String!
@@ -18,12 +18,22 @@ export default gql`
     managerIds: [ID!]
   }
 
+  input TeamInputWithId {
+    id: ID!
+    name: String
+    description: String
+    email: String
+    phone: String
+    managerIds: [ID!]
+  }
+
   extend type Query {
     teams: [Team!]
     team(id: ID!): Team!
   }
 
   extend type Mutation {
-    createTeam(teamInput: TeamInput): Team
+    createTeam(input: TeamInput): Team @auth
+    updateTeam(input: TeamInputWithId): Team @auth
   }
 `

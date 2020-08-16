@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators.js"
 
 const { Schema } = mongoose
@@ -7,6 +8,7 @@ const teamSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   description: {
     type: String,
@@ -22,5 +24,7 @@ const teamSchema = new Schema({
   },
   managers: [{ type: Schema.Types.ObjectId, ref: "Manager" }],
 })
+
+teamSchema.plugin(uniqueValidator)
 
 export default mongoose.model("Team", teamSchema)

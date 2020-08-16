@@ -5,6 +5,8 @@ import Team from "../../models/team.js"
 
 const parseManager = ({ _doc }) => ({
   ..._doc,
+  _id: undefined,
+  id: _doc._id,
 })
 
 const manager = async (_, { id }) => {
@@ -19,11 +21,8 @@ const managers = async () => {
   return allManagers.map(parseManager)
 }
 
-const createManager = async (_, { managerInput }) => {
-  // if (!isAuth) {
-  //   throw new Error("Unauthenticated")
-  // }
-  const { firstName, lastName, jobTitle, email, phone, teamId } = managerInput
+const createManager = async (_, { input }) => {
+  const { firstName, lastName, jobTitle, email, phone, teamId } = input
   const team = await Team.findOne({ _id: teamId })
   if (!team) {
     throw new UserInputError(`${teamId} is not a valid team id.`)
@@ -42,4 +41,11 @@ const createManager = async (_, { managerInput }) => {
   return parseManager(newManager)
 }
 
-export { manager, managers, createManager }
+export const managerQueries = {
+  manager,
+  managers,
+}
+
+export const managerMutations = {
+  createManager,
+}

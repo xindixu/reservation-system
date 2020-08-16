@@ -4,6 +4,8 @@ import Team from "../../models/team.js"
 
 const parseTeam = ({ _doc }) => ({
   ..._doc,
+  _id: undefined,
+  id: _doc._id,
 })
 
 const team = async (_, { id }) => {
@@ -18,8 +20,8 @@ const teams = async () => {
   return allTeams.map(parseTeam)
 }
 
-const createTeam = async (_, { teamInput }) => {
-  const { name, description, email, phone } = teamInput
+const createTeam = async (_, { input }) => {
+  const { name, description, email, phone } = input
   const newTeam = await new Team({
     name,
     description,
@@ -30,4 +32,11 @@ const createTeam = async (_, { teamInput }) => {
   return parseTeam(newTeam)
 }
 
-export { team, teams, createTeam }
+export const teamQueries = {
+  team,
+  teams,
+}
+
+export const teamMutations = {
+  createTeam,
+}

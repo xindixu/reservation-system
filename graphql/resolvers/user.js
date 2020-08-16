@@ -7,6 +7,8 @@ import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.j
 
 const parseUser = ({ _doc }) => ({
   ..._doc,
+  _id: undefined,
+  id: _doc._id,
 })
 
 const me = async (_, __, { req }) => {
@@ -25,8 +27,8 @@ const users = async () => {
   return allUsers.map(parseUser)
 }
 
-const signIn = async (_, { userInput }, { res }) => {
-  const { email, password } = userInput
+const signIn = async (_, { input }, { res }) => {
+  const { email, password } = input
 
   const user = await User.findOne({
     email,
@@ -45,7 +47,7 @@ const signIn = async (_, { userInput }, { res }) => {
   res.cookie("refresh-token", refreshToken, { maxAge: refreshTokenAge })
 
   return {
-    _id: user.id,
+    id: user.id,
     email,
     accessToken,
     refreshToken,
@@ -53,8 +55,8 @@ const signIn = async (_, { userInput }, { res }) => {
   }
 }
 
-const signUp = async (_, { userInput }) => {
-  const { email, password } = userInput
+const signUp = async (_, { input }) => {
+  const { email, password } = input
   const { error } = userValidator.validate({ email, password }, { abortEarly: false })
 
   if (error) {
@@ -91,4 +93,15 @@ const invalidateToken = async (_, __, { req, res }) => {
   return true
 }
 
-export { me, user, users, signUp, signIn, signOut, invalidateToken }
+export const userQueries = {
+  me,
+  user,
+  users,
+}
+
+export const userMutations = {
+  signUp,
+  signIn,
+  signOut,
+  invalidateToken,
+}
