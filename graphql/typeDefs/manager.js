@@ -7,7 +7,6 @@ export default gql`
     lastName: String!
     email: String!
     phone: String!
-    jobTitle: String!
     team: Team!
     slots: [Slot!]
     clients: [Client!]
@@ -18,7 +17,6 @@ export default gql`
     lastName: String!
     email: String!
     phone: String!
-    jobTitle: String!
     teamId: ID!
   }
 
@@ -28,7 +26,6 @@ export default gql`
     lastName: String
     email: String
     phone: String
-    jobTitle: String
     teamId: ID
   }
 
