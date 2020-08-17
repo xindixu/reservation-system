@@ -1,8 +1,8 @@
 import faker from "faker"
 import mongoose from "mongoose"
 
-import slots from "./3-slots.js"
-import clients from "./4-clients.js"
+import slots from "../3-slots/index.js"
+import clients from "../4-clients/index.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -50,4 +50,5 @@ const generateVisits = () => {
 }
 
 const visits = generateVisits()
+module.exports = visits
 export default visits

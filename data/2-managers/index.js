@@ -1,6 +1,6 @@
 import faker from "faker"
 import mongoose from "mongoose"
-import teams from "./1-teams.js"
+import teams from "../1-teams/index.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -19,4 +19,5 @@ const generateMangers = () =>
   })
 
 const managers = generateMangers()
+module.exports = managers
 export default managers

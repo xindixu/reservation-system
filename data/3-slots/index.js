@@ -1,8 +1,8 @@
 import faker from "faker"
 import mongoose from "mongoose"
-import teams from "./1-teams.js"
-import managers from "./2-managers.js"
-import { dedupArray } from "./utils.js"
+import teams from "../1-teams/index.js"
+import managers from "../2-managers/index.js"
+import { dedupArray } from "../utils.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -35,5 +35,5 @@ const generateSlots = () => {
 }
 
 const slots = generateSlots()
-console.log(slots)
+module.exports = slots
 export default slots

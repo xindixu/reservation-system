@@ -13,5 +13,5 @@ const generateTeams = () =>
   }))
 
 const teams = generateTeams()
-
+module.exports = teams
 export default teams

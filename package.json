@@ -8,7 +8,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "eval $(cat .env) nodemon -r esm index.js"
+    "start": "eval $(cat .env) nodemon -r esm index.js",
+    "seed": "eval $(cat .env) node -r esm seed.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -18,9 +19,11 @@
     "cookie-parser": "^1.4.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "graphql": "^15.3.0",
     "graphql-iso-date": "^3.6.1",
     "jsonwebtoken": "^8.5.1",
+    "mongo-seeding": "^3.4.1",
     "mongoose": "^5.10.0",
     "mongoose-unique-validator": "^2.0.3"
   },
@@ -31,8 +34,6 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "faker": "^4.1.0",
-    "mongo-seeding": "^3.4.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
   }
