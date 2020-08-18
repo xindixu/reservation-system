@@ -21,7 +21,7 @@ const Clients = () => {
 
   const [addClient] = useMutation(CREATE_CLIENT, {
     update: (cache, { data: { createClient } }) => {
-      const { client } = createClient
+      const client = createClient
       const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
@@ -35,12 +35,12 @@ const Clients = () => {
   const [editClient] = useMutation(UPDATE_CLIENT)
   const [deleteClient] = useMutation(DESTROY_CLIENT, {
     update: (cache, { data: { destroyClient } }) => {
-      const { client } = destroyClient
+      const clientId = destroyClient
       const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
         data: {
-          clients: clients.filter((c) => c.id !== client.id),
+          clients: clients.filter((c) => c.id !== clientId),
         },
       })
     },
