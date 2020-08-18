@@ -12,7 +12,7 @@ import {
 } from "graphql/visits"
 
 const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { createVisit } }) => {
-  const { visit } = createVisit
+  const visit = createVisit
 
   if (searching) {
     const { clientIds, slotIds } = searchParams
@@ -55,12 +55,12 @@ const CalendarPage = () => {
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
     update: (cache, { data: { destroyVisit } }) => {
-      const { visit } = destroyVisit
+      const visitId = destroyVisit
       const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
       cache.writeQuery({
         query: GET_ALL_VISITS,
         data: {
-          visits: visits.filter((v) => v.id !== visit.id),
+          visits: visits.filter((v) => v.id !== visitId),
         },
       })
     },
