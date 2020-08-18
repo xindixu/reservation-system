@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import { Table, Button } from "antd"
+import { Table, Button, Tag } from "antd"
 import {
   CheckSquareOutlined,
   BorderOutlined,
@@ -26,11 +26,7 @@ const Slots = ({ loading, slots, managers, teams, editSlot, deleteSlot }) => {
         title="Managers"
         key="managers"
         render={({ managers }) =>
-          managers.map((manager) => (
-            <span className="mr-4" key={manager.id}>
-              {getFullName(manager)}
-            </span>
-          ))
+          managers.map((manager) => <Tag key={manager.id}>{getFullName(manager)}</Tag>)
         }
         filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
         onFilter={(filter, { managers }) => managers.find(({ id }) => id === filter)}

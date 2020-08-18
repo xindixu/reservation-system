@@ -173,6 +173,7 @@ const Client = () => {
             <VisitForm
               initialVisit={{ client, ...presetDate }}
               form={form}
+              disabled={{ clientId: true }}
               onSubmit={(values) => addVisit({ variables: values })}
             />
           )}

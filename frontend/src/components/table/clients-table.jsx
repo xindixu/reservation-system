@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import { Table, Button } from "antd"
+import { Table, Button, Tag } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { CLIENT, MANAGER } from "lib/common-types"
 import { getFullName } from "lib/utils"
@@ -21,11 +21,7 @@ const ClientsTable = ({ loading, clients, managers, editClient, deleteClient }) 
         title="Manager"
         key="manager"
         render={({ managers }) =>
-          managers.map((manager) => (
-            <span className="mr-4" key={manager.id}>
-              {getFullName(manager)}
-            </span>
-          ))
+          managers.map((manager) => <Tag key={manager.id}>{getFullName(manager)}</Tag>)
         }
         filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
         onFilter={(filter, { managers }) => managers.some(({ id }) => id === filter)}
