@@ -35,19 +35,19 @@ const Slot = () => {
   const [editSlot] = useMutation(UPDATE_SLOT)
   const [deleteSlot] = useMutation(DESTROY_SLOT, {
     update: (cache, { data: { destroySlot } }) => {
-      const { slot } = destroySlot
-      const { slots } = cache.readQuery({ query: GET_ALL_SLOTS })
-      const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
+      const slot = destroySlot
+      const slots = cache.readQuery({ query: GET_ALL_SLOTS })
+      const visits = cache.readQuery({ query: GET_ALL_VISITS })
       cache.writeQuery({
         query: GET_ALL_SLOTS,
         data: {
-          slots: slots.filter((s) => s.id !== slot.id),
+          slots: slots.filter((s) => s.id !== slot),
         },
       })
       cache.writeQuery({
         query: GET_ALL_VISITS,
         data: {
-          visits: visits.filter((v) => v.slot.id !== slot.id),
+          visits: visits.filter((v) => v.slot.id !== slot),
         },
       })
     },

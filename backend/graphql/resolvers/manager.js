@@ -52,10 +52,10 @@ const resolvers = {
       return manager
     },
 
-    deleteManager: async (_, { id }) => {
+    destroyManager: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Manager.deleteOne({ _id: id })
-      return result.n === 1
+      return result.n === 1 ? id : null
     },
 
     addSlotsToManager: async (_, { id, slotIds }) => {

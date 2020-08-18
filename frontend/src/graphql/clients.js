@@ -95,10 +95,6 @@ export const UPDATE_CLIENT = gql`
 
 export const DESTROY_CLIENT = gql`
   mutation DestroyClient($id: ID!) {
-    destroyClient(input: { id: $id }) {
-      client {
-        id
-      }
-    }
+    destroyClient(id: $id)
   }
 `

@@ -33,7 +33,7 @@ export default gql`
   extend type Mutation {
     createSlot(input: SlotInput): Slot @auth
     updateSlot(input: SlotInputWithID): Slot @auth
-    deleteSlot(id: ID!): Boolean @auth
+    destroySlot(id: ID!): ID @auth
     addManagersToSlot(id: ID!, managerIds: [ID!]!): Slot @auth
     removeManagersFromSlot(id: ID!, managerIds: [ID!]!): Slot @auth
   }

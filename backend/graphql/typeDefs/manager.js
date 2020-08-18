@@ -41,7 +41,7 @@ export default gql`
   extend type Mutation {
     createManager(input: ManagerInput): Manager @auth
     updateManager(input: ManagerInputWithId): Manager @auth
-    deleteManager(id: ID!): Boolean @auth
+    destroyManager(id: ID!): ID @auth
     addSlotsToManager(id: ID!, slotIds: [ID]): Manager @auth
     removeSlotsFromManager(id: ID!, slotIds: [ID]): Manager @auth
     addClientsToManager(id: ID!, clientIds: [ID]): Manager @auth

@@ -32,6 +32,6 @@ export default gql`
   extend type Mutation {
     createVisit(input: VisitInput): Visit @auth
     updateVisit(input: VisitInputWithID): Visit @auth
-    deleteVisit(id: ID!): Visit @auth
+    destroyVisit(id: ID!): ID @auth
   }
 `

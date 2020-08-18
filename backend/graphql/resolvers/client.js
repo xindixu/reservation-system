@@ -19,6 +19,7 @@ const resolvers = {
   Mutation: {
     createClient: async (_, { input }) => {
       const { firstName, lastName, email, phone, cycle, duration } = input
+
       const client = await Client.create({
         firstName,
         lastName,
@@ -42,10 +43,10 @@ const resolvers = {
       return client
     },
 
-    deleteClient: async (_, { id }) => {
+    destroyClient: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Client.deleteOne({ _id: id })
-      return result.n === 1
+      return result.n === 1 ? id : null
     },
 
     addManagersToClient: async (_, { id, managerIds }) => addManagersToClient(id, managerIds),

@@ -103,8 +103,6 @@ export const UPDATE_SLOT = gql`
 
 export const DESTROY_SLOT = gql`
   mutation DestroySlot($id: ID!) {
-    destroySlot(input: { id: $id }) {
-      id
-    }
+    destroySlot(id: $id)
   }
 `

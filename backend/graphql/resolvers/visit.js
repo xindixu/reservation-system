@@ -42,10 +42,10 @@ const resolvers = {
       return visit
     },
 
-    deleteVisit: async (_, { id }) => {
+    destroyVisit: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Visit.deleteOne({ _id: id })
-      return result.n === 1
+      return result.n === 1 ? id : null
     },
   },
 

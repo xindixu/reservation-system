@@ -39,13 +39,13 @@ const resolvers = {
       return Team.findByIdAndUpdate(id, updates, { new: true })
     },
 
-    deleteTeam: async (_, { id }) => {
+    destroyTeam: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Team.deleteOne({ _id: id })
       // delete dependent managers and slots
       await Manager.deleteMany({ team: id })
       await Slot.deleteMany({ team: id })
-      return result.n === 1
+      return result.n === 1 ? id : null
     },
   },
 

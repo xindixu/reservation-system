@@ -53,8 +53,6 @@ export const UPDATE_VISIT = gql`
 
 export const DESTROY_VISIT = gql`
   mutation DestroyVisit($id: ID!) {
-    destroyVisit(input: { id: $id }) {
-      id
-    }
+    destroyVisit(id: $id)
   }
 `

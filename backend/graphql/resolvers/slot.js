@@ -42,10 +42,10 @@ const resolvers = {
       return slot
     },
 
-    deleteSlot: async (_, { id }) => {
+    destroySlot: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Slot.deleteOne({ _id: id })
-      return result.n === 1
+      return result.n === 1 ? id : null
     },
 
     addManagersToSlot: async (_, { id, managerIds }) => addManagersToSlot(id, managerIds),
