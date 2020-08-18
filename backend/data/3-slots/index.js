@@ -12,7 +12,7 @@ const generateSlots = () => {
   const slots = []
   teams.forEach(({ id: teamId }) => {
     const managersInTeam = getManagersInTeam(teamId)
-    const num = faker.random.number({ min: 5, max: 20 })
+    const num = faker.random.number({ min: 5, max: 10 })
 
     ;[...Array(num).keys()].forEach(() => {
       const numOfManagers = faker.random.number({ min: 1, max: 3 })

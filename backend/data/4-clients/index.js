@@ -12,7 +12,7 @@ const generateClients = () => {
   const clients = []
   teams.forEach(({ id: teamId }) => {
     const managersInTeam = getManagersInTeam(teamId)
-    const num = faker.random.number({ min: 10, max: 30 })
+    const num = faker.random.number({ min: 1, max: 10 })
 
     ;[...Array(num).keys()].forEach(() => {
       const firstName = faker.name.firstName()
