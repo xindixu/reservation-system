@@ -58,13 +58,13 @@ const Page = ({
           editVisit({
             variables: {
               id,
-              startsAt: toISOStringWithTZ(new Date(start)),
-              endsAt: toISOStringWithTZ(new Date(end)),
+              start: toISOStringWithTZ(new Date(start)),
+              end: toISOStringWithTZ(new Date(end)),
             },
           })
         }}
-        onSelectDateRange={(startsAt, endsAt, allDay) => {
-          setPresetDate({ startsAt, endsAt, allDay })
+        onSelectDateRange={(start, end, allDay) => {
+          setPresetDate({ start, end, allDay })
           setModalToShow(MODALS.addVisit)
         }}
       />

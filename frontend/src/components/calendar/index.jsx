@@ -42,11 +42,11 @@ const Calendar = ({
 
   const events = useMemo(
     () =>
-      visits.map(({ id, startsAt, endsAt, client: { firstName, lastName }, slot: { name } }) => ({
+      visits.map(({ id, start, end, client: { firstName, lastName }, slot: { name } }) => ({
         id,
         title: `Visit: ${firstName} ${lastName} at ${name}`,
-        start: new Date(startsAt),
-        end: new Date(endsAt),
+        start: new Date(start),
+        end: new Date(end),
         allDay: true,
         editable: true,
       })),
@@ -68,8 +68,6 @@ const Calendar = ({
     }
     onDropVisit(draggedEvent, start, end, allDay)
     setDraggedEvent(null)
-
-    console.log(event)
   }
 
   const onSelectEvent = (data) => {

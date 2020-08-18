@@ -29,14 +29,12 @@ export const SEARCH_VISITS = gql`
 
 export const CREATE_VISIT = gql`
   mutation CreateVisit(
-    $startsAt: ISO8601DateTime!
-    $endsAt: ISO8601DateTime!
+    $start: ISO8601DateTime!
+    $end: ISO8601DateTime!
     $slotId: ID!
     $clientId: ID!
   ) {
-    createVisit(
-      input: { startsAt: $startsAt, endsAt: $endsAt, slotId: $slotId, clientId: $clientId }
-    ) {
+    createVisit(input: { start: $start, end: $end, slotId: $slotId, clientId: $clientId }) {
       visit {
         ...ExtendedVisit
         client {
@@ -50,13 +48,8 @@ export const CREATE_VISIT = gql`
 `
 
 export const UPDATE_VISIT = gql`
-  mutation UpdateVisit(
-    $id: ID!
-    $startsAt: ISO8601DateTime
-    $endsAt: ISO8601DateTime
-    $slotId: ID
-  ) {
-    updateVisit(input: { id: $id, startsAt: $startsAt, endsAt: $endsAt, slotId: $slotId }) {
+  mutation UpdateVisit($id: ID!, $start: ISO8601DateTime, $end: ISO8601DateTime, $slotId: ID) {
+    updateVisit(input: { id: $id, start: $start, end: $end, slotId: $slotId }) {
       visit {
         ...ExtendedVisit
       }

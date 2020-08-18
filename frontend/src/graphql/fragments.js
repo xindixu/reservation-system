@@ -65,8 +65,8 @@ export const VISIT = {
   extended: gql`
     fragment ExtendedVisit on Visit {
       id
-      startsAt
-      endsAt
+      start
+      end
       slot {
         id
         name

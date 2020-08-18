@@ -57,21 +57,21 @@ const SelectWithFilterAndDisable = ({
 const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
-  const { client, slot, startsAt, endsAt } = initialVisit
+  const { client, slot, start, end } = initialVisit
 
   const [allDay, setAllDay] = useState(true)
 
   const onFinish = (fieldValues) => {
     const { visit } = fieldValues
-    const startsAtObj = new Date(visit[0])
-    const endsAtObj = new Date(visit[1])
-    const newStartsAt = allDay ? startOfDay(startsAtObj) : startsAtObj
-    const newEndsAt = allDay ? endOfDay(endsAtObj) : endsAtObj
+    const startObj = new Date(visit[0])
+    const endObj = new Date(visit[1])
+    const newStart = allDay ? startOfDay(startObj) : startObj
+    const newEnd = allDay ? endOfDay(endObj) : endObj
 
     const values = {
       ...fieldValues,
-      startsAt: toISOStringWithTZ(newStartsAt),
-      endsAt: toISOStringWithTZ(newEndsAt),
+      start: toISOStringWithTZ(newStart),
+      end: toISOStringWithTZ(newEnd),
     }
     onSubmit(values)
   }
@@ -83,7 +83,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       initialValues={{
         clientId: client?.id,
         slotId: slot?.id,
-        visit: startsAt && endsAt ? [new Date(startsAt), new Date(endsAt)] : [],
+        visit: start && end ? [new Date(start), new Date(end)] : [],
       }}
       validateMessages={defaultValidateMessages}
       onFinish={onFinish}

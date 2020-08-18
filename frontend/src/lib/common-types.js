@@ -2,8 +2,8 @@ import PropTypes from "prop-types"
 
 export const VISIT = {
   id: PropTypes.string,
-  startsAt: PropTypes.string.isRequired,
-  endsAt: PropTypes.string.isRequired,
+  start: PropTypes.string.isRequired,
+  end: PropTypes.string.isRequired,
 }
 
 export const TEAM = {

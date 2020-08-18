@@ -112,7 +112,7 @@ const Slot = () => {
 
       <Calendar
         visits={visits}
-        initialDate={visits.length ? visits[visits.length - 1].startsAt : ""}
+        initialDate={visits.length ? visits[visits.length - 1].start : ""}
         onClickVisit={(id) => {
           setSelectedVisit(visits.find((v) => v.id === id))
           setModalToShow(MODALS.editVisit)
@@ -124,13 +124,13 @@ const Slot = () => {
           editVisit({
             variables: {
               id,
-              startsAt: toISOStringWithTZ(new Date(start)),
-              endsAt: toISOStringWithTZ(new Date(end)),
+              start: toISOStringWithTZ(new Date(start)),
+              end: toISOStringWithTZ(new Date(end)),
             },
           })
         }}
-        onSelectDateRange={(startsAt, endsAt, allDay) => {
-          setPresetDate({ startsAt, endsAt, allDay })
+        onSelectDateRange={(start, end, allDay) => {
+          setPresetDate({ start, end, allDay })
           setModalToShow(MODALS.addVisit)
         }}
       />
