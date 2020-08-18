@@ -4,6 +4,7 @@ import Slot, {
   removeManagersFromSlot,
   getManagersForSlot,
 } from "../../models/slot.js"
+import { getVisitsForSlot } from "../../models/visit.js"
 import { findTeamById } from "../../models/team.js"
 
 const resolvers = {
@@ -60,6 +61,8 @@ const resolvers = {
     },
 
     managers: async (slot) => getManagersForSlot(slot),
+
+    visits: async (slot) => getVisitsForSlot(slot),
   },
 }
 

@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Checkbox } from "antd"
-import { TEAM, FORM } from "lib/common-types"
+import { SLOT, FORM } from "lib/common-types"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import { getFullName } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
@@ -51,7 +51,7 @@ SlotForm.defaultProps = {
 
 SlotForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
-  initialSlot: PropTypes.shape(TEAM),
+  initialSlot: PropTypes.shape(SLOT),
   onSubmit: PropTypes.func.isRequired,
 }
 

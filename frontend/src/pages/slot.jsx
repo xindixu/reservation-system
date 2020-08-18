@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import { Typography, Button, Space } from "antd"
+import { Typography, Button, Space, Tag } from "antd"
 import { EditOutlined } from "@ant-design/icons"
 import { GET_SLOT_BY_ID, UPDATE_SLOT } from "graphql/slots"
 import { CREATE_VISIT, UPDATE_VISIT, DESTROY_VISIT } from "graphql/visits"
@@ -57,7 +57,7 @@ const Slot = () => {
 
   const [addVisit] = useMutation(CREATE_VISIT, {
     update: (cache, { data: { createVisit } }) => {
-      const { visit } = createVisit
+      const visit = createVisit
       const { slot } = cache.readQuery({ query: GET_SLOT_BY_ID, variables: { id } })
       cache.writeQuery({
         query: GET_SLOT_BY_ID,
@@ -71,13 +71,13 @@ const Slot = () => {
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
     update: (cache, { data: { destroyVisit } }) => {
-      const { visit } = destroyVisit
+      const visitId = destroyVisit
       const { slot } = cache.readQuery({ query: GET_SLOT_BY_ID, variables: { id } })
       cache.writeQuery({
         query: GET_SLOT_BY_ID,
         variables: { id },
         data: {
-          slot: { ...slot, visits: slot.visits.filter((v) => v.id !== visit.id) },
+          slot: { ...slot, visits: slot.visits.filter((v) => v.id !== visitId) },
         },
       })
     },
@@ -95,7 +95,7 @@ const Slot = () => {
   }
 
   const { slot } = data
-  const { name, sharable, visits, team, manager } = slot
+  const { name, sharable, visits, team, managers } = slot
 
   return (
     <>
@@ -103,7 +103,12 @@ const Slot = () => {
         <div className="flex-grow py-10">
           <Title>{name}</Title>
 
-          <p>Manager: {getFullName(manager)}</p>
+          <p>
+            Managers:{" "}
+            {managers.map((manager) => (
+              <Tag key={manager.id}>{getFullName(manager)}</Tag>
+            ))}
+          </p>
           <p>Team: {team.name}</p>
           <p>Shareable: {sharable ? "yes" : "no"} </p>
           <PageActions slot={slot} edit={() => setModalToShow(MODALS.editSlot)} />
@@ -183,7 +188,7 @@ const Slot = () => {
               form={form}
               initialSlot={{
                 ...slot,
-                managerId: manager?.id,
+                managerIds: managers.map((manager) => manager.id),
                 teamId: team?.id,
               }}
               onSubmit={(values) => editSlot({ variables: { id, ...values } })}

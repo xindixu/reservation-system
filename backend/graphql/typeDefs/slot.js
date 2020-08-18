@@ -8,6 +8,7 @@ export default gql`
     shareable: Boolean!
     team: Team!
     managers: [Manager!]
+    visits: [Visit!]
   }
 
   input SlotInput {

@@ -31,5 +31,12 @@ const visitSchema = new Schema(
 )
 
 visitSchema.plugin(uniqueValidator)
+const Visit = mongoose.model("Visit", visitSchema)
 
-export default mongoose.model("Visit", visitSchema)
+// slot -> visit
+export const getVisitsForSlot = async (slot) => Visit.where("slot").equals(slot.id)
+
+// client -> visit
+export const getVisitsForClient = async (client) => Visit.where("client").equals(client.id)
+
+export default Visit
