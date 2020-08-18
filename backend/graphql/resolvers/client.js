@@ -4,6 +4,7 @@ import Client, {
   removeManagersFromClient,
   getManagersForClient,
 } from "../../models/client.js"
+import { getVisitsForClient } from "../../models/visit.js"
 
 const resolvers = {
   Query: {
@@ -57,6 +58,8 @@ const resolvers = {
 
   Client: {
     managers: async (client) => getManagersForClient(client),
+
+    visits: async (client) => getVisitsForClient(client),
   },
 }
 

@@ -10,6 +10,7 @@ export default gql`
     cycle: Int!
     duration: Int!
     managers: [Manager!]
+    visits: [Visit!]
   }
 
   input ClientInput {
