@@ -19,10 +19,10 @@ export default gql`
 
   input SlotInputWithID {
     id: ID!
-    name: String!
-    description: String!
-    shareable: Boolean!
-    teamId: ID!
+    name: String
+    description: String
+    shareable: Boolean
+    teamId: ID
   }
 
   extend type Query {

@@ -55,8 +55,8 @@ const Client = () => {
   })
   const [addVisit] = useMutation(CREATE_VISIT, {
     update: (cache, { data: { createVisit } }) => {
-      const { visit } = createVisit
-      const { client } = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id } })
+      const visit = createVisit
+      const client = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id } })
       cache.writeQuery({
         query: GET_CLIENT_BY_ID,
         variables: { id },
@@ -70,8 +70,8 @@ const Client = () => {
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
     update: (cache, { data: { destroyVisit } }) => {
-      const { visit } = destroyVisit
-      const { client } = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id } })
+      const visit = destroyVisit
+      const client = cache.readQuery({ query: GET_CLIENT_BY_ID, variables: { id } })
       cache.writeQuery({
         query: GET_CLIENT_BY_ID,
         variables: { id },

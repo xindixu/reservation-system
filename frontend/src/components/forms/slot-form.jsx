@@ -8,7 +8,7 @@ import { getFullName } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const SlotForm = ({ initialSlot, form, onSubmit }) => {
-  const { data } = useQuery(GET_ALL_MANAGERS)
+  // const { data } = useQuery(GET_ALL_MANAGERS)
 
   return (
     <Form
@@ -32,7 +32,7 @@ const SlotForm = ({ initialSlot, form, onSubmit }) => {
       >
         <Checkbox />
       </Form.Item>
-      <Form.Item label="Manager" name="managerId" rules={[{ required: true }]}>
+      {/* <Form.Item label="Manager" name="managerId" rules={[{ required: true }]}>
         <Select>
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
@@ -40,7 +40,7 @@ const SlotForm = ({ initialSlot, form, onSubmit }) => {
             </Select.Option>
           ))}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   )
 }

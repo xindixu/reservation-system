@@ -64,7 +64,7 @@ const DurationPicker = ({ value, onChange }) => {
 }
 
 const ClientForm = ({ initialClient, form, onSubmit }) => {
-  const { data } = useQuery(GET_ALL_MANAGERS)
+  // const { data } = useQuery(GET_ALL_MANAGERS)
 
   const initialValues = {
     ...initialClient,
@@ -147,7 +147,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Managers" name="managerIds">
+      {/* <Form.Item label="Managers" name="managerIds">
         <Select mode="multiple">
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
@@ -155,7 +155,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
             </Select.Option>
           ))}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   )
 }

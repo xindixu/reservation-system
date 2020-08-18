@@ -19,6 +19,7 @@ export default gql`
     phone: String!
     cycle: Int!
     duration: Int!
+    managerIds: [ID!]
   }
 
   input ClientInputWithID {
@@ -29,6 +30,7 @@ export default gql`
     phone: String
     cycle: Int
     duration: Int
+    managerIds: [ID!]
   }
 
   extend type Query {

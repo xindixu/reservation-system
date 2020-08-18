@@ -18,10 +18,10 @@ export default gql`
 
   input VisitInputWithID {
     id: ID!
-    start: DateTime!
-    end: DateTime!
-    clientId: ID!
-    slotId: ID!
+    start: DateTime
+    end: DateTime
+    clientId: ID
+    slotId: ID
   }
 
   extend type Query {

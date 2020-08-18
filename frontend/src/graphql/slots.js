@@ -44,23 +44,25 @@ export const GET_SLOT_BY_ID = gql`
 `
 
 export const CREATE_SLOT = gql`
-  mutation CreateSlot($name: String!, $description: String, $shareable: Boolean!, $managerId: ID!) {
+  mutation CreateSlot(
+    $name: String!
+    $description: String
+    $shareable: Boolean! # $managerId: ID!
+  ) {
     createSlot(
       input: {
         name: $name
         description: $description
         shareable: $shareable
-        managerId: $managerId
+        # managerId: $managerId
       }
     ) {
-      slot {
-        ...ExtendedSlot
-        team {
-          ...BasicTeam
-        }
-        managers {
-          ...BasicManager
-        }
+      ...ExtendedSlot
+      team {
+        ...BasicTeam
+      }
+      managers {
+        ...BasicManager
       }
     }
   }
@@ -74,8 +76,7 @@ export const UPDATE_SLOT = gql`
     $id: ID!
     $name: String
     $description: String
-    $shareable: Boolean
-    $managerId: ID
+    $shareable: Boolean # $managerId: ID
   ) {
     updateSlot(
       input: {
@@ -83,17 +84,15 @@ export const UPDATE_SLOT = gql`
         name: $name
         description: $description
         shareable: $shareable
-        managerId: $managerId
+        # managerId: $managerId
       }
     ) {
-      slot {
-        ...ExtendedSlot
-        team {
-          ...BasicTeam
-        }
-        managers {
-          ...BasicManager
-        }
+      ...ExtendedSlot
+      team {
+        ...BasicTeam
+      }
+      managers {
+        ...BasicManager
       }
     }
   }
@@ -105,9 +104,7 @@ export const UPDATE_SLOT = gql`
 export const DESTROY_SLOT = gql`
   mutation DestroySlot($id: ID!) {
     destroySlot(input: { id: $id }) {
-      slot {
-        id
-      }
+      id
     }
   }
 `

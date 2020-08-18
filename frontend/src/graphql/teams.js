@@ -26,9 +26,7 @@ export const GET_TEAM_BY_ID = gql`
 export const CREATE_TEAM = gql`
   mutation CreateTeam($name: String!, $email: String, $phone: String, $description: String) {
     createTeam(input: { name: $name, email: $email, phone: $phone, description: $description }) {
-      team {
-        ...ExtendedTeam
-      }
+      ...ExtendedTeam
     }
   }
   ${TEAM.extended}
@@ -45,11 +43,9 @@ export const UPDATE_TEAM = gql`
     updateTeam(
       input: { id: $id, name: $name, email: $email, phone: $phone, description: $description }
     ) {
-      team {
-        ...ExtendedTeam
-        managers {
-          ...ExtendedManager
-        }
+      ...ExtendedTeam
+      managers {
+        ...ExtendedManager
       }
     }
   }
@@ -60,11 +56,9 @@ export const UPDATE_TEAM = gql`
 export const ADD_MANAGERS_TO_TEAM = gql`
   mutation AddManagersToTeam($id: ID!, $managerIds: [ID!]!) {
     addManagersToTeam(input: { id: $id, managerIds: $managerIds }) {
-      team {
-        ...ExtendedTeam
-        managers {
-          ...ExtendedManager
-        }
+      ...ExtendedTeam
+      managers {
+        ...ExtendedManager
       }
     }
   }
