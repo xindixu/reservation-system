@@ -23,11 +23,15 @@ const Slots = ({ loading, slots, managers, teams, editSlot, deleteSlot }) => {
         render={({ name, id }) => <Link to={`/slot/${id}`}>{name}</Link>}
       />
       <Column
-        title="Manager"
-        key="manager"
-        render={({ manager }) => getFullName(manager)}
+        title="Managers"
+        key="managers"
+        render={({ managers }) => managers.map(manager => (
+          <span className="mr-4" key={manager.id}>
+            {getFullName(manager)}
+          </span>)
+          )}
         filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
-        onFilter={(filter, { manager }) => manager.id === filter}
+        onFilter={(filter, { managers }) => managers.find(({id}) => id === filter)}
       />
       <Column
         title="Team"

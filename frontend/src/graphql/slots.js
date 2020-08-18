@@ -8,7 +8,7 @@ export const GET_ALL_SLOTS = gql`
       team {
         ...BasicTeam
       }
-      manager {
+      managers {
         ...BasicManager
       }
     }
@@ -25,7 +25,7 @@ export const GET_SLOT_BY_ID = gql`
       team {
         ...BasicTeam
       }
-      manager {
+      managers {
         ...BasicManager
       }
       visits {
@@ -58,7 +58,7 @@ export const CREATE_SLOT = gql`
         team {
           ...BasicTeam
         }
-        manager {
+        managers {
           ...BasicManager
         }
       }
@@ -91,7 +91,7 @@ export const UPDATE_SLOT = gql`
         team {
           ...BasicTeam
         }
-        manager {
+        managers {
           ...BasicManager
         }
       }
