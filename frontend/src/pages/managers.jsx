@@ -14,7 +14,7 @@ const Managers = () => {
   const { loading, error, data } = useQuery(GET_ALL_MANAGERS)
   const [addManager] = useMutation(CREATE_MANAGER, {
     update: (cache, { data: { createManager } }) => {
-      const { manager } = createManager
+      const manager = createManager
       const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
       cache.writeQuery({
         query: GET_ALL_MANAGERS,

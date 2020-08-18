@@ -93,7 +93,7 @@ export const UPDATE_MANAGER = gql`
 
 export const ADD_CLIENTS_TO_MANAGER = gql`
   mutation AddClientsToManager($id: ID!, $clientIds: [ID!]!) {
-    addClientsToManager(input: { id: $id, clientIds: $clientIds }) {
+    addClientsToManager(id: $id, clientIds: $clientIds) {
       ...ExtendedManager
       clients {
         ...ExtendedClient
@@ -109,7 +109,7 @@ export const ADD_CLIENTS_TO_MANAGER = gql`
 
 export const REMOVE_CLIENTS_FROM_MANAGER = gql`
   mutation RemoveClientsFromManager($id: ID!, $clientIds: [ID!]!) {
-    removeClientsFromManager(input: { id: $id, clientIds: $clientIds }) {
+    removeClientsFromManager(id: $id, clientIds: $clientIds) {
       ...ExtendedManager
       clients {
         ...ExtendedClient

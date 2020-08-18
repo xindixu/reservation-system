@@ -62,7 +62,7 @@ const Manager = () => {
 
   const [addClients] = useMutation(ADD_CLIENTS_TO_MANAGER, {
     update: (cache, { data: { addClientsToManager } }) => {
-      const { manager } = addClientsToManager
+      const manager = addClientsToManager
       const { clients } = manager
       const { clients: prevClients } = data.manager
       const addedClients = clients.filter((pc) => !prevClients.some((c) => c.id === pc.id))
@@ -81,7 +81,7 @@ const Manager = () => {
 
   const [removeClients] = useMutation(REMOVE_CLIENTS_FROM_MANAGER, {
     update: (cache, { data: { removeClientsFromManager } }) => {
-      const { manager } = removeClientsFromManager
+      const manager = removeClientsFromManager
       const { clients } = manager
       const { clients: prevClients } = data.manager
       const deletedClients = prevClients.filter((pc) => !clients.some((c) => c.id === pc.id))
