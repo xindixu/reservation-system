@@ -27,6 +27,7 @@ export default gql`
   extend type Query {
     visits: [Visit!]
     visit(id: ID!): Visit!
+    searchVisits(clientIds: [ID!], managerIds: [ID!], slotIds: [ID!]): [Visit!]
   }
 
   extend type Mutation {

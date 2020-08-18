@@ -1,7 +1,7 @@
 import { checkObjectId } from "../../utils/validators.js"
 import Visit from "../../models/visit.js"
 import { findSlotById } from "../../models/slot.js"
-import { findClientById } from "../../models/client.js"
+import Client, { findClientById } from "../../models/client.js"
 
 const resolvers = {
   Query: {
@@ -10,6 +10,15 @@ const resolvers = {
       return Visit.findById(id)
     },
     visits: async () => Visit.find(),
+
+    searchVisits: async (_, { clientIds, managerIds, slotIds }) => {
+      const clientForManagers = await Client.find({ managers: { $in: managerIds } }, { _id: 1 })
+      const allClientIds = [...clientForManagers.map(({ _id }) => _id), ...clientIds]
+      const visits = await Visit.find({
+        $or: [{ client: { $in: allClientIds } }, { slot: { $in: slotIds } }],
+      })
+      return visits
+    },
   },
 
   Mutation: {
