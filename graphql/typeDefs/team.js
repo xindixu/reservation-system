@@ -8,6 +8,7 @@ export default gql`
     email: String!
     phone: String!
     managers: [Manager!]
+    managersCount: Int!
     slots: [Slot!]
   }
 

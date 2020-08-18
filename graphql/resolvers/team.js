@@ -52,6 +52,8 @@ const resolvers = {
   Team: {
     managers: async (team) => Manager.where("team").equals(team.id),
 
+    managersCount: async (team) => Manager.countDocuments({ team: team.id }),
+
     slots: async (team) => Slot.where("team").equals(team.id),
   },
 }

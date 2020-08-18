@@ -82,6 +82,10 @@ export const addClientsToManager = async (managerId, clientIds) => {
 export const removeClientsFromManager = async (mangerId, clientIds) =>
   Client.updateMany({ _id: { $in: clientIds } }, { $pull: { managers: mangerId } })
 
-export const getClientsForManager = async (manager) => Client.where("managers").in(manager.id)
+export const getClientsForManager = async (manager) =>
+  Client.find({ managers: { $elemMatch: { $eq: manager.id } } })
+
+export const getClientsCountForManager = async (manager) =>
+  Client.countDocuments({ managers: { $elemMatch: { $eq: manager.id } } })
 
 export default Client

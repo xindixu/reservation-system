@@ -14,6 +14,7 @@ const generateMangers = () =>
       lastName,
       email: faker.internet.email(firstName, lastName),
       phone: faker.phone.phoneNumber(),
+      jobTitle: faker.name.jobTitle(),
       team: teams[index % teams.length].id,
     }
   })

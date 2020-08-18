@@ -25,6 +25,10 @@ const managerSchema = new Schema(
       type: String,
       validate: phone,
     },
+    jobTitle: {
+      type: String,
+      required: true,
+    },
     team: {
       type: ObjectId,
       ref: "Team",

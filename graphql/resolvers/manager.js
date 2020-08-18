@@ -3,6 +3,7 @@ import Manager from "../../models/manager.js"
 import { findTeamById } from "../../models/team.js"
 import { getSlotsForManager, addSlotsToManager, removeSlotsFromManager } from "../../models/slot.js"
 import {
+  getClientsCountForManager,
   getClientsForManager,
   addClientsToManager,
   removeClientsFromManager,
@@ -87,6 +88,7 @@ const resolvers = {
     slots: async (manager) => getSlotsForManager(manager),
 
     clients: async (manager) => getClientsForManager(manager),
+    clientsCount: async (manager) => getClientsCountForManager(manager),
   },
 }
 

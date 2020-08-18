@@ -10,6 +10,11 @@ import resolvers from "./graphql/resolvers/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "./utils/auth.js"
 import schemaDirectives from "./graphql/directives/index.js"
 
+const corsOptions = {
+  origin: "http://localhost:5000",
+  credentials: true,
+}
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -65,7 +70,7 @@ app.use(async (req, res, next) => {
   return next()
 })
 
-server.applyMiddleware({ app, cors: false })
+server.applyMiddleware({ app, cors: corsOptions })
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
