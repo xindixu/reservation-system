@@ -82,6 +82,7 @@ export const addSlotsToManager = async (managerId, slotIds) => {
 export const removeSlotsFromManager = async (mangerId, slotIds) =>
   Slot.updateMany({ _id: { $in: slotIds } }, { $pull: { managers: mangerId } })
 
-export const getSlotsForManager = async (manager) => Slot.where("managers").in(manager.id)
+export const getSlotsForManager = async (manager) =>
+  Slot.where("managers").in(manager.id).sort({ name: 1 })
 
 export default Slot

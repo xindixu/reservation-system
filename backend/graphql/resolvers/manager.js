@@ -16,7 +16,7 @@ const resolvers = {
       return Manager.findById(id)
     },
     managers: async () => {
-      return Manager.find()
+      return Manager.find().sort({ firstName: 1, lastName: 1 })
     },
   },
 
@@ -88,6 +88,7 @@ const resolvers = {
     slots: async (manager) => getSlotsForManager(manager),
 
     clients: async (manager) => getClientsForManager(manager),
+
     clientsCount: async (manager) => getClientsCountForManager(manager),
   },
 }

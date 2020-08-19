@@ -9,14 +9,15 @@ const resolvers = {
       await checkObjectId(id)
       return Visit.findById(id)
     },
-    visits: async () => Visit.find(),
+    visits: async () => Visit.find().sort({ start: 1, end: 1, _id: 1 }),
 
     searchVisits: async (_, { clientIds, managerIds, slotIds }) => {
       const clientForManagers = await Client.find({ managers: { $in: managerIds } }, { _id: 1 })
       const allClientIds = [...clientForManagers.map(({ _id }) => _id), ...clientIds]
       const visits = await Visit.find({
         $or: [{ client: { $in: allClientIds } }, { slot: { $in: slotIds } }],
-      })
+      }).sort({ start: 1, end: 1, _id: 1 })
+
       return visits
     },
   },

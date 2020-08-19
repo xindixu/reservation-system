@@ -14,7 +14,7 @@ const resolvers = {
       return Client.findById(id)
     },
     clients: async () => {
-      return Client.find()
+      return Client.find().sort({ firstName: 1, lastName: 1 })
     },
   },
 

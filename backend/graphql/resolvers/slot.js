@@ -14,7 +14,7 @@ const resolvers = {
       await checkObjectId(id)
       return Slot.findById(id)
     },
-    slots: async () => Slot.find(),
+    slots: async () => Slot.find().sort({ name: 1 }),
   },
 
   Mutation: {

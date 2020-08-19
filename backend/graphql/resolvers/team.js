@@ -9,7 +9,7 @@ const resolvers = {
       await checkObjectId(id)
       return Team.findById(id)
     },
-    teams: async () => Team.find(),
+    teams: async () => Team.find().sort({ name: 1 }),
   },
 
   Mutation: {
@@ -50,11 +50,12 @@ const resolvers = {
   },
 
   Team: {
-    managers: async (team) => Manager.where("team").equals(team.id),
+    managers: async (team) =>
+      Manager.where("team").equals(team.id).sort({ firstName: 1, lastName: 1 }),
 
     managersCount: async (team) => Manager.countDocuments({ team: team.id }),
 
-    slots: async (team) => Slot.where("team").equals(team.id),
+    slots: async (team) => Slot.where("team").equals(team.id).sort({ name: 1 }),
   },
 }
 
