@@ -103,7 +103,7 @@ const Slot = () => {
               form={form}
               initialSlot={{
                 ...selectedSlot,
-                managerId: selectedSlot.manager?.id,
+                managerIds: selectedSlot.managers?.map((manager) => manager.id),
                 teamId: selectedSlot.team?.id,
               }}
               onSubmit={(values) => editSlot({ variables: { id: selectedSlot.id, ...values } })}

@@ -16,6 +16,7 @@ export default gql`
     description: String!
     shareable: Boolean!
     teamId: ID!
+    managerIds: [ID!]
   }
 
   input SlotInputWithID {
@@ -24,6 +25,7 @@ export default gql`
     description: String
     shareable: Boolean
     teamId: ID
+    managerIds: [ID!]
   }
 
   extend type Query {

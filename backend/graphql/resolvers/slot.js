@@ -6,6 +6,7 @@ import Slot, {
 } from "../../models/slot.js"
 import { getVisitsForSlot } from "../../models/visit.js"
 import { findTeamById } from "../../models/team.js"
+import { areManagerIdsValid } from "../../models/manager.js"
 
 const resolvers = {
   Query: {
@@ -18,26 +19,35 @@ const resolvers = {
 
   Mutation: {
     createSlot: async (_, { input }) => {
-      const { name, description, shareable, teamId } = input
+      const { name, description, shareable, teamId, managerIds } = input
       const team = await findTeamById(teamId)
+
+      if (managerIds) {
+        await areManagerIdsValid(managerIds)
+      }
+
       const slot = await Slot.create({
         name,
         description,
         shareable,
         team,
+        managerIds,
       })
 
       return slot
     },
 
     updateSlot: async (_, { input }) => {
-      const { id, teamId, ...updates } = input
+      const { id, teamId, managerIds, ...updates } = input
       await checkObjectId(id)
 
       const team = teamId ? await findTeamById(teamId) : undefined
+      if (managerIds) {
+        await areManagerIdsValid(managerIds)
+      }
       const slot = await Slot.findByIdAndUpdate(
         id,
-        { ...updates, team },
+        { ...updates, team, managers: managerIds },
         { new: true, omitUndefined: true }
       )
       return slot
