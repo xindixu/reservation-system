@@ -5,6 +5,7 @@ import Client, {
   getManagersForClient,
 } from "../../models/client.js"
 import { getVisitsForClient } from "../../models/visit.js"
+import { areManagerIdsValid } from "../../models/manager.js"
 
 const resolvers = {
   Query: {
@@ -19,7 +20,11 @@ const resolvers = {
 
   Mutation: {
     createClient: async (_, { input }) => {
-      const { firstName, lastName, email, phone, cycle, duration } = input
+      const { firstName, lastName, email, phone, cycle, duration, managerIds } = input
+
+      if (managerIds) {
+        await areManagerIdsValid(managerIds)
+      }
 
       const client = await Client.create({
         firstName,
@@ -28,19 +33,28 @@ const resolvers = {
         phone,
         cycle,
         duration,
+        managerIds,
       })
 
       return client
     },
 
     updateClient: async (_, { input }) => {
-      const { id, ...updates } = input
+      const { id, managerIds, ...updates } = input
       await checkObjectId(id)
 
-      const client = await Client.findByIdAndUpdate(id, updates, {
-        new: true,
-        omitUndefined: true,
-      })
+      if (managerIds) {
+        await areManagerIdsValid(managerIds)
+      }
+
+      const client = await Client.findByIdAndUpdate(
+        id,
+        { managers: managerIds, ...updates },
+        {
+          new: true,
+          omitUndefined: true,
+        }
+      )
       return client
     },
 
@@ -50,10 +64,10 @@ const resolvers = {
       return result.n === 1 ? id : null
     },
 
-    addManagersToClient: async (_, { id, managerIds }) => addManagersToClient(id, managerIds),
+    // addManagersToClient: async (_, { id, managerIds }) => addManagersToClient(id, managerIds),
 
-    removeManagersFromClient: async (_, { id, managerIds }) =>
-      removeManagersFromClient(id, managerIds),
+    // removeManagersFromClient: async (_, { id, managerIds }) =>
+    //   removeManagersFromClient(id, managerIds),
   },
 
   Client: {

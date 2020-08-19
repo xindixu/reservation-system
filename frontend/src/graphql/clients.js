@@ -38,7 +38,8 @@ export const CREATE_CLIENT = gql`
     $email: String!
     $phone: String!
     $cycle: Int!
-    $duration: Int! # $managerIds: [ID!]
+    $duration: Int!
+    $managerIds: [ID!]
   ) {
     createClient(
       input: {
@@ -48,7 +49,7 @@ export const CREATE_CLIENT = gql`
         phone: $phone
         cycle: $cycle
         duration: $duration
-        # managerIds: $managerIds
+        managerIds: $managerIds
       }
     ) {
       ...ExtendedClient
@@ -69,7 +70,8 @@ export const UPDATE_CLIENT = gql`
     $email: String
     $phone: String
     $cycle: Int
-    $duration: Int # $managerIds: [ID!]
+    $duration: Int
+    $managerIds: [ID!]
   ) {
     updateClient(
       input: {
@@ -80,7 +82,7 @@ export const UPDATE_CLIENT = gql`
         phone: $phone
         cycle: $cycle
         duration: $duration
-        # managerIds: $managerIds
+        managerIds: $managerIds
       }
     ) {
       ...ExtendedClient
