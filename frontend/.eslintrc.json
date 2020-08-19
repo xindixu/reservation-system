@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true
   },
@@ -25,6 +26,7 @@
     "react/forbid-prop-types": 0,
     "react/no-multi-comp": [1, { "ignoreStateless": true }],
     "react/sort-comp": 0,
+    "react/jsx-props-no-spreading": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/first": 0,
