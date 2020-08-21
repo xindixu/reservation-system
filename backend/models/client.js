@@ -1,6 +1,7 @@
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
+import MongoPaging from "mongo-cursor-pagination"
 import { phone } from "../utils/validators.js"
 import { isManagerIdValid, areManagerIdsValid } from "./manager.js"
 
@@ -45,6 +46,7 @@ const clientSchema = new Schema(
 )
 
 clientSchema.plugin(uniqueValidator)
+clientSchema.plugin(MongoPaging.mongoosePlugin)
 
 const Client = mongoose.model("Client", clientSchema)
 

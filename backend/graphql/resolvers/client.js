@@ -7,6 +7,7 @@ import Client, {
 import { getVisitsForClient } from "../../models/visit.js"
 import { areManagerIdsValid } from "../../models/manager.js"
 
+const parseDocument = (document) => ({ ...document, id: document._id })
 const resolvers = {
   Query: {
     client: async (_, { id }) => {
@@ -14,23 +15,18 @@ const resolvers = {
       return Client.findById(id)
     },
 
-    clients: async (_, { size = 20, page = 1 }) => {
-      const totalClients = await Client.estimatedDocumentCount()
-      const total = Math.ceil(totalClients / size)
-      const next = page + 1 <= total ? page + 1 : null
-      const prev = page - 1 >= 1 ? page - 1 : null
-
-      const clients = await Client.find()
-        .sort({ firstName: 1, lastName: 1 })
-        .skip((page - 1) * size)
-        .limit(size)
+    clients: async (_, { next, previous, size = 20 }) => {
+      const result = await Client.paginate({
+        limit: size,
+        paginatedField: "firstName",
+        sortAscending: true,
+        next,
+        previous,
+      })
 
       return {
-        clients,
-        next,
-        prev,
-        total: totalClients,
-        size,
+        ...result,
+        clients: result.results.map(parseDocument),
       }
     },
   },
