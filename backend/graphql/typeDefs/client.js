@@ -1,6 +1,14 @@
 import { gql } from "apollo-server-express"
 
 export default gql`
+  type ClientConnection {
+    total: Int!
+    prev: Int
+    next: Int
+    size: Int!
+    clients: [Client!]!
+  }
+
   type Client {
     id: ID!
     firstName: String!
@@ -35,7 +43,7 @@ export default gql`
   }
 
   extend type Query {
-    clients: [Client!]
+    clients(size: Int!, page: Int!): ClientConnection!
     client(id: ID!): Client!
   }
 

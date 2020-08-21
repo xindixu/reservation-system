@@ -16,17 +16,29 @@ const MODALS = {
 }
 
 const Clients = () => {
-  const { loading, error, data } = useQuery(GET_ALL_CLIENTS)
+  const [page, setPage] = useState(1)
+  const { loading, error, data, fetchMore } = useQuery(GET_ALL_CLIENTS, {
+    variables: { size: 5, page },
+    fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true,
+  })
   const { data: managersData, loading: loadingManager } = useQuery(GET_ALL_MANAGERS)
 
   const [addClient] = useMutation(CREATE_CLIENT, {
     update: (cache, { data: { createClient } }) => {
       const client = createClient
-      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
+      const { clients } = cache.readQuery({
+        query: GET_ALL_CLIENTS,
+        variables: { size: 5, page },
+      })
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
+        variables: { size: 5, page },
         data: {
-          clients: [...clients, client],
+          clients: {
+            ...clients,
+            clients: [...clients.clients, client],
+          },
         },
       })
     },
@@ -36,11 +48,19 @@ const Clients = () => {
   const [deleteClient] = useMutation(DESTROY_CLIENT, {
     update: (cache, { data: { destroyClient } }) => {
       const clientId = destroyClient
-      const { clients } = cache.readQuery({ query: GET_ALL_CLIENTS })
+      const { clients } = cache.readQuery({
+        query: GET_ALL_CLIENTS,
+        variables: { size: 5, page },
+      })
+
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
+        variables: { size: 5, page },
         data: {
-          clients: clients.filter((c) => c.id !== clientId),
+          clients: {
+            ...clients,
+            clients: clients.clients.filter((c) => c.id !== clientId),
+          },
         },
       })
     },
@@ -53,16 +73,34 @@ const Clients = () => {
     return `Error! ${error.message}`
   }
 
+  const fetchMoreClients = (page) => {
+    return fetchMore({
+      variables: {
+        page,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return prev
+        }
+
+        return fetchMoreResult
+      },
+    })
+  }
+
   return (
     <>
       <ClientsTable
+        page={page}
+        setPage={setPage}
         loading={loading || loadingManager}
-        clients={data?.clients}
+        data={data?.clients || {}}
         managers={managersData?.managers}
         editClient={(client) => {
           setSelectedClient(client)
           setModalToShow(MODALS.editClient)
         }}
+        fetchMore={fetchMoreClients}
         deleteClient={(client) =>
           getConfirm({
             content: (

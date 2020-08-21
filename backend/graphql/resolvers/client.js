@@ -13,8 +13,25 @@ const resolvers = {
       await checkObjectId(id)
       return Client.findById(id)
     },
-    clients: async () => {
-      return Client.find().sort({ firstName: 1, lastName: 1 })
+
+    clients: async (_, { size = 20, page = 1 }) => {
+      const totalClients = await Client.estimatedDocumentCount()
+      const total = Math.ceil(totalClients / size)
+      const next = page + 1 <= total ? page + 1 : null
+      const prev = page - 1 >= 1 ? page - 1 : null
+
+      const clients = await Client.find()
+        .sort({ firstName: 1, lastName: 1 })
+        .skip((page - 1) * size)
+        .limit(size)
+
+      return {
+        clients,
+        next,
+        prev,
+        total: totalClients,
+        size,
+      }
     },
   },
 
