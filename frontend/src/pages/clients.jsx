@@ -18,7 +18,7 @@ const MODALS = {
 
 const Clients = () => {
   const { loading, error, data = {}, fetchMore } = useQuery(GET_ALL_CLIENTS, {
-    variables: { size: 5 },
+    variables: { size: 20 },
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
   })
@@ -67,7 +67,6 @@ const Clients = () => {
   })
 
   const fetchMoreClients = () =>
-    console.log("fetching") ||
     fetchMore({
       variables: {
         next: data.clients.next,

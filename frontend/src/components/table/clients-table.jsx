@@ -1,13 +1,25 @@
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import { Column, Table, AutoSizer, InfiniteLoader } from "react-virtualized"
-import { Button, Tag } from "antd"
+import {
+  Column,
+  Table,
+  AutoSizer,
+  InfiniteLoader,
+  CellMeasurer,
+  CellMeasurerCache,
+  defaultTableRowRenderer as DefaultRowRenderer,
+} from "react-virtualized"
+import { Button, Tag, Spin } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import { CLIENT, MANAGER } from "lib/common-types"
 import { getFullName } from "lib/utils"
-import { defaultTableSettings } from "lib/constants"
-import "react-virtualized/styles.css" // only needs to be imported once
+import "react-virtualized/styles.css"
+
+const cache = new CellMeasurerCache({
+  fixedWidth: true,
+  defaultHeight: 80, // keep this <= any actual row height
+})
 
 const ClientsTable = ({
   clients = [],
@@ -18,7 +30,18 @@ const ClientsTable = ({
   loading,
   managers,
 }) => {
-  console.log(clients)
+  const rowRenderer = (props) => {
+    if (props.index === clients.length) {
+      return (
+        <div {...props}>
+          <Spin />
+        </div>
+      )
+    }
+
+    return <DefaultRowRenderer {...props} />
+  }
+
   return (
     <InfiniteLoader
       isRowLoaded={({ index }) => !!clients[index]}
@@ -31,17 +54,20 @@ const ClientsTable = ({
             <Table
               width={width}
               height={height}
-              headerHeight={20}
-              rowHeight={80}
+              headerHeight={40}
               rowCount={clients.length}
               rowGetter={({ index }) => clients[index]}
+              deferredMeasurementCache={cache}
+              rowHeight={cache.rowHeight}
               onRowsRendered={onRowsRendered}
+              rowRenderer={rowRenderer}
               ref={registerChild}
+              rowClassName="bg-white border-b"
             >
               <Column
                 label="Name"
                 dataKey="name"
-                width={300}
+                width={width / 5}
                 cellRenderer={({ rowData }) => (
                   <Link to={`/client/${rowData.id}`}>{getFullName(rowData)} </Link>
                 )}
@@ -50,14 +76,16 @@ const ClientsTable = ({
               <Column
                 label="Manager"
                 dataKey="manager"
-                width={500}
+                width={width / 3}
                 flexGrow={1}
-                cellRenderer={({ rowData }) => (
-                  <div>
-                    {rowData.managers.map((manager) => (
-                      <Tag key={manager.id}>{getFullName(manager)}</Tag>
-                    ))}
-                  </div>
+                cellRenderer={({ rowData, parent, rowIndex }) => (
+                  <CellMeasurer cache={cache} parent={parent} rowIndex={rowIndex}>
+                    <div className="py-4">
+                      {rowData.managers.map((manager) => (
+                        <Tag key={manager.id}>{getFullName(manager)}</Tag>
+                      ))}
+                    </div>
+                  </CellMeasurer>
                 )}
                 // filters={managers?.map((manager) => ({
                 //   text: getFullName(manager),
@@ -73,7 +101,7 @@ const ClientsTable = ({
                 label="Contact"
                 dataKey="contact"
                 width={100}
-                cellRenderer={({ id, email, phone }) => [
+                cellRenderer={({ rowData: { id, email, phone } }) => [
                   <Button
                     key={`email-${id}`}
                     type="link"
@@ -96,7 +124,7 @@ const ClientsTable = ({
                 label="Action"
                 dataKey="actions"
                 width={100}
-                cellRenderer={(client) => [
+                cellRenderer={({ rowData: client }) => [
                   <Button
                     key={`edit-${client.id}`}
                     size="small"
@@ -123,6 +151,7 @@ const ClientsTable = ({
     </InfiniteLoader>
   )
 }
+
 ClientsTable.defaultProps = {
   managers: [],
   loading: false,
