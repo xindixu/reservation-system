@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { useQuery, useMutation } from "@apollo/react-hooks"
-import ClientFrom from "components/forms/client-form"
+import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
+import ClientsList from "components/list/clients-list"
 import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT, DESTROY_CLIENT } from "graphql/clients"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
@@ -16,9 +17,8 @@ const MODALS = {
 }
 
 const Clients = () => {
-  const [page, setPage] = useState(1)
-  const { loading, error, data, fetchMore } = useQuery(GET_ALL_CLIENTS, {
-    variables: { size: 5, page },
+  const { loading, error, data = {}, fetchMore } = useQuery(GET_ALL_CLIENTS, {
+    variables: { size: 5 },
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
   })
@@ -29,11 +29,11 @@ const Clients = () => {
       const client = createClient
       const { clients } = cache.readQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5, page },
+        variables: { size: 5 },
       })
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5, page },
+        variables: { size: 5 },
         data: {
           clients: {
             ...clients,
@@ -50,12 +50,12 @@ const Clients = () => {
       const clientId = destroyClient
       const { clients } = cache.readQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5, page },
+        variables: { size: 5 },
       })
 
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5, page },
+        variables: { size: 5 },
         data: {
           clients: {
             ...clients,
@@ -66,6 +66,27 @@ const Clients = () => {
     },
   })
 
+  const fetchMoreClients = () =>
+    console.log("fetching") ||
+    fetchMore({
+      variables: {
+        next: data.clients.next,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult
+        }
+        const { clients } = fetchMoreResult.clients
+        return {
+          ...fetchMoreResult,
+          clients: {
+            ...fetchMoreResult.clients,
+            clients: [...previousResult.clients.clients, ...clients],
+          },
+        }
+      },
+    })
+
   const [selectedClient, setSelectedClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
@@ -73,34 +94,20 @@ const Clients = () => {
     return `Error! ${error.message}`
   }
 
-  const fetchMoreClients = (page) => {
-    return fetchMore({
-      variables: {
-        page,
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
-          return prev
-        }
-
-        return fetchMoreResult
-      },
-    })
-  }
+  const { clients } = data
 
   return (
     <>
       <ClientsTable
-        page={page}
-        setPage={setPage}
         loading={loading || loadingManager}
-        data={data?.clients || {}}
+        clients={clients?.clients}
         managers={managersData?.managers}
+        hasNext={clients?.hasNext}
+        fetchMore={fetchMoreClients}
         editClient={(client) => {
           setSelectedClient(client)
           setModalToShow(MODALS.editClient)
         }}
-        fetchMore={fetchMoreClients}
         deleteClient={(client) =>
           getConfirm({
             content: (
@@ -123,7 +130,7 @@ const Clients = () => {
           submitButtonText="Create"
         >
           {({ form }) => (
-            <ClientFrom form={form} onSubmit={(values) => addClient({ variables: values })} />
+            <ClientForm form={form} onSubmit={(values) => addClient({ variables: values })} />
           )}
         </Modal>
       )}
@@ -134,7 +141,7 @@ const Clients = () => {
           submitButtonText="Update"
         >
           {({ form }) => (
-            <ClientFrom
+            <ClientForm
               form={form}
               initialClient={{
                 ...selectedClient,

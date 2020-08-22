@@ -2,18 +2,16 @@ import { gql } from "apollo-boost"
 import { CLIENT, MANAGER, VISIT } from "./fragments"
 
 export const GET_ALL_CLIENTS = gql`
-  query Clients($size: Int!, $page: Int!) {
-    clients(size: $size, page: $page) {
+  query Clients($size: Int!, $next: String) {
+    clients(size: $size, next: $next) {
       clients {
         ...ExtendedClient
         managers {
           ...BasicManager
         }
       }
-      size
-      prev
+      hasNext
       next
-      total
     }
   }
   ${CLIENT.extended}
