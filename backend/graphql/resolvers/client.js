@@ -6,8 +6,8 @@ import Client, {
 } from "../../models/client.js"
 import { getVisitsForClient } from "../../models/visit.js"
 import { areManagerIdsValid } from "../../models/manager.js"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
 
-const parseDocument = (document) => ({ ...document, id: document._id })
 const resolvers = {
   Query: {
     client: async (_, { id }) => {
@@ -15,18 +15,35 @@ const resolvers = {
       return Client.findById(id)
     },
 
-    clients: async (_, { next, previous, size = 20 }) => {
-      const result = await Client.paginate({
-        limit: size,
-        paginatedField: "firstName",
-        sortAscending: true,
-        next,
-        previous,
-      })
+    clients: async (_, { next, size = 20 }) => {
+      let options
+      if (next) {
+        const { firstName, lastName, id } = fromCursorHash(next)
+        options = {
+          $or: [
+            { firstName: { $gt: firstName } },
+            {
+              $and: [{ firstName }, { lastName: { $gt: lastName } }],
+            },
+            {
+              $and: [{ firstName }, { lastName }, { id: { $gt: id } }],
+            },
+          ],
+        }
+        options.firstName = {
+          $gte: firstName,
+        }
+      }
+
+      const clients = await Client.find(options)
+        .sort({ firstName: 1, lastName: 1, id: 1 })
+        .limit(size + 1)
+      const hasNext = clients.length > size
 
       return {
-        ...result,
-        clients: result.results.map(parseDocument),
+        clients: clients.slice(0, -1),
+        hasNext,
+        next: toCursorHash({ firstName: clients[clients.length - 1].firstName }),
       }
     },
   },
