@@ -14,6 +14,19 @@ export const GET_ALL_VISITS = gql`
   ${CLIENT.basic}
 `
 
+export const GET_VISITS_IN_RANGE = gql`
+  query VisitsInRange($from: DateTime!, $to: DateTime!) {
+    visitsInRange(from: $from, to: $to) {
+      ...ExtendedVisit
+      client {
+        ...BasicClient
+      }
+    }
+  }
+  ${VISIT.extended}
+  ${CLIENT.basic}
+`
+
 export const SEARCH_VISITS = gql`
   query SearchVisits($managerIds: [ID!], $clientIds: [ID!], $slotIds: [ID!]) {
     searchVisits(managerIds: $managerIds, clientIds: $clientIds, slotIds: $slotIds) {

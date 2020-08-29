@@ -9,6 +9,7 @@ import {
   CREATE_VISIT,
   UPDATE_VISIT,
   DESTROY_VISIT,
+  GET_VISITS_IN_RANGE,
 } from "graphql/visits"
 
 const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { createVisit } }) => {
@@ -41,7 +42,12 @@ const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { cr
 const CalendarPage = () => {
   const [searchParams, setSearchParams] = useState({})
   const searching = !isEmpty(searchParams)
-  const { loading: loadingAllVisits, error, data: allVisitData } = useQuery(GET_ALL_VISITS)
+  const { loading: loadingAllVisits, error, data: allVisitData } = useQuery(GET_VISITS_IN_RANGE, {
+    variables: {
+      from: "2020-08-01T00:00:00.000Z",
+      to: "2020-09-01T00:00:00.000Z",
+    },
+  })
   const [searchVisits, { loading: loadingSearchVisits, data: searchedVisitsData }] = useLazyQuery(
     SEARCH_VISITS,
     {
@@ -70,7 +76,7 @@ const CalendarPage = () => {
     return `Error ${error.message}`
   }
 
-  const visits = searching ? searchedVisitsData?.searchVisits : allVisitData?.visits
+  const visits = searching ? searchedVisitsData?.searchVisits : allVisitData?.visitsInRange
   const loading = searching ? loadingSearchVisits : loadingAllVisits
   return (
     <>

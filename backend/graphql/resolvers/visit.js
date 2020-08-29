@@ -1,22 +1,25 @@
 import { checkObjectId } from "../../utils/validators.js"
-import Visit from "../../models/visit.js"
+import Visit, { getVisitsInRange } from "../../models/visit.js"
 import { findSlotById } from "../../models/slot.js"
 import Client, { findClientById } from "../../models/client.js"
 
+const sortOptions = { start: 1, end: 1, _id: 1 }
 const resolvers = {
   Query: {
     visit: async (_, { id }) => {
       await checkObjectId(id)
       return Visit.findById(id)
     },
-    visits: async () => Visit.find().sort({ start: 1, end: 1, _id: 1 }),
+    visits: async () => Visit.find().sort(sortOptions),
+
+    visitsInRange: async (_, { from, to }) => getVisitsInRange(from, to),
 
     searchVisits: async (_, { clientIds, managerIds, slotIds }) => {
       const clientForManagers = await Client.find({ managers: { $in: managerIds } }, { _id: 1 })
       const allClientIds = [...clientForManagers.map(({ _id }) => _id), ...clientIds]
       const visits = await Visit.find({
         $or: [{ client: { $in: allClientIds } }, { slot: { $in: slotIds } }],
-      }).sort({ start: 1, end: 1, _id: 1 })
+      }).sort(sortOptions)
 
       return visits
     },

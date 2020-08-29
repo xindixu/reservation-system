@@ -38,7 +38,7 @@ const Toolbar = ({ onFilterChange }) => {
       name: "slotIds",
       onFocus: loadSlots,
       loading: loadingSlots,
-      options: slots,
+      options: slots?.slots,
       itemToString: (item) => item.name,
     },
   ]
