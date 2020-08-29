@@ -22,3 +22,48 @@ export const calculateNextVisit = (client, visits) => {
 
   return [toISOStringWithTZ(startOfNextVisit), toISOStringWithTZ(endOfNextVisit)]
 }
+
+const formatField = (record, sortBy) => {
+  let field = record[sortBy]
+  if (Array.isArray(field)) {
+    field = field.join("")
+  }
+  if (!field && field !== 0) {
+    return undefined
+  }
+
+  if (typeof field === "string") {
+    return field.toLowerCase()
+  }
+
+  return field
+}
+
+export const comparator = (a, b, sortOrder = []) => {
+  let order
+  sortOrder.some((sortBy) => {
+    let direction = 1
+    let sortByField = sortBy
+    if (sortBy[0] === "-") {
+      direction = -1
+      sortByField = sortByField.slice(1)
+    }
+
+    const fieldA = formatField(a, sortByField)
+    const fieldB = formatField(b, sortByField)
+
+    if (fieldA && fieldB && fieldA.localeCompare && fieldB.localeCompare) {
+      order = fieldA.localeCompare(fieldB)
+    } else if (fieldA > fieldB || !fieldA) {
+      order = 1
+    } else if (fieldA < fieldB || !fieldB) {
+      order = -1
+    } else {
+      order = 0
+    }
+    order *= direction
+    return order !== 0
+  })
+
+  return order
+}

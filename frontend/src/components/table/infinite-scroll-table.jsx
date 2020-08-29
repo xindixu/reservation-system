@@ -5,7 +5,7 @@ import {
   AutoSizer,
   InfiniteLoader,
   CellMeasurerCache,
-  defaultTableRowRenderer as DefaultRowRenderer,
+  defaultTableRowRenderer,
 } from "react-virtualized"
 import { Spin } from "antd"
 import "react-virtualized/styles.css"
@@ -25,7 +25,7 @@ const rowRenderer = (props, size) => {
       </div>
     )
   }
-  return <DefaultRowRenderer {...props} />
+  return defaultTableRowRenderer(props)
 }
 
 const InfiniteScrollTable = ({ data, fetchMore, hasNext, children }) => (

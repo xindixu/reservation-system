@@ -4,7 +4,7 @@ import Client, {
   removeManagersFromClient,
   getManagersForClient,
 } from "../../models/client.js"
-import { getVisitsForClient } from "../../models/visit.js"
+import { getVisitsForClient, deleteVisitsForClient } from "../../models/visit.js"
 import { areManagerIdsValid } from "../../models/manager.js"
 import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
 
@@ -63,7 +63,7 @@ const resolvers = {
         phone,
         cycle,
         duration,
-        managerIds,
+        managers: managerIds,
       })
 
       return client
@@ -91,6 +91,7 @@ const resolvers = {
     destroyClient: async (_, { id }) => {
       await checkObjectId(id)
       const result = await Client.deleteOne({ _id: id })
+      await deleteVisitsForClient(id)
       return result.n === 1 ? id : null
     },
 

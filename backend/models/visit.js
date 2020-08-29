@@ -41,4 +41,6 @@ export const getVisitsForSlot = async (slot) =>
 export const getVisitsForClient = async (client) =>
   Visit.where("client").equals(client.id).sort({ start: 1, end: 1 })
 
+export const deleteVisitsForClient = async (client) => Visit.deleteMany({ client })
+
 export default Visit

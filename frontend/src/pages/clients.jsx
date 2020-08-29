@@ -6,7 +6,7 @@ import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT, DESTROY_CLIENT } from "g
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
-import { getFullName } from "lib/utils"
+import { getFullName, comparator } from "lib/utils"
 import getConfirm from "components/confirm"
 
 const MODALS = {
@@ -14,6 +14,9 @@ const MODALS = {
   editClient: "editClient",
   deleteClient: "deleteClient",
 }
+
+const PAGE_SIZE = 20
+const DEFAULT_SORT_ORDER = ["firstName", "lastName", "id"]
 
 const Clients = () => {
   const { loading, error, data = {}, fetchMore } = useQuery(GET_ALL_CLIENTS, {
@@ -28,15 +31,20 @@ const Clients = () => {
       const client = createClient
       const { clients } = cache.readQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5 },
+        variables: { size: PAGE_SIZE },
       })
+
+      const sortedClients = [...clients.clients, client].sort((a, b) =>
+        comparator(a, b, DEFAULT_SORT_ORDER)
+      )
+
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5 },
+        variables: { size: PAGE_SIZE },
         data: {
           clients: {
             ...clients,
-            clients: [...clients.clients, client],
+            clients: sortedClients,
           },
         },
       })
@@ -49,12 +57,12 @@ const Clients = () => {
       const clientId = destroyClient
       const { clients } = cache.readQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5 },
+        variables: { size: PAGE_SIZE },
       })
 
       cache.writeQuery({
         query: GET_ALL_CLIENTS,
-        variables: { size: 5 },
+        variables: { size: PAGE_SIZE },
         data: {
           clients: {
             ...clients,
