@@ -24,7 +24,7 @@ export const GET_TEAM_BY_ID = gql`
 `
 
 export const CREATE_TEAM = gql`
-  mutation CreateTeam($name: String!, $email: String, $phone: String, $description: String) {
+  mutation CreateTeam($name: String!, $email: String!, $phone: String!, $description: String!) {
     createTeam(input: { name: $name, email: $email, phone: $phone, description: $description }) {
       ...ExtendedTeam
     }

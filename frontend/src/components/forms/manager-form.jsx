@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
-import { useQuery } from "@apollo/react-hooks"
 import { Form, Input, Select, Row, Col } from "antd"
 import { MANAGER, FORM } from "lib/common-types"
-import { GET_ALL_TEAMS } from "graphql/teams"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
+import useTeams from "data/use-teams"
 
 const ManagerForm = ({ form, initialManager, onSubmit }) => {
-  const { data } = useQuery(GET_ALL_TEAMS)
+  const { teams, loadingTeams, loadTeams } = useTeams()
+
+  useEffect(() => {
+    loadTeams()
+  }, [])
+
   return (
     <Form
       {...defaultFormLayout}
@@ -39,11 +43,12 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
       </Form.Item>
       <Form.Item label="Team" name="teamId" rules={[{ required: true }]}>
         <Select>
-          {data?.teams.map(({ id, name }) => (
-            <Select.Option value={id} key={id}>
-              {name}
-            </Select.Option>
-          ))}
+          {loadingTeams ||
+            teams.map(({ id, name }) => (
+              <Select.Option value={id} key={id}>
+                {name}
+              </Select.Option>
+            ))}
         </Select>
       </Form.Item>
     </Form>

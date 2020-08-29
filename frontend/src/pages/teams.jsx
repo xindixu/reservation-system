@@ -1,42 +1,31 @@
-import React, { useState } from "react"
-import { useQuery, useMutation } from "@apollo/react-hooks"
-import { GET_ALL_TEAMS, CREATE_TEAM } from "graphql/teams"
+import React, { useState, useEffect } from "react"
 import TeamsGrid from "components/grid/teams-grid"
-
 import Modal from "components/modal"
 import TeamForm from "components/forms/team-form"
 import FAButton from "components/floating-action-button"
+import useTeams from "data/use-teams"
 
 const MODALS = {
   addTeam: "addTeam",
 }
 
 const Teams = () => {
-  const { loading, error, data } = useQuery(GET_ALL_TEAMS)
-  const [addTeam] = useMutation(CREATE_TEAM, {
-    update: (cache, { data: { createTeam } }) => {
-      const { team } = createTeam
-      const { teams } = cache.readQuery({ query: GET_ALL_TEAMS })
-      cache.writeQuery({
-        query: GET_ALL_TEAMS,
-        data: {
-          teams: [...teams, team],
-        },
-      })
-    },
-  })
-
+  const { teams, errorTeams, loadingTeams, loadTeams, addTeam } = useTeams()
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
+  useEffect(() => {
+    loadTeams()
+  }, [])
+
+  if (loadingTeams) {
     return "loading..."
   }
-  if (error) {
-    return `Error ${error.message}`
+  if (errorTeams) {
+    return `Error ${errorTeams.message}`
   }
   return (
     <>
-      <TeamsGrid teams={data.teams} />
+      <TeamsGrid teams={teams} />
       {modalToShow === MODALS.addTeam && (
         <Modal title="Create New Team" onClose={() => setModalToShow("")} submitButtonText="Create">
           {({ form }) => (

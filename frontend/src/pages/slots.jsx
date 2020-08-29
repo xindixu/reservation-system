@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { useQuery } from "@apollo/react-hooks"
 import SlotTable from "components/table/slots-table"
 import Modal from "components/modal"
 import SlotForm from "components/forms/slot-form"
 import FAButton from "components/floating-action-button"
-import { GET_ALL_MANAGERS } from "graphql/managers"
-import { GET_ALL_TEAMS } from "graphql/teams"
 import getConfirm from "components/confirm"
 import useSlots from "data/use-slots"
+import useManagers from "data/use-managers"
+import useTeams from "data/use-teams"
 
 const MODALS = {
   addSlot: "addSlot",
@@ -17,14 +16,16 @@ const MODALS = {
 const Slot = () => {
   const { slots, errorSlots, loadingSlots, loadSlots, addSlot, editSlot, deleteSlot } = useSlots()
 
-  const { data: managersData } = useQuery(GET_ALL_MANAGERS)
-  const { data: teamsData } = useQuery(GET_ALL_TEAMS)
+  const { managers, loadingManagers, loadManagers } = useManagers()
+  const { teams, loadingTeams, loadTeams } = useTeams()
 
   const [selectedSlot, setSelectedSlot] = useState("")
   const [modalToShow, setModalToShow] = useState("")
 
   useEffect(() => {
     loadSlots()
+    loadManagers()
+    loadTeams()
   }, [])
 
   if (errorSlots) {
@@ -34,10 +35,10 @@ const Slot = () => {
   return (
     <>
       <SlotTable
-        loading={loadingSlots}
+        loading={loadingSlots || loadingManagers || loadingTeams}
         slots={slots}
-        managers={managersData?.managers}
-        teams={teamsData?.teams}
+        managers={managers}
+        teams={teams}
         editSlot={(slot) => {
           setSelectedSlot(slot)
           setModalToShow(MODALS.editSlot)

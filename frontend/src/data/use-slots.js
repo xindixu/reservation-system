@@ -9,7 +9,7 @@ import {
 import { GET_ALL_VISITS } from "graphql/visits"
 
 const updateAfterCreate = (cache, { data: { createSlot } }) => {
-  const { slot } = createSlot
+  const slot = createSlot
   const { slots } = cache.readQuery({ query: GET_ALL_SLOTS })
   cache.writeQuery({
     query: GET_ALL_SLOTS,
