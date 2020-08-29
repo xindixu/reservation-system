@@ -7,7 +7,6 @@ import { MailOutlined, PhoneOutlined, EditOutlined, DeleteOutlined } from "@ant-
 import InfiniteScrollTable from "./infinite-scroll-table"
 import { CLIENT } from "lib/common-types"
 import { getFullName } from "lib/utils"
-import "react-virtualized/styles.css"
 
 const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNext }) => (
   <InfiniteScrollTable data={clients} fetchMore={fetchMore} hasNext={hasNext}>

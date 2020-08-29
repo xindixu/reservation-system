@@ -14,7 +14,16 @@ const MODALS = {
 }
 
 const Slot = () => {
-  const { slots, errorSlots, loadingSlots, loadSlots, addSlot, editSlot, deleteSlot } = useSlots()
+  const {
+    slots,
+    errorSlots,
+    loadingSlots,
+    loadSlots,
+    fetchMoreSlots,
+    addSlot,
+    editSlot,
+    deleteSlot,
+  } = useSlots()
 
   const { managers, loadingManagers, loadManagers } = useManagers()
   const { teams, loadingTeams, loadTeams } = useTeams()
@@ -37,8 +46,8 @@ const Slot = () => {
       <SlotTable
         loading={loadingSlots || loadingManagers || loadingTeams}
         slots={slots?.slots}
-        managers={managers}
-        teams={teams}
+        hasNext={slots?.hasNext}
+        fetchMore={fetchMoreSlots}
         editSlot={(slot) => {
           setSelectedSlot(slot)
           setModalToShow(MODALS.editSlot)

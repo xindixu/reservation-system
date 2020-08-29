@@ -49,7 +49,6 @@ const Clients = () => {
       <ClientsTable
         loading={loadingClients || loadingManagers}
         clients={clients?.clients}
-        managers={managers}
         hasNext={clients?.hasNext}
         fetchMore={fetchMoreClients}
         editClient={(client) => {

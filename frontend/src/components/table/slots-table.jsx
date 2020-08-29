@@ -1,86 +1,103 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import { Table, Button, Tag } from "antd"
+import { Button, Tag } from "antd"
 import {
   CheckSquareOutlined,
   BorderOutlined,
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons"
-import { SLOT, MANAGER, TEAM } from "lib/common-types"
+import { Column, CellMeasurer } from "react-virtualized"
+
+import InfiniteScrollTable from "./infinite-scroll-table"
+import { SLOT } from "lib/common-types"
 import { getFullName } from "lib/utils"
-import { defaultTableSettings } from "lib/constants"
 
-const { Column } = Table
-
-const Slots = ({ loading, slots, managers, teams, editSlot, deleteSlot }) => {
+const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) => {
   return (
-    <Table loading={loading} dataSource={slots} rowKey={({ id }) => id} {...defaultTableSettings}>
-      <Column
-        title="Name"
-        key="name"
-        render={({ name, id }) => <Link to={`/slot/${id}`}>{name}</Link>}
-      />
-      <Column
-        title="Managers"
-        key="managers"
-        render={({ managers }) =>
-          managers.map((manager) => <Tag key={manager.id}>{getFullName(manager)}</Tag>)
-        }
-        filters={managers?.map((manager) => ({ text: getFullName(manager), value: manager.id }))}
-        onFilter={(filter, { managers }) => managers.find(({ id }) => id === filter)}
-      />
-      <Column
-        title="Team"
-        key="team"
-        render={({ team }) => team.name}
-        filters={teams?.map(({ name, id }) => ({ text: name, value: id }))}
-        onFilter={(filter, { team }) => team.id === filter}
-      />
-      <Column
-        title="Shareable"
-        key="shareable"
-        align="center"
-        render={({ shareable }) => (shareable ? <CheckSquareOutlined /> : <BorderOutlined />)}
-        filters={[
-          { text: <CheckSquareOutlined />, value: true },
-          { text: <BorderOutlined />, value: false },
-        ]}
-        onFilter={(filter, { shareable }) => shareable === filter}
-      />
-      <Column
-        title="Action"
-        key="actions"
-        render={(slot) => [
-          <Button
-            key={`edit-${slot.id}`}
-            size="small"
-            shape="circle"
-            icon={<EditOutlined />}
-            aria-label="edit"
-            onClick={() => editSlot(slot)}
-          />,
-          <Button
-            key={`delete-${slot.id}`}
-            size="small"
-            type="danger"
-            shape="circle"
-            icon={<DeleteOutlined />}
-            aria-label="delete"
-            onClick={() => deleteSlot(slot)}
-          />,
-        ]}
-      />
-    </Table>
+    <InfiniteScrollTable data={slots} fetchMore={fetchMore} hasNext={hasNext}>
+      {({ width, cache }) => [
+        <Column
+          key="name"
+          label="Name"
+          dataKey="name"
+          width={300}
+          cellRenderer={({ rowData: { name, id } }) => <Link to={`/slot/${id}`}>{name}</Link>}
+        />,
+        <Column
+          key="manager"
+          label="Manager"
+          dataKey="manager"
+          width={(width / 5) * 3}
+          flexGrow={1}
+          cellRenderer={({ rowData, parent, rowIndex }) => (
+            <CellMeasurer cache={cache} parent={parent} rowIndex={rowIndex}>
+              <div className="py-4">
+                {rowData.managers.map((manager) => (
+                  <Tag key={manager.id}>{getFullName(manager)}</Tag>
+                ))}
+              </div>
+            </CellMeasurer>
+          )}
+        />,
+        <Column
+          key="team"
+          label="Team"
+          dataKey="team"
+          width={width / 5}
+          cellRenderer={({ rowData: { name } }) => name}
+        />,
+        <Column
+          key="shareable"
+          label="Shareable"
+          width={100}
+          dataKey="shareable"
+          cellRenderer={({ rowData: { shareable } }) =>
+            shareable ? <CheckSquareOutlined /> : <BorderOutlined />
+          }
+        />,
+        <Column
+          key="actions"
+          label="Action"
+          dataKey="actions"
+          width={80}
+          cellRenderer={({ rowData: slot }) => [
+            <Button
+              key={`edit-${slot.id}`}
+              size="small"
+              shape="circle"
+              icon={<EditOutlined />}
+              aria-label="edit"
+              onClick={() => editSlot(slot)}
+            />,
+            <Button
+              key={`delete-${slot.id}`}
+              size="small"
+              type="danger"
+              shape="circle"
+              icon={<DeleteOutlined />}
+              aria-label="delete"
+              onClick={() => deleteSlot(slot)}
+            />,
+          ]}
+        />,
+      ]}
+    </InfiniteScrollTable>
   )
 }
 
-Slots.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  slots: PropTypes.arrayOf(PropTypes.shape(SLOT).isRequired).isRequired,
-  managers: PropTypes.arrayOf(PropTypes.shape(MANAGER).isRequired).isRequired,
-  teams: PropTypes.arrayOf(PropTypes.shape(TEAM).isRequired).isRequired,
+SlotsTable.defaultProps = {
+  fetchMore: () => {},
+  hasNext: false,
 }
 
-export default Slots
+SlotsTable.propTypes = {
+  slots: PropTypes.arrayOf(PropTypes.shape(SLOT).isRequired).isRequired,
+  deleteSlot: PropTypes.func.isRequired,
+  editSlot: PropTypes.func.isRequired,
+  fetchMore: PropTypes.func,
+  hasNext: PropTypes.bool,
+}
+
+export default SlotsTable
