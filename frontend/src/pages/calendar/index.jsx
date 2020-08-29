@@ -11,6 +11,7 @@ import {
   DESTROY_VISIT,
   GET_VISITS_IN_RANGE,
 } from "graphql/visits"
+import { toISOStringWithTZ } from "lib/datetime"
 
 const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { createVisit } }) => {
   const visit = createVisit
@@ -42,12 +43,15 @@ const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { cr
 const CalendarPage = () => {
   const [searchParams, setSearchParams] = useState({})
   const searching = !isEmpty(searchParams)
-  const { loading: loadingAllVisits, error, data: allVisitData } = useQuery(GET_VISITS_IN_RANGE, {
-    variables: {
-      from: "2020-08-01T00:00:00.000Z",
-      to: "2020-09-01T00:00:00.000Z",
-    },
-  })
+  const { loading: loadingAllVisits, error, data: allVisitData, refetch } = useQuery(
+    GET_VISITS_IN_RANGE,
+    {
+      variables: {
+        from: "2020-08-01T00:00:00.000Z",
+        to: "2020-09-01T00:00:00.000Z",
+      },
+    }
+  )
   const [searchVisits, { loading: loadingSearchVisits, data: searchedVisitsData }] = useLazyQuery(
     SEARCH_VISITS,
     {
@@ -78,6 +82,10 @@ const CalendarPage = () => {
 
   const visits = searching ? searchedVisitsData?.searchVisits : allVisitData?.visitsInRange
   const loading = searching ? loadingSearchVisits : loadingAllVisits
+
+  const refetchAndUpdate = ({ start, end }) =>
+    start && end && refetch({ from: toISOStringWithTZ(start), to: toISOStringWithTZ(end) })
+
   return (
     <>
       <Spin spinning={loading}>
@@ -85,6 +93,7 @@ const CalendarPage = () => {
           addVisit={addVisit}
           deleteVisit={deleteVisit}
           editVisit={editVisit}
+          onRangeChange={refetchAndUpdate}
           searchParams={searchParams}
           searchVisits={searchVisits}
           setSearchParams={setSearchParams}

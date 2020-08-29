@@ -24,6 +24,7 @@ const Page = ({
   searchVisits,
   setSearchParams,
   searchParams,
+  onRangeChange,
   visits,
 }) => {
   const [selectedVisit, setSelectedVisit] = useState({})
@@ -67,6 +68,7 @@ const Page = ({
           setPresetDate({ start, end, allDay })
           setModalToShow(MODALS.addVisit)
         }}
+        onRangeChange={onRangeChange}
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
@@ -124,9 +126,10 @@ Page.propTypes = {
   addVisit: PropTypes.func.isRequired,
   deleteVisit: PropTypes.func.isRequired,
   editVisit: PropTypes.func.isRequired,
+  onRangeChange: PropTypes.func.isRequired,
+  searchParams: PropTypes.object,
   searchVisits: PropTypes.func.isRequired,
   setSearchParams: PropTypes.func.isRequired,
-  searchParams: PropTypes.object,
   visits: PropTypes.arrayOf(VISIT).isRequired,
 }
 

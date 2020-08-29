@@ -36,6 +36,7 @@ const Calendar = ({
   onEditVisit,
   onSelectDateRange,
   onDropVisit,
+  onRangeChange,
   initialDate,
 }) => {
   const [draggedEvent, setDraggedEvent] = useState(null)
@@ -84,21 +85,22 @@ const Calendar = ({
       <Wrapper>
         <CalendarGlobalStyleOverride />
         <DnDCalendar
-          popup
+          components={{ toolbar: Toolbar }}
           defaultDate={new Date()}
           defaultView={Views.MONTH}
+          dragFromOutsideItem={() => draggedEvent}
           events={events}
           localizer={localizer}
-          onEventDrop={onEventDrop}
           onDropFromOutside={onDropFromOutside}
-          dragFromOutsideItem={() => draggedEvent}
+          onEventDrop={onEventDrop}
           onEventResize={onEventDrop}
+          onRangeChange={onRangeChange}
           onSelectEvent={onSelectEvent}
           onSelectSlot={onSelectSlot}
+          popup
           resizable
           selectable
           style={{ height: "100vh" }}
-          components={{ toolbar: Toolbar }}
         />
       </Wrapper>
       <EventBank setDraggedEvent={setDraggedEvent} />
