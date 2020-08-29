@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"

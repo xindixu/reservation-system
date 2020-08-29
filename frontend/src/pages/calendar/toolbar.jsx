@@ -1,11 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { useLazyQuery } from "@apollo/react-hooks"
 import { Form, Select, Row, Col, Button, Collapse } from "antd"
-import { GET_ALL_MANAGERS } from "graphql/managers"
-import { GET_ALL_CLIENTS } from "graphql/clients"
 import { getFullName } from "lib/utils"
-import { GET_ALL_SLOTS } from "graphql/slots"
+import useSlots from "data/use-slots"
+import useClients from "data/use-clients"
+import useManagers from "data/use-managers"
 
 const { Option } = Select
 const { Panel } = Collapse
@@ -13,13 +12,9 @@ const { Panel } = Collapse
 const Toolbar = ({ onFilterChange }) => {
   const [form] = Form.useForm()
 
-  const [loadManagers, { loading: loadingManagers, data: managersData }] = useLazyQuery(
-    GET_ALL_MANAGERS
-  )
-  const [loadClients, { loading: loadingClients, data: clientsData }] = useLazyQuery(
-    GET_ALL_CLIENTS
-  )
-  const [loadSlots, { loading: loadingSlots, data: slotsData }] = useLazyQuery(GET_ALL_SLOTS)
+  const { clients, loadingClients, loadClients } = useClients()
+  const { managers, loadingManagers, loadManagers } = useManagers()
+  const { slots, loadingSlots, loadSlots } = useSlots()
 
   const filters = [
     {
@@ -27,7 +22,7 @@ const Toolbar = ({ onFilterChange }) => {
       name: "managerIds",
       onFocus: loadManagers,
       loading: loadingManagers,
-      options: managersData?.managers,
+      options: managers,
       itemToString: (item) => getFullName(item),
     },
     {
@@ -35,7 +30,7 @@ const Toolbar = ({ onFilterChange }) => {
       name: "clientIds",
       onFocus: loadClients,
       loading: loadingClients,
-      options: clientsData?.clients,
+      options: clients?.clients,
       itemToString: (item) => getFullName(item),
     },
     {
@@ -43,7 +38,7 @@ const Toolbar = ({ onFilterChange }) => {
       name: "slotIds",
       onFocus: loadSlots,
       loading: loadingSlots,
-      options: slotsData?.slots,
+      options: slots,
       itemToString: (item) => item.name,
     },
   ]
