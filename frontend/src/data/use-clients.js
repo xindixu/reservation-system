@@ -70,7 +70,13 @@ const updateAfterDelete = (cache, { data: { destroyClient } }) => {
 const useClients = (id) => {
   const [
     loadClients,
-    { fetchMore, error: errorClients, loading: loadingClients, data: { clients = [] } = {} },
+    {
+      fetchMore,
+      error: errorClients,
+      loading: loadingClients,
+      called: calledClients,
+      data: { clients = [] } = {},
+    },
   ] = useLazyQuery(GET_ALL_CLIENTS, {
     variables: { size: PAGE_SIZE },
     fetchPolicy: "cache-and-network",
@@ -87,7 +93,12 @@ const useClients = (id) => {
 
   const [
     loadClient,
-    { error: errorClient, loading: loadingClient, data: { client = {} } = {} },
+    {
+      error: errorClient,
+      loading: loadingClient,
+      called: calledClient,
+      data: { client = {} } = {},
+    },
   ] = useLazyQuery(GET_CLIENT_BY_ID, {
     variables: { id },
   })
@@ -106,8 +117,8 @@ const useClients = (id) => {
     clients,
     errorClient,
     errorClients,
-    loadingClient,
-    loadingClients,
+    loadingClient: calledClient ? loadingClient : true,
+    loadingClients: calledClients ? loadingClients : true,
     loadClient,
     loadClients,
     fetchMoreClients,

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space, Tag } from "antd"
@@ -12,6 +12,7 @@ import Calendar from "components/calendar"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { toISOStringWithTZ } from "lib/datetime"
+import useSlots from "data/use-slots"
 
 const { Title } = Typography
 
@@ -50,10 +51,12 @@ const PageActions = ({ slot, edit }) => (
 
 const Slot = () => {
   const { id } = useParams()
-  const { loading, error, data } = useQuery(GET_SLOT_BY_ID, {
-    variables: { id },
-  })
-  const [editSlot] = useMutation(UPDATE_SLOT)
+
+  const { slot, errorSlot, loadingSlot, loadSlot, editSlot } = useSlots(id)
+
+  useEffect(() => {
+    loadSlot()
+  }, [])
 
   const [addVisit] = useMutation(CREATE_VISIT, {
     update: (cache, { data: { createVisit } }) => {
@@ -87,15 +90,14 @@ const Slot = () => {
   const [presetDate, setPresetDate] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
+  if (loadingSlot) {
     return "Loading..."
   }
-  if (error) {
+  if (errorSlot) {
     return `Error!`
   }
 
-  const { slot } = data
-  const { name, sharable, visits, team, managers } = slot
+  const { name, sharable, team, managers = [], visits = [] } = slot
 
   return (
     <>
