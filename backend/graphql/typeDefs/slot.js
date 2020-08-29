@@ -1,6 +1,14 @@
 import { gql } from "apollo-server-express"
 
 export default gql`
+  type SlotConnection {
+    # previous: String!
+    # hasPrevious: Boolean!
+    next: String!
+    hasNext: Boolean!
+    slots: [Slot!]!
+  }
+
   type Slot {
     id: ID!
     name: String!
@@ -29,7 +37,7 @@ export default gql`
   }
 
   extend type Query {
-    slots: [Slot!]
+    slots(next: String, size: Int!): SlotConnection!
     slot(id: ID!): Slot!
   }
 

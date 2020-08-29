@@ -2,15 +2,19 @@ import { gql } from "apollo-boost"
 import { SLOT, MANAGER, VISIT, TEAM, CLIENT } from "./fragments"
 
 export const GET_ALL_SLOTS = gql`
-  query {
-    slots {
-      ...ExtendedSlot
-      team {
-        ...BasicTeam
+  query Slots($size: Int!, $next: String) {
+    slots(size: $size, next: $next) {
+      slots {
+        ...ExtendedSlot
+        team {
+          ...BasicTeam
+        }
+        managers {
+          ...BasicManager
+        }
       }
-      managers {
-        ...BasicManager
-      }
+      hasNext
+      next
     }
   }
   ${SLOT.extended}

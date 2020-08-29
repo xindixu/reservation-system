@@ -7,6 +7,7 @@ import Slot, {
 import { getVisitsForSlot } from "../../models/visit.js"
 import { findTeamById } from "../../models/team.js"
 import { areManagerIdsValid } from "../../models/manager.js"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
 
 const resolvers = {
   Query: {
@@ -14,7 +15,31 @@ const resolvers = {
       await checkObjectId(id)
       return Slot.findById(id)
     },
-    slots: async () => Slot.find().sort({ name: 1 }),
+    slots: async (_, { next, size = 20 }) => {
+      let options
+      if (next) {
+        const { name, id } = fromCursorHash(next)
+        options = {
+          $or: [
+            { name: { $gt: name } },
+            {
+              $and: [{ name }, { id: { $gt: id } }],
+            },
+          ],
+        }
+      }
+
+      const slots = await Slot.find(options)
+        .sort({ name: 1 })
+        .limit(size + 1)
+      const hasNext = slots.length > size
+
+      return {
+        slots: slots.slice(0, -1),
+        hasNext,
+        next: toCursorHash({ name: slots[slots.length - 1].name }),
+      }
+    },
   },
 
   Mutation: {

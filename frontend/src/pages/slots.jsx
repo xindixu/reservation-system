@@ -36,7 +36,7 @@ const Slot = () => {
     <>
       <SlotTable
         loading={loadingSlots || loadingManagers || loadingTeams}
-        slots={slots}
+        slots={slots?.slots}
         managers={managers}
         teams={teams}
         editSlot={(slot) => {

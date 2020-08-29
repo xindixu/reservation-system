@@ -8,6 +8,22 @@ import {
 } from "graphql/slots"
 import { GET_ALL_VISITS } from "graphql/visits"
 
+const PAGE_SIZE = 20
+
+const updateAfterFetchMore = (previousResult, { fetchMoreResult }) => {
+  if (!fetchMoreResult) {
+    return previousResult
+  }
+  const { slots } = fetchMoreResult.slots
+  return {
+    ...fetchMoreResult,
+    slots: {
+      ...fetchMoreResult.slots,
+      slots: [...previousResult.slots.slots, ...slots],
+    },
+  }
+}
+
 const updateAfterCreate = (cache, { data: { createSlot } }) => {
   const slot = createSlot
   const { slots } = cache.readQuery({ query: GET_ALL_SLOTS })
@@ -47,15 +63,19 @@ const useSlots = (id) => {
       called: calledSlots,
       data: { slots = [] } = {},
     },
-  ] = useLazyQuery(GET_ALL_SLOTS)
+  ] = useLazyQuery(GET_ALL_SLOTS, {
+    variables: { size: PAGE_SIZE },
+    fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true,
+  })
 
-  // const fetchMoreSlots = () =>
-  //   fetchMore({
-  //     variables: {
-  //       next: slots.next,
-  //     },
-  //     updateQuery: updateAfterFetchMore,
-  //   })
+  const fetchMoreSlots = () =>
+    fetchMore({
+      variables: {
+        next: slots.next,
+      },
+      updateQuery: updateAfterFetchMore,
+    })
 
   const [
     loadSlot,
@@ -81,7 +101,7 @@ const useSlots = (id) => {
     loadingSlots: calledSlots ? loadingSlots : true,
     loadSlot,
     loadSlots,
-    // fetchMoreSlots,
+    fetchMoreSlots,
     addSlot,
     editSlot,
     deleteSlot,

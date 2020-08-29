@@ -30,9 +30,6 @@ const resolvers = {
             },
           ],
         }
-        options.firstName = {
-          $gte: firstName,
-        }
       }
 
       const clients = await Client.find(options)
