@@ -1,14 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
-import {
-  GET_MANAGER_BY_ID,
-  UPDATE_MANAGER,
-  REMOVE_CLIENTS_FROM_MANAGER,
-  ADD_CLIENTS_TO_MANAGER,
-} from "graphql/managers"
 import { GET_CLIENT_BY_ID } from "graphql/clients"
 import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
@@ -17,6 +11,7 @@ import ManagerForm from "components/forms/manager-form"
 import AddClientsToManager from "components/forms/add-client-to-manager"
 import FAButton from "components/floating-action-button"
 import getConfirm from "components/confirm"
+import useManagers from "data/use-managers"
 
 const { Title } = Typography
 
@@ -55,61 +50,31 @@ const MODALS = {
 
 const Manager = () => {
   const { id } = useParams()
-  const { loading, error, data } = useQuery(GET_MANAGER_BY_ID, {
-    variables: { id },
-  })
-  const [editManager] = useMutation(UPDATE_MANAGER)
+  const {
+    manager,
+    errorManager,
+    loadingManager,
+    loadManager,
+    editManager,
+    addClients,
+    removeClients,
+  } = useManagers(id)
 
-  const [addClients] = useMutation(ADD_CLIENTS_TO_MANAGER, {
-    update: (cache, { data: { addClientsToManager } }) => {
-      const manager = addClientsToManager
-      const { clients } = manager
-      const { clients: prevClients } = data.manager
-      const addedClients = clients.filter((pc) => !prevClients.some((c) => c.id === pc.id))
-      addedClients.forEach((client) => {
-        client.managers = [...client.managers, manager]
-        cache.writeQuery({
-          query: GET_CLIENT_BY_ID,
-          variables: { id: client.id },
-          data: {
-            client,
-          },
-        })
-      })
-    },
-  })
-
-  const [removeClients] = useMutation(REMOVE_CLIENTS_FROM_MANAGER, {
-    update: (cache, { data: { removeClientsFromManager } }) => {
-      const manager = removeClientsFromManager
-      const { clients } = manager
-      const { clients: prevClients } = data.manager
-      const deletedClients = prevClients.filter((pc) => !clients.some((c) => c.id === pc.id))
-      deletedClients.forEach((client) => {
-        client.managers = (client.managers || []).filter((m) => m.id !== manager.id)
-        cache.writeQuery({
-          query: GET_CLIENT_BY_ID,
-          variables: { id: client.id },
-          data: {
-            client,
-          },
-        })
-      })
-    },
-  })
+  useEffect(() => {
+    loadManager()
+  }, [])
 
   const [numOfClientsToAdd, setNumOfClientsToAdd] = useState(0)
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
+  if (loadingManager) {
     return "Loading..."
   }
-  if (error) {
+  if (errorManager) {
     return `Error!`
   }
 
-  const { manager } = data
-  const { jobTitle, team, clients } = manager
+  const { jobTitle, team, clients = [] } = manager
 
   const fullName = getFullName(manager)
   return (

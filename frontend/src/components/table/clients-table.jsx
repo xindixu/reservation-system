@@ -13,14 +13,16 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
   <InfiniteScrollTable data={clients} fetchMore={fetchMore} hasNext={hasNext}>
     {({ width, cache }) => [
       <Column
+        key="name"
         label="Name"
         dataKey="name"
         width={200}
         cellRenderer={({ rowData }) => (
-          <Link to={`/client/${rowData.id}`}>{getFullName(rowData)} </Link>
+          <Link to={`/client/${rowData.id}`}>{getFullName(rowData)}</Link>
         )}
       />,
       <Column
+        key="manager"
         label="Manager"
         dataKey="manager"
         width={(width / 5) * 3}
@@ -35,9 +37,10 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
           </CellMeasurer>
         )}
       />,
-      <Column width={80} label="Cycle" dataKey="cycle" />,
-      <Column width={80} label="Duration" dataKey="duration" />,
+      <Column key="cycle" width={80} label="Cycle" dataKey="cycle" />,
+      <Column key="duration" width={80} label="Duration" dataKey="duration" />,
       <Column
+        key="contact"
         label="Contact"
         dataKey="contact"
         width={80}
@@ -61,6 +64,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
         ]}
       />,
       <Column
+        key="actions"
         label="Action"
         dataKey="actions"
         width={80}
@@ -88,12 +92,16 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
   </InfiniteScrollTable>
 )
 
+ClientsTable.defaultProps = {
+  fetchMore: () => {},
+  hasNext: false,
+}
 ClientsTable.propTypes = {
   clients: PropTypes.arrayOf(PropTypes.shape(CLIENT).isRequired).isRequired,
   deleteClient: PropTypes.func.isRequired,
   editClient: PropTypes.func.isRequired,
-  fetchMore: PropTypes.func.isRequired,
-  hasNext: PropTypes.bool.isRequired,
+  fetchMore: PropTypes.func,
+  hasNext: PropTypes.bool,
 }
 
 export default ClientsTable

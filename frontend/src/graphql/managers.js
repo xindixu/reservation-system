@@ -23,10 +23,14 @@ export const GET_MANAGER_BY_ID = gql`
       }
       clients {
         ...ExtendedClient
+        managers {
+          ...BasicManager
+        }
       }
     }
   }
   ${MANAGER.extended}
+  ${MANAGER.basic}
   ${CLIENT.extended}
 `
 

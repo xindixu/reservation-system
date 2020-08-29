@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { useQuery } from "@apollo/react-hooks"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-import { GET_ALL_MANAGERS } from "graphql/managers"
+
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"
 import getConfirm from "components/confirm"
 import useClients from "data/use-clients"
+import useManagers from "data/use-managers"
 
 const MODALS = {
   addClient: "addClient",
@@ -16,7 +16,8 @@ const MODALS = {
 }
 
 const Clients = () => {
-  const { data: managersData, loading: loadingManager } = useQuery(GET_ALL_MANAGERS)
+  const { managers, loadingManagers, loadManagers } = useManagers()
+
   const {
     clients,
     loadingClients,
@@ -30,6 +31,7 @@ const Clients = () => {
 
   useEffect(() => {
     loadClients()
+    loadManagers()
   }, [])
 
   const [selectedClient, setSelectedClient] = useState({})
@@ -46,9 +48,9 @@ const Clients = () => {
   return (
     <>
       <ClientsTable
-        loading={loadingClients || loadingManager}
+        loading={loadingClients || loadingManagers}
         clients={clients?.clients}
-        managers={managersData?.managers}
+        managers={managers}
         hasNext={clients?.hasNext}
         fetchMore={fetchMoreClients}
         editClient={(client) => {
