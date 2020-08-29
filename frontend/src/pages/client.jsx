@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Typography, Button, Space, Tag } from "antd"
@@ -12,6 +12,7 @@ import ClientFrom from "components/forms/client-form"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import { toISOStringWithTZ } from "lib/datetime"
+import useClients from "data/use-clients"
 
 const { Title } = Typography
 
@@ -50,9 +51,12 @@ const PageActions = ({ client: { email, phone }, edit }) => (
 
 const Client = () => {
   const { id } = useParams()
-  const { loading, error, data } = useQuery(GET_CLIENT_BY_ID, {
-    variables: { id },
-  })
+  const { client, loadingClient, errorClient, editClient, loadClient } = useClients(id)
+
+  useEffect(() => {
+    loadClient()
+  }, [])
+
   const [addVisit] = useMutation(CREATE_VISIT, {
     update: (cache, { data: { createVisit } }) => {
       const visit = createVisit
@@ -66,7 +70,7 @@ const Client = () => {
       })
     },
   })
-  const [editClient] = useMutation(UPDATE_CLIENT)
+
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
     update: (cache, { data: { destroyVisit } }) => {
@@ -86,15 +90,14 @@ const Client = () => {
   const [presetDate, setPresetDate] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loading) {
+  if (loadingClient) {
     return "Loading..."
   }
-  if (error) {
+  if (errorClient) {
     return `Error!`
   }
 
-  const { client } = data
-  const { duration, cycle, managers, visits } = client
+  const { duration, cycle, managers = [], visits = [] } = client
   const fullName = getFullName(client)
 
   const [start, end] = calculateNextVisit(client, visits)

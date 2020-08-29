@@ -1,13 +1,13 @@
-import React, { useState } from "react"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import React, { useState, useEffect } from "react"
+import { useQuery } from "@apollo/react-hooks"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
-import { GET_ALL_CLIENTS, CREATE_CLIENT, UPDATE_CLIENT, DESTROY_CLIENT } from "graphql/clients"
 import { GET_ALL_MANAGERS } from "graphql/managers"
 import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
-import { getFullName, comparator } from "lib/utils"
+import { getFullName } from "lib/utils"
 import getConfirm from "components/confirm"
+import useClients from "data/use-clients"
 
 const MODALS = {
   addClient: "addClient",
@@ -15,97 +15,38 @@ const MODALS = {
   deleteClient: "deleteClient",
 }
 
-const PAGE_SIZE = 20
-const DEFAULT_SORT_ORDER = ["firstName", "lastName", "id"]
-
 const Clients = () => {
-  const { loading, error, data = {}, fetchMore } = useQuery(GET_ALL_CLIENTS, {
-    variables: { size: 20 },
-    fetchPolicy: "cache-and-network",
-    notifyOnNetworkStatusChange: true,
-  })
   const { data: managersData, loading: loadingManager } = useQuery(GET_ALL_MANAGERS)
+  const {
+    clients,
+    loadingClients,
+    errorClients,
+    loadClients,
+    fetchMoreClients,
+    addClient,
+    editClient,
+    deleteClient,
+  } = useClients()
 
-  const [addClient] = useMutation(CREATE_CLIENT, {
-    update: (cache, { data: { createClient } }) => {
-      const client = createClient
-      const { clients } = cache.readQuery({
-        query: GET_ALL_CLIENTS,
-        variables: { size: PAGE_SIZE },
-      })
-
-      const sortedClients = [...clients.clients, client].sort((a, b) =>
-        comparator(a, b, DEFAULT_SORT_ORDER)
-      )
-
-      cache.writeQuery({
-        query: GET_ALL_CLIENTS,
-        variables: { size: PAGE_SIZE },
-        data: {
-          clients: {
-            ...clients,
-            clients: sortedClients,
-          },
-        },
-      })
-    },
-  })
-
-  const [editClient] = useMutation(UPDATE_CLIENT)
-  const [deleteClient] = useMutation(DESTROY_CLIENT, {
-    update: (cache, { data: { destroyClient } }) => {
-      const clientId = destroyClient
-      const { clients } = cache.readQuery({
-        query: GET_ALL_CLIENTS,
-        variables: { size: PAGE_SIZE },
-      })
-
-      cache.writeQuery({
-        query: GET_ALL_CLIENTS,
-        variables: { size: PAGE_SIZE },
-        data: {
-          clients: {
-            ...clients,
-            clients: clients.clients.filter((c) => c.id !== clientId),
-          },
-        },
-      })
-    },
-  })
-
-  const fetchMoreClients = () =>
-    fetchMore({
-      variables: {
-        next: data.clients.next,
-      },
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
-          return previousResult
-        }
-        const { clients } = fetchMoreResult.clients
-        return {
-          ...fetchMoreResult,
-          clients: {
-            ...fetchMoreResult.clients,
-            clients: [...previousResult.clients.clients, ...clients],
-          },
-        }
-      },
-    })
+  useEffect(() => {
+    loadClients()
+  }, [])
 
   const [selectedClient, setSelectedClient] = useState({})
   const [modalToShow, setModalToShow] = useState("")
 
-  if (error) {
-    return `Error! ${error.message}`
+  if (errorClients) {
+    return `Error! ${errorClients.message}`
   }
 
-  const { clients } = data
+  if (loadingClients) {
+    return "loading"
+  }
 
   return (
     <>
       <ClientsTable
-        loading={loading || loadingManager}
+        loading={loadingClients || loadingManager}
         clients={clients?.clients}
         managers={managersData?.managers}
         hasNext={clients?.hasNext}
