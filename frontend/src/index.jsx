@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import ApolloClient from "apollo-boost"
+import ApolloClient, { gql } from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks"
 import "antd/dist/antd.css"
 import "./tailwind.css"
@@ -9,6 +9,13 @@ import App from "./App"
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
+  typeDefs: gql`
+    enum Role {
+      CLIENT
+      MANAGER
+      ADMIN
+    }
+  `,
 })
 
 ReactDOM.render(

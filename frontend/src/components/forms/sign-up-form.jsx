@@ -3,10 +3,9 @@ import PropTypes from "prop-types"
 import { capitalize } from "lodash"
 import { Form, Input, Select, Button, Row, Col } from "antd"
 import { FORM } from "lib/common-types"
-import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
+import { ROLES, defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const { Option } = Select
-const ROLES = ["CLIENT", "MANAGER", "ADMIN"]
 const SignUpForm = ({ form, onSubmit }) => {
   return (
     <Form
@@ -15,7 +14,7 @@ const SignUpForm = ({ form, onSubmit }) => {
       validateMessages={defaultValidateMessages}
       onFinish={onSubmit}
     >
-      <Row gutter={16}>
+      {/* <Row gutter={16}>
         <Col span={12}>
           <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
             <Input type="text" />
@@ -26,7 +25,7 @@ const SignUpForm = ({ form, onSubmit }) => {
             <Input type="text" />
           </Form.Item>
         </Col>
-      </Row>
+      </Row> */}
       <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
         <Input type="email" />
       </Form.Item>
@@ -35,16 +34,16 @@ const SignUpForm = ({ form, onSubmit }) => {
       </Form.Item>
       <Form.Item label="Role" name="role" rules={[{ required: true }]}>
         <Select>
-          {Object.keys(ROLES).map((key) => (
-            <Option key={key} value={key}>
-              {capitalize(ROLES[key])}
+          {ROLES.map((role) => (
+            <Option key={role} value={role}>
+              {capitalize(role)}
             </Option>
           ))}
         </Select>
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" block>
+        <Button type="primary" htmlType="submit" block>
           Register
         </Button>
       </Form.Item>

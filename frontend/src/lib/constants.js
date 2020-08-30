@@ -17,3 +17,5 @@ export const defaultFormLayout = {
 export const defaultTableSettings = {
   pagination: { showQuickJumper: true, defaultPageSize: 15 },
 }
+
+export const ROLES = ["CLIENT", "MANAGER", "ADMIN"]

@@ -8,10 +8,9 @@ import { AppRoutes, PublicRoutes } from "./routes"
 import Navbar from "./components/navbar"
 import { Wrapper } from "./styles"
 import { mediaQuery } from "./styles/index"
+import { UserContext } from "./contexts"
 
 const { Header, Sider, Content } = Layout
-
-const UserContext = React.createContext("user")
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -32,7 +31,7 @@ const App = () => {
 
   if (user) {
     return (
-      <UserContext.Provider>
+      <UserContext.Provider value={{ user, setUser }}>
         <Wrapper>
           <Router>
             <Layout>
@@ -71,7 +70,7 @@ const App = () => {
   }
 
   return (
-    <UserContext.Provider>
+    <UserContext.Provider value={{ user, setUser }}>
       <Router>
         <PublicRoutes />
       </Router>
