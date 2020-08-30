@@ -56,18 +56,34 @@ const resolvers = {
       }
     },
 
-    signUp: async (_, { input }) => {
+    signUp: async (_, { input }, { res }) => {
       const { email, password, role } = input
       const { error } = signUp.validate({ email, password, role }, { abortEarly: false })
 
       if (error) {
         throw new UserInputError(error)
       }
-      return User.create({
-        email,
-        password,
-        role,
-      })
+      try {
+        const user = await User.create({
+          email,
+          password,
+          role,
+        })
+
+        const { accessToken, refreshToken } = createToken(user)
+        res.cookie("access-token", accessToken, { maxAge: accessTokenAge })
+        res.cookie("refresh-token", refreshToken, { maxAge: refreshTokenAge })
+        return {
+          id: user.id,
+          email,
+          role,
+          accessToken,
+          refreshToken,
+          expiresIn: 1,
+        }
+      } catch (e) {
+        throw new UserInputError(e)
+      }
     },
 
     signOut: async (_, __, { req, res }) => {

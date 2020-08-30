@@ -21,6 +21,7 @@ export default gql`
     phone: String!
     jobTitle: String!
     teamId: ID!
+    clientIds: [ID!]
   }
 
   input ManagerInputWithId {
@@ -31,6 +32,7 @@ export default gql`
     phone: String
     jobTitle: String
     teamId: ID
+    clientIds: [ID!]
   }
 
   extend type Query {

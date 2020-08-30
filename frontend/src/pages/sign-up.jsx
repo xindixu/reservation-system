@@ -1,46 +1,92 @@
-import React, { useContext } from "react"
-import { Form } from "antd"
+import React, { useContext, useState } from "react"
+import { Form, Spin, Button } from "antd"
 import { useMedia } from "react-use"
 import { useMutation } from "@apollo/client"
 import { mediaQuery } from "styles/index"
 import { UserContext } from "contexts"
 import { ReactComponent as Events } from "assets/events.svg"
 import SignUpForm from "components/forms/sign-up-form"
+import ManagerForm from "components/forms/manager-form"
+import ClientForm from "components/forms/client-form"
+import useClients from "data/use-clients"
+import useManagers from "data/use-managers"
 import { SIGN_UP } from "graphql/user"
+import { ROLES, CLIENT, MANAGER } from "lib/constants"
 
 const SignUp = (props) => {
   const [form] = Form.useForm()
+  const { setUser } = useContext(UserContext)
+  const [newUser, setNewUser] = useState(null)
   const xlAndUp = useMedia(mediaQuery.screenXlAndUp)
-  const [signUp] = useMutation(SIGN_UP, {
-    onError: (error) => {
-      console.log(error)
+
+  const { addClient } = useClients()
+  const { addManager } = useManagers()
+
+  const [signUp, { loading, error }] = useMutation(SIGN_UP, {
+    onError: ({ graphQLErrors }) => {
+      console.log(graphQLErrors[0].message)
+    },
+    onCompleted({ signUp }) {
+      console.log(signUp)
+      const { accessToken, refreshToken, email, role } = signUp
+      // setUser({ accessToken, refreshToken, email, role })
+      setNewUser({ accessToken, refreshToken, email, role })
     },
   })
 
+  const StepForm = () => {
+    if (!newUser) {
+      return (
+        <SignUpForm
+          form={form}
+          onSubmit={(values) => signUp({ variables: values })}
+          errors={error}
+        />
+      )
+    }
+    if (newUser.role === CLIENT) {
+      return <ClientForm form={form} onSubmit={(values) => addClient({ variables: values })} />
+    }
+    if (newUser.role === MANAGER) {
+      return <ManagerForm form={form} onSubmit={(values) => addManager({ variables: values })} />
+    }
+    return null
+  }
+
   return (
-    <div className={`flex bg-blue-300 w-screen h-screen  ${xlAndUp ? "p-32" : "p-0"}`}>
-      <div className="flex justify-center content-center w-full h-full p-20 bg-opacity-75 bg-white border-blue-200 rounded-lg border">
-        <div className="flex flex-col justify-center content-center max-w-md">
-          <h1 className="text-2xl">Welcome to Reservation System</h1>
-          <p className="my-10">
-            Reservation System can help you schedule recurrent client visits, check available slots,
-            and remind you and your clients on upcoming visits.{" "}
-          </p>
-          <SignUpForm
-            form={form}
-            onSubmit={(values) => {
-              console.log(values)
-              signUp({ variables: values })
-            }}
-          />
-        </div>
-        {xlAndUp && (
-          <div className="ml-10 w-3/4">
-            <Events style={{ width: "100%" }} />
+    <Spin spinning={loading}>
+      <div className={`flex bg-blue-300 w-screen h-screen  ${xlAndUp ? "p-32" : "p-0"}`}>
+        <div className="flex justify-center content-center w-full h-full p-20 bg-opacity-75 bg-white border-blue-200 rounded-lg border">
+          <div className="flex flex-col justify-center content-center max-w-md">
+            <h1 className="text-2xl">Welcome to Reservation System</h1>
+            <p className="my-10">
+              Reservation System can help you schedule recurrent client visits, check available
+              slots, and remind you and your clients on upcoming visits.{" "}
+            </p>
+            <StepForm />
+            <Button
+              type="primary"
+              onClick={() =>
+                form
+                  .validateFields()
+                  .then(() => {
+                    form.submit()
+                  })
+                  .catch()
+              }
+              block
+            >
+              Register
+            </Button>
           </div>
-        )}
+          {xlAndUp && (
+            <div className="ml-10 w-3/4">
+              <Events style={{ width: "100%" }} />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Spin>
   )
 }
 

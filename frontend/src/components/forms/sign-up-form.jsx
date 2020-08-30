@@ -6,7 +6,7 @@ import { FORM } from "lib/common-types"
 import { ROLES, defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const { Option } = Select
-const SignUpForm = ({ form, onSubmit }) => {
+const SignUpForm = ({ form, onSubmit, errors }) => {
   return (
     <Form
       {...defaultFormLayout}
@@ -26,7 +26,13 @@ const SignUpForm = ({ form, onSubmit }) => {
           </Form.Item>
         </Col>
       </Row> */}
-      <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[{ required: true }, { type: "email" }]}
+        validateStatus={errors.email && "error"}
+        help={errors.email}
+      >
         <Input type="email" />
       </Form.Item>
       <Form.Item label="Password" name="password" rules={[{ required: true }]}>
@@ -41,19 +47,18 @@ const SignUpForm = ({ form, onSubmit }) => {
           ))}
         </Select>
       </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" block>
-          Register
-        </Button>
-      </Form.Item>
     </Form>
   )
+}
+
+SignUpForm.defaultProps = {
+  errors: {},
 }
 
 SignUpForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   onSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.object,
 }
 
 export default SignUpForm

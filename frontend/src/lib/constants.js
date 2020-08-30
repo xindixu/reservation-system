@@ -18,4 +18,8 @@ export const defaultTableSettings = {
   pagination: { showQuickJumper: true, defaultPageSize: 15 },
 }
 
-export const ROLES = ["CLIENT", "MANAGER", "ADMIN"]
+export const CLIENT = "CLIENT"
+export const MANAGER = "MANAGER"
+export const ADMIN = "ADMIN"
+
+export const ROLES = [CLIENT, MANAGER, ADMIN]

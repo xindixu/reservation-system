@@ -11,13 +11,15 @@ import { GET_CLIENT_BY_ID } from "graphql/clients"
 
 const updateAfterCreate = (cache, { data: { createManager } }) => {
   const manager = createManager
-  const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
-  cache.writeQuery({
-    query: GET_ALL_MANAGERS,
-    data: {
-      managers: [...managers, manager],
-    },
-  })
+  try {
+    const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
+    cache.writeQuery({
+      query: GET_ALL_MANAGERS,
+      data: {
+        managers: [...managers, manager],
+      },
+    })
+  } catch (error) {}
 }
 
 const updateAfterAddClients = (cache, { data: { addClientsToManager } }) => {
