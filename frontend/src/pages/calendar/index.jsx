@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks"
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client"
 import { isEmpty } from "lodash"
 import { Spin } from "antd"
 import Page from "./page"

@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import ApolloClient, { gql } from "apollo-boost"
-import { ApolloProvider } from "@apollo/react-hooks"
+import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client"
+
 import "antd/dist/antd.css"
 import "./tailwind.css"
 import * as serviceWorker from "./serviceWorker"
@@ -9,6 +9,7 @@ import App from "./App"
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(),
   typeDefs: gql`
     enum Role {
       CLIENT

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { useQuery } from "@apollo/react-hooks"
+import { useQuery } from "@apollo/client"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { CLIENT, FORM } from "lib/common-types"
 import { GET_ALL_MANAGERS } from "graphql/managers"

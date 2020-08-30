@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from "@apollo/react-hooks"
+import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_MANAGERS,
   GET_MANAGER_BY_ID,

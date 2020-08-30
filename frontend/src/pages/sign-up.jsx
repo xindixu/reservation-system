@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { Form } from "antd"
 import { useMedia } from "react-use"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/client"
 import { mediaQuery } from "styles/index"
 import { UserContext } from "contexts"
 import { ReactComponent as Events } from "assets/events.svg"

@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost"
+import { gql } from "@apollo/client"
 import { CLIENT, MANAGER, VISIT } from "./fragments"
 
 export const GET_ALL_CLIENTS = gql`

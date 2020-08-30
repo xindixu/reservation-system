@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, Route } from "react-router-dom"
+import { Switch, Route, Redirect } from "react-router-dom"
 // TODO: lazy load all these
 import Teams from "./pages/teams"
 import Managers from "./pages/managers"
@@ -51,6 +51,9 @@ export const PublicRoutes = () => (
   <Switch>
     <Route path="/" exact>
       <SignUp />
+    </Route>
+    <Route>
+      <Redirect to="/" />
     </Route>
   </Switch>
 )
