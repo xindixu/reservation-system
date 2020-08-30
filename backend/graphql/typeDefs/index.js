@@ -15,6 +15,12 @@ const typeDefs = gql`
   scalar Time
   scalar DateTime
 
+  enum Role {
+    CLIENT
+    MANAGER
+    ADMIN
+  }
+
   ${Team}
   ${Manager}
   ${Client}

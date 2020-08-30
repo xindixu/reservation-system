@@ -57,8 +57,8 @@ const resolvers = {
     },
 
     signUp: async (_, { input }) => {
-      const { email, password } = input
-      const { error } = signUp.validate({ email, password }, { abortEarly: false })
+      const { email, password, role } = input
+      const { error } = signUp.validate({ email, password, role }, { abortEarly: false })
 
       if (error) {
         throw new UserInputError(error)
@@ -66,6 +66,7 @@ const resolvers = {
       return User.create({
         email,
         password,
+        role,
       })
     },
 

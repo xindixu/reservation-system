@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { hash } from "bcryptjs"
+import { ROLES } from "../constants.js"
 
 const { Schema } = mongoose
 
@@ -18,6 +19,11 @@ const userSchema = new Schema(
       type: Date,
       required: true,
       default: Date.now,
+    },
+    role: {
+      type: String,
+      enum: ROLES,
+      default: "ADMIN",
     },
   },
   {

@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi"
+import Joi from "joi"
 import mongoose from "mongoose"
 
 const objectId = (joi) => ({
