@@ -4,14 +4,17 @@ import { useMedia } from "react-use"
 import { debounce } from "lodash"
 import { Layout } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
-import Routes from "./routes"
+import { AppRoutes, PublicRoutes } from "./routes"
 import Navbar from "./components/navbar"
 import { Wrapper } from "./styles"
 import { mediaQuery } from "./styles/index"
 
 const { Header, Sider, Content } = Layout
 
+const UserContext = React.createContext("user")
+
 const App = () => {
+  const [user, setUser] = useState(null)
   const [navigationCollapsed, setNavigationCollapsed] = useState(false)
   const [navigationToggled, setNavigationToggled] = useState(false)
   const smAndUp = useMedia(mediaQuery.screenSmAndUp)
@@ -27,40 +30,52 @@ const App = () => {
 
   const collapsed = navigationToggled ? navigationCollapsed : !mdAndUp
 
+  if (user) {
+    return (
+      <UserContext.Provider>
+        <Wrapper>
+          <Router>
+            <Layout>
+              <Sider trigger={null} collapsed={collapsed} collapsedWidth={smAndUp ? "80" : "0"}>
+                <Navbar />
+              </Sider>
+              <Layout>
+                <Header>
+                  {navigationCollapsed ? (
+                    <MenuUnfoldOutlined
+                      className="trigger"
+                      onClick={() => {
+                        setNavigationCollapsed(false)
+                        setNavigationToggled(true)
+                      }}
+                    />
+                  ) : (
+                    <MenuFoldOutlined
+                      className="trigger"
+                      onClick={() => {
+                        setNavigationCollapsed(true)
+                        setNavigationToggled(true)
+                      }}
+                    />
+                  )}
+                </Header>
+                <Content>
+                  <AppRoutes />
+                </Content>
+              </Layout>
+            </Layout>
+          </Router>
+        </Wrapper>
+      </UserContext.Provider>
+    )
+  }
+
   return (
-    <Wrapper>
+    <UserContext.Provider>
       <Router>
-        <Layout>
-          <Sider trigger={null} collapsed={collapsed} collapsedWidth={smAndUp ? "80" : "0"}>
-            <Navbar />
-          </Sider>
-          <Layout>
-            <Header>
-              {navigationCollapsed ? (
-                <MenuUnfoldOutlined
-                  className="trigger"
-                  onClick={() => {
-                    setNavigationCollapsed(false)
-                    setNavigationToggled(true)
-                  }}
-                />
-              ) : (
-                <MenuFoldOutlined
-                  className="trigger"
-                  onClick={() => {
-                    setNavigationCollapsed(true)
-                    setNavigationToggled(true)
-                  }}
-                />
-              )}
-            </Header>
-            <Content>
-              <Routes />
-            </Content>
-          </Layout>
-        </Layout>
+        <PublicRoutes />
       </Router>
-    </Wrapper>
+    </UserContext.Provider>
   )
 }
 
