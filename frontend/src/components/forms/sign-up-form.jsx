@@ -30,12 +30,18 @@ const SignUpForm = ({ form, onSubmit, errors }) => {
         label="Email"
         name="email"
         rules={[{ required: true }, { type: "email" }]}
-        validateStatus={errors.email && "error"}
-        help={errors.email}
+        validateStatus={errors?.email && "error"}
+        help={errors?.email}
       >
         <Input type="email" />
       </Form.Item>
-      <Form.Item label="Password" name="password" rules={[{ required: true }]}>
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{ required: true }]}
+        validateStatus={errors?.password && "error"}
+        help={errors?.password}
+      >
         <Input.Password type="password" />
       </Form.Item>
       <Form.Item label="Role" name="role" rules={[{ required: true }]}>

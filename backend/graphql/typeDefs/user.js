@@ -3,10 +3,16 @@ import { gql } from "apollo-server-express"
 export default gql`
   type User {
     id: ID!
-    email: String!
-    role: String!
+    email: String
+    role: String
     accessToken: String
     refreshToken: String
+  }
+
+  type SignUpInvalidInputError {
+    email: String
+    password: String
+    role: String
   }
 
   input SignUpInput {
@@ -20,6 +26,8 @@ export default gql`
     password: String!
   }
 
+  union SignUpResult = SignUpInvalidInputError | User
+
   extend type Query {
     users: [User!] @auth
     user(id: ID!): User! @auth
@@ -27,7 +35,7 @@ export default gql`
   }
 
   extend type Mutation {
-    signUp(input: SignUpInput): User @guest
+    signUp(input: SignUpInput): SignUpResult @guest
     signIn(input: SignInInput): User @guest
     signOut: Boolean! @auth
     invalidateToken: Boolean! @auth

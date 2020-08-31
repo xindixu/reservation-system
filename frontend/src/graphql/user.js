@@ -13,11 +13,18 @@ export const ME = gql`
 export const SIGN_UP = gql`
   mutation SignUp($email: String!, $password: String!, $role: Role!) {
     signUp(input: { email: $email, password: $password, role: $role }) {
-      id
-      email
-      role
-      accessToken
-      refreshToken
+      ... on User {
+        id
+        email
+        role
+        accessToken
+        refreshToken
+      }
+      ... on SignUpInvalidInputError {
+        email
+        password
+        role
+      }
     }
   }
 `

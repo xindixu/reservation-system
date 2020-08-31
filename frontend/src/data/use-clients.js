@@ -27,25 +27,27 @@ const updateAfterFetchMore = (previousResult, { fetchMoreResult }) => {
 
 const updateAfterCreate = (cache, { data: { createClient } }) => {
   const client = createClient
-  const { clients } = cache.readQuery({
-    query: GET_ALL_CLIENTS,
-    variables: { size: PAGE_SIZE },
-  })
+  try {
+    const { clients } = cache.readQuery({
+      query: GET_ALL_CLIENTS,
+      variables: { size: PAGE_SIZE },
+    })
 
-  const sortedClients = [...clients.clients, client].sort((a, b) =>
-    comparator(a, b, DEFAULT_SORT_ORDER)
-  )
+    const sortedClients = [...clients.clients, client].sort((a, b) =>
+      comparator(a, b, DEFAULT_SORT_ORDER)
+    )
 
-  cache.writeQuery({
-    query: GET_ALL_CLIENTS,
-    variables: { size: PAGE_SIZE },
-    data: {
-      clients: {
-        ...clients,
-        clients: sortedClients,
+    cache.writeQuery({
+      query: GET_ALL_CLIENTS,
+      variables: { size: PAGE_SIZE },
+      data: {
+        clients: {
+          ...clients,
+          clients: sortedClients,
+        },
       },
-    },
-  })
+    })
+  } catch (error) {}
 }
 
 const updateAfterDelete = (cache, { data: { destroyClient } }) => {

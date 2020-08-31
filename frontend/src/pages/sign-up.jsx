@@ -17,20 +17,19 @@ const SignUp = (props) => {
   const [form] = Form.useForm()
   const { setUser } = useContext(UserContext)
   const [newUser, setNewUser] = useState(null)
+  const [signUpError, setSignUpError] = useState(null)
   const xlAndUp = useMedia(mediaQuery.screenXlAndUp)
 
   const { addClient } = useClients()
   const { addManager } = useManagers()
 
-  const [signUp, { loading, error }] = useMutation(SIGN_UP, {
-    onError: ({ graphQLErrors }) => {
-      console.log(graphQLErrors[0].message)
-    },
+  const [signUp, { loading }] = useMutation(SIGN_UP, {
     onCompleted({ signUp }) {
-      console.log(signUp)
-      const { accessToken, refreshToken, email, role } = signUp
-      // setUser({ accessToken, refreshToken, email, role })
-      setNewUser({ accessToken, refreshToken, email, role })
+      const { accessToken, refreshToken, email, password, role, __typename } = signUp
+      if (__typename === "User") {
+        return setNewUser({ accessToken, refreshToken, email, role })
+      }
+      return setSignUpError({ email, password, role })
     },
   })
 
@@ -40,15 +39,25 @@ const SignUp = (props) => {
         <SignUpForm
           form={form}
           onSubmit={(values) => signUp({ variables: values })}
-          errors={error}
+          errors={signUpError}
         />
       )
     }
     if (newUser.role === CLIENT) {
-      return <ClientForm form={form} onSubmit={(values) => addClient({ variables: values })} />
+      return (
+        <ClientForm
+          form={form}
+          onSubmit={(values) => addClient({ variables: values }).then(() => setUser(newUser))}
+        />
+      )
     }
     if (newUser.role === MANAGER) {
-      return <ManagerForm form={form} onSubmit={(values) => addManager({ variables: values })} />
+      return (
+        <ManagerForm
+          form={form}
+          onSubmit={(values) => addManager({ variables: values }).then(() => setUser(newUser))}
+        />
+      )
     }
     return null
   }

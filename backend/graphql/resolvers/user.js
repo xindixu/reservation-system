@@ -61,7 +61,10 @@ const resolvers = {
       const { error } = signUp.validate({ email, password, role }, { abortEarly: false })
 
       if (error) {
-        throw new UserInputError(error)
+        return error.details.reduce((memo, { path, message }) => {
+          memo[path] = message
+          return memo
+        }, {})
       }
       try {
         const user = await User.create({
@@ -82,7 +85,12 @@ const resolvers = {
           expiresIn: 1,
         }
       } catch (e) {
-        throw new UserInputError(e)
+        const { email, password, role } = e.errors
+        return {
+          email: email ? email.message : undefined,
+          password: password ? password.message : undefined,
+          role: role ? role.message : undefined,
+        }
       }
     },
 
@@ -107,6 +115,15 @@ const resolvers = {
       await user.save()
       res.clearCookie("access-token")
       return true
+    },
+  },
+
+  SignUpResult: {
+    __resolveType: (obj) => {
+      if (obj.id) {
+        return "User"
+      }
+      return "SignUpInvalidInputError"
     },
   },
 }
