@@ -1,12 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { capitalize } from "lodash"
-import { Form, Input, Select } from "antd"
+import { Form, Input } from "antd"
 import { FORM } from "lib/common-types"
-import { ROLES, defaultValidateMessages, defaultFormLayout } from "lib/constants"
+import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
-const { Option } = Select
-const SignUpForm = ({ form, onSubmit, errors }) => (
+const SignInForm = ({ form, onSubmit, errors }) => (
   <Form
     {...defaultFormLayout}
     form={form}
@@ -31,26 +29,17 @@ const SignUpForm = ({ form, onSubmit, errors }) => (
     >
       <Input.Password type="password" />
     </Form.Item>
-    <Form.Item label="Role" name="role" rules={[{ required: true }]}>
-      <Select>
-        {ROLES.map((role) => (
-          <Option key={role} value={role}>
-            {capitalize(role)}
-          </Option>
-        ))}
-      </Select>
-    </Form.Item>
   </Form>
 )
 
-SignUpForm.defaultProps = {
+SignInForm.defaultProps = {
   errors: {},
 }
 
-SignUpForm.propTypes = {
+SignInForm.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   onSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object,
 }
 
-export default SignUpForm
+export default SignInForm

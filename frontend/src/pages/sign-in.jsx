@@ -5,72 +5,38 @@ import { useMedia } from "react-use"
 import { useMutation } from "@apollo/client"
 import { mediaQuery } from "styles/index"
 import { UserContext } from "contexts"
-import { ReactComponent as Image } from "assets/schedule.svg"
-import SignUpForm from "components/forms/sign-up-form"
-import ManagerForm from "components/forms/manager-form"
-import ClientForm from "components/forms/client-form"
-import useClients from "data/use-clients"
-import useManagers from "data/use-managers"
+import { ReactComponent as Image } from "assets/checking-boxes.svg"
+import SignInForm from "components/forms/sign-in-form"
 import { SIGN_UP } from "graphql/user"
-import { ROLES, CLIENT, MANAGER } from "lib/constants"
 
 const MainForm = (props) => {
   const [form] = Form.useForm()
   const { setUser } = useContext(UserContext)
-  const [newUser, setNewUser] = useState(null)
-  const [signUpError, setSignUpError] = useState(null)
+  const [signInError, setSignInError] = useState(null)
 
-  const { addClient } = useClients()
-  const { addManager } = useManagers()
-
-  const [signUp, { loading }] = useMutation(SIGN_UP, {
-    onCompleted({ signUp }) {
-      const { accessToken, refreshToken, email, password, role, __typename } = signUp
+  const [signIn, { loading }] = useMutation(SIGN_UP, {
+    onCompleted({ signIn }) {
+      const { accessToken, refreshToken, email, password, role, __typename } = signIn
       if (__typename === "User") {
-        return setNewUser({ accessToken, refreshToken, email, role })
+        return setUser({ accessToken, refreshToken, email, role })
       }
-      return setSignUpError({ email, password, role })
+      return setSignInError({ email, password, role })
     },
   })
-
-  const StepForm = () => {
-    if (!newUser) {
-      return (
-        <SignUpForm
-          form={form}
-          onSubmit={(values) => signUp({ variables: values })}
-          errors={signUpError}
-        />
-      )
-    }
-    if (newUser.role === CLIENT) {
-      return (
-        <ClientForm
-          form={form}
-          onSubmit={(values) => addClient({ variables: values }).then(() => setUser(newUser))}
-        />
-      )
-    }
-    if (newUser.role === MANAGER) {
-      return (
-        <ManagerForm
-          form={form}
-          onSubmit={(values) => addManager({ variables: values }).then(() => setUser(newUser))}
-        />
-      )
-    }
-    return null
-  }
 
   return (
     <div className="flex flex-col justify-center content-center max-w-md">
       <Spin spinning={loading}>
-        <h1 className="text-2xl">Welcome to Reservation System</h1>
+        <h1 className="text-2xl">Welcome Back!</h1>
         <p className="my-10">
           Reservation System can help you schedule recurrent client visits, check available slots,
-          and remind you and your clients on upcoming visits.{" "}
+          and remind you and your clients on upcoming visits.
         </p>
-        <StepForm />
+        <SignInForm
+          form={form}
+          onSubmit={(values) => signIn({ variables: values })}
+          errors={signInError}
+        />
         <Button
           type="primary"
           onClick={() =>
@@ -83,17 +49,17 @@ const MainForm = (props) => {
           }
           block
         >
-          Register
+          Log in
         </Button>
         <p className="mt-3">
-          Already have an account? <Link to="/sign-in">Sign in</Link>
+          Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
         </p>
       </Spin>
     </div>
   )
 }
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const xlAndUp = useMedia(mediaQuery.screenXlAndUp)
 
   if (xlAndUp) {
@@ -120,4 +86,4 @@ const SignInPage = () => {
     </div>
   )
 }
-export default SignInPage
+export default SignUpPage

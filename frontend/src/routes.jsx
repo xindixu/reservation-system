@@ -11,6 +11,7 @@ import Client from "./pages/client"
 import Slot from "./pages/slot"
 import Calendar from "./pages/calendar"
 import SignUp from "./pages/sign-up"
+import SignIn from "./pages/sign-in"
 
 export const AppRoutes = () => (
   <Switch>
@@ -49,11 +50,14 @@ export const AppRoutes = () => (
 
 export const PublicRoutes = () => (
   <Switch>
-    <Route path="/" exact>
+    <Route path="/sign-in" exact>
+      <SignIn />
+    </Route>
+    <Route path="/sign-up" exact>
       <SignUp />
     </Route>
     <Route>
-      <Redirect to="/" />
+      <Redirect to="/sign-in" />
     </Route>
   </Switch>
 )
