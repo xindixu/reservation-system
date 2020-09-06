@@ -7,14 +7,14 @@ import { mediaQuery } from "styles/index"
 import { UserContext } from "contexts"
 import { ReactComponent as Image } from "assets/checking-boxes.svg"
 import SignInForm from "components/forms/sign-in-form"
-import { SIGN_UP } from "graphql/user"
+import { SIGN_IN } from "graphql/user"
 
-const MainForm = (props) => {
+const MainForm = () => {
   const [form] = Form.useForm()
   const { setUser } = useContext(UserContext)
   const [signInError, setSignInError] = useState(null)
 
-  const [signIn, { loading }] = useMutation(SIGN_UP, {
+  const [signIn, { loading }] = useMutation(SIGN_IN, {
     onCompleted({ signIn }) {
       const { accessToken, refreshToken, email, password, role, __typename } = signIn
       if (__typename === "User") {
@@ -78,7 +78,7 @@ const SignUpPage = () => {
   }
   return (
     <div className="bg-opacity-75 bg-blue-200 flex flex-col justify-center w-screen h-screen overflow-auto">
-      <div className="flex justify-center pt-10">
+      <div className="flex justify-center pt-20">
         <MainForm />
       </div>
 

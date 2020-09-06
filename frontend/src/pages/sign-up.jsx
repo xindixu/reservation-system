@@ -8,13 +8,15 @@ import { UserContext } from "contexts"
 import { ReactComponent as Image } from "assets/schedule.svg"
 import SignUpForm from "components/forms/sign-up-form"
 import ManagerForm from "components/forms/manager-form"
+import TeamForm from "components/forms/team-form"
 import ClientForm from "components/forms/client-form"
 import useClients from "data/use-clients"
 import useManagers from "data/use-managers"
+import useTeams from "data/use-teams"
 import { SIGN_UP } from "graphql/user"
-import { ROLES, CLIENT, MANAGER } from "lib/constants"
+import { ADMIN, CLIENT, MANAGER } from "lib/constants"
 
-const MainForm = (props) => {
+const MainForm = () => {
   const [form] = Form.useForm()
   const { setUser } = useContext(UserContext)
   const [newUser, setNewUser] = useState(null)
@@ -22,6 +24,7 @@ const MainForm = (props) => {
 
   const { addClient } = useClients()
   const { addManager } = useManagers()
+  const { addTeam } = useTeams()
 
   const [signUp, { loading }] = useMutation(SIGN_UP, {
     onCompleted({ signUp }) {
@@ -59,6 +62,14 @@ const MainForm = (props) => {
         />
       )
     }
+    if (newUser.role === ADMIN) {
+      return (
+        <TeamForm
+          form={form}
+          onSubmit={(values) => addTeam({ variables: values }).then(() => setUser(newUser))}
+        />
+      )
+    }
     return null
   }
 
@@ -68,7 +79,7 @@ const MainForm = (props) => {
         <h1 className="text-2xl">Welcome to Reservation System</h1>
         <p className="my-10">
           Reservation System can help you schedule recurrent client visits, check available slots,
-          and remind you and your clients on upcoming visits.{" "}
+          and remind you and your clients on upcoming visits.
         </p>
         <StepForm />
         <Button
@@ -112,7 +123,7 @@ const SignInPage = () => {
   }
   return (
     <div className="bg-opacity-75 bg-blue-200 flex flex-col justify-center w-screen h-screen overflow-auto">
-      <div className="flex justify-center pt-10">
+      <div className="flex justify-center pt-20">
         <MainForm />
       </div>
 

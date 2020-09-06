@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { BrowserRouter as Router } from "react-router-dom"
+import { createBrowserHistory } from "history"
 import { useMedia } from "react-use"
 import { debounce } from "lodash"
 import { Layout } from "antd"
@@ -12,8 +13,11 @@ import { UserContext } from "./contexts"
 
 const { Header, Sider, Content } = Layout
 
+const history = createBrowserHistory()
+
 const App = () => {
   const [user, setUser] = useState(null)
+  const prevUser = useRef(null)
   const [navigationCollapsed, setNavigationCollapsed] = useState(false)
   const [navigationToggled, setNavigationToggled] = useState(false)
   const smAndUp = useMedia(mediaQuery.screenSmAndUp)
@@ -27,13 +31,20 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (user && !prevUser.current) {
+      prevUser.current = user
+      history.push("/calendar")
+    }
+  }, [user])
+
   const collapsed = navigationToggled ? navigationCollapsed : !mdAndUp
 
   if (user) {
     return (
       <UserContext.Provider value={{ user, setUser }}>
         <Wrapper>
-          <Router>
+          <Router history={history}>
             <Layout>
               <Sider trigger={null} collapsed={collapsed} collapsedWidth={smAndUp ? "80" : "0"}>
                 <Navbar />
@@ -71,7 +82,7 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Router>
+      <Router history={history}>
         <PublicRoutes />
       </Router>
     </UserContext.Provider>
