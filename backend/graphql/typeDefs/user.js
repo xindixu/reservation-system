@@ -15,6 +15,11 @@ export default gql`
     role: String
   }
 
+  type SignInInvalidInputError {
+    email: String
+    password: String
+  }
+
   input SignUpInput {
     email: String!
     password: String!
@@ -27,6 +32,7 @@ export default gql`
   }
 
   union SignUpResult = SignUpInvalidInputError | User
+  union SignInResult = SignInInvalidInputError | User
 
   extend type Query {
     users: [User!] @auth
@@ -36,7 +42,7 @@ export default gql`
 
   extend type Mutation {
     signUp(input: SignUpInput): SignUpResult @guest
-    signIn(input: SignInInput): User @guest
+    signIn(input: SignInInput): SignInResult @guest
     signOut: Boolean! @auth
     invalidateToken: Boolean! @auth
   }

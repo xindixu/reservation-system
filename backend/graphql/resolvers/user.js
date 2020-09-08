@@ -5,6 +5,12 @@ import User from "../../models/user.js"
 import { signUp, signIn } from "../../validators/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
 
+const handleInvalidInputError = (error) =>
+  error.details.reduce((memo, { path, message }) => {
+    memo[path] = message
+    return memo
+  }, {})
+
 const resolvers = {
   Query: {
     me: async (_, __, { req }) => {
@@ -28,7 +34,7 @@ const resolvers = {
       const { email, password } = input
       const { error } = signIn.validate({ email, password }, { abortEarly: false })
       if (error) {
-        throw new UserInputError(error)
+        return handleInvalidInputError(error)
       }
 
       const user = await User.findOne({
@@ -36,11 +42,15 @@ const resolvers = {
       })
 
       if (!user) {
-        throw new UserInputError("User doesn't exist")
+        return {
+          email: "Email doesn't exist",
+        }
       }
       const valid = await compare(password, user.password)
       if (!valid) {
-        throw new UserInputError("Password is incorrect")
+        return {
+          password: "Password is incorrect",
+        }
       }
 
       const { accessToken, refreshToken } = createToken(user)
@@ -61,10 +71,7 @@ const resolvers = {
       const { error } = signUp.validate({ email, password, role }, { abortEarly: false })
 
       if (error) {
-        return error.details.reduce((memo, { path, message }) => {
-          memo[path] = message
-          return memo
-        }, {})
+        return handleInvalidInputError(error)
       }
       try {
         const user = await User.create({
@@ -124,6 +131,15 @@ const resolvers = {
         return "User"
       }
       return "SignUpInvalidInputError"
+    },
+  },
+
+  SignInResult: {
+    __resolveType: (obj) => {
+      if (obj.id) {
+        return "User"
+      }
+      return "SignInInvalidInputError"
     },
   },
 }

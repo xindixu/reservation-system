@@ -13,15 +13,18 @@ const DEFAULT_SORT_ORDER = ["name", "id"]
 
 const updateAfterCreate = (cache, { data: { createTeam } }) => {
   const team = createTeam
-  const { teams } = cache.readQuery({ query: GET_ALL_TEAMS })
-  const sortedTeams = [...teams, team].sort((a, b) => comparator(a, b, DEFAULT_SORT_ORDER))
 
-  cache.writeQuery({
-    query: GET_ALL_TEAMS,
-    data: {
-      teams: sortedTeams,
-    },
-  })
+  try {
+    const { teams } = cache.readQuery({ query: GET_ALL_TEAMS })
+    const sortedTeams = [...teams, team].sort((a, b) => comparator(a, b, DEFAULT_SORT_ORDER))
+
+    cache.writeQuery({
+      query: GET_ALL_TEAMS,
+      data: {
+        teams: sortedTeams,
+      },
+    })
+  } catch (error) {}
 }
 
 const updateAfterAddManagers = (cache, { data: { addManagersToTeam } }) => {

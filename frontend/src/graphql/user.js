@@ -28,3 +28,21 @@ export const SIGN_UP = gql`
     }
   }
 `
+
+export const SIGN_IN = gql`
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(input: { email: $email, password: $password }) {
+      ... on User {
+        id
+        email
+        role
+        accessToken
+        refreshToken
+      }
+      ... on SignInInvalidInputError {
+        email
+        password
+      }
+    }
+  }
+`
