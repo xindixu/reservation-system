@@ -47,8 +47,8 @@ const CalendarPage = () => {
     GET_VISITS_IN_RANGE,
     {
       variables: {
-        from: "2020-08-01T00:00:00.000Z",
-        to: "2020-09-01T00:00:00.000Z",
+        from: "2020-09-01T00:00:00.000Z",
+        to: "2020-10-01T00:00:00.000Z",
       },
     }
   )
@@ -86,6 +86,7 @@ const CalendarPage = () => {
   const refetchAndUpdate = ({ start, end }) =>
     start && end && refetch({ from: toISOStringWithTZ(start), to: toISOStringWithTZ(end) })
 
+  console.log("visits", searchedVisitsData, allVisitData)
   return (
     <>
       <Spin spinning={loading}>

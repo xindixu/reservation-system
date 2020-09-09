@@ -1,5 +1,7 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
+import { isEmpty } from "lodash"
+
 // TODO: lazy load all these
 import Teams from "./pages/teams"
 import Managers from "./pages/managers"
@@ -12,50 +14,30 @@ import Slot from "./pages/slot"
 import Calendar from "./pages/calendar"
 import SignUp from "./pages/sign-up"
 import SignIn from "./pages/sign-in"
+import { useUserContext } from "./contexts/user-context"
+
+const PrivateRoute = ({ ...rest }) => {
+  const { user } = useUserContext()
+  if (isEmpty(user)) {
+    return <Redirect to="/sign-in" />
+  }
+  return <Route {...rest} />
+}
 
 export const AppRoutes = () => (
   <Switch>
-    <Route path="/" exact>
-      <Calendar />
-    </Route>
-    <Route path="/calendar" exact>
-      <Calendar />
-    </Route>
-    <Route path="/teams" exact>
-      <Teams />
-    </Route>
-    <Route path="/managers" exact>
-      <Managers />
-    </Route>
-    <Route path="/clients" exact>
-      <Clients />
-    </Route>
-    <Route path="/slots" exact>
-      <Slots />
-    </Route>
-    <Route path="/team/:id" exact>
-      <Team />
-    </Route>
-    <Route path="/manager/:id" exact>
-      <Manager />
-    </Route>
-    <Route path="/client/:id" exact>
-      <Client />
-    </Route>
-    <Route path="/slot/:id" exact>
-      <Slot />
-    </Route>
-  </Switch>
-)
-
-export const PublicRoutes = () => (
-  <Switch>
-    <Route path="/sign-in" exact>
-      <SignIn />
-    </Route>
-    <Route path="/sign-up" exact>
-      <SignUp />
-    </Route>
+    <PrivateRoute path="/" exact component={Calendar} />
+    <PrivateRoute path="/calendar" exact component={Calendar} />
+    <PrivateRoute path="/teams" exact component={Teams} />
+    <PrivateRoute path="/managers" exact component={Managers} />
+    <PrivateRoute path="/clients" exact component={Clients} />
+    <PrivateRoute path="/slots" exact component={Slots} />
+    <PrivateRoute path="/team/:id" exact component={Team} />
+    <PrivateRoute path="/manager/:id" exact component={Manager} />
+    <PrivateRoute path="/client/:id" exact component={Client} />
+    <PrivateRoute path="/slot/:id" exact component={Slot} />
+    <Route path="/sign-in" exact component={SignIn} />
+    <Route path="/sign-up" exact component={SignUp} />
     <Route>
       <Redirect to="/sign-in" />
     </Route>

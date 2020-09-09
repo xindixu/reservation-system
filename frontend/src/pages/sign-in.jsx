@@ -1,24 +1,24 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Form, Spin, Button } from "antd"
 import { Link } from "react-router-dom"
 import { useMedia } from "react-use"
 import { useMutation } from "@apollo/client"
 import { mediaQuery } from "styles/index"
-import { UserContext } from "contexts"
+import { useUserContext } from "contexts/user-context"
 import { ReactComponent as Image } from "assets/checking-boxes.svg"
 import SignInForm from "components/forms/sign-in-form"
 import { SIGN_IN } from "graphql/user"
 
 const MainForm = () => {
   const [form] = Form.useForm()
-  const { setUser } = useContext(UserContext)
+  const { updateUser } = useUserContext()
   const [signInError, setSignInError] = useState(null)
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     onCompleted({ signIn }) {
       const { accessToken, refreshToken, email, password, role, __typename } = signIn
       if (__typename === "User") {
-        return setUser({ accessToken, refreshToken, email, role })
+        return updateUser({ accessToken, refreshToken, email, role })
       }
       return setSignInError({ email, password, role })
     },

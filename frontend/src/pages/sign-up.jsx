@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Form, Spin, Button } from "antd"
 import { Link } from "react-router-dom"
 import { useMedia } from "react-use"
 import { useMutation } from "@apollo/client"
 import { mediaQuery } from "styles/index"
-import { UserContext } from "contexts"
+import { useUserContext } from "contexts/user-context"
 import { ReactComponent as Image } from "assets/schedule.svg"
 import SignUpForm from "components/forms/sign-up-form"
 import ManagerForm from "components/forms/manager-form"
@@ -18,7 +18,7 @@ import { ADMIN, CLIENT, MANAGER } from "lib/constants"
 
 const MainForm = () => {
   const [form] = Form.useForm()
-  const { setUser } = useContext(UserContext)
+  const { updateUser } = useUserContext()
   const [newUser, setNewUser] = useState(null)
   const [signUpError, setSignUpError] = useState(null)
 
@@ -50,7 +50,7 @@ const MainForm = () => {
       return (
         <ClientForm
           form={form}
-          onSubmit={(values) => addClient({ variables: values }).then(() => setUser(newUser))}
+          onSubmit={(values) => addClient({ variables: values }).then(() => updateUser(newUser))}
         />
       )
     }
@@ -58,7 +58,7 @@ const MainForm = () => {
       return (
         <ManagerForm
           form={form}
-          onSubmit={(values) => addManager({ variables: values }).then(() => setUser(newUser))}
+          onSubmit={(values) => addManager({ variables: values }).then(() => updateUser(newUser))}
         />
       )
     }
@@ -66,7 +66,7 @@ const MainForm = () => {
       return (
         <TeamForm
           form={form}
-          onSubmit={(values) => addTeam({ variables: values }).then(() => setUser(newUser))}
+          onSubmit={(values) => addTeam({ variables: values }).then(() => updateUser(newUser))}
         />
       )
     }

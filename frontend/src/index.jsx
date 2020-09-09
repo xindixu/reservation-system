@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client"
+import { UserContextProvider } from "./contexts/user-context"
 
 import "antd/dist/antd.css"
 import "./tailwind.css"
@@ -21,7 +22,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
   </ApolloProvider>,
   document.getElementById("root")
 )
