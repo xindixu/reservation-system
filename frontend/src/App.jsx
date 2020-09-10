@@ -5,10 +5,11 @@ import { debounce, isEmpty } from "lodash"
 import { Layout } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import { AppRoutes } from "./routes"
-import Navbar from "./components/navbar"
 import { Wrapper } from "./styles"
 import { mediaQuery } from "./styles/index"
-import { useUserContext } from "./contexts/user-context"
+import { useUserContext } from "contexts/user-context"
+import Navbar from "components/navbar"
+import User from "components/user"
 
 const { Header, Sider, Content } = Layout
 
@@ -42,23 +43,30 @@ const App = () => {
             </Sider>
             <Layout>
               <Header>
-                {navigationCollapsed ? (
-                  <MenuUnfoldOutlined
-                    className="trigger"
-                    onClick={() => {
-                      setNavigationCollapsed(false)
-                      setNavigationToggled(true)
-                    }}
-                  />
-                ) : (
-                  <MenuFoldOutlined
-                    className="trigger"
-                    onClick={() => {
-                      setNavigationCollapsed(true)
-                      setNavigationToggled(true)
-                    }}
-                  />
-                )}
+                <div className="flex justify-between">
+                  <div>
+                    {navigationCollapsed ? (
+                      <MenuUnfoldOutlined
+                        className="trigger"
+                        onClick={() => {
+                          setNavigationCollapsed(false)
+                          setNavigationToggled(true)
+                        }}
+                      />
+                    ) : (
+                      <MenuFoldOutlined
+                        className="trigger"
+                        onClick={() => {
+                          setNavigationCollapsed(true)
+                          setNavigationToggled(true)
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <User />
+                  </div>
+                </div>
               </Header>
               <Content>
                 <AppRoutes />

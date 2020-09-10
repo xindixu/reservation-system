@@ -5,25 +5,25 @@ export const ME = gql`
     me {
       id
       email
-      role
+      roleType
     }
   }
 `
 
 export const SIGN_UP = gql`
-  mutation SignUp($email: String!, $password: String!, $role: Role!) {
-    signUp(input: { email: $email, password: $password, role: $role }) {
+  mutation SignUp($email: String!, $password: String!, $roleType: RoleType!) {
+    signUp(input: { email: $email, password: $password, roleType: $roleType }) {
       ... on User {
         id
         email
-        role
+        roleType
         accessToken
         refreshToken
       }
       ... on SignUpInvalidInputError {
         email
         password
-        role
+        roleType
       }
     }
   }
@@ -35,7 +35,7 @@ export const SIGN_IN = gql`
       ... on User {
         id
         email
-        role
+        roleType
         accessToken
         refreshToken
       }

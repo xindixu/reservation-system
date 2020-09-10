@@ -10,7 +10,7 @@ const avatarSizes = {
 }
 
 export const getFullName = (user) => `${user.firstName} ${user.lastName}`
-export const getDefaultAvatar = (user, size) =>
+export const getDefaultAvatar = (user, size = "xs") =>
   `https://robohash.org/${getFullName(user)}.png?size=${avatarSizes[size]}&set=set4`
 
 export const calculateNextVisit = (client, visits) => {

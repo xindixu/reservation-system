@@ -16,10 +16,23 @@ import SignUp from "./pages/sign-up"
 import SignIn from "./pages/sign-in"
 import { useUserContext } from "./contexts/user-context"
 
+const publicRoutes = ["/sign-in", "/sign-up"]
+
 const PrivateRoute = ({ ...rest }) => {
   const { user } = useUserContext()
   if (isEmpty(user)) {
     return <Redirect to="/sign-in" />
+  }
+
+  return <Route {...rest} />
+}
+
+const PublicRoute = ({ ...rest }) => {
+  const { user } = useUserContext()
+  const { pathname } = window.location
+
+  if (!isEmpty(user) && publicRoutes.includes(pathname)) {
+    return <Redirect to="calendar" />
   }
   return <Route {...rest} />
 }
@@ -36,10 +49,10 @@ export const AppRoutes = () => (
     <PrivateRoute path="/manager/:id" exact component={Manager} />
     <PrivateRoute path="/client/:id" exact component={Client} />
     <PrivateRoute path="/slot/:id" exact component={Slot} />
-    <Route path="/sign-in" exact component={SignIn} />
-    <Route path="/sign-up" exact component={SignUp} />
-    <Route>
+    <PublicRoute path="/sign-in" exact component={SignIn} />
+    <PublicRoute path="/sign-up" exact component={SignUp} />
+    <PublicRoute>
       <Redirect to="/sign-in" />
-    </Route>
+    </PublicRoute>
   </Switch>
 )
