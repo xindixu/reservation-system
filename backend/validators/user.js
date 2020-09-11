@@ -1,6 +1,6 @@
 import Joi from "joi"
 import { email } from "./utils.js"
-import { ROLES } from "../constants.js"
+import { ROLE_TYPES } from "../constants.js"
 // ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 const password = Joi.string()
   .min(6)
@@ -12,14 +12,14 @@ const password = Joi.string()
   })
   .label("Password")
 
-const role = Joi.any()
-  .valid(...ROLES)
+const roleType = Joi.any()
+  .valid(...ROLE_TYPES)
   .label("Role")
 
 export const signUp = Joi.object().keys({
   email,
   password,
-  role,
+  roleType,
 })
 
 export const signIn = Joi.object().keys({

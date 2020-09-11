@@ -4,7 +4,8 @@ export default gql`
   type User {
     id: ID!
     email: String
-    role: String
+    roleType: RoleType
+    role: Role!
     accessToken: String
     refreshToken: String
   }
@@ -12,7 +13,7 @@ export default gql`
   type SignUpInvalidInputError {
     email: String
     password: String
-    role: String
+    roleType: RoleType
   }
 
   type SignInInvalidInputError {
@@ -23,7 +24,7 @@ export default gql`
   input SignUpInput {
     email: String!
     password: String!
-    role: Role!
+    roleType: RoleType!
   }
 
   input SignInInput {
@@ -33,6 +34,7 @@ export default gql`
 
   union SignUpResult = SignUpInvalidInputError | User
   union SignInResult = SignInInvalidInputError | User
+  union Role = Manager | Client
 
   extend type Query {
     users: [User!] @auth

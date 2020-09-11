@@ -1,5 +1,5 @@
 import { compare } from "bcryptjs"
-import { UserInputError } from "apollo-server-express"
+import { ADMIN, MANAGER, CLIENT } from "../../constants.js"
 import { checkObjectId } from "../../utils/validators.js"
 import User from "../../models/user.js"
 import { signUp, signIn } from "../../validators/index.js"
@@ -23,7 +23,8 @@ const resolvers = {
 
     user: async (_, { id }) => {
       await checkObjectId(id)
-      return User.findById(id)
+      const user = await User.findById(id)
+      return { ...user, role: await user.populate("role") }
     },
 
     users: async () => User.find(),
@@ -63,12 +64,14 @@ const resolvers = {
         accessToken,
         refreshToken,
         expiresIn: 1,
+        roleType: user.roleType,
+        role: user.populate("role"),
       }
     },
 
     signUp: async (_, { input }, { res }) => {
-      const { email, password, role } = input
-      const { error } = signUp.validate({ email, password, role }, { abortEarly: false })
+      const { email, password, roleType } = input
+      const { error } = signUp.validate({ email, password, roleType }, { abortEarly: false })
 
       if (error) {
         return handleInvalidInputError(error)
@@ -77,7 +80,7 @@ const resolvers = {
         const user = await User.create({
           email,
           password,
-          role,
+          roleType,
         })
 
         const { accessToken, refreshToken } = createToken(user)
@@ -86,17 +89,17 @@ const resolvers = {
         return {
           id: user.id,
           email,
-          role,
+          roleType,
           accessToken,
           refreshToken,
           expiresIn: 1,
         }
       } catch (e) {
-        const { email, password, role } = e.errors
+        const { email, password, roleType } = e.errors
         return {
           email: email ? email.message : undefined,
           password: password ? password.message : undefined,
-          role: role ? role.message : undefined,
+          roleType: roleType ? roleType.message : undefined,
         }
       }
     },
@@ -140,6 +143,20 @@ const resolvers = {
         return "User"
       }
       return "SignInInvalidInputError"
+    },
+  },
+
+  Role: {
+    __resolveType: (obj) => {
+      console.log(obj)
+      switch (obj.roleType) {
+        case CLIENT:
+          return "Client"
+        case MANAGER:
+        case ADMIN:
+        default:
+          return "Manager"
+      }
     },
   },
 }
