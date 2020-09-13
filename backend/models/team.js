@@ -4,6 +4,7 @@ import uniqueValidator from "mongoose-unique-validator"
 import { checkObjectId, phone } from "../utils/validators.js"
 
 const { Schema } = mongoose
+const { ObjectId } = Schema.Types
 
 const teamSchema = new Schema(
   {
@@ -24,6 +25,11 @@ const teamSchema = new Schema(
       type: String,
       validate: phone,
     },
+    // admin
+    user: {
+      type: ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 )
@@ -40,5 +46,7 @@ export const findTeamById = async (id) => {
   }
   return team
 }
+
+export const getTeamByUserId = async (userId) => Team.findOne({ user: { $eq: userId } })
 
 export default Team

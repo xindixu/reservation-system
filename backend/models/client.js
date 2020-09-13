@@ -35,6 +35,11 @@ const clientSchema = new Schema(
       type: Number,
       required: true,
     },
+    // client
+    user: {
+      type: ObjectId,
+      ref: "User",
+    },
     managers: [
       {
         type: ObjectId,
@@ -89,5 +94,7 @@ export const getClientsForManager = async (manager) =>
 
 export const getClientsCountForManager = async (manager) =>
   Client.countDocuments({ managers: { $elemMatch: { $eq: manager.id } } })
+
+export const getClientByUserId = async (userId) => Client.findOne({ user: { $eq: userId } })
 
 export default Client

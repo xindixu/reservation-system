@@ -1,7 +1,9 @@
+import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { hash } from "bcryptjs"
-import { ROLE_TYPES } from "../constants.js"
+import { ADMIN, ROLE_TYPES, LINK_BY_ROLE_TYPE } from "../constants.js"
+import { checkObjectId } from "../utils/validators.js"
 
 const { Schema } = mongoose
 
@@ -23,11 +25,7 @@ const userSchema = new Schema(
     roleType: {
       type: String,
       enum: ROLE_TYPES,
-      default: "ADMIN",
-    },
-    role: {
-      type: Schema.Types.ObjectId,
-      refPath: "roleType",
+      default: ADMIN,
     },
   },
   {
@@ -46,4 +44,14 @@ userSchema.pre("save", async function (next) {
 userSchema.plugin(uniqueValidator)
 
 const User = mongoose.model("User", userSchema)
+
+export const findUserById = async (id) => {
+  await checkObjectId(id)
+  const user = await User.findById(id)
+  if (!user) {
+    throw new UserInputError(`User ${id} not found.`)
+  }
+  return user
+}
+
 export default User

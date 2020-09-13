@@ -34,6 +34,11 @@ const managerSchema = new Schema(
       ref: "Team",
       required: true,
     },
+    // manager
+    user: {
+      type: ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -58,5 +63,7 @@ export const areManagerIdsValid = async (ids) => {
   }
   return idsFound
 }
+
+export const getManagerByUserId = async (userId) => Manager.findOne({ user: { $eq: userId } })
 
 export default Manager
