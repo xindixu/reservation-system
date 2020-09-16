@@ -9,6 +9,7 @@ export default gql`
     phone: String!
     jobTitle: String!
     team: Team!
+    user: User
     slots: [Slot!]
     clients: [Client!]
     clientsCount: Int!
@@ -21,6 +22,7 @@ export default gql`
     phone: String!
     jobTitle: String!
     teamId: ID!
+    userId: ID
     clientIds: [ID!]
   }
 
@@ -32,6 +34,7 @@ export default gql`
     phone: String
     jobTitle: String
     teamId: ID
+    userId: ID
     clientIds: [ID!]
   }
 

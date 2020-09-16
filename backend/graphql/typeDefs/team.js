@@ -7,6 +7,7 @@ export default gql`
     description: String!
     email: String!
     phone: String!
+    user: User
     managers: [Manager!]
     managersCount: Int!
     slots: [Slot!]
@@ -17,6 +18,7 @@ export default gql`
     description: String!
     email: String!
     phone: String!
+    userId: ID
     managerIds: [ID!]
     slotIds: [ID!]
   }
@@ -27,6 +29,7 @@ export default gql`
     description: String
     email: String
     phone: String
+    userId: ID
     managerIds: [ID!]
     slotIds: [ID!]
   }

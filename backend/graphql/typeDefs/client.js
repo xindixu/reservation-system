@@ -17,6 +17,7 @@ export default gql`
     phone: String!
     cycle: Int!
     duration: Int!
+    user: User
     managers: [Manager!]
     visits: [Visit!]
   }
@@ -28,6 +29,7 @@ export default gql`
     phone: String!
     cycle: Int!
     duration: Int!
+    userId: ID
     managerIds: [ID!]
   }
 
@@ -39,6 +41,7 @@ export default gql`
     phone: String
     cycle: Int
     duration: Int
+    userId: ID
     managerIds: [ID!]
   }
 
