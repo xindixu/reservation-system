@@ -102,6 +102,11 @@ const resolvers = {
     managers: async (client) => getManagersForClient(client),
 
     visits: async (client) => getVisitsForClient(client),
+
+    user: async (client) => {
+      await client.populate({ path: "user" }).execPopulate()
+      return client.user
+    },
   },
 }
 

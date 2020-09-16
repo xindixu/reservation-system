@@ -56,6 +56,11 @@ const resolvers = {
     managersCount: async (team) => Manager.countDocuments({ team: team.id }),
 
     slots: async (team) => Slot.where("team").equals(team.id).sort({ name: 1 }),
+
+    user: async (team) => {
+      await team.populate({ path: "user" }).execPopulate()
+      return team.user
+    },
   },
 }
 

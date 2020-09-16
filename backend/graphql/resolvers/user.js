@@ -2,6 +2,9 @@ import { compare } from "bcryptjs"
 import { ADMIN, MANAGER, CLIENT } from "../../constants.js"
 import { checkObjectId } from "../../utils/validators.js"
 import User from "../../models/user.js"
+import { getManagerByUserId } from "../../models/manager.js"
+import { getClientByUserId } from "../../models/client.js"
+import { getTeamByUserId } from "../../models/team.js"
 import { signUp, signIn } from "../../validators/index.js"
 import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
 
@@ -23,8 +26,7 @@ const resolvers = {
 
     user: async (_, { id }) => {
       await checkObjectId(id)
-      const user = await User.findById(id)
-      return { ...user, role: await user.populate("role") }
+      return User.findById(id)
     },
 
     users: async () => User.find(),
@@ -146,18 +148,10 @@ const resolvers = {
     },
   },
 
-  Role: {
-    __resolveType: (obj) => {
-      console.log(obj)
-      switch (obj.roleType) {
-        case CLIENT:
-          return "Client"
-        case MANAGER:
-        case ADMIN:
-        default:
-          return "Manager"
-      }
-    },
+  User: {
+    team: async (user) => getTeamByUserId(user._id),
+    manager: async (user) => getManagerByUserId(user._id),
+    client: async (user) => getClientByUserId(user._id),
   },
 }
 
