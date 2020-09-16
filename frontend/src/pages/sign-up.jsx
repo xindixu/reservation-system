@@ -28,11 +28,31 @@ const MainForm = () => {
 
   const [signUp, { loading }] = useMutation(SIGN_UP, {
     onCompleted({ signUp }) {
-      const { accessToken, refreshToken, email, password, role, __typename } = signUp
+      const {
+        accessToken,
+        refreshToken,
+        email,
+        password,
+        roleType,
+        team,
+        manager,
+        client,
+        __typename,
+      } = signUp
       if (__typename === "User") {
-        return setNewUser({ accessToken, refreshToken, email, role })
+        return setNewUser({
+          accessToken,
+          refreshToken,
+          email,
+          roleType,
+          role: {
+            ...manager,
+            ...client,
+            ...team,
+          },
+        })
       }
-      return setSignUpError({ email, password, role })
+      return setSignUpError({ email, password, roleType })
     },
   })
 
@@ -46,7 +66,7 @@ const MainForm = () => {
         />
       )
     }
-    if (newUser.role === CLIENT) {
+    if (newUser.roleType === CLIENT) {
       return (
         <ClientForm
           form={form}
@@ -54,7 +74,7 @@ const MainForm = () => {
         />
       )
     }
-    if (newUser.role === MANAGER) {
+    if (newUser.roleType === MANAGER) {
       return (
         <ManagerForm
           form={form}
@@ -62,7 +82,7 @@ const MainForm = () => {
         />
       )
     }
-    if (newUser.role === ADMIN) {
+    if (newUser.roleType === ADMIN) {
       return (
         <TeamForm
           form={form}

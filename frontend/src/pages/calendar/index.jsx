@@ -86,7 +86,6 @@ const CalendarPage = () => {
   const refetchAndUpdate = ({ start, end }) =>
     start && end && refetch({ from: toISOStringWithTZ(start), to: toISOStringWithTZ(end) })
 
-  console.log("visits", searchedVisitsData, allVisitData)
   return (
     <>
       <Spin spinning={loading}>

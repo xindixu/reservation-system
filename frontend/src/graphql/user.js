@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { CLIENT, MANAGER, TEAM } from "./fragments"
 
 export const ME = gql`
   query Me {
@@ -17,6 +18,15 @@ export const SIGN_UP = gql`
         id
         email
         roleType
+        team {
+          ...BasicTeam
+        }
+        manager {
+          ...BasicManager
+        }
+        client {
+          ...BasicClient
+        }
         accessToken
         refreshToken
       }
@@ -27,6 +37,9 @@ export const SIGN_UP = gql`
       }
     }
   }
+  ${TEAM.basic}
+  ${MANAGER.basic}
+  ${CLIENT.basic}
 `
 
 export const SIGN_IN = gql`
@@ -36,6 +49,15 @@ export const SIGN_IN = gql`
         id
         email
         roleType
+        team {
+          ...BasicTeam
+        }
+        manager {
+          ...BasicManager
+        }
+        client {
+          ...BasicClient
+        }
         accessToken
         refreshToken
       }
@@ -45,4 +67,7 @@ export const SIGN_IN = gql`
       }
     }
   }
+  ${TEAM.basic}
+  ${MANAGER.basic}
+  ${CLIENT.basic}
 `

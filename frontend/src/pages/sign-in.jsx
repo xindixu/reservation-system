@@ -16,11 +16,31 @@ const MainForm = () => {
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     onCompleted({ signIn }) {
-      const { accessToken, refreshToken, email, password, role, __typename } = signIn
+      const {
+        accessToken,
+        refreshToken,
+        email,
+        password,
+        roleType,
+        team,
+        manager,
+        client,
+        __typename,
+      } = signIn
       if (__typename === "User") {
-        return updateUser({ accessToken, refreshToken, email, role })
+        return updateUser({
+          accessToken,
+          refreshToken,
+          email,
+          roleType,
+          role: {
+            ...manager,
+            ...client,
+            ...team,
+          },
+        })
       }
-      return setSignInError({ email, password, role })
+      return setSignInError({ email, password, roleType })
     },
   })
 
