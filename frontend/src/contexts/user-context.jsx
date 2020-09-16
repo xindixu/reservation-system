@@ -1,21 +1,26 @@
 import React, { useState, useCallback, useContext } from "react"
-import { useHistory } from "react-router-dom"
-import { getItemFromStorage, setItemToStorage, KEYS, STORAGE } from "lib/client-storage"
+import {
+  getItemFromStorage,
+  setItemToStorage,
+  removeItemFromStorage,
+  KEYS,
+  STORAGE,
+} from "lib/client-storage"
 
 export const UserContext = React.createContext({})
 
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(() => getItemFromStorage(STORAGE.sessionStorage, KEYS.user))
-  const history = useHistory()
 
-  const updateUser = useCallback(
-    (newUser) => {
+  const updateUser = useCallback((newUser) => {
+    if (newUser) {
       setUser(newUser)
       setItemToStorage(STORAGE.sessionStorage, KEYS.user, newUser)
-      history.push("/calendar")
-    },
-    [history]
-  )
+    } else {
+      setUser(null)
+      removeItemFromStorage(STORAGE.sessionStorage, KEYS.user)
+    }
+  }, [])
 
   return <UserContext.Provider value={{ user, updateUser }}>{children}</UserContext.Provider>
 }

@@ -23,3 +23,11 @@ export const setItemToStorage = (storage, key, state) => {
     console.error(error)
   }
 }
+
+export const removeItemFromStorage = (storage, key) => {
+  try {
+    window[storage].removeItem(key)
+  } catch (error) {
+    console.error(error)
+  }
+}

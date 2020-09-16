@@ -27,7 +27,7 @@ const MainForm = () => {
   const { addTeam } = useTeams()
 
   const [signUp, { loading }] = useMutation(SIGN_UP, {
-    onCompleted({ signUp }) {
+    onCompleted: ({ signUp }) => {
       const {
         accessToken,
         refreshToken,
@@ -46,9 +46,9 @@ const MainForm = () => {
           email,
           roleType,
           role: {
+            ...team,
             ...manager,
             ...client,
-            ...team,
           },
         })
       }

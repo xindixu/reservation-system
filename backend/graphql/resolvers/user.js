@@ -1,5 +1,4 @@
 import { compare } from "bcryptjs"
-import { ADMIN, MANAGER, CLIENT } from "../../constants.js"
 import { checkObjectId } from "../../utils/validators.js"
 import User from "../../models/user.js"
 import { getManagerByUserId } from "../../models/manager.js"

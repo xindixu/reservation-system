@@ -1,11 +1,16 @@
 import React from "react"
 import { Avatar, Dropdown, Menu } from "antd"
 import { Link } from "react-router-dom"
+import { useMutation } from "@apollo/client"
 import { useUserContext } from "contexts/user-context"
 import { getDefaultAvatar, getFullName } from "lib/utils"
+import { SIGN_OUT } from "graphql/user"
 
 const User = () => {
-  const { user } = useUserContext()
+  const { user, updateUser } = useUserContext()
+  const [signOut] = useMutation(SIGN_OUT, {
+    onCompleted: () => updateUser(),
+  })
 
   const menu = (
     <Menu selectable>
@@ -17,7 +22,9 @@ const User = () => {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="log-out" className="text-red-500">
-        <button>Log out</button>
+        <button onClick={signOut} type="button">
+          Log out
+        </button>
       </Menu.Item>
     </Menu>
   )

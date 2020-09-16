@@ -15,7 +15,7 @@ const MainForm = () => {
   const [signInError, setSignInError] = useState(null)
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
-    onCompleted({ signIn }) {
+    onCompleted: ({ signIn }) => {
       const {
         accessToken,
         refreshToken,

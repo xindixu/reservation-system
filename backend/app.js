@@ -20,12 +20,6 @@ const server = new ApolloServer({
   resolvers,
   schemaDirectives,
   context: ({ req, res }) => {
-    // const authHeader = req.get("Authorization") || ""
-    // const user = getUser(authHeader)
-    // if (!user) {
-    //   throw new AuthenticationError("you must be logged in")
-    // }
-
     return { req, res }
   },
 })

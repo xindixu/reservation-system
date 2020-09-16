@@ -71,3 +71,9 @@ export const SIGN_IN = gql`
   ${MANAGER.basic}
   ${CLIENT.basic}
 `
+
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut
+  }
+`
