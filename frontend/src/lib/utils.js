@@ -67,3 +67,9 @@ export const comparator = (a, b, sortOrder = []) => {
 
   return order
 }
+
+export const route = () => ({
+  manager: (id) => `/manager/${id}`,
+  client: (id) => `/client/${id}`,
+  team: (id) => `/team/${id}`,
+})

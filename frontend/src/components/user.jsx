@@ -1,17 +1,12 @@
 import React from "react"
 import { Avatar, Dropdown, Menu } from "antd"
+import { UserOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 import { useMutation } from "@apollo/client"
 import { useUserContext } from "contexts/user-context"
-import { getDefaultAvatar, getFullName } from "lib/utils"
+import { getDefaultAvatar, getFullName, route } from "lib/utils"
 import { LINK_BY_ROLE } from "lib/constants"
 import { SIGN_OUT } from "graphql/user"
-
-const route = () => ({
-  manager: (id) => `/manager/${id}`,
-  client: (id) => `/client/${id}`,
-  team: (id) => `/team/${id}`,
-})
 
 const User = () => {
   const { user, updateUser } = useUserContext()
@@ -23,14 +18,17 @@ const User = () => {
   const menu = (
     <Menu selectable>
       <Menu.Item key="page">
-        <Link to={route()[LINK_BY_ROLE[roleType]](role.id)}>Profile</Link>
+        <Link to={route()[LINK_BY_ROLE[roleType]](role.id)}>
+          <UserOutlined className="mr-2" />
+          My Profile
+        </Link>
       </Menu.Item>
-      <Menu.Item key="setting">
+      {/* <Menu.Item key="setting">
         <Link to="/settings">Settings</Link>
       </Menu.Item>
       <Menu.Item key="preference">
         <Link to="/preferences">Preferences</Link>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Divider />
       <Menu.Item key="log-out" className="text-red-500">
         <button onClick={signOut} type="button">
