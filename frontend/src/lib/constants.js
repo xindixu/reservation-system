@@ -23,3 +23,9 @@ export const MANAGER = "MANAGER"
 export const ADMIN = "ADMIN"
 
 export const ROLES = [CLIENT, MANAGER, ADMIN]
+
+export const LINK_BY_ROLE = {
+  [CLIENT]: "client",
+  [MANAGER]: "manager",
+  [ADMIN]: "team",
+}

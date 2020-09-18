@@ -4,16 +4,27 @@ import { Link } from "react-router-dom"
 import { useMutation } from "@apollo/client"
 import { useUserContext } from "contexts/user-context"
 import { getDefaultAvatar, getFullName } from "lib/utils"
+import { LINK_BY_ROLE } from "lib/constants"
 import { SIGN_OUT } from "graphql/user"
+
+const route = () => ({
+  manager: (id) => `/manager/${id}`,
+  client: (id) => `/client/${id}`,
+  team: (id) => `/team/${id}`,
+})
 
 const User = () => {
   const { user, updateUser } = useUserContext()
   const [signOut] = useMutation(SIGN_OUT, {
     onCompleted: () => updateUser(),
   })
+  const { roleType, role } = user
 
   const menu = (
     <Menu selectable>
+      <Menu.Item key="page">
+        <Link to={route()[LINK_BY_ROLE[roleType]](role.id)}>Profile</Link>
+      </Menu.Item>
       <Menu.Item key="setting">
         <Link to="/settings">Settings</Link>
       </Menu.Item>
