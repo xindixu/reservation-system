@@ -148,9 +148,9 @@ const resolvers = {
   },
 
   User: {
-    team: async (user) => getTeamByUserId(user._id),
-    manager: async (user) => getManagerByUserId(user._id),
-    client: async (user) => getClientByUserId(user._id),
+    team: async (user) => getTeamByUserId(user.id),
+    manager: async (user) => getManagerByUserId(user.id),
+    client: async (user) => getClientByUserId(user.id),
   },
 }
 

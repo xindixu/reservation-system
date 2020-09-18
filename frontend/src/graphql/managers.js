@@ -43,6 +43,7 @@ export const CREATE_MANAGER = gql`
     $phone: String!
     $teamId: ID!
     $clientIds: [ID!]
+    $userId: ID
   ) {
     createManager(
       input: {
@@ -52,6 +53,7 @@ export const CREATE_MANAGER = gql`
         email: $email
         phone: $phone
         teamId: $teamId
+        userId: $userId
         clientIds: $clientIds
       }
     ) {
@@ -73,6 +75,7 @@ export const UPDATE_MANAGER = gql`
     $email: String
     $phone: String
     $teamId: ID
+    $userId: ID
   ) {
     updateManager(
       input: {
@@ -83,6 +86,7 @@ export const UPDATE_MANAGER = gql`
         email: $email
         phone: $phone
         teamId: $teamId
+        userId: $userId
       }
     ) {
       ...ExtendedManager

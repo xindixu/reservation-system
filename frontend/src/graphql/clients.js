@@ -44,6 +44,7 @@ export const CREATE_CLIENT = gql`
     $cycle: Int!
     $duration: Int!
     $managerIds: [ID!]
+    $userId: ID
   ) {
     createClient(
       input: {
@@ -54,6 +55,7 @@ export const CREATE_CLIENT = gql`
         cycle: $cycle
         duration: $duration
         managerIds: $managerIds
+        userId: $userId
       }
     ) {
       ...ExtendedClient
@@ -76,6 +78,7 @@ export const UPDATE_CLIENT = gql`
     $cycle: Int
     $duration: Int
     $managerIds: [ID!]
+    $userId: ID
   ) {
     updateClient(
       input: {
@@ -87,6 +90,7 @@ export const UPDATE_CLIENT = gql`
         cycle: $cycle
         duration: $duration
         managerIds: $managerIds
+        userId: $userId
       }
     ) {
       ...ExtendedClient

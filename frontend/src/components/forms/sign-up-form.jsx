@@ -31,7 +31,7 @@ const SignUpForm = ({ form, onSubmit, errors }) => (
     >
       <Input.Password type="password" />
     </Form.Item>
-    <Form.Item label="Role" name="role" rules={[{ required: true }]}>
+    <Form.Item label="Role" name="roleType" rules={[{ required: true }]}>
       <Select>
         {ROLES.map((role) => (
           <Option key={role} value={role}>

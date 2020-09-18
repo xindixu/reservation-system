@@ -4,6 +4,7 @@ import Client, {
   removeManagersFromClient,
   getManagersForClient,
 } from "../../models/client.js"
+import { findUserById } from "../../models/user.js"
 import { getVisitsForClient, deleteVisitsForClient } from "../../models/visit.js"
 import { areManagerIdsValid } from "../../models/manager.js"
 import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
@@ -47,11 +48,13 @@ const resolvers = {
 
   Mutation: {
     createClient: async (_, { input }) => {
-      const { firstName, lastName, email, phone, cycle, duration, managerIds } = input
+      const { firstName, lastName, email, phone, cycle, duration, userId, managerIds } = input
 
       if (managerIds) {
         await areManagerIdsValid(managerIds)
       }
+
+      const user = userId ? await findUserById(userId) : undefined
 
       const client = await Client.create({
         firstName,
@@ -61,22 +64,25 @@ const resolvers = {
         cycle,
         duration,
         managers: managerIds,
+        user,
       })
 
       return client
     },
 
     updateClient: async (_, { input }) => {
-      const { id, managerIds, ...updates } = input
+      const { id, managerIds, userId, ...updates } = input
       await checkObjectId(id)
 
       if (managerIds) {
         await areManagerIdsValid(managerIds)
       }
 
+      const user = userId ? await findUserById(userId) : undefined
+
       const client = await Client.findByIdAndUpdate(
         id,
-        { managers: managerIds, ...updates },
+        { managers: managerIds, user, ...updates },
         {
           new: true,
           omitUndefined: true,

@@ -29,6 +29,7 @@ const MainForm = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP, {
     onCompleted: ({ signUp }) => {
       const {
+        id,
         accessToken,
         refreshToken,
         email,
@@ -41,6 +42,7 @@ const MainForm = () => {
       } = signUp
       if (__typename === "User") {
         return setNewUser({
+          id,
           accessToken,
           refreshToken,
           email,
@@ -66,11 +68,18 @@ const MainForm = () => {
         />
       )
     }
+
     if (newUser.roleType === CLIENT) {
       return (
         <ClientForm
           form={form}
-          onSubmit={(values) => addClient({ variables: values }).then(() => updateUser(newUser))}
+          onSubmit={(values) =>
+            addClient({ variables: { ...values, userId: newUser.id } }).then(({ data }) => {
+              const { createClient } = data
+              const newUserWithRole = { ...newUser, role: createClient }
+              updateUser(newUserWithRole)
+            })
+          }
         />
       )
     }
@@ -78,7 +87,14 @@ const MainForm = () => {
       return (
         <ManagerForm
           form={form}
-          onSubmit={(values) => addManager({ variables: values }).then(() => updateUser(newUser))}
+          onSubmit={(values) =>
+            addManager({ variables: { ...values, userId: newUser.id } }).then(({ data }) => {
+              updateUser(newUser)
+              const { createManager } = data
+              const newUserWithRole = { ...newUser, role: createManager }
+              updateUser(newUserWithRole)
+            })
+          }
         />
       )
     }

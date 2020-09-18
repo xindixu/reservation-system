@@ -17,6 +17,7 @@ const MainForm = () => {
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     onCompleted: ({ signIn }) => {
       const {
+        id,
         accessToken,
         refreshToken,
         email,
@@ -29,6 +30,7 @@ const MainForm = () => {
       } = signIn
       if (__typename === "User") {
         return updateUser({
+          id,
           accessToken,
           refreshToken,
           email,
