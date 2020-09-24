@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "faker": "^4.1.0",
+    "faker": "^5.1.0",
     "graphql": "^15.3.0",
     "graphql-iso-date": "^3.6.1",
     "joi": "^17.2.1",
