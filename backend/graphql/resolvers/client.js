@@ -36,12 +36,13 @@ const resolvers = {
       const clients = await Client.find(options)
         .sort({ firstName: 1, lastName: 1, id: 1 })
         .limit(size + 1)
+
       const hasNext = clients.length > size
 
       return {
         clients: clients.slice(0, -1),
         hasNext,
-        next: toCursorHash({ firstName: clients[clients.length - 1].firstName }),
+        next: hasNext ? toCursorHash({ firstName: clients[clients.length - 1].firstName }) : "",
       }
     },
   },
