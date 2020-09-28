@@ -5,7 +5,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@apollo/client": "^3.2.1",
-    "antd": "^4.6.1",
+    "antd": "^4.6.6",
     "date-fns": "^2.16.0",
     "graphql": "^15.1.0",
     "history": "^5.0.0",
@@ -45,12 +45,12 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.0.0",
+    "autoprefixer": "^10.0.1",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.7.0",
+    "eslint": "^7.10.0",
     "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.20.0",
