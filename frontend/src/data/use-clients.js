@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_CLIENTS,
@@ -70,10 +71,12 @@ const updateAfterDelete = (cache, { data: { destroyClient } }) => {
 }
 
 const useClients = (id) => {
+  const [filters, setFilters] = useState({})
   const [
     loadClients,
     {
       fetchMore,
+      refetch,
       error: errorClients,
       loading: loadingClients,
       called: calledClients,
@@ -127,6 +130,15 @@ const useClients = (id) => {
     addClient,
     editClient,
     deleteClient,
+    setClientFilters: (newFilters) => {
+      if (filters === newFilters) {
+        return
+      }
+      setFilters(newFilters)
+      return refetch({
+        filters: newFilters,
+      })
+    },
   }
 }
 

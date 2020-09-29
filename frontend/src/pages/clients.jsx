@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { pickBy } from "lodash"
 import Filter from "containers/filter"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
@@ -27,6 +28,7 @@ const Clients = () => {
     addClient,
     editClient,
     deleteClient,
+    setClientFilters,
   } = useClients()
 
   useEffect(() => {
@@ -47,12 +49,8 @@ const Clients = () => {
       <Filter
         enabledFilters={["manager"]}
         onFilterChange={(rawFilters) => {
-          // const filters = pickBy(rawFilters, (value) => value && value.length > 0)
-          // setSearchParams(filters)
-          // if (!isEmpty(filters)) {
-          //   searchVisits()
-          // }
-          console.log(rawFilters)
+          const filters = pickBy(rawFilters, (value) => value && value.length > 0)
+          setClientFilters(filters)
         }}
       />
       <ClientsTable

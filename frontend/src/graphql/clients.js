@@ -2,8 +2,8 @@ import { gql } from "@apollo/client"
 import { CLIENT, MANAGER, VISIT } from "./fragments"
 
 export const GET_ALL_CLIENTS = gql`
-  query Clients($size: Int!, $next: String) {
-    clients(size: $size, next: $next) {
+  query Clients($size: Int!, $next: String, $filters: ClientFilters) {
+    clients(size: $size, next: $next, filters: $filters) {
       clients {
         ...ExtendedClient
         managers {
