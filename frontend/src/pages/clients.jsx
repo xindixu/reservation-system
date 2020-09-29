@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Filter from "containers/filter"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
@@ -31,6 +32,7 @@ const Clients = () => {
   useEffect(() => {
     loadClients()
     loadManagers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [selectedClient, setSelectedClient] = useState({})
@@ -40,12 +42,18 @@ const Clients = () => {
     return `Error! ${errorClients.message}`
   }
 
-  if (loadingClients) {
-    return "loading"
-  }
-
   return (
     <>
+      <Filter
+        onFilterChange={(rawFilters) => {
+          // const filters = pickBy(rawFilters, (value) => value && value.length > 0)
+          // setSearchParams(filters)
+          // if (!isEmpty(filters)) {
+          //   searchVisits()
+          // }
+          console.log(rawFilters)
+        }}
+      />
       <ClientsTable
         loading={loadingClients || loadingManagers}
         clients={clients?.clients}

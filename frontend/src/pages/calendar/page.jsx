@@ -2,7 +2,7 @@ import React, { useState, Suspense } from "react"
 import PropTypes from "prop-types"
 import { isEmpty, pickBy } from "lodash"
 
-import Toolbar from "./toolbar"
+import Filter from "containers/filter"
 import { VISIT } from "lib/common-types"
 import Calendar from "components/calendar"
 import Modal from "components/modal"
@@ -39,7 +39,8 @@ const Page = ({
 
   return (
     <>
-      <Toolbar
+      <Filter
+        enabledFilters={["manager", "client", "slot"]}
         onFilterChange={(rawFilters) => {
           const filters = pickBy(rawFilters, (value) => value && value.length > 0)
           setSearchParams(filters)
