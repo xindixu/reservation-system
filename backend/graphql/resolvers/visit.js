@@ -15,7 +15,9 @@ const resolvers = {
     visitsInRange: async (_, { from, to }) => getVisitsInRange(from, to),
 
     searchVisits: async (_, { clientIds, managerIds, slotIds }) => {
-      const clientForManagers = await Client.find({ managers: { $in: managerIds } }, { _id: 1 })
+      const clientForManagers = managerIds
+        ? await Client.find({ managers: { $in: managerIds } }, { _id: 1 })
+        : []
       const allClientIds = [...clientForManagers.map(({ _id }) => _id), ...clientIds]
       const visits = await Visit.find({
         $or: [{ client: { $in: allClientIds } }, { slot: { $in: slotIds } }],

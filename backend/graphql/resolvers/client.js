@@ -1,3 +1,4 @@
+import { isEmpty, identity } from "lodash"
 import { checkObjectId } from "../../utils/validators.js"
 import Client, {
   addManagersToClient,
@@ -9,6 +10,46 @@ import { getVisitsForClient, deleteVisitsForClient } from "../../models/visit.js
 import { areManagerIdsValid } from "../../models/manager.js"
 import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
 
+const fetchClients = async ({ filters = {}, size = 20, next }) => {
+  let paginationSettings
+  let filterSettings
+  if (next) {
+    const { firstName, lastName, id } = fromCursorHash(next)
+    paginationSettings = {
+      $or: [
+        { firstName: { $gte: firstName } },
+        {
+          $and: [{ firstName }, { lastName: { $gte: lastName } }],
+        },
+        {
+          $and: [{ firstName }, { lastName }, { id: { $gte: id } }],
+        },
+      ],
+    }
+  }
+
+  if (!isEmpty(filters)) {
+    const { managerIds } = filters
+    filterSettings = {
+      $or: [{ managers: { $in: managerIds } }],
+    }
+  }
+
+  const options = [paginationSettings, filterSettings].filter(identity)
+
+  const clients = await Client.find(options.length ? { $and: options } : {})
+    .sort({ firstName: 1, lastName: 1, id: 1 })
+    .limit(size + 1)
+
+  const hasNext = clients.length > size
+
+  return {
+    clients: clients.slice(0, -1),
+    hasNext,
+    next: hasNext ? toCursorHash({ firstName: clients[clients.length - 1].firstName }) : "",
+  }
+}
+
 const resolvers = {
   Query: {
     client: async (_, { id }) => {
@@ -16,35 +57,7 @@ const resolvers = {
       return Client.findById(id)
     },
 
-    clients: async (_, { next, size = 20 }) => {
-      let options
-      if (next) {
-        const { firstName, lastName, id } = fromCursorHash(next)
-        options = {
-          $or: [
-            { firstName: { $gt: firstName } },
-            {
-              $and: [{ firstName }, { lastName: { $gt: lastName } }],
-            },
-            {
-              $and: [{ firstName }, { lastName }, { id: { $gt: id } }],
-            },
-          ],
-        }
-      }
-
-      const clients = await Client.find(options)
-        .sort({ firstName: 1, lastName: 1, id: 1 })
-        .limit(size + 1)
-
-      const hasNext = clients.length > size
-
-      return {
-        clients: clients.slice(0, -1),
-        hasNext,
-        next: hasNext ? toCursorHash({ firstName: clients[clients.length - 1].firstName }) : "",
-      }
-    },
+    clients: async (_, { next, size, filters }) => fetchClients({ next, size, filters }),
   },
 
   Mutation: {

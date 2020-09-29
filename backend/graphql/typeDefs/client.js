@@ -45,8 +45,11 @@ export default gql`
     managerIds: [ID!]
   }
 
+  input ClientFilters {
+    managerIds: [ID!]
+  }
   extend type Query {
-    clients(next: String, size: Int!): ClientConnection!
+    clients(next: String, size: Int, filters: ClientFilters): ClientConnection!
     client(id: ID!): Client!
   }
 

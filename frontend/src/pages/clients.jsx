@@ -45,6 +45,7 @@ const Clients = () => {
   return (
     <>
       <Filter
+        enabledFilters={["manager"]}
         onFilterChange={(rawFilters) => {
           // const filters = pickBy(rawFilters, (value) => value && value.length > 0)
           // setSearchParams(filters)
