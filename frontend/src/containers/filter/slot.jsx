@@ -1,5 +1,5 @@
 import React from "react"
-import Base from "./base"
+import Base from "./base-select"
 import useSlots from "data/use-slots"
 
 const SlotFilter = () => {

@@ -46,7 +46,7 @@ const Slot = () => {
 
   return (
     <>
-      <Filter enabledFilters={["manager", "team"]} onFilterChange={setSlotFilters} />
+      <Filter enabledFilters={["manager", "team", "shareable"]} onFilterChange={setSlotFilters} />
       <SlotTable
         loading={loadingSlots || loadingManagers || loadingTeams}
         slots={slots?.slots}

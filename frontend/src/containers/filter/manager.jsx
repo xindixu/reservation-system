@@ -1,5 +1,5 @@
 import React from "react"
-import Base from "./base"
+import Base from "./base-select"
 import useManagers from "data/use-managers"
 import { getFullName } from "lib/utils"
 

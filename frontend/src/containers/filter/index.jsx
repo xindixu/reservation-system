@@ -1,26 +1,41 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { pickBy } from "lodash"
+import { pickBy, identity } from "lodash"
 import { Form, Row, Col, Button, Collapse } from "antd"
 import ManagerFilter from "./manager"
 import SlotFilter from "./slot"
 import ClientFilter from "./client"
 import TeamFilter from "./team"
+import Checkbox from "./base-checkbox"
 
 const { Panel } = Collapse
+
+const Shareable = () => <Checkbox name="shareable" label="Shareable" />
 
 const filtersByKey = {
   client: ClientFilter,
   slot: SlotFilter,
   manager: ManagerFilter,
   team: TeamFilter,
+  shareable: Shareable,
 }
 
 const Filter = ({ onFilterChange, enabledFilters }) => {
   const [form] = Form.useForm()
   const filters = enabledFilters.map((key) => ({ name: key, Component: filtersByKey[key] }))
   const onFinish = (fieldValues) => {
-    onFilterChange(pickBy(fieldValues, (value) => value && value.length > 0))
+    console.log(fieldValues)
+    onFilterChange(
+      pickBy(fieldValues, (value) => {
+        if (!value) {
+          return false
+        }
+        if (Array.isArray(value)) {
+          return value.length > 0
+        }
+        return !!identity(value)
+      })
+    )
   }
 
   return (
