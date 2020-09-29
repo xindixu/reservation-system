@@ -46,13 +46,7 @@ const Clients = () => {
 
   return (
     <>
-      <Filter
-        enabledFilters={["manager"]}
-        onFilterChange={(rawFilters) => {
-          const filters = pickBy(rawFilters, (value) => value && value.length > 0)
-          setClientFilters(filters)
-        }}
-      />
+      <Filter enabledFilters={["manager"]} onFilterChange={setClientFilters} />
       <ClientsTable
         loading={loadingClients || loadingManagers}
         clients={clients?.clients}

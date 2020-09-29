@@ -2,8 +2,8 @@ import { gql } from "@apollo/client"
 import { SLOT, MANAGER, VISIT, TEAM, CLIENT } from "./fragments"
 
 export const GET_ALL_SLOTS = gql`
-  query Slots($size: Int!, $next: String) {
-    slots(size: $size, next: $next) {
+  query Slots($size: Int!, $next: String, $filters: SlotFilters) {
+    slots(size: $size, next: $next, filters: $filters) {
       slots {
         ...ExtendedSlot
         team {

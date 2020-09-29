@@ -46,7 +46,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
           label="Team"
           dataKey="team"
           width={width / 5}
-          cellRenderer={({ rowData: { name } }) => name}
+          cellRenderer={({ rowData: { team } }) => team?.name}
         />,
         <Column
           key="shareable"

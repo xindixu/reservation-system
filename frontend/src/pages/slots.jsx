@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
+import Filter from "containers/filter"
 import SlotTable from "components/table/slots-table"
-import Modal from "components/modal"
 import SlotForm from "components/forms/slot-form"
+import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import getConfirm from "components/confirm"
 import useSlots from "data/use-slots"
@@ -23,6 +24,7 @@ const Slot = () => {
     addSlot,
     editSlot,
     deleteSlot,
+    setSlotFilters,
   } = useSlots()
 
   const { managers, loadingManagers, loadManagers } = useManagers()
@@ -44,6 +46,7 @@ const Slot = () => {
 
   return (
     <>
+      <Filter enabledFilters={["manager", "team"]} onFilterChange={setSlotFilters} />
       <SlotTable
         loading={loadingSlots || loadingManagers || loadingTeams}
         slots={slots?.slots}

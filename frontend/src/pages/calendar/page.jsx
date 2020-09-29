@@ -1,6 +1,6 @@
 import React, { useState, Suspense } from "react"
 import PropTypes from "prop-types"
-import { isEmpty, pickBy } from "lodash"
+import { isEmpty } from "lodash"
 
 import Filter from "containers/filter"
 import { VISIT } from "lib/common-types"
@@ -41,8 +41,7 @@ const Page = ({
     <>
       <Filter
         enabledFilters={["manager", "client", "slot"]}
-        onFilterChange={(rawFilters) => {
-          const filters = pickBy(rawFilters, (value) => value && value.length > 0)
+        onFilterChange={(filters) => {
           setSearchParams(filters)
           if (!isEmpty(filters)) {
             searchVisits()

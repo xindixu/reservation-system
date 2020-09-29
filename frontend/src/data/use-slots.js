@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_SLOTS,
@@ -54,10 +55,13 @@ const updateAfterDelete = (cache, { data: { destroySlot } }) => {
 }
 
 const useSlots = (id) => {
+  const [filters, setFilters] = useState({})
+
   const [
     loadSlots,
     {
       fetchMore,
+      refetch,
       error: errorSlots,
       loading: loadingSlots,
       called: calledSlots,
@@ -105,6 +109,15 @@ const useSlots = (id) => {
     addSlot,
     editSlot,
     deleteSlot,
+    setSlotFilters: (newFilters) => {
+      if (filters === newFilters) {
+        return
+      }
+      setFilters(newFilters)
+      return refetch({
+        filters: newFilters,
+      })
+    },
   }
 }
 export default useSlots
