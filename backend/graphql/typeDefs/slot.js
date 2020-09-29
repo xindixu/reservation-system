@@ -36,8 +36,14 @@ export default gql`
     managerIds: [ID!]
   }
 
+  input SlotFilters {
+    managerIds: [ID!]
+    teamId: ID
+    shareable: Boolean
+  }
+
   extend type Query {
-    slots(next: String, size: Int!): SlotConnection!
+    slots(next: String, size: Int, filters: SlotFilters): SlotConnection!
     slot(id: ID!): Slot!
   }
 

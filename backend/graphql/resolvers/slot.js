@@ -1,3 +1,4 @@
+import { isEmpty, identity } from "lodash"
 import { checkObjectId } from "../../utils/validators.js"
 import Slot, {
   addManagersToSlot,
@@ -9,37 +10,50 @@ import { findTeamById } from "../../models/team.js"
 import { areManagerIdsValid } from "../../models/manager.js"
 import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
 
+const fetchSlots = async ({ filters = {}, size = 20, next }) => {
+  let paginationSettings
+  let filterSettings
+  if (next) {
+    const { name, id } = fromCursorHash(next)
+    paginationSettings = {
+      $or: [
+        { name: { $gte: name } },
+        {
+          $and: [{ name }, { id: { $gte: id } }],
+        },
+      ],
+    }
+  }
+
+  if (!isEmpty(filters)) {
+    const { managerIds, teamId, shareable } = filters
+    filterSettings = {
+      $or: [{ managers: { $in: managerIds } }, { team: teamId }, { shareable }],
+    }
+  }
+
+  const options = [paginationSettings, filterSettings].filter(identity)
+
+  const slots = await Slot.find(options.length ? { $and: options } : {})
+    .sort({ name: 1 })
+    .limit(size + 1)
+
+  const hasNext = slots.length > size
+
+  return {
+    slots: slots.slice(0, -1),
+    hasNext,
+    next: hasNext ? toCursorHash({ name: slots[slots.length - 1].name }) : "",
+  }
+}
+
 const resolvers = {
   Query: {
     slot: async (_, { id }) => {
       await checkObjectId(id)
       return Slot.findById(id)
     },
-    slots: async (_, { next, size = 20 }) => {
-      let options
-      if (next) {
-        const { name, id } = fromCursorHash(next)
-        options = {
-          $or: [
-            { name: { $gt: name } },
-            {
-              $and: [{ name }, { id: { $gt: id } }],
-            },
-          ],
-        }
-      }
-
-      const slots = await Slot.find(options)
-        .sort({ name: 1 })
-        .limit(size + 1)
-      const hasNext = slots.length > size
-
-      return {
-        slots: slots.slice(0, -1),
-        hasNext,
-        next: toCursorHash({ name: slots[slots.length - 1].name }),
-      }
-    },
+    slots: async (_, { next, size, filters }) => fetchSlots({ next, size, filters }),
   },
 
   Mutation: {
