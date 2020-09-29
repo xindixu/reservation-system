@@ -10,6 +10,7 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
 
   useEffect(() => {
     loadTeams()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -14,6 +14,7 @@ const Managers = () => {
 
   useEffect(() => {
     loadManagers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [modalToShow, setModalToShow] = useState("")

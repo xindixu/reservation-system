@@ -35,6 +35,7 @@ const Slot = () => {
     loadSlots()
     loadManagers()
     loadTeams()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (errorSlots) {

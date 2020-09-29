@@ -49,6 +49,7 @@ const Team = () => {
 
   useEffect(() => {
     loadTeam()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [numOfManagersToAdd, setNumOfManagersToAdd] = useState(0)

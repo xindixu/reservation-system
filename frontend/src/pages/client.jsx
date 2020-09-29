@@ -55,6 +55,7 @@ const Client = () => {
 
   useEffect(() => {
     loadClient()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [addVisit] = useMutation(CREATE_VISIT, {

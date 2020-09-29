@@ -60,6 +60,7 @@ const Manager = () => {
 
   useEffect(() => {
     loadManager()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [numOfClientsToAdd, setNumOfClientsToAdd] = useState(0)

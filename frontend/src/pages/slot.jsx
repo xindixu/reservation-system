@@ -56,6 +56,7 @@ const Slot = () => {
 
   useEffect(() => {
     loadSlot()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [addVisit] = useMutation(CREATE_VISIT, {
