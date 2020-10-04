@@ -27,16 +27,16 @@ const Slot = () => {
     setSlotFilters,
   } = useSlots()
 
-  const { managers, loadingManagers, loadManagers } = useManagers()
-  const { teams, loadingTeams, loadTeams } = useTeams()
+  // const { managers, loadingManagers, loadManagers } = useManagers()
+  // const { teams, loadingTeams, loadTeams } = useTeams()
 
   const [selectedSlot, setSelectedSlot] = useState("")
   const [modalToShow, setModalToShow] = useState("")
 
   useEffect(() => {
     loadSlots()
-    loadManagers()
-    loadTeams()
+    // loadManagers()
+    // loadTeams()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -48,7 +48,7 @@ const Slot = () => {
     <>
       <Filter enabledFilters={["manager", "team", "shareable"]} onFilterChange={setSlotFilters} />
       <SlotTable
-        loading={loadingSlots || loadingManagers || loadingTeams}
+        loading={loadingSlots}
         slots={slots?.slots}
         hasNext={slots?.hasNext}
         fetchMore={fetchMoreSlots}
