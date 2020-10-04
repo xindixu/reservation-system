@@ -8,6 +8,7 @@ export default gql`
     manager: Manager
     client: Client
     team: Team
+    locale: Locale
     accessToken: String
     refreshToken: String
   }
@@ -34,6 +35,13 @@ export default gql`
     password: String!
   }
 
+  input UserInput {
+    id: ID!
+    email: String
+    password: String
+    locale: Locale
+  }
+
   union SignUpResult = SignUpInvalidInputError | User
   union SignInResult = SignInInvalidInputError | User
 
@@ -48,5 +56,6 @@ export default gql`
     signIn(input: SignInInput): SignInResult @guest
     signOut: Boolean! @auth
     invalidateToken: Boolean! @auth
+    updateUser(input: UserInput): User @auth
   }
 `

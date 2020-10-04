@@ -12,6 +12,7 @@ import Manager from "./pages/manager"
 import Client from "./pages/client"
 import Slot from "./pages/slot"
 import Calendar from "./pages/calendar"
+import Settings from "./pages/settings"
 import SignUp from "./pages/sign-up"
 import SignIn from "./pages/sign-in"
 import { useUserContext } from "./contexts/user-context"
@@ -44,6 +45,7 @@ export const AppRoutes = () => (
     <PrivateRoute path="/teams" exact component={Teams} />
     <PrivateRoute path="/managers" exact component={Managers} />
     <PrivateRoute path="/clients" exact component={Clients} />
+    <PrivateRoute path="/settings" exact component={Settings} />
     <PrivateRoute path="/slots" exact component={Slots} />
     <PrivateRoute path="/team/:id" exact component={Team} />
     <PrivateRoute path="/manager/:id" exact component={Manager} />

@@ -127,6 +127,21 @@ const resolvers = {
       res.clearCookie("access-token")
       return true
     },
+
+    updateUser: async (_, { input }) => {
+      const { id, ...updates } = input
+      await checkObjectId(id)
+      try {
+        return User.findByIdAndUpdate(id, updates, { omitUndefined: true })
+      } catch (e) {
+        const { email, password, locale } = e.errors
+        return {
+          email: email ? email.message : undefined,
+          password: password ? password.message : undefined,
+          locale: locale ? locale.message : undefined,
+        }
+      }
+    },
   },
 
   SignUpResult: {

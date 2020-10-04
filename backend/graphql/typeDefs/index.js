@@ -21,6 +21,11 @@ const typeDefs = gql`
     ADMIN
   }
 
+  enum Locale {
+    en_US
+    zh_CN
+  }
+
   ${Team}
   ${Manager}
   ${Client}

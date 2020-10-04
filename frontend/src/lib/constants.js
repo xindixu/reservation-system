@@ -14,6 +14,15 @@ export const defaultFormLayout = {
   size: "middle",
 }
 
+export const horizontalFormLayout = {
+  labelCol: {
+    span: 4,
+  },
+  wrapperCol: { span: 20 },
+  layout: "horizontal",
+  size: "middle",
+}
+
 export const defaultTableSettings = {
   pagination: { showQuickJumper: true, defaultPageSize: 15 },
 }
@@ -29,3 +38,14 @@ export const LINK_BY_ROLE = {
   [MANAGER]: "manager",
   [ADMIN]: "team",
 }
+
+export const LOCALES = [
+  {
+    value: "en_US",
+    label: "English",
+  },
+  {
+    value: "zh_CN",
+    label: "Chinese (Simplified)",
+  },
+]

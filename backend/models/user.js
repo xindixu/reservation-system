@@ -27,6 +27,10 @@ const userSchema = new Schema(
       enum: ROLE_TYPES,
       default: ADMIN,
     },
+    locale: {
+      type: String,
+      default: "en_US",
+    },
   },
   {
     timestamps: true,

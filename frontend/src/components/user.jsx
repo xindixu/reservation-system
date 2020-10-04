@@ -1,6 +1,6 @@
 import React from "react"
 import { Avatar, Dropdown, Menu } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { UserOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 import { useMutation } from "@apollo/client"
 import { useUserContext } from "contexts/user-context"
@@ -17,21 +17,25 @@ const User = () => {
 
   const menu = (
     <Menu selectable>
-      <Menu.Item key="page">
+      <Menu.Item key="page" className="px-5">
         <Link to={route()[LINK_BY_ROLE[roleType]](role.id)}>
           <UserOutlined className="mr-2" />
           My Profile
         </Link>
       </Menu.Item>
-      {/* <Menu.Item key="setting">
-        <Link to="/settings">Settings</Link>
+      <Menu.Item key="setting" className="px-5">
+        <Link to="/settings">
+          <SettingOutlined className="mr-2" />
+          Settings
+        </Link>
       </Menu.Item>
-      <Menu.Item key="preference">
+      {/*  <Menu.Item key="preference">
         <Link to="/preferences">Preferences</Link>
       </Menu.Item> */}
-      <Menu.Divider />
-      <Menu.Item key="log-out" className="text-red-500">
+      <Menu.Divider className="px-5" />
+      <Menu.Item key="log-out" className="text-red-500 px-5">
         <button onClick={signOut} type="button">
+          <LogoutOutlined className="mr-2" />
           Log out
         </button>
       </Menu.Item>

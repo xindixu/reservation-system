@@ -85,3 +85,14 @@ export const SLOT = {
     }
   `,
 }
+
+export const USER = {
+  basic: gql`
+    fragment BasicUser on User {
+      id
+      email
+      roleType
+      locale
+    }
+  `,
+}

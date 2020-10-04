@@ -41,6 +41,12 @@ export const SLOT = {
   shareable: PropTypes.bool.isRequired,
 }
 
+export const USER = {
+  id: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
+}
+
 export const FORM = {
   setFieldsValue: PropTypes.func.isRequired,
   getFieldsValue: PropTypes.func.isRequired,
