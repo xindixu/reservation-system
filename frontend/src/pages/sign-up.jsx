@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Form, Spin, Button } from "antd"
 import { Link } from "react-router-dom"
 import { useMedia } from "react-use"
@@ -17,6 +18,7 @@ import { SIGN_UP } from "graphql/user"
 import { ADMIN, CLIENT, MANAGER } from "lib/constants"
 
 const MainForm = () => {
+  const { t } = useTranslation()
   const [form] = Form.useForm()
   const { updateUser } = useUserContext()
   const [newUser, setNewUser] = useState(null)
@@ -112,11 +114,8 @@ const MainForm = () => {
   return (
     <div className="flex flex-col justify-center content-center max-w-md">
       <Spin spinning={loading}>
-        <h1 className="text-2xl">Welcome to Reservation System</h1>
-        <p className="my-10">
-          Reservation System can help you schedule recurrent client visits, check available slots,
-          and remind you and your clients on upcoming visits.
-        </p>
+        <h1 className="text-2xl">{t("page.signUp.title")}</h1>
+        <p className="my-10">{t("page.signUp.body")}</p>
         <StepForm />
         <Button
           type="primary"
@@ -130,10 +129,10 @@ const MainForm = () => {
           }
           block
         >
-          Register
+          {t("common.signUp")}
         </Button>
         <p className="mt-3">
-          Already have an account? <Link to="/sign-in">Sign in</Link>
+          {t("page.signUp.hint")} <Link to="/sign-in">{t("common.logIn")}</Link>
         </p>
       </Spin>
     </div>

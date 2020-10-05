@@ -5,6 +5,7 @@ import { UserContextProvider } from "./contexts/user-context"
 
 import "antd/dist/antd.css"
 import "./tailwind.css"
+import "./global.css"
 import * as serviceWorker from "./serviceWorker"
 import App from "./App"
 

@@ -59,7 +59,6 @@ const MainForm = () => {
           errors={signInError}
         />
         <Button
-          className="capitalize"
           type="primary"
           onClick={() =>
             form
@@ -74,10 +73,7 @@ const MainForm = () => {
           {t("common.logIn")}
         </Button>
         <p className="mt-3">
-          {t("page.signIn.hint")}{" "}
-          <Link to="/sign-up" className="capitalize">
-            {t("common.signUp")}
-          </Link>
+          {t("page.signIn.hint")} <Link to="/sign-up">{t("common.signUp")}</Link>
         </p>
       </Spin>
     </div>

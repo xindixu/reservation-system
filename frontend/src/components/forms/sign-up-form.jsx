@@ -1,47 +1,53 @@
 import React from "react"
+import { capitalize, startCase } from "lodash"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { capitalize } from "lodash"
+
 import { Form, Input, Select } from "antd"
 import { FORM } from "lib/common-types"
 import { ROLES, defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const { Option } = Select
-const SignUpForm = ({ form, onSubmit, errors }) => (
-  <Form
-    {...defaultFormLayout}
-    form={form}
-    validateMessages={defaultValidateMessages}
-    onFinish={onSubmit}
-  >
-    <Form.Item
-      label="Email"
-      name="email"
-      rules={[{ required: true }, { type: "email" }]}
-      validateStatus={errors?.email && "error"}
-      help={errors?.email}
+const SignUpForm = ({ form, onSubmit, errors }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Form
+      {...defaultFormLayout}
+      form={form}
+      validateMessages={defaultValidateMessages}
+      onFinish={onSubmit}
     >
-      <Input type="email" />
-    </Form.Item>
-    <Form.Item
-      label="Password"
-      name="password"
-      rules={[{ required: true }]}
-      validateStatus={errors?.password && "error"}
-      help={errors?.password}
-    >
-      <Input.Password type="password" />
-    </Form.Item>
-    <Form.Item label="Role" name="roleType" rules={[{ required: true }]}>
-      <Select>
-        {ROLES.map((role) => (
-          <Option key={role} value={role}>
-            {capitalize(role)}
-          </Option>
-        ))}
-      </Select>
-    </Form.Item>
-  </Form>
-)
+      <Form.Item
+        label={startCase(t("common.email"))}
+        name="email"
+        rules={[{ required: true }, { type: "email" }]}
+        validateStatus={errors?.email && "error"}
+        help={errors?.email}
+      >
+        <Input type="email" />
+      </Form.Item>
+      <Form.Item
+        label={startCase(t("common.password"))}
+        name="password"
+        rules={[{ required: true }]}
+        validateStatus={errors?.password && "error"}
+        help={errors?.password}
+      >
+        <Input.Password type="password" />
+      </Form.Item>
+      <Form.Item label={startCase(t("common.role"))} name="roleType" rules={[{ required: true }]}>
+        <Select>
+          {ROLES.map((role) => (
+            <Option key={role} value={role}>
+              {capitalize(role)}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+    </Form>
+  )
+}
 
 SignUpForm.defaultProps = {
   errors: {},

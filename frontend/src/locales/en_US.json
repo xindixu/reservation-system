@@ -5,6 +5,11 @@
         "title": "Welcome Back!",
         "body": "Reservation System can help you schedule recurrent client visits, check available slots, and remind you and your clients on upcoming visits.",
         "hint": "Don't have an account?"
+      },
+      "signUp": {
+        "title": "Welcome to Reservation System",
+        "body": "Reservation System can help you schedule recurrent client visits, check available slots, and remind you and your clients on upcoming visits.",
+        "hint": "Already have an account?"
       }
     },
     "term": {
@@ -30,20 +35,21 @@
       }
     },
     "common": {
-      "logIn": "log in",
-      "signUp": "sign up",
       "action": "action",
       "clear": "clear",
       "email": "email",
       "filter": "filter",
       "firstName": "firstName",
       "lastName": "lastName",
+      "logIn": "log in",
       "manage": "manage",
       "name": "name",
-      "phone": "phone",
       "password": "password",
-
-      "shareable": "shareable"
+      "phone": "phone",
+      "register": "register",
+      "role": "role",
+      "shareable": "shareable",
+      "signUp": "sign up"
     }
   }
 }

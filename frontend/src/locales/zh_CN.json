@@ -1,12 +1,15 @@
 {
   "translation": {
     "page": {
-      "welcome": {
-        "signIn": {
-          "title": "欢迎回来",
-          "body": "管理系统可以帮助您管理周期性的客户访问，查看可用的资源，并且提醒您的客户下次访问的时间。",
-          "hint": "没有账号?"
-        }
+      "signIn": {
+        "title": "欢迎回来",
+        "body": "管理系统可以帮助您管理周期性的客户访问，查看可用的资源，并且提醒您的客户下次访问的时间。",
+        "hint": "没有账号?"
+      },
+      "signUp": {
+        "title": "Welcome to Reservation System",
+        "body": "",
+        "hint": ""
       }
     },
     "term": {
