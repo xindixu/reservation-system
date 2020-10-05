@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { useMutation } from "@apollo/client"
 import { Typography, Button, Space, Tag } from "antd"
 import { EditOutlined } from "@ant-design/icons"
@@ -22,36 +23,17 @@ const MODALS = {
   editVisit: "editVisit",
 }
 
-const PageActions = ({ slot, edit }) => (
+const PageActions = ({ t, edit }) => (
   <Space size="middle" className="py-4">
     <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
-      Edit
+      {t("common.edit")}
     </Button>
-    {/* <Button
-      key="email"
-      type="default"
-      icon={<MailOutlined />}
-      aria-label="email team"
-      href={`mailto:${email}`}
-    >
-      Email
-    </Button>
-
-    <Button
-      key="phone"
-      type="default"
-      icon={<PhoneOutlined />}
-      aria-label="call team"
-      href={`tel:${phone}`}
-    >
-      Call
-    </Button> */}
   </Space>
 )
 
 const Slot = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
-
   const { slot, errorSlot, loadingSlot, loadSlot, editSlot } = useSlots(id)
 
   useEffect(() => {
@@ -98,23 +80,27 @@ const Slot = () => {
     return `Error!`
   }
 
-  const { name, sharable, team, managers = [], visits = [] } = slot
+  const { name, shareable, team, managers = [], visits = [] } = slot
 
   return (
     <>
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
-        <div className="flex-grow py-10">
+        <div className="flex-grow py-10 capitalize">
           <Title>{name}</Title>
 
           <p>
-            Managers:{" "}
+            {t("term.manager.plural")}:{" "}
             {managers.map((manager) => (
               <Tag key={manager.id}>{getFullName(manager)}</Tag>
             ))}
           </p>
-          <p>Team: {team.name}</p>
-          <p>Shareable: {sharable ? "yes" : "no"} </p>
-          <PageActions slot={slot} edit={() => setModalToShow(MODALS.editSlot)} />
+          <p>
+            {t("term.team.plural")}: {team.name}
+          </p>
+          <p>
+            {t("common.shareable")}: {t(`common.${!!shareable}`)}
+          </p>
+          <PageActions t={t} slot={slot} edit={() => setModalToShow(MODALS.editSlot)} />
         </div>
       </div>
 
@@ -144,12 +130,12 @@ const Slot = () => {
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
-          title={`Edit Visit at ${name}`}
+          title={`${t("common.edit")} ${t("term.visit.singular")}`}
           onClose={() => setModalToShow("")}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
           }}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <VisitForm
@@ -166,12 +152,12 @@ const Slot = () => {
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
-          title={`Create a new Visit at ${name}`}
+          title={`${t("common.create")} ${t("term.visit.singular")}`}
           onClose={() => {
             setModalToShow("")
             setPresetDate({})
           }}
-          submitButtonText="Create"
+          submitButtonText={t("common.create")}
         >
           {({ form }) => (
             <VisitForm
@@ -185,7 +171,11 @@ const Slot = () => {
       )}
 
       {modalToShow === MODALS.editSlot && (
-        <Modal title={`Edit ${name}`} onClose={() => setModalToShow("")} submitButtonText="Update">
+        <Modal
+          title={`${t("common.edit")} ${name}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText={t("common.update")}
+        >
           {({ form }) => (
             <SlotForm
               form={form}
@@ -201,7 +191,7 @@ const Slot = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
-        ariaLabel="New Visit"
+        ariaLabel={`${t("common.create")} ${t("term.visit.plural")}`}
         rotate={!!modalToShow}
       />
     </>

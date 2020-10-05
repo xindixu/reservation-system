@@ -32,6 +32,10 @@
       "team": {
         "singular": "team",
         "plural": "teams"
+      },
+      "visit": {
+        "singular": "visit",
+        "plural": "visits"
       }
     },
     "common": {
@@ -57,7 +61,9 @@
       "description": "description",
       "create": "create",
       "cancel": "cancel",
-      "edit": "edit"
+      "edit": "edit",
+      "true": "yes",
+      "false": "no"
     },
     "placeholder":{
       "multipleSelect": "Select one or multiple"
