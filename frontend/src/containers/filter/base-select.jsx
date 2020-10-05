@@ -4,14 +4,14 @@ import { Form, Select } from "antd"
 
 const { Option } = Select
 
-const Base = ({ label, name, onFocus, loading, options, itemToString, mode }) => (
+const Base = ({ t, label, name, onFocus, loading, options, itemToString, mode }) => (
   <Form.Item label={label} name={name}>
     <Select
       allowClear
       showSearch
       onFocus={onFocus}
       mode={mode}
-      placeholder={`Select one or multiple ${label}`}
+      placeholder={t("placeholder.multipleSelect")}
       optionFilterProp="children"
       filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
       loading={loading}
@@ -42,6 +42,7 @@ Base.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
+  t: PropTypes.func.isRequired,
 }
 
 export default Base

@@ -1,6 +1,7 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { pickBy, identity } from "lodash"
+import { pickBy, identity, capitalize } from "lodash"
 import { Form, Row, Col, Button, Collapse } from "antd"
 import ManagerFilter from "./manager"
 import SlotFilter from "./slot"
@@ -10,7 +11,7 @@ import Checkbox from "./base-checkbox"
 
 const { Panel } = Collapse
 
-const Shareable = () => <Checkbox name="shareable" label="Shareable" />
+const Shareable = ({ t }) => <Checkbox name="shareable" label={t("common.shareable")} />
 
 const filtersByKey = {
   client: ClientFilter,
@@ -21,10 +22,11 @@ const filtersByKey = {
 }
 
 const Filter = ({ onFilterChange, enabledFilters }) => {
+  const { t } = useTranslation()
+
   const [form] = Form.useForm()
   const filters = enabledFilters.map((key) => ({ name: key, Component: filtersByKey[key] }))
   const onFinish = (fieldValues) => {
-    console.log(fieldValues)
     onFilterChange(
       pickBy(fieldValues, (value) => {
         if (!value) {
@@ -40,12 +42,12 @@ const Filter = ({ onFilterChange, enabledFilters }) => {
 
   return (
     <Collapse defaultActiveKey={["filter-comp"]} bordered={false} className="mb-4">
-      <Panel header="Filter by..." key="filter-comp">
+      <Panel header={`${capitalize(t("common.filterBy"))}...`} key="filter-comp">
         <Form form={form} className="mb-4 flex-wrap" onFinish={onFinish} layout="vertical">
           <Row gutter={24} className="w-full">
             {filters.map(({ name, Component }) => (
               <Col span={8} key={name}>
-                <Component />
+                <Component t={t} />
               </Col>
             ))}
           </Row>
@@ -59,10 +61,10 @@ const Filter = ({ onFilterChange, enabledFilters }) => {
                   form.submit()
                 }}
               >
-                Clear
+                {t("common.clear")}
               </Button>
               <Button type="primary" htmlType="submit" onClick={form.submit}>
-                Filter
+                {t("common.filter")}
               </Button>
             </div>
           </Form.Item>
@@ -77,8 +79,8 @@ Filter.defaultProps = {
 }
 
 Filter.propTypes = {
-  onFilterChange: PropTypes.func.isRequired,
   enabledFilters: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(filtersByKey))),
+  onFilterChange: PropTypes.func.isRequired,
 }
 
 export default Filter

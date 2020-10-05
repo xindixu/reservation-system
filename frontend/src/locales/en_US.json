@@ -54,6 +54,9 @@
       "shareable": "shareable",
       "signUp": "sign up",
       "update": "update"
+    },
+    "placeholder":{
+      "multipleSelect": "Select one or multiple"
     }
   }
 }

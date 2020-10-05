@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Button, Tag } from "antd"
@@ -15,19 +16,20 @@ import { SLOT } from "lib/common-types"
 import { getFullName } from "lib/utils"
 
 const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) => {
+  const { t } = useTranslation()
   return (
     <InfiniteScrollTable data={slots} fetchMore={fetchMore} hasNext={hasNext}>
       {({ width, cache }) => [
         <Column
           key="name"
-          label="Name"
+          label={t("common.name")}
           dataKey="name"
           width={300}
           cellRenderer={({ rowData: { name, id } }) => <Link to={`/slot/${id}`}>{name}</Link>}
         />,
         <Column
           key="manager"
-          label="Manager"
+          label={t("term.manager.plural")}
           dataKey="manager"
           width={(width / 5) * 3}
           flexGrow={1}
@@ -43,14 +45,14 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
         />,
         <Column
           key="team"
-          label="Team"
+          label={t("term.team.singular")}
           dataKey="team"
           width={width / 5}
           cellRenderer={({ rowData: { team } }) => team?.name}
         />,
         <Column
           key="shareable"
-          label="Shareable"
+          label={t("common.shareable")}
           width={100}
           dataKey="shareable"
           cellRenderer={({ rowData: { shareable } }) =>
@@ -59,7 +61,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
         />,
         <Column
           key="actions"
-          label="Action"
+          label={t("common.action")}
           dataKey="actions"
           width={80}
           cellRenderer={({ rowData: slot }) => [

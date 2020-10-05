@@ -42,7 +42,6 @@ const Slot = () => {
 
   return (
     <>
-      {t("term.slot")}
       <Filter enabledFilters={["manager", "team", "shareable"]} onFilterChange={setSlotFilters} />
       <SlotTable
         loading={loadingSlots}
