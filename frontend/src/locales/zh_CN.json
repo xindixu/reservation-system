@@ -35,8 +35,10 @@
       }
     },
     "common": {
+      "language": "语言",
       "action": "操作",
       "clear": "清空",
+      "calendar": "日历",
       "email": "邮箱",
       "filter": "筛选",
       "firstName": "名",

@@ -36,10 +36,13 @@
     },
     "common": {
       "action": "action",
+      "calendar": "calendar",
       "clear": "clear",
       "email": "email",
+      "filterBy": "filter by",
       "filter": "filter",
       "firstName": "firstName",
+      "language": "language",
       "lastName": "lastName",
       "logIn": "log in",
       "manage": "manage",
@@ -49,7 +52,8 @@
       "register": "register",
       "role": "role",
       "shareable": "shareable",
-      "signUp": "sign up"
+      "signUp": "sign up",
+      "update": "update"
     }
   }
 }

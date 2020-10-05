@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useContext } from "react"
+import { useTranslation } from "react-i18next"
 import {
   getItemFromStorage,
   setItemToStorage,
@@ -6,13 +7,19 @@ import {
   KEYS,
   STORAGE,
 } from "lib/client-storage"
+import { languageMapping } from "locales/index"
 
 export const UserContext = React.createContext({})
 
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(() => getItemFromStorage(STORAGE.sessionStorage, KEYS.user))
+  const { i18n } = useTranslation()
 
   const updateUser = useCallback((newUser) => {
+    const { locale } = newUser
+    if (locale !== user.locale) {
+      i18n.changeLanguage(languageMapping[locale])
+    }
     if (newUser) {
       setUser(newUser)
       setItemToStorage(STORAGE.sessionStorage, KEYS.user, newUser)

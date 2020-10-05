@@ -7,6 +7,12 @@ import zh_CN from "./zh_CN.json"
 import en_US from "./en_US.json"
 
 const languages = ["en", "cn"]
+
+export const languageMapping = {
+  en_US: "en",
+  zh_CN: "cn",
+}
+
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
   // learn more: https://github.com/i18next/i18next-http-backend
@@ -19,7 +25,7 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: "en",
+    fallbackLng: "cn",
     whitelist: languages,
     debug: true,
 

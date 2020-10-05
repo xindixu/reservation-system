@@ -1,12 +1,15 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { capitalize, isEqual } from "lodash"
+import { capitalize, startCase } from "lodash"
 import { Form, Input, Select, Button } from "antd"
 import { USER } from "lib/common-types"
 import { LOCALES, defaultValidateMessages, horizontalFormLayout } from "lib/constants"
 
 const { Option } = Select
+
 const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
+  const { t } = useTranslation()
   const [form] = Form.useForm()
 
   return (
@@ -19,7 +22,7 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
       initialValues={initialUser}
     >
       <Form.Item
-        label="Email"
+        label={startCase(t("common.email"))}
         name="email"
         rules={[{ type: "email" }]}
         validateStatus={errors?.email && "error"}
@@ -28,14 +31,14 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
         <Input type="email" />
       </Form.Item>
       <Form.Item
-        label="Password"
+        label={startCase(t("common.password"))}
         name="password"
         validateStatus={errors?.password && "error"}
         help={errors?.password}
       >
         <Input.Password type="password" />
       </Form.Item>
-      <Form.Item label="Language" name="locale">
+      <Form.Item label={startCase(t("common.language"))} name="locale">
         <Select>
           {LOCALES.map(({ label, value }) => (
             <Option key={value} value={value}>
@@ -46,7 +49,7 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
       </Form.Item>
       <Form.Item wrapperCol={{ span: 12, offset: 4 }}>
         <Button type="primary" htmlType="submit" disabled={loading}>
-          Update
+          {t("common.update")}
         </Button>
       </Form.Item>
     </Form>
@@ -54,14 +57,15 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
 }
 
 SettingsForm.defaultProps = {
-  initialUser: {},
   errors: {},
+  initialUser: {},
 }
 
 SettingsForm.propTypes = {
-  initialUser: PropTypes.shape(USER),
-  onSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object,
+  initialUser: PropTypes.shape(USER),
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default SettingsForm
