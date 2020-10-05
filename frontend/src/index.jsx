@@ -1,8 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { ApolloProvider, ApolloClient, InMemoryCache, gql } from "@apollo/client"
-import { ConfigProvider } from "antd"
-import zh_CN from "antd/es/locale/zh_CN"
 import { UserContextProvider } from "./contexts/user-context"
 
 import "antd/dist/antd.css"
@@ -23,13 +21,11 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-  <ConfigProvider locale={zh_CN}>
-    <ApolloProvider client={client}>
-      <UserContextProvider>
-        <App />
-      </UserContextProvider>
-    </ApolloProvider>
-  </ConfigProvider>,
+  <ApolloProvider client={client}>
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
+  </ApolloProvider>,
   document.getElementById("root")
 )
 

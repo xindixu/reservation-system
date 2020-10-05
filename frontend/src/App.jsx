@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react"
 import { BrowserRouter as Router } from "react-router-dom"
 import { useMedia } from "react-use"
 import { debounce, isEmpty } from "lodash"
-import { Layout } from "antd"
+import { I18nextProvider } from "react-i18next"
+import { Layout, ConfigProvider } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
+import zh_CN from "antd/es/locale/zh_CN"
+import en_US from "antd/es/locale/en_US"
 import { AppRoutes } from "./routes"
 import { Wrapper } from "./styles"
 import { mediaQuery } from "./styles/index"
+import i18n from "./locales"
 import { useUserContext } from "contexts/user-context"
 import Navbar from "components/navbar"
 import User from "components/user"
@@ -32,50 +36,54 @@ const App = () => {
   const collapsed = navigationToggled ? navigationCollapsed : !mdAndUp
 
   return (
-    <Router>
-      {isEmpty(user) ? (
-        <AppRoutes />
-      ) : (
-        <Wrapper>
-          <Layout>
-            <Sider trigger={null} collapsed={collapsed} collapsedWidth={smAndUp ? "80" : "0"}>
-              <Navbar />
-            </Sider>
-            <Layout>
-              <Header>
-                <div className="flex justify-between">
-                  <div>
-                    {navigationCollapsed ? (
-                      <MenuUnfoldOutlined
-                        className="trigger"
-                        onClick={() => {
-                          setNavigationCollapsed(false)
-                          setNavigationToggled(true)
-                        }}
-                      />
-                    ) : (
-                      <MenuFoldOutlined
-                        className="trigger"
-                        onClick={() => {
-                          setNavigationCollapsed(true)
-                          setNavigationToggled(true)
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    <User />
-                  </div>
-                </div>
-              </Header>
-              <Content>
-                <AppRoutes />
-              </Content>
-            </Layout>
-          </Layout>
-        </Wrapper>
-      )}
-    </Router>
+    <I18nextProvider i18n={i18n}>
+      <ConfigProvider locale={user?.locale === "zh_CN" ? zh_CN : en_US}>
+        <Router>
+          {isEmpty(user) ? (
+            <AppRoutes />
+          ) : (
+            <Wrapper>
+              <Layout>
+                <Sider trigger={null} collapsed={collapsed} collapsedWidth={smAndUp ? "80" : "0"}>
+                  <Navbar />
+                </Sider>
+                <Layout>
+                  <Header>
+                    <div className="flex justify-between">
+                      <div>
+                        {navigationCollapsed ? (
+                          <MenuUnfoldOutlined
+                            className="trigger"
+                            onClick={() => {
+                              setNavigationCollapsed(false)
+                              setNavigationToggled(true)
+                            }}
+                          />
+                        ) : (
+                          <MenuFoldOutlined
+                            className="trigger"
+                            onClick={() => {
+                              setNavigationCollapsed(true)
+                              setNavigationToggled(true)
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        <User />
+                      </div>
+                    </div>
+                  </Header>
+                  <Content>
+                    <AppRoutes />
+                  </Content>
+                </Layout>
+              </Layout>
+            </Wrapper>
+          )}
+        </Router>
+      </ConfigProvider>
+    </I18nextProvider>
   )
 }
 
