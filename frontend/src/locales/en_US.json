@@ -1,0 +1,49 @@
+{
+  "translation": {
+    "page": {
+      "signIn": {
+        "title": "Welcome Back!",
+        "body": "Reservation System can help you schedule recurrent client visits, check available slots, and remind you and your clients on upcoming visits.",
+        "hint": "Don't have an account?"
+      }
+    },
+    "term": {
+      "admin": {
+        "singular": "admin",
+        "plural": "admins"
+      },
+      "client": {
+        "singular": "client",
+        "plural": "clients"
+      },
+      "manager": {
+        "singular": "manager",
+        "plural": "managers"
+      },
+      "slot": {
+        "singular": "slot",
+        "plural": "slots"
+      },
+      "team": {
+        "singular": "team",
+        "plural": "teams"
+      }
+    },
+    "common": {
+      "logIn": "log in",
+      "signUp": "sign up",
+      "action": "action",
+      "clear": "clear",
+      "email": "email",
+      "filter": "filter",
+      "firstName": "firstName",
+      "lastName": "lastName",
+      "manage": "manage",
+      "name": "name",
+      "phone": "phone",
+      "password": "password",
+
+      "shareable": "shareable"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import Filter from "containers/filter"
 import SlotTable from "components/table/slots-table"
 import SlotForm from "components/forms/slot-form"
@@ -6,8 +7,6 @@ import Modal from "components/modal"
 import FAButton from "components/floating-action-button"
 import getConfirm from "components/confirm"
 import useSlots from "data/use-slots"
-import useManagers from "data/use-managers"
-import useTeams from "data/use-teams"
 
 const MODALS = {
   addSlot: "addSlot",
@@ -15,6 +14,8 @@ const MODALS = {
 }
 
 const Slot = () => {
+  const { t } = useTranslation()
+
   const {
     slots,
     errorSlots,
@@ -27,16 +28,11 @@ const Slot = () => {
     setSlotFilters,
   } = useSlots()
 
-  // const { managers, loadingManagers, loadManagers } = useManagers()
-  // const { teams, loadingTeams, loadTeams } = useTeams()
-
   const [selectedSlot, setSelectedSlot] = useState("")
   const [modalToShow, setModalToShow] = useState("")
 
   useEffect(() => {
     loadSlots()
-    // loadManagers()
-    // loadTeams()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -46,6 +42,7 @@ const Slot = () => {
 
   return (
     <>
+      {t("term.slot")}
       <Filter enabledFilters={["manager", "team", "shareable"]} onFilterChange={setSlotFilters} />
       <SlotTable
         loading={loadingSlots}

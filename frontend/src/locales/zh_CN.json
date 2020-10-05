@@ -1,0 +1,49 @@
+{
+  "translation": {
+    "page": {
+      "welcome": {
+        "signIn": {
+          "title": "欢迎回来",
+          "body": "管理系统可以帮助您管理周期性的客户访问，查看可用的资源，并且提醒您的客户下次访问的时间。",
+          "hint": "没有账号?"
+        }
+      }
+    },
+    "term": {
+      "admin": {
+        "singular": "管理员",
+        "plural": "管理员"
+      },
+      "client": {
+        "singular": "客户",
+        "plural": "客户"
+      },
+      "manager": {
+        "singular": "经理",
+        "plural": "经理"
+      },
+      "slot": {
+        "singular": "资源",
+        "plural": "资源"
+      },
+      "team": {
+        "singular": "团队",
+        "plural": "团队"
+      }
+    },
+    "common": {
+      "action": "操作",
+      "clear": "清空",
+      "email": "邮箱",
+      "filter": "筛选",
+      "firstName": "名",
+      "lastName": "姓",
+      "manage": "管理",
+      "name": "名字",
+      "phone": "电话",
+      "shareable": "可分享",
+      "password": "密码",
+      "login": "登陆"
+    }
+  }
+}
