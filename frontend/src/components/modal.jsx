@@ -1,8 +1,11 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Button, Modal as AntdModal, Form } from "antd"
 
 const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteButtonText }) => {
+  const { t } = useTranslation()
+
   const [containerEl] = useState(() => document.getElementById("modal-root"))
 
   const [form] = Form.useForm()
@@ -28,7 +31,7 @@ const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteBut
             ]
           : []),
         <Button key="cancel" type="default" onClick={onClose}>
-          Cancel
+          {t("common.cancel")}
         </Button>,
         <Button
           key="submit"

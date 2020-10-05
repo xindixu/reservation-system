@@ -77,7 +77,7 @@ const Slot = () => {
         <Modal
           title={`Edit ${selectedSlot.name}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Create"
+          submitButtonText={t("common.create")}
         >
           {({ form }) => (
             <SlotForm
@@ -94,7 +94,7 @@ const Slot = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addSlot)}
-        ariaLabel="new client"
+        ariaLabel={`${t("common.create")} ${t("term.slot.plural")}`}
         rotate={!!modalToShow}
       />
     </>

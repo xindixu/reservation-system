@@ -53,7 +53,10 @@
       "role": "role",
       "shareable": "shareable",
       "signUp": "sign up",
-      "update": "update"
+      "update": "update",
+      "description": "description",
+      "create": "create",
+      "cancel": "cancel"
     },
     "placeholder":{
       "multipleSelect": "Select one or multiple"
