@@ -56,10 +56,14 @@
       "update": "update",
       "description": "description",
       "create": "create",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "edit": "edit"
     },
     "placeholder":{
       "multipleSelect": "Select one or multiple"
+    },
+    "message": {
+      "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this slot, including Visits."
     }
   }
 }

@@ -54,12 +54,7 @@ const Slot = () => {
         }}
         deleteSlot={({ name, id }) =>
           getConfirm({
-            content: (
-              <p>
-                You are about to delete <strong>{name}</strong>. It will remove all data related to
-                this slot, including Visits.
-              </p>
-            ),
+            content: <p>{t("message.deleteSlot", { name })}</p>,
             onConfirm: () => {
               deleteSlot({ variables: { id } })
             },
@@ -67,7 +62,11 @@ const Slot = () => {
         }
       />
       {modalToShow === MODALS.addSlot && (
-        <Modal title="Create New Slot" onClose={() => setModalToShow("")} submitButtonText="Create">
+        <Modal
+          title={`${t("common.create")} ${t("term.slot.plural")}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText={t("common.create")}
+        >
           {({ form }) => (
             <SlotForm form={form} onSubmit={(values) => addSlot({ variables: values })} />
           )}
@@ -75,9 +74,9 @@ const Slot = () => {
       )}
       {modalToShow === MODALS.editSlot && (
         <Modal
-          title={`Edit ${selectedSlot.name}`}
+          title={`${t("common.edit")} ${selectedSlot.name}`}
           onClose={() => setModalToShow("")}
-          submitButtonText={t("common.create")}
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <SlotForm
