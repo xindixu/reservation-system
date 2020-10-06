@@ -44,6 +44,7 @@
       "logIn": "log in",
       "manage": "manage",
       "name": "name",
+      "fullName": "fullName",
       "password": "password",
       "phone": "phone",
       "register": "register",
@@ -71,7 +72,8 @@
       "allDay": "all day",
       "days": "day(s)",
       "weeks": "week(s)",
-      "months": "month(s)"
+      "months": "month(s)",
+      "contact": "contact"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"
@@ -82,6 +84,7 @@
       "addManagersToTeam": "Add $t(term.manager_plural) to {{team}}",
       "addClientsToManager": "Add $t(term.client_plural) to {{manager}}",
       "visitForClient": "$t(term.visit) for {{client}}",
+      "visitForClientAtSlot": "$t(term.visit): {{client}} at {{slot}}",
       "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
       "deleteClient": "You are about to delete {{client}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
       "deleteSlot": "You are about to delete {{slot}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural).",

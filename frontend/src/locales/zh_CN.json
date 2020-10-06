@@ -43,6 +43,7 @@
       "login": "登陆",
       "manage": "管理",
       "name": "名字",
+      "fullName": "姓名",
       "password": "密码",
       "phone": "电话",
       "shareable": "可分享",
@@ -68,7 +69,9 @@
       "allDay": "全天",
       "days": "天",
       "weeks": "周",
-      "months": "月"
+      "months": "月",
+      "contact": "联系方式"
+
     },
     "placeholder": {
       "multipleSelect": "请选择一个或多个"
@@ -79,6 +82,7 @@
       "addManagersToTeam": "将$t(term.manager_plural)加入{{team}}",
       "addClientsToManager": "将$t(term.client_plural)加入{{manager}}",
       "visitForClient": "{{client}}的$t(term.visit)",
+      "visitForClientAtSlot": "$t(term.visit): {{client}} 在 {{slot}}",
       "removeClientsFromManager": "您将要将{{client}}从{{manager}}移除",
       "deleteClient": "您将要删除{{client}}。所有$t(term.client)的数据将会被移除，包括$t(term.visit_plural).",
       "deleteSlot": "您将要删除{{slot}}. 所有$t(term.slot)的数据将会被移除，包括$t(term.visit_plural).",

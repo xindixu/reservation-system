@@ -15,6 +15,7 @@ import EventBank from "./event-bank"
 import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
 import { VISIT } from "lib/common-types"
 import { formatStart, formatEnd } from "lib/datetime"
+import { getFullName } from "lib/utils"
 
 const bigCalendarLocaleByKey = {
   en: "en-US",
@@ -44,7 +45,7 @@ const Calendar = ({
   onRangeChange,
   initialDate,
 }) => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const [draggedEvent, setDraggedEvent] = useState(null)
 
@@ -52,13 +53,16 @@ const Calendar = ({
     () =>
       visits.map(({ id, start, end, client: { firstName, lastName }, slot: { name } }) => ({
         id,
-        title: `Visit: ${firstName} ${lastName} at ${name}`,
+        title: t("message.visitForClientAtSlot", {
+          client: getFullName({ firstName, lastName }),
+          slot: name,
+        }),
         start: new Date(start),
         end: new Date(end),
         allDay: true,
         editable: true,
       })),
-    [visits]
+    [t, visits]
   )
 
   const onEventDrop = (data) => {
