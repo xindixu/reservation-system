@@ -99,10 +99,9 @@ const Team = () => {
         <Modal
           title={t("message.addManagersToTeam", { name })}
           onClose={() => setModalToShow("")}
-          submitButtonText={`${t("common.add")} ${t(
-            numOfManagersToAdd === 1 ? "term.managerWithCount" : "term.managerWithCount_plural",
-            { count: numOfManagersToAdd }
-          )}`}
+          submitButtonText={`${t("common.add")} ${t("term.managerWithCount", {
+            count: numOfManagersToAdd,
+          })}`}
         >
           {({ form }) => (
             <AddManagerToTeam

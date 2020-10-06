@@ -17,6 +17,8 @@
       "admin_plural": "admins",
       "client": "client",
       "client_plural": "clients",
+      "clientWithCount": "{{count}} client",
+      "clientWithCount_plural": "{{count}} clients",
       "manager": "manager",
       "manager_plural": "managers",
       "managerWithCount": "{{count}} manager",
@@ -54,13 +56,17 @@
       "cancel": "cancel",
       "edit": "edit",
       "true": "yes",
-      "false": "no"
+      "false": "no",
+      "jobTitle": "job title",
+      "call": "call"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"
     },
     "message": {
-      "addManagersToTeam": "Add managers to {{name}}",
+      "addManagersToTeam": "Add $t(term.manager_plural) to {{name}}",
+      "addClientsToManager": "Add $t(term.client_plural) to {{name}}",
+      "deleteManager": "You are about to remove {{client}} from {{manager}}.",
       "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this slot, including Visits."
     }
   }

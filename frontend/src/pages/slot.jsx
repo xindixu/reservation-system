@@ -87,7 +87,6 @@ const Slot = () => {
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
         <div className="flex-grow py-10 capitalize">
           <Title>{name}</Title>
-
           <p>
             {t("term.manager_plural")}:{" "}
             {managers.map((manager) => (

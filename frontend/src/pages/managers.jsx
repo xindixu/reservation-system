@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
 import FAButton from "components/floating-action-button"
@@ -10,6 +11,8 @@ const MODALS = {
 }
 
 const Managers = () => {
+  const { t } = useTranslation()
+
   const { managers, errorManagers, loadingManagers, loadManagers, addManager } = useManagers()
 
   useEffect(() => {
@@ -29,22 +32,22 @@ const Managers = () => {
   return (
     <>
       <ManagersGrid managers={managers} />
-      <FAButton
-        onClick={() => setModalToShow(MODALS.addManager)}
-        ariaLabel="new manager"
-        rotate={!!modalToShow}
-      />
       {modalToShow === MODALS.addManager && (
         <Modal
-          title="Create New Manager"
+          title={`${t("common.create")} ${t("term.manager")}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Create"
+          submitButtonText={t("common.create")}
         >
           {({ form }) => (
             <ManagerForm form={form} onSubmit={(values) => addManager({ variables: values })} />
           )}
         </Modal>
       )}
+      <FAButton
+        onClick={() => setModalToShow(MODALS.addManager)}
+        ariaLabel={`${t("common.create")} ${t("term.manager")}`}
+        rotate={!!modalToShow}
+      />
     </>
   )
 }

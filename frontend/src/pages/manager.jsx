@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
@@ -13,29 +14,17 @@ import useManagers from "data/use-managers"
 
 const { Title } = Typography
 
-const PageActions = ({ manager: { email, phone }, edit }) => (
+const PageActions = ({ t, manager: { email, phone }, edit }) => (
   <Space size="middle" className="py-4">
     <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
-      Edit
+      {t("common.edit")}
     </Button>
-    <Button
-      key="email"
-      type="default"
-      icon={<MailOutlined />}
-      aria-label="email team"
-      href={`mailto:${email}`}
-    >
-      Email
+    <Button key="email" type="default" icon={<MailOutlined />} href={`mailto:${email}`}>
+      {t("common.email")}
     </Button>
 
-    <Button
-      key="phone"
-      type="default"
-      icon={<PhoneOutlined />}
-      aria-label="call team"
-      href={`tel:${phone}`}
-    >
-      Call
+    <Button key="phone" type="default" icon={<PhoneOutlined />} href={`tel:${phone}`}>
+      {t("common.call")}
     </Button>
   </Space>
 )
@@ -47,6 +36,7 @@ const MODALS = {
 }
 
 const Manager = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const {
     manager,
@@ -79,11 +69,15 @@ const Manager = () => {
   return (
     <>
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
-        <div className="flex-grow py-10">
+        <div className="flex-grow py-10 capitalize">
           <Title>{fullName}</Title>
-          <p>Job Title: {jobTitle}</p>
-          <p>Team: {team.name}</p>
-          <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} />
+          <p>
+            {t("common.jobTitle")}: {jobTitle}
+          </p>
+          <p>
+            {t("term.team")}: {team.name}
+          </p>
+          <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} t={t} />
         </div>
         <div className="bg-white rounded-lg">
           <img src={getDefaultAvatar(manager, "md")} alt={fullName} />
@@ -95,7 +89,7 @@ const Manager = () => {
           getConfirm({
             content: (
               <p>
-                You are about to remove <strong>{getFullName(client)}</strong> from {fullName}.
+                {t("message.deleteManager", { client: getFullName(client), manager: fullName })}
               </p>
             ),
             onConfirm: () => {
@@ -106,9 +100,9 @@ const Manager = () => {
       />
       {modalToShow === MODALS.editManager && (
         <Modal
-          title={`Edit ${fullName}`}
+          title={`${t("common.edit")} ${fullName}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <ManagerForm
@@ -122,9 +116,11 @@ const Manager = () => {
 
       {modalToShow === MODALS.addClientsToManager && (
         <Modal
-          title={`Add Clients To ${fullName}`}
+          title={t("message.addClientsToManager", { name: fullName })}
           onClose={() => setModalToShow("")}
-          submitButtonText={`Add ${numOfClientsToAdd} Clients`}
+          submitButtonText={`${t("common.add")} ${t("term.clientWithCount", {
+            count: numOfClientsToAdd,
+          })}`}
         >
           {({ form }) => (
             <AddClientsToManager
@@ -139,7 +135,7 @@ const Manager = () => {
 
       <FAButton
         onClick={() => setModalToShow(MODALS.addClientsToManager)}
-        ariaLabel="add clients to manager"
+        title={t("message.addClientsToManager", { name: fullName })}
         rotate={modalToShow === MODALS.addClientsToManager}
       />
     </>
