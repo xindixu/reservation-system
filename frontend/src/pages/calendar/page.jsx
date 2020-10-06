@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { isEmpty } from "lodash"
-
 import Filter from "containers/filter"
 import { VISIT } from "lib/common-types"
 import Calendar from "components/calendar"
@@ -27,6 +27,8 @@ const Page = ({
   onRangeChange,
   visits,
 }) => {
+  const { t } = useTranslation()
+
   const [selectedVisit, setSelectedVisit] = useState({})
   const [presetDate, setPresetDate] = useState({})
   const [modalToShow, setModalToShow] = useState("")
@@ -72,12 +74,14 @@ const Page = ({
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
-          title={`Edit Visit for ${getFullName(selectedVisit.client)}`}
+          title={`${t("common.edit")} ${t("message.visitForClient", {
+            name: getFullName(selectedVisit.client),
+          })}`}
           onClose={modalOnCloseAndReset}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
           }}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <Suspense fallback={<div />}>
@@ -96,7 +100,11 @@ const Page = ({
         </Modal>
       )}
       {modalToShow === MODALS.addVisit && (
-        <Modal title="Create New Visit" onClose={modalOnCloseAndReset} submitButtonText="Create">
+        <Modal
+          title={`${t("common.create")} ${t("term.visit")}`}
+          onClose={modalOnCloseAndReset}
+          submitButtonText={t("common.create")}
+        >
           {({ form }) => (
             <Suspense fallback={<div />}>
               <VisitForm
@@ -111,7 +119,7 @@ const Page = ({
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
-        ariaLabel="New Visit"
+        title={`${t("common.create")} ${t("term.visit")}`}
         rotate={!!modalToShow}
       />
     </>
