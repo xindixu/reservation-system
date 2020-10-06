@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Form, Input, Select, Row, Col } from "antd"
 import { MANAGER, FORM } from "lib/common-types"
@@ -6,6 +7,8 @@ import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import useTeams from "data/use-teams"
 
 const ManagerForm = ({ form, initialManager, onSubmit }) => {
+  const { t } = useTranslation()
+
   const { teams, loadingTeams, loadTeams } = useTeams()
 
   useEffect(() => {
@@ -23,26 +26,30 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
     >
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+          <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
             <Input type="text" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+          <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
             <Input type="text" />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Job Title" name="jobTitle" rules={[{ required: true }]}>
+      <Form.Item label={t("common.jobTitle")} name="jobTitle" rules={[{ required: true }]}>
         <Input type="text" />
       </Form.Item>
-      <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
+      <Form.Item
+        label={t("common.email")}
+        name="email"
+        rules={[{ required: true }, { type: "email" }]}
+      >
         <Input type="email" />
       </Form.Item>
-      <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+      <Form.Item label={t("common.phone")} name="phone" rules={[{ required: true }]}>
         <Input type="tel" />
       </Form.Item>
-      <Form.Item label="Team" name="teamId" rules={[{ required: true }]}>
+      <Form.Item label={t("term.team")} name="teamId" rules={[{ required: true }]}>
         <Select>
           {loadingTeams ||
             teams.map(({ id, name }) => (

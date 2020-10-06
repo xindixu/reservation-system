@@ -60,7 +60,7 @@ const Clients = () => {
         }}
         deleteClient={(client) =>
           getConfirm({
-            content: <p>{t("message.deleteClient", { name: getFullName(client) })}</p>,
+            content: <p>{t("message.deleteClient", { client: getFullName(client) })}</p>,
             onConfirm: () => {
               deleteClient({ variables: { id: client.id } })
             },

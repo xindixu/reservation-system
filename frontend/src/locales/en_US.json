@@ -67,18 +67,21 @@
       "agenda": "agenda",
       "day": "day",
       "week": "week",
-      "month": "month"
+      "month": "month",
+      "allDay": "all day"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"
     },
     "message": {
-      "addManagersToTeam": "Add $t(term.manager_plural) to {{name}}",
-      "addClientsToManager": "Add $t(term.client_plural) to {{name}}",
+      "currentClientsInManager": "Current $t(term.manager_plural) in {{manager}}",
+      "currentManagersInTeam": "Current $t(term.manager_plural) in {{team}}",
+      "addManagersToTeam": "Add $t(term.manager_plural) to {{team}}",
+      "addClientsToManager": "Add $t(term.client_plural) to {{manager}}",
       "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
-      "visitForClient": "$t(term.visit) for {{name}}",
-      "deleteClient": " You are about to delete {{name}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
-      "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural)."
+      "visitForClient": "$t(term.visit) for {{client}}",
+      "deleteClient": " You are about to delete {{client}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
+      "deleteSlot": "You are about to delete {{slot}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural)."
     }
   }
 }

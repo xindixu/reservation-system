@@ -1,5 +1,5 @@
 import React from "react"
-import { capitalize, startCase } from "lodash"
+import { capitalize } from "lodash"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
@@ -19,7 +19,7 @@ const SignUpForm = ({ form, onSubmit, errors }) => {
       onFinish={onSubmit}
     >
       <Form.Item
-        label={startCase(t("common.email"))}
+        label={t("common.email")}
         name="email"
         rules={[{ required: true }, { type: "email" }]}
         validateStatus={errors?.email && "error"}
@@ -28,7 +28,7 @@ const SignUpForm = ({ form, onSubmit, errors }) => {
         <Input type="email" />
       </Form.Item>
       <Form.Item
-        label={startCase(t("common.password"))}
+        label={t("common.password")}
         name="password"
         rules={[{ required: true }]}
         validateStatus={errors?.password && "error"}
@@ -36,7 +36,7 @@ const SignUpForm = ({ form, onSubmit, errors }) => {
       >
         <Input.Password type="password" />
       </Form.Item>
-      <Form.Item label={startCase(t("common.role"))} name="roleType" rules={[{ required: true }]}>
+      <Form.Item label={t("common.role")} name="roleType" rules={[{ required: true }]}>
         <Select>
           {ROLES.map((role) => (
             <Option key={role} value={role}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/client"
-
 import startOfDay from "date-fns/startOfDay"
 import startOfWeek from "date-fns/startOfWeek"
 import startOfMonth from "date-fns/startOfMonth"
@@ -55,6 +55,8 @@ const SelectWithFilterAndDisable = ({
 }
 
 const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
+  const { t } = useTranslation()
+
   const { data: clientData } = useQuery(GET_ALL_CLIENTS)
   const { data: slotData } = useQuery(GET_ALL_SLOTS)
   const { client, slot, start, end } = initialVisit
@@ -89,7 +91,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       onFinish={onFinish}
     >
       <SelectWithFilterAndDisable
-        label="Client"
+        label={t("term.client")}
         name="clientId"
         data={clientData?.clients}
         filtered={filtered.clientIds}
@@ -98,7 +100,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       />
 
       <SelectWithFilterAndDisable
-        label="Slot"
+        label={t("term.slot")}
         name="slotId"
         data={slotData?.slots}
         filtered={filtered.slotIds}
@@ -106,7 +108,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
         itemToString={(item) => item.name}
       />
       <Form.Item
-        label="Visit"
+        label={t("term.visit")}
         name="visit"
         rules={[{ type: "array", required: true, message: "Please select time!" }]}
       >
@@ -121,7 +123,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
         />
       </Form.Item>
       <div className="flex space-x-2 mb-4 justify-end">
-        <span>All day</span>
+        <span>{t("common.allDay")}</span>
         <Switch checked={allDay} onChange={setAllDay} />
       </div>
     </Form>

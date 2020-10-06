@@ -138,7 +138,7 @@ const Client = () => {
       {modalToShow === MODALS.editVisit && (
         <Modal
           title={`${t("common.edit")} ${t("message.visitForClient", {
-            name: getFullName(client),
+            client: getFullName(client),
           })}`}
           onClose={() => setModalToShow("")}
           onDelete={() => {
@@ -162,7 +162,7 @@ const Client = () => {
       {modalToShow === MODALS.addVisit && (
         <Modal
           title={`${t("common.create")} ${t("message.visitForClient", {
-            name: getFullName(client),
+            client: getFullName(client),
           })} `}
           onClose={() => {
             setModalToShow("")
@@ -202,7 +202,7 @@ const Client = () => {
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
         ariaLabel={`${t("common.create")} ${t("message.visitForClient", {
-          name: getFullName(client),
+          client: getFullName(client),
         })} `}
         rotate={!!modalToShow}
       />

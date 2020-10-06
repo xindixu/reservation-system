@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/client"
 import { Form, Select, List, Avatar } from "antd"
@@ -8,6 +9,7 @@ import { GET_ALL_MANAGERS } from "graphql/managers"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }) => {
+  const { t } = useTranslation()
   const { data, loading } = useQuery(GET_ALL_MANAGERS)
 
   if (loading) {
@@ -35,7 +37,10 @@ const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }
         validateMessages={defaultValidateMessages}
         onFinish={onSubmit}
       >
-        <Form.Item label="Add Managers" name="managerIds">
+        <Form.Item
+          label={t("message.addManagersToTeam", { team: initialTeam.name })}
+          name="managerIds"
+        >
           <Select
             mode="multiple"
             onChange={(managerIds) => setNumOfManagersToAdd(managerIds.length)}

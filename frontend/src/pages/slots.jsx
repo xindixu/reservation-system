@@ -54,7 +54,7 @@ const Slot = () => {
         }}
         deleteSlot={({ name, id }) =>
           getConfirm({
-            content: <p>{t("message.deleteSlot", { name })}</p>,
+            content: <p>{t("message.deleteSlot", { slot: name })}</p>,
             onConfirm: () => {
               deleteSlot({ variables: { id } })
             },

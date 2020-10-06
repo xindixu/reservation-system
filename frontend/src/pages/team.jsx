@@ -84,7 +84,7 @@ const Team = () => {
       )}
       {modalToShow === MODALS.addManagerToTeam && (
         <Modal
-          title={t("message.addManagersToTeam", { name })}
+          title={t("message.addManagersToTeam", { team: name })}
           onClose={() => setModalToShow("")}
           submitButtonText={`${t("common.add")} ${t("term.managerWithCount", {
             count: numOfManagersToAdd,
@@ -104,7 +104,7 @@ const Team = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addManagerToTeam)}
-        ariaLabel={t("message.addManagersToTeam", { name })}
+        ariaLabel={t("message.addManagersToTeam", { team: name })}
         rotate={modalToShow === MODALS.addManagerToTeam}
       />
     </>

@@ -1,7 +1,7 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { capitalize, startCase } from "lodash"
+import { capitalize } from "lodash"
 import { Form, Input, Select, Button } from "antd"
 import { USER } from "lib/common-types"
 import { LOCALES, defaultValidateMessages, horizontalFormLayout } from "lib/constants"
@@ -22,7 +22,7 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
       initialValues={initialUser}
     >
       <Form.Item
-        label={startCase(t("common.email"))}
+        label={t("common.email")}
         name="email"
         rules={[{ type: "email" }]}
         validateStatus={errors?.email && "error"}
@@ -31,14 +31,14 @@ const SettingsForm = ({ initialUser, onSubmit, errors, loading }) => {
         <Input type="email" />
       </Form.Item>
       <Form.Item
-        label={startCase(t("common.password"))}
+        label={t("common.password")}
         name="password"
         validateStatus={errors?.password && "error"}
         help={errors?.password}
       >
         <Input.Password type="password" />
       </Form.Item>
-      <Form.Item label={startCase(t("common.language"))} name="locale">
+      <Form.Item label={t("common.language")} name="locale">
         <Select>
           {LOCALES.map(({ label, value }) => (
             <Option key={value} value={value}>

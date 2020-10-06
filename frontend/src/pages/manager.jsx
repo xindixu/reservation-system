@@ -118,7 +118,7 @@ const Manager = () => {
 
       {modalToShow === MODALS.addClientsToManager && (
         <Modal
-          title={t("message.addClientsToManager", { name: fullName })}
+          title={t("message.addClientsToManager", { manager: fullName })}
           onClose={() => setModalToShow("")}
           submitButtonText={`${t("common.add")} ${t("term.clientWithCount", {
             count: numOfClientsToAdd,
@@ -137,7 +137,7 @@ const Manager = () => {
 
       <FAButton
         onClick={() => setModalToShow(MODALS.addClientsToManager)}
-        title={t("message.addClientsToManager", { name: fullName })}
+        title={t("message.addClientsToManager", { manager: fullName })}
         rotate={modalToShow === MODALS.addClientsToManager}
       />
     </>

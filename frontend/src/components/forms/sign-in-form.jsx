@@ -1,5 +1,4 @@
 import React from "react"
-import { startCase } from "lodash"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Form, Input } from "antd"
@@ -16,7 +15,7 @@ const SignInForm = ({ form, onSubmit, errors }) => {
       onFinish={onSubmit}
     >
       <Form.Item
-        label={startCase(t("common.email"))}
+        label={t("common.email")}
         name="email"
         rules={[{ required: true }, { type: "email" }]}
         validateStatus={errors?.email && "error"}
@@ -25,7 +24,7 @@ const SignInForm = ({ form, onSubmit, errors }) => {
         <Input type="email" />
       </Form.Item>
       <Form.Item
-        label={startCase(t("common.password"))}
+        label={t("common.password")}
         name="password"
         rules={[{ required: true }]}
         validateStatus={errors?.password && "error"}

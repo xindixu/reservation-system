@@ -75,7 +75,7 @@ const Page = ({
       {modalToShow === MODALS.editVisit && (
         <Modal
           title={`${t("common.edit")} ${t("message.visitForClient", {
-            name: getFullName(selectedVisit.client),
+            client: getFullName(selectedVisit.client),
           })}`}
           onClose={modalOnCloseAndReset}
           onDelete={() => {

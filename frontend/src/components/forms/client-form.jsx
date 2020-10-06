@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/client"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
@@ -64,6 +65,8 @@ const DurationPicker = ({ value, onChange }) => {
 }
 
 const ClientForm = ({ initialClient, form, onSubmit }) => {
+  const { t } = useTranslation()
+
   const { data } = useQuery(GET_ALL_MANAGERS)
 
   const initialValues = {
@@ -98,31 +101,35 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
     >
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+          <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
             <Input type="text" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+          <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
             <Input type="text" />
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Email" name="email" rules={[{ required: true }, { type: "email" }]}>
+      <Form.Item
+        label={t("common.email")}
+        name="email"
+        rules={[{ required: true }, { type: "email" }]}
+      >
         <Input type="email" />
       </Form.Item>
-      <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+      <Form.Item label={t("common.phone")} name="phone" rules={[{ required: true }]}>
         <Input type="tel" />
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Cycle" name="cycle" rules={[{ required: true }]}>
+          <Form.Item label={t("common.cycle")} name="cycle" rules={[{ required: true }]}>
             <DurationPicker />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            label="Duration"
+            label={t("common.duration")}
             name="duration"
             dependencies={["cycle"]}
             rules={[
@@ -147,7 +154,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Managers" name="managerIds">
+      <Form.Item label={t("term.manager_plural")} name="managerIds">
         <Select mode="multiple">
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>
