@@ -8,47 +8,82 @@
       },
       "signUp": {
         "title": "Welcome to Reservation System",
-        "body": "",
-        "hint": ""
+        "body": "管理系统可以帮助您管理周期性的客户访问，查看可用的资源，并且提醒您的客户下次访问的时间。",
+        "hint": "已有账号？"
       }
     },
     "term": {
-      "admin": {
-        "singular": "管理员",
-        "plural": "管理员"
-      },
-      "client": {
-        "singular": "客户",
-        "plural": "客户"
-      },
-      "manager": {
-        "singular": "经理",
-        "plural": "经理"
-      },
-      "slot": {
-        "singular": "资源",
-        "plural": "资源"
-      },
-      "team": {
-        "singular": "团队",
-        "plural": "团队"
-      }
+      "admin": "管理员",
+      "admin_plural": "管理员",
+      "client": "客户",
+      "client_plural": "客户",
+      "clientWithCount": "{{count}}位客户",
+      "clientWithCount_plural": "{{count}}位客户",
+      "manager": "经理",
+      "manager_plural": "经理",
+      "managerWithCount": "{{count}}位经理",
+      "managerWithCount_plural": "{{count}}位经理",
+      "slot": "资源",
+      "slot_plural": "资源",
+      "team": "团队",
+      "team_plural": "团队",
+      "visit": "访问",
+      "visit_plural": "访问"
     },
     "common": {
-      "language": "语言",
       "action": "操作",
-      "clear": "清空",
       "calendar": "日历",
+      "clear": "清空",
       "email": "邮箱",
       "filter": "筛选",
       "firstName": "名",
+      "language": "语言",
       "lastName": "姓",
+      "login": "登陆",
       "manage": "管理",
       "name": "名字",
+      "password": "密码",
       "phone": "电话",
       "shareable": "可分享",
-      "password": "密码",
-      "login": "登陆"
+      "signUp": "注册",
+      "update": "更新",
+      "description": "详情",
+      "create": "创建",
+      "cancel": "取消",
+      "edit": "修改",
+      "true": "是",
+      "false": "否",
+      "jobTitle": "职位",
+      "call": "电话",
+      "cycle": "周期",
+      "duration": "持续时间",
+      "previous": "前",
+      "next": "后",
+      "today": "今天",
+      "agenda": "日程",
+      "day": "天",
+      "week": "周",
+      "month": "月",
+      "allDay": "全天",
+      "days": "天",
+      "weeks": "周",
+      "months": "月"
+    },
+    "placeholder": {
+      "multipleSelect": "请选择一个或多个"
+    },
+    "message": {
+      "currentManagersInTeam": "当前在{{team}}里的$t(term.manager_plural)",
+      "currentClientsInManager": "当前由{{manager}}管理的$t(term.manager_plural)",
+      "addManagersToTeam": "将$t(term.manager_plural)加入{{team}}",
+      "addClientsToManager": "将$t(term.client_plural)加入{{manager}}",
+      "visitForClient": "{{client}}的$t(term.visit)",
+      "removeClientsFromManager": "您将要将{{client}}从{{manager}}移除",
+      "deleteClient": "您将要删除{{client}}。所有$t(term.client)的数据将会被移除，包括$t(term.visit_plural).",
+      "deleteSlot": "您将要删除{{slot}}. 所有$t(term.slot)的数据将会被移除，包括$t(term.visit_plural).",
+      "isRequired": "请输入{{name}}",
+      "isValidEmail": "请输入正确的{{name}}",
+      "durationLessThanCycle": "$(common.duration)必须要小于$(common.cycle)"
     }
   }
 }

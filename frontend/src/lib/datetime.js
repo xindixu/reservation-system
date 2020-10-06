@@ -1,4 +1,5 @@
 import format from "date-fns/format"
+import i18n from "locales/index"
 
 const ISO_FORMATE_WITH_TZ = "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
 
@@ -7,9 +8,9 @@ export const formatStart = (start) => toISOStringWithTZ(new Date(start))
 export const formatEnd = (end) => toISOStringWithTZ(new Date(end))
 
 export const DURATION_UNITS = {
-  d: "day(s)",
-  w: "week(s)",
-  M: "month(s)",
+  d: i18n.t("common.days"),
+  w: i18n.t("common.weeks"),
+  M: i18n.t("common.months"),
 }
 export const convertToDays = (num, unit) => {
   if (unit === "d") {

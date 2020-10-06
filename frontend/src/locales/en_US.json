@@ -68,7 +68,10 @@
       "day": "day",
       "week": "week",
       "month": "month",
-      "allDay": "all day"
+      "allDay": "all day",
+      "days": "day(s)",
+      "weeks": "week(s)",
+      "months": "month(s)"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"
@@ -78,12 +81,13 @@
       "currentClientsInManager": "Current $t(term.manager_plural) in {{manager}}",
       "addManagersToTeam": "Add $t(term.manager_plural) to {{team}}",
       "addClientsToManager": "Add $t(term.client_plural) to {{manager}}",
-      "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
       "visitForClient": "$t(term.visit) for {{client}}",
-      "deleteClient": " You are about to delete {{client}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
+      "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
+      "deleteClient": "You are about to delete {{client}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
       "deleteSlot": "You are about to delete {{slot}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural).",
-      "isRequired": "{{name}} is required.",
-      "durationLessThanCycle": "$(common.duration) must be less than $(common.cycle)."
+      "isRequired": "{{name}} is required",
+      "isValidEmail": "{{name}} is not a valid email",
+      "durationLessThanCycle": "$(common.duration) must be less than $(common.cycle)"
     }
   }
 }

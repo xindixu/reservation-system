@@ -7,7 +7,7 @@ import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import useTeams from "data/use-teams"
 
 const ManagerForm = ({ form, initialManager, onSubmit }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const { teams, loadingTeams, loadTeams } = useTeams()
 
@@ -15,7 +15,7 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
     loadTeams()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  console.log(i18n)
   return (
     <Form
       {...defaultFormLayout}

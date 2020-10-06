@@ -1,9 +1,11 @@
+import i18n from "locales/index"
+
 export const defaultValidateMessages = {
   // eslint-disable-next-line no-template-curly-in-string
-  required: "${label} is required.",
+  required: (name) => `${i18n.t("message.isRequired", { name: i18n.t(`common.${name}`) })}`,
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: "${label} is not a valid ${type}.",
+    email: (name) => `${i18n.t("message.isValidEmail", { name: i18n.t(`common.${name}`) })}`,
   },
 }
 export const defaultFormLayout = {
