@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client"
 import { Form, Input, InputNumber, Select, Row, Col } from "antd"
 import { CLIENT, FORM } from "lib/common-types"
 import { GET_ALL_MANAGERS } from "graphql/managers"
-import { getFullName } from "lib/utils"
+import { getFullName, isFirstNameFirst } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import { convertToDays, DURATION_UNITS } from "lib/datetime"
 
@@ -84,6 +84,23 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
     }
     onSubmit(values)
   }
+
+  const firstName = (
+    <Col span={12}>
+      <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
+        <Input type="text" />
+      </Form.Item>
+    </Col>
+  )
+
+  const lastName = (
+    <Col span={12}>
+      <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
+        <Input type="text" />
+      </Form.Item>
+    </Col>
+  )
+
   return (
     <Form
       {...defaultFormLayout}
@@ -94,16 +111,17 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
       onFinish={onFinish}
     >
       <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
-            <Input type="text" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
-            <Input type="text" />
-          </Form.Item>
-        </Col>
+        {isFirstNameFirst ? (
+          <>
+            {firstName}
+            {lastName}
+          </>
+        ) : (
+          <>
+            {lastName}
+            {firstName}
+          </>
+        )}
       </Row>
       <Form.Item
         label={t("common.email")}

@@ -36,6 +36,7 @@
       "clear": "清空",
       "email": "邮箱",
       "filter": "筛选",
+      "filterBy": "筛选",
       "firstName": "名",
       "language": "语言",
       "lastName": "姓",
@@ -74,7 +75,7 @@
     },
     "message": {
       "currentManagersInTeam": "当前在{{team}}里的$t(term.manager_plural)",
-      "currentClientsInManager": "当前由{{manager}}管理的$t(term.manager_plural)",
+      "currentClientsInManager": "当前由{{manager}}负责的$t(term.client_plural)",
       "addManagersToTeam": "将$t(term.manager_plural)加入{{team}}",
       "addClientsToManager": "将$t(term.client_plural)加入{{manager}}",
       "visitForClient": "{{client}}的$t(term.visit)",

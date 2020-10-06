@@ -78,7 +78,7 @@
     },
     "message": {
       "currentManagersInTeam": "Current $t(term.manager_plural) in {{team}}",
-      "currentClientsInManager": "Current $t(term.manager_plural) in {{manager}}",
+      "currentClientsInManager": "Current $t(term.client_plural) in {{manager}}",
       "addManagersToTeam": "Add $t(term.manager_plural) to {{team}}",
       "addClientsToManager": "Add $t(term.client_plural) to {{manager}}",
       "visitForClient": "$t(term.visit) for {{client}}",

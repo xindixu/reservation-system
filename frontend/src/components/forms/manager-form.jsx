@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Form, Input, Select, Row, Col } from "antd"
 import { MANAGER, FORM } from "lib/common-types"
+import { isFirstNameFirst } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import useTeams from "data/use-teams"
 
 const ManagerForm = ({ form, initialManager, onSubmit }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const { teams, loadingTeams, loadTeams } = useTeams()
 
@@ -15,7 +16,22 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
     loadTeams()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(i18n)
+
+  const firstName = (
+    <Col span={12}>
+      <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
+        <Input type="text" />
+      </Form.Item>
+    </Col>
+  )
+
+  const lastName = (
+    <Col span={12}>
+      <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
+        <Input type="text" />
+      </Form.Item>
+    </Col>
+  )
   return (
     <Form
       {...defaultFormLayout}
@@ -25,16 +41,17 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
       onFinish={onSubmit}
     >
       <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item label={t("common.firstName")} name="firstName" rules={[{ required: true }]}>
-            <Input type="text" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label={t("common.lastName")} name="lastName" rules={[{ required: true }]}>
-            <Input type="text" />
-          </Form.Item>
-        </Col>
+        {isFirstNameFirst ? (
+          <>
+            {firstName}
+            {lastName}
+          </>
+        ) : (
+          <>
+            {lastName}
+            {firstName}
+          </>
+        )}
       </Row>
       <Form.Item label={t("common.jobTitle")} name="jobTitle" rules={[{ required: true }]}>
         <Input type="text" />

@@ -1,6 +1,7 @@
 import { maxBy } from "lodash"
 import add from "date-fns/add"
 import { toISOStringWithTZ } from "./datetime"
+import i18n from "locales/index"
 
 const avatarSizes = {
   xs: "50x50",
@@ -9,7 +10,13 @@ const avatarSizes = {
   lg: "500x500",
 }
 
-export const getFullName = (user) => `${user.firstName} ${user.lastName}`
+export const isFirstNameFirst = i18n.language !== "cn"
+
+export const getFullName = ({ firstName, lastName } = {}) =>
+  isFirstNameFirst || /[a-zA-z]/.test(firstName)
+    ? `${firstName} ${lastName}`
+    : `${lastName}${firstName}`
+
 export const getDefaultAvatar = (user, size = "xs") =>
   `https://robohash.org/${getFullName(user)}.png?size=${avatarSizes[size]}&set=set4`
 
