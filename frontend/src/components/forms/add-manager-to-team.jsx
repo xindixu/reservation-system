@@ -53,7 +53,8 @@ const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }
           </Select>
         </Form.Item>
       </Form>
-      Current Managers in {initialTeam.name}
+      <p className="capitalize">{t("message.currentManagersInTeam", { team: initialTeam.name })}</p>
+
       <List
         dataSource={managersInTeam}
         renderItem={(manager) => (

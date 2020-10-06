@@ -74,8 +74,8 @@
       "multipleSelect": "Select one or multiple"
     },
     "message": {
-      "currentClientsInManager": "Current $t(term.manager_plural) in {{manager}}",
       "currentManagersInTeam": "Current $t(term.manager_plural) in {{team}}",
+      "currentClientsInManager": "Current $t(term.manager_plural) in {{manager}}",
       "addManagersToTeam": "Add $t(term.manager_plural) to {{team}}",
       "addClientsToManager": "Add $t(term.client_plural) to {{manager}}",
       "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",

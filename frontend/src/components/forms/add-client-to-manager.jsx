@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Form, Select, List, Avatar } from "antd"
 import { FORM, MANAGER } from "lib/common-types"
@@ -22,6 +23,8 @@ const groupClients = (clients, managerId) => {
   return { clientsServedByManager, clientsNotServedByManager }
 }
 const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToAdd }) => {
+  const { t } = useTranslation()
+
   const { clients, loadingClients, errorClients, loadClients } = useClients()
 
   useEffect(() => {
@@ -45,7 +48,10 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
         validateMessages={defaultValidateMessages}
         onFinish={onSubmit}
       >
-        <Form.Item label="Add Clients" name="clientIds">
+        <Form.Item
+          label={t("message.addClientsToManager", { manager: getFullName(initialManager) })}
+          name="clientIds"
+        >
           <Select mode="multiple" onChange={(clientIds) => setNumOfClientsToAdd(clientIds.length)}>
             {clientsNotServedByManager.map((client) => (
               <Select.Option value={client.id} key={client.id}>
@@ -55,7 +61,10 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
           </Select>
         </Form.Item>
       </Form>
-      Current Clients served by {getFullName(initialManager)}
+      <p className="capitalize">
+        {t("message.currentClientsInManager", { manager: getFullName(initialManager) })}
+      </p>
+
       <List
         dataSource={clientsServedByManager}
         renderItem={(client) => (
