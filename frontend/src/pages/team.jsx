@@ -12,29 +12,16 @@ import useTeams from "data/use-teams"
 
 const { Title } = Typography
 
-const PageActions = ({ team: { email, phone }, edit }) => (
+const PageActions = ({ t, team: { email, phone }, edit }) => (
   <Space size="middle" className="py-4">
     <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
-      Manage
+      {t("common.manage")}
     </Button>
-    <Button
-      key="email"
-      type="default"
-      icon={<MailOutlined />}
-      aria-label="email team"
-      href={`mailto:${email}`}
-    >
-      Email
+    <Button key="email" type="default" icon={<MailOutlined />} href={`mailto:${email}`}>
+      {t("common.email")}
     </Button>
-
-    <Button
-      key="phone"
-      type="default"
-      icon={<PhoneOutlined />}
-      aria-label="call team"
-      href={`tel:${phone}`}
-    >
-      Call
+    <Button key="phone" type="default" icon={<PhoneOutlined />} href={`tel:${phone}`}>
+      {t("common.call")}
     </Button>
   </Space>
 )
@@ -72,7 +59,7 @@ const Team = () => {
         <div className="flex-grow ">
           <Title>{name}</Title>
           <p>{description}</p>
-          <PageActions team={team} edit={() => setModalToShow(MODALS.editTeam)} />
+          <PageActions team={team} edit={() => setModalToShow(MODALS.editTeam)} t={t} />
         </div>
       </div>
 

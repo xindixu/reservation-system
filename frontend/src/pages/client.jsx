@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { useMutation } from "@apollo/client"
 import { Typography, Button, Space, Tag } from "antd"
@@ -22,34 +23,22 @@ const MODALS = {
   editVisit: "editVisit",
 }
 
-const PageActions = ({ client: { email, phone }, edit }) => (
+const PageActions = ({ t, client: { email, phone }, edit }) => (
   <Space size="middle" className="py-4">
     <Button key="edit" type="primary" icon={<EditOutlined />} onClick={edit}>
-      Edit
+      {t("common.edit")}
     </Button>
-    <Button
-      key="email"
-      type="default"
-      icon={<MailOutlined />}
-      aria-label="email team"
-      href={`mailto:${email}`}
-    >
-      Email
+    <Button key="email" type="default" icon={<MailOutlined />} href={`mailto:${email}`}>
+      {t("common.email")}
     </Button>
-
-    <Button
-      key="phone"
-      type="default"
-      icon={<PhoneOutlined />}
-      aria-label="call team"
-      href={`tel:${phone}`}
-    >
-      Call
+    <Button key="phone" type="default" icon={<PhoneOutlined />} href={`tel:${phone}`}>
+      {t("common.call")}
     </Button>
   </Space>
 )
 
 const Client = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const { client, loadingClient, errorClient, editClient, loadClient } = useClients(id)
 
@@ -106,18 +95,22 @@ const Client = () => {
   return (
     <>
       <div className="flex space-between bg-white rounded-lg px-10 mb-10">
-        <div className="flex-grow py-10">
+        <div className="flex-grow py-10 capitalize">
           <Title>{fullName}</Title>
 
           <p>
-            Managers:{" "}
+            {t("term.manager_plural")}:{" "}
             {managers.map((manager) => (
               <Tag key={manager.id}>{getFullName(manager)}</Tag>
             ))}
           </p>
-          <p>Cycle: {cycle}</p>
-          <p>Duration: {duration}</p>
-          <PageActions client={client} edit={() => setModalToShow(MODALS.editClient)} />
+          <p>
+            {t("common.cycle")}: {cycle}
+          </p>
+          <p>
+            {t("common.duration")}: {duration}
+          </p>
+          <PageActions client={client} edit={() => setModalToShow(MODALS.editClient)} t={t} />
         </div>
       </div>
 
@@ -144,12 +137,14 @@ const Client = () => {
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
-          title={`Edit Visit for ${getFullName(client)}`}
+          title={`${t("common.edit")} ${t("message.visitForClient", {
+            name: getFullName(client),
+          })}`}
           onClose={() => setModalToShow("")}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
           }}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <VisitForm
@@ -166,12 +161,14 @@ const Client = () => {
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
-          title={`Create New Visit for ${getFullName(client)}`}
+          title={`${t("common.create")} ${t("message.visitForClient", {
+            name: getFullName(client),
+          })} `}
           onClose={() => {
             setModalToShow("")
             setPresetDate({})
           }}
-          submitButtonText="Create"
+          submitButtonText={t("common.create")}
         >
           {({ form }) => (
             <VisitForm
@@ -188,7 +185,7 @@ const Client = () => {
         <Modal
           title={`Edit ${getFullName(client)}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <ClientFrom
@@ -204,7 +201,9 @@ const Client = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
-        ariaLabel="New Visit"
+        ariaLabel={`${t("common.create")} ${t("message.visitForClient", {
+          name: getFullName(client),
+        })} `}
         rotate={!!modalToShow}
       />
     </>

@@ -22,7 +22,6 @@ const PageActions = ({ t, manager: { email, phone }, edit }) => (
     <Button key="email" type="default" icon={<MailOutlined />} href={`mailto:${email}`}>
       {t("common.email")}
     </Button>
-
     <Button key="phone" type="default" icon={<PhoneOutlined />} href={`tel:${phone}`}>
       {t("common.call")}
     </Button>
@@ -89,7 +88,10 @@ const Manager = () => {
           getConfirm({
             content: (
               <p>
-                {t("message.deleteManager", { client: getFullName(client), manager: fullName })}
+                {t("message.removeClientsFromManager", {
+                  client: getFullName(client),
+                  manager: fullName,
+                })}
               </p>
             ),
             onConfirm: () => {

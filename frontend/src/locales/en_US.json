@@ -58,7 +58,9 @@
       "true": "yes",
       "false": "no",
       "jobTitle": "job title",
-      "call": "call"
+      "call": "call",
+      "cycle": "cycle",
+      "duration": "duration"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"
@@ -66,8 +68,10 @@
     "message": {
       "addManagersToTeam": "Add $t(term.manager_plural) to {{name}}",
       "addClientsToManager": "Add $t(term.client_plural) to {{name}}",
-      "deleteManager": "You are about to remove {{client}} from {{manager}}.",
-      "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this slot, including Visits."
+      "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
+      "visitForClient": "$t(term.visit) for {{name}}",
+      "deleteClient": " You are about to delete {{name}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
+      "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural)."
     }
   }
 }

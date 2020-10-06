@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { pickBy } from "lodash"
+import { useTranslation } from "react-i18next"
 import Filter from "containers/filter"
 import ClientForm from "components/forms/client-form"
 import ClientsTable from "components/table/clients-table"
@@ -17,6 +17,8 @@ const MODALS = {
 }
 
 const Clients = () => {
+  const { t } = useTranslation()
+
   const { managers, loadingManagers, loadManagers } = useManagers()
 
   const {
@@ -58,12 +60,7 @@ const Clients = () => {
         }}
         deleteClient={(client) =>
           getConfirm({
-            content: (
-              <p>
-                You are about to delete <strong>{getFullName(client)}</strong>. It will remove all
-                data related to this slot, including Visits.
-              </p>
-            ),
+            content: <p>{t("message.deleteClient", { name: getFullName(client) })}</p>,
             onConfirm: () => {
               deleteClient({ variables: { id: client.id } })
             },
@@ -73,9 +70,9 @@ const Clients = () => {
 
       {modalToShow === MODALS.addClient && (
         <Modal
-          title="Create New Client"
+          title={`${t("common.create")} ${t("term.client")}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Create"
+          submitButtonText={t("common.create")}
         >
           {({ form }) => (
             <ClientForm form={form} onSubmit={(values) => addClient({ variables: values })} />
@@ -84,9 +81,9 @@ const Clients = () => {
       )}
       {modalToShow === MODALS.editClient && (
         <Modal
-          title={`Edit ${getFullName(selectedClient)}`}
+          title={`${t("common.edit")} ${getFullName(selectedClient)}`}
           onClose={() => setModalToShow("")}
-          submitButtonText="Update"
+          submitButtonText={t("common.update")}
         >
           {({ form }) => (
             <ClientForm
@@ -102,7 +99,7 @@ const Clients = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addClient)}
-        ariaLabel="new client"
+        title={`${t("common.create")} ${t("term.client")}`}
         rotate={!!modalToShow}
       />
     </>
