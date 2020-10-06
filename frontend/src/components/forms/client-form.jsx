@@ -11,12 +11,6 @@ import { convertToDays, DURATION_UNITS } from "lib/datetime"
 
 const { Option } = Select
 
-const validateMessages = {
-  ...defaultValidateMessages,
-  durationRequired: "Duration is required",
-  durationLessThanCycle: "Duration must be less than cycle.",
-}
-
 const DurationPicker = ({ value, onChange }) => {
   const [num, setNum] = useState(0)
   const [unit, setUnit] = useState(Object.keys(DURATION_UNITS)[0])
@@ -96,7 +90,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
       form={form}
       initialValues={initialValues}
       scrollToFirstError
-      validateMessages={validateMessages}
+      validateMessages={defaultValidateMessages}
       onFinish={onFinish}
     >
       <Row gutter={16}>
@@ -123,7 +117,22 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
       </Form.Item>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label={t("common.cycle")} name="cycle" rules={[{ required: true }]}>
+          <Form.Item
+            label={t("common.cycle")}
+            name="cycle"
+            rules={[
+              { required: true },
+              {
+                validator: (_, value) => {
+                  const cycleLength = convertToDays(value.num, value.unit)
+                  if (!cycleLength) {
+                    return Promise.reject(`${t("message.isRequired", { name: t("common.cycle") })}`)
+                  }
+                  return Promise.resolve()
+                },
+              },
+            ]}
+          >
             <DurationPicker />
           </Form.Item>
         </Col>
@@ -140,10 +149,12 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
                   const cycleLength = convertToDays(updatedCycle.num, updatedCycle.unit)
                   const durationLength = convertToDays(value.num, value.unit)
                   if (!durationLength) {
-                    return Promise.reject(validateMessages.durationRequired)
+                    return Promise.reject(
+                      `${t("message.isRequired", { name: t("common.duration") })}`
+                    )
                   }
                   if (cycleLength < durationLength) {
-                    return Promise.reject(validateMessages.durationLessThanCycle)
+                    return Promise.reject(`${t("message.durationLessThanCycle")}`)
                   }
                   return Promise.resolve()
                 },

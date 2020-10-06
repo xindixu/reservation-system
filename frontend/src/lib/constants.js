@@ -3,7 +3,7 @@ export const defaultValidateMessages = {
   required: "${label} is required.",
   types: {
     // eslint-disable-next-line no-template-curly-in-string
-    email: "${label} is not a valid ${type}",
+    email: "${label} is not a valid ${type}.",
   },
 }
 export const defaultFormLayout = {

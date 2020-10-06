@@ -38,9 +38,9 @@
       "email": "email",
       "filterBy": "filter by",
       "filter": "filter",
-      "firstName": "firstName",
+      "firstName": "first name",
       "language": "language",
-      "lastName": "lastName",
+      "lastName": "last name",
       "logIn": "log in",
       "manage": "manage",
       "name": "name",
@@ -81,7 +81,9 @@
       "removeClientsFromManager": "You are about to remove {{client}} from {{manager}}.",
       "visitForClient": "$t(term.visit) for {{client}}",
       "deleteClient": " You are about to delete {{client}}. It will remove all data related to this $t(term.client), including $t(term.visit_plural).",
-      "deleteSlot": "You are about to delete {{slot}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural)."
+      "deleteSlot": "You are about to delete {{slot}}. It will remove all data related to this $t(term.slot), including $t(term.visit_plural).",
+      "isRequired": "{{name}} is required.",
+      "durationLessThanCycle": "$(common.duration) must be less than $(common.cycle)."
     }
   }
 }
