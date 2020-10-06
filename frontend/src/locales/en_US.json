@@ -60,7 +60,14 @@
       "jobTitle": "job title",
       "call": "call",
       "cycle": "cycle",
-      "duration": "duration"
+      "duration": "duration",
+      "previous": "previous",
+      "next": "next",
+      "today": "today",
+      "agenda": "agenda",
+      "day": "day",
+      "week": "week",
+      "month": "month"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"

@@ -7,6 +7,7 @@ import { Layout, ConfigProvider } from "antd"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import zh_CN from "antd/es/locale/zh_CN"
 import en_US from "antd/es/locale/en_US"
+
 import { AppRoutes } from "./routes"
 import { Wrapper } from "./styles"
 import { mediaQuery } from "./styles/index"
@@ -14,6 +15,11 @@ import i18n from "./locales"
 import { useUserContext } from "contexts/user-context"
 import Navbar from "components/navbar"
 import User from "components/user"
+
+const antLocaleByKey = {
+  cn: zh_CN,
+  en: en_US,
+}
 
 const { Header, Sider, Content } = Layout
 
@@ -37,7 +43,7 @@ const App = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ConfigProvider locale={user?.locale === "zh_CN" ? zh_CN : en_US}>
+      <ConfigProvider locale={antLocaleByKey[i18n.lng]}>
         <Router>
           {isEmpty(user) ? (
             <AppRoutes />

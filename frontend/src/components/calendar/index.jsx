@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-
 import { Calendar as BaseCalendar, Views, dateFnsLocalizer } from "react-big-calendar"
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css"
@@ -9,17 +9,22 @@ import format from "date-fns/format"
 import parse from "date-fns/parse"
 import startOfWeek from "date-fns/startOfWeek"
 import getDay from "date-fns/getDay"
-import { enUS } from "date-fns/locale"
-
+import { enUS, zhCN } from "date-fns/locale"
 import Toolbar from "./toolbar"
 import EventBank from "./event-bank"
 import { CalendarGlobalStyleOverride, Wrapper } from "./styles"
 import { VISIT } from "lib/common-types"
 import { formatStart, formatEnd } from "lib/datetime"
 
+const bigCalendarLocaleByKey = {
+  en: "en-US",
+  cn: "zh-CN",
+}
 const locales = {
   "en-US": enUS,
+  "zh-CN": zhCN,
 }
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -39,6 +44,8 @@ const Calendar = ({
   onRangeChange,
   initialDate,
 }) => {
+  const { i18n } = useTranslation()
+
   const [draggedEvent, setDraggedEvent] = useState(null)
 
   const events = useMemo(
@@ -91,6 +98,7 @@ const Calendar = ({
           dragFromOutsideItem={() => draggedEvent}
           events={events}
           localizer={localizer}
+          culture={bigCalendarLocaleByKey[i18n.language]}
           onDropFromOutside={onDropFromOutside}
           onEventDrop={onEventDrop}
           onEventResize={onEventDrop}
