@@ -40,7 +40,8 @@
       "firstName": "名",
       "language": "语言",
       "lastName": "姓",
-      "login": "登陆",
+      "logIn": "登陆",
+      "logOut": "登出",
       "manage": "管理",
       "name": "名字",
       "fullName": "姓名",
@@ -70,8 +71,9 @@
       "days": "天",
       "weeks": "周",
       "months": "月",
-      "contact": "联系方式"
-
+      "contact": "联系方式",
+      "myProfile": "我的主页",
+      "settings": "设置"
     },
     "placeholder": {
       "multipleSelect": "请选择一个或多个"

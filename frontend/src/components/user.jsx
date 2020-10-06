@@ -1,4 +1,6 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
+
 import { Avatar, Dropdown, Menu } from "antd"
 import { UserOutlined, SettingOutlined, LogoutOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
@@ -9,6 +11,8 @@ import { LINK_BY_ROLE } from "lib/constants"
 import { SIGN_OUT } from "graphql/user"
 
 const User = () => {
+  const { t } = useTranslation()
+
   const { user, updateUser } = useUserContext()
   const [signOut] = useMutation(SIGN_OUT, {
     onCompleted: () => updateUser(),
@@ -20,13 +24,14 @@ const User = () => {
       <Menu.Item key="page" className="px-5">
         <Link to={route()[LINK_BY_ROLE[roleType]](role.id)}>
           <UserOutlined className="mr-2" />
-          My Profile
+          {t("common.myProfile")}
         </Link>
       </Menu.Item>
       <Menu.Item key="setting" className="px-5">
         <Link to="/settings">
           <SettingOutlined className="mr-2" />
-          Settings
+
+          {t("common.settings")}
         </Link>
       </Menu.Item>
       {/*  <Menu.Item key="preference">
@@ -36,7 +41,7 @@ const User = () => {
       <Menu.Item key="log-out" className="text-red-500 px-5">
         <button onClick={signOut} type="button">
           <LogoutOutlined className="mr-2" />
-          Log out
+          {t("common.logOut")}
         </button>
       </Menu.Item>
     </Menu>
