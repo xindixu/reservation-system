@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Button, Modal as AntdModal, Form } from "antd"
+import i18n from "locales/index"
 
 const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteButtonText }) => {
   const { t } = useTranslation()
@@ -56,8 +57,8 @@ const Modal = ({ title, onClose, onDelete, children, submitButtonText, deleteBut
   )
 }
 Modal.defaultProps = {
-  submitButtonText: "Create",
-  deleteButtonText: "Delete",
+  submitButtonText: i18n.t("common.create"),
+  deleteButtonText: i18n.t("common.delete"),
   onDelete: null,
 }
 

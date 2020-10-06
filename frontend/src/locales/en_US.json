@@ -76,7 +76,8 @@
       "months": "month(s)",
       "contact": "contact",
       "myProfile": "my profile",
-      "settings": "settings"
+      "settings": "settings",
+      "delete": "delete"
     },
     "placeholder": {
       "multipleSelect": "Select one or multiple"

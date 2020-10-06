@@ -53,7 +53,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
               type="link"
               size="small"
               icon={<MailOutlined />}
-              aria-label="email"
+              aria-label={t("common.email")}
               href={`mailto:${email}`}
             />,
             <Button
@@ -61,7 +61,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
               type="link"
               size="small"
               icon={<PhoneOutlined />}
-              aria-label="call"
+              aria-label={t("common.call")}
               href={`tel:${phone}`}
             />,
           ]}
@@ -77,7 +77,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
               size="small"
               shape="circle"
               icon={<EditOutlined />}
-              aria-label="edit"
+              aria-label={t("common.edit")}
               onClick={() => editClient(client)}
             />,
             <Button
@@ -86,7 +86,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
               type="danger"
               shape="circle"
               icon={<DeleteOutlined />}
-              aria-label="delete"
+              aria-label={t("common.delete")}
               onClick={() => deleteClient(client)}
             />,
           ]}

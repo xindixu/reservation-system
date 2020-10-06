@@ -70,7 +70,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
               size="small"
               shape="circle"
               icon={<EditOutlined />}
-              aria-label="edit"
+              aria-label={t("common.edit")}
               onClick={() => editSlot(slot)}
             />,
             <Button
@@ -79,7 +79,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
               type="danger"
               shape="circle"
               icon={<DeleteOutlined />}
-              aria-label="delete"
+              aria-label={t("common.delete")}
               onClick={() => deleteSlot(slot)}
             />,
           ]}

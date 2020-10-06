@@ -73,7 +73,8 @@
       "months": "月",
       "contact": "联系方式",
       "myProfile": "我的主页",
-      "settings": "设置"
+      "settings": "设置",
+      "delete": "删除"
     },
     "placeholder": {
       "multipleSelect": "请选择一个或多个"
