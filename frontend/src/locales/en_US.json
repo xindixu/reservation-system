@@ -13,32 +13,23 @@
       }
     },
     "term": {
-      "admin": {
-        "singular": "admin",
-        "plural": "admins"
-      },
-      "client": {
-        "singular": "client",
-        "plural": "clients"
-      },
-      "manager": {
-        "singular": "manager",
-        "plural": "managers"
-      },
-      "slot": {
-        "singular": "slot",
-        "plural": "slots"
-      },
-      "team": {
-        "singular": "team",
-        "plural": "teams"
-      },
-      "visit": {
-        "singular": "visit",
-        "plural": "visits"
-      }
+      "admin": "admin",
+      "admin_plural": "admins",
+      "client": "client",
+      "client_plural": "clients",
+      "manager": "manager",
+      "manager_plural": "managers",
+      "managerWithCount": "{{count}} manager",
+      "managerWithCount_plural": "{{count}} managers",
+      "slot": "slot",
+      "slot_plural": "slots",
+      "team": "team",
+      "team_plural": "teams",
+      "visit": "visit",
+      "visit_plural": "visits"
     },
     "common": {
+      "add": "add",
       "action": "action",
       "calendar": "calendar",
       "clear": "clear",
@@ -65,10 +56,11 @@
       "true": "yes",
       "false": "no"
     },
-    "placeholder":{
+    "placeholder": {
       "multipleSelect": "Select one or multiple"
     },
     "message": {
+      "addManagersToTeam": "Add managers to {{name}}",
       "deleteSlot": "You are about to delete {{name}}. It will remove all data related to this slot, including Visits."
     }
   }

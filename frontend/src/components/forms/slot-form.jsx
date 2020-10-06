@@ -36,7 +36,7 @@ const SlotForm = ({ initialSlot, form, onSubmit }) => {
         <Checkbox />
       </Form.Item>
       <Form.Item
-        label={startCase(t("term.manager.plural"))}
+        label={startCase(t("term.manager_plural"))}
         name="managerIds"
         rules={[{ required: true }]}
       >

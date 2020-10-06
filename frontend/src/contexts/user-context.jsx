@@ -17,7 +17,7 @@ export const UserContextProvider = ({ children }) => {
 
   const updateUser = useCallback((newUser) => {
     const { locale } = newUser
-    if (locale !== user.locale) {
+    if (locale !== user?.locale) {
       i18n.changeLanguage(languageMapping[locale])
     }
     if (newUser) {

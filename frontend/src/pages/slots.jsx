@@ -63,7 +63,7 @@ const Slot = () => {
       />
       {modalToShow === MODALS.addSlot && (
         <Modal
-          title={`${t("common.create")} ${t("term.slot.plural")}`}
+          title={`${t("common.create")} ${t("term.slot")}`}
           onClose={() => setModalToShow("")}
           submitButtonText={t("common.create")}
         >
@@ -93,7 +93,7 @@ const Slot = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addSlot)}
-        ariaLabel={`${t("common.create")} ${t("term.slot.plural")}`}
+        ariaLabel={`${t("common.create")} ${t("term.slot")}`}
         rotate={!!modalToShow}
       />
     </>

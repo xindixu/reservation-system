@@ -89,13 +89,13 @@ const Slot = () => {
           <Title>{name}</Title>
 
           <p>
-            {t("term.manager.plural")}:{" "}
+            {t("term.manager_plural")}:{" "}
             {managers.map((manager) => (
               <Tag key={manager.id}>{getFullName(manager)}</Tag>
             ))}
           </p>
           <p>
-            {t("term.team.plural")}: {team.name}
+            {t("term.team_plural")}: {team.name}
           </p>
           <p>
             {t("common.shareable")}: {t(`common.${!!shareable}`)}
@@ -130,7 +130,7 @@ const Slot = () => {
       />
       {modalToShow === MODALS.editVisit && (
         <Modal
-          title={`${t("common.edit")} ${t("term.visit.singular")}`}
+          title={`${t("common.edit")} ${t("term.visit")}`}
           onClose={() => setModalToShow("")}
           onDelete={() => {
             deleteVisit({ variables: { id: selectedVisit.id } })
@@ -152,7 +152,7 @@ const Slot = () => {
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
-          title={`${t("common.create")} ${t("term.visit.singular")}`}
+          title={`${t("common.create")} ${t("term.visit")}`}
           onClose={() => {
             setModalToShow("")
             setPresetDate({})
@@ -191,7 +191,7 @@ const Slot = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
-        ariaLabel={`${t("common.create")} ${t("term.visit.plural")}`}
+        ariaLabel={`${t("common.create")} ${t("term.visit")}`}
         rotate={!!modalToShow}
       />
     </>

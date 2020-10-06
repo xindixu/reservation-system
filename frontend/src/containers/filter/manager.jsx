@@ -7,7 +7,7 @@ import { getFullName } from "lib/utils"
 const ManagerFilter = ({ t }) => {
   const { managers, loadingManagers, loadManagers } = useManagers()
   const props = {
-    label: startCase(t("term.manager.plural")),
+    label: startCase(t("term.manager_plural")),
     name: "managerIds",
     onFocus: loadManagers,
     loading: loadingManagers,

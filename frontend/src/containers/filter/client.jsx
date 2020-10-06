@@ -8,7 +8,7 @@ const ClientFilter = ({ t }) => {
   const { clients, loadingClients, loadClients } = useClients()
 
   const props = {
-    label: startCase(t("term.client.plural")),
+    label: startCase(t("term.client_plural")),
     name: "clientIds",
     onFocus: loadClients,
     loading: loadingClients,

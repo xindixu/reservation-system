@@ -7,7 +7,7 @@ const Team = ({ t }) => {
   const { teams, loadingTeams, loadTeams } = useTeams()
 
   const props = {
-    label: startCase(t("term.team.plural")),
+    label: startCase(t("term.team_plural")),
     name: "teamId",
     onFocus: loadTeams,
     loading: loadingTeams,

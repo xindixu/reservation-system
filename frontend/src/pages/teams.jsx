@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import TeamsGrid from "components/grid/teams-grid"
 import Modal from "components/modal"
 import TeamForm from "components/forms/team-form"
@@ -10,6 +11,7 @@ const MODALS = {
 }
 
 const Teams = () => {
+  const { t } = useTranslation()
   const { teams, errorTeams, loadingTeams, loadTeams, addTeam } = useTeams()
   const [modalToShow, setModalToShow] = useState("")
 
@@ -28,7 +30,11 @@ const Teams = () => {
     <>
       <TeamsGrid teams={teams} />
       {modalToShow === MODALS.addTeam && (
-        <Modal title="Create New Team" onClose={() => setModalToShow("")} submitButtonText="Create">
+        <Modal
+          title={`${t("common.create")} ${t("term.team")}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText={t("common.create")}
+        >
           {({ form }) => (
             <TeamForm form={form} onSubmit={(values) => addTeam({ variables: values })} />
           )}
@@ -36,7 +42,7 @@ const Teams = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addTeam)}
-        ariaLabel="new Team"
+        ariaLabel={`${t("common.create")} ${t("term.team")}`}
         rotate={!!modalToShow}
       />
     </>

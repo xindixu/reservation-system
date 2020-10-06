@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { Typography, Button, Space } from "antd"
 import { MailOutlined, PhoneOutlined, EditOutlined } from "@ant-design/icons"
@@ -44,6 +45,7 @@ const MODALS = {
 }
 
 const Team = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const { team, errorTeam, loadingTeam, loadTeam, editTeam, addManagers } = useTeams(id)
 
@@ -77,7 +79,11 @@ const Team = () => {
       <ManagersGrid managers={managers} />
 
       {modalToShow === MODALS.editTeam && (
-        <Modal title={`Edit ${name}`} onClose={() => setModalToShow("")} submitButtonText="Update">
+        <Modal
+          title={`${t("common.edit")} ${name}`}
+          onClose={() => setModalToShow("")}
+          submitButtonText={t("common.update")}
+        >
           {({ form }) => (
             <TeamForm
               initialTeam={team}
@@ -91,9 +97,12 @@ const Team = () => {
       )}
       {modalToShow === MODALS.addManagerToTeam && (
         <Modal
-          title={`Add Manager To ${name}`}
+          title={t("message.addManagersToTeam", { name })}
           onClose={() => setModalToShow("")}
-          submitButtonText={`Add ${numOfManagersToAdd} Managers`}
+          submitButtonText={`${t("common.add")} ${t(
+            numOfManagersToAdd === 1 ? "term.managerWithCount" : "term.managerWithCount_plural",
+            { count: numOfManagersToAdd }
+          )}`}
         >
           {({ form }) => (
             <AddManagerToTeam
@@ -109,7 +118,7 @@ const Team = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addManagerToTeam)}
-        ariaLabel="add manager to team"
+        ariaLabel={t("message.addManagersToTeam", { name })}
         rotate={modalToShow === MODALS.addManagerToTeam}
       />
     </>
