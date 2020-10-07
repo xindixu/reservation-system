@@ -99,7 +99,7 @@ const Client = () => {
           <Title>{fullName}</Title>
 
           <p>
-            {t("term.manager_plural")}:{" "}
+            {t("common.manager_plural")}:{" "}
             {managers.map((manager) => (
               <Tag key={manager.id}>{getFullName(manager)}</Tag>
             ))}

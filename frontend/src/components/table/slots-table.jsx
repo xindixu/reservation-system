@@ -29,7 +29,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
         />,
         <Column
           key="manager"
-          label={t("term.manager_plural")}
+          label={t("common.manager_plural")}
           dataKey="manager"
           width={(width / 5) * 3}
           flexGrow={1}
@@ -45,7 +45,7 @@ const SlotsTable = ({ slots = [], deleteSlot, editSlot, fetchMore, hasNext }) =>
         />,
         <Column
           key="team"
-          label={t("term.team")}
+          label={t("common.team")}
           dataKey="team"
           width={width / 5}
           cellRenderer={({ rowData: { team } }) => team?.name}

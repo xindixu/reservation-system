@@ -19,16 +19,16 @@ const Navbar = () => {
         <Link to="/calendar">{t("common.calendar")}</Link>
       </Menu.Item>
       <Menu.Item key="teams" icon={<TeamOutlined />}>
-        <Link to="/teams">{t("term.team_plural")}</Link>
+        <Link to="/teams">{t("common.team_plural")}</Link>
       </Menu.Item>
       <Menu.Item key="managers" icon={<UserOutlined />}>
-        <Link to="/managers">{t("term.manager_plural")}</Link>
+        <Link to="/managers">{t("common.manager_plural")}</Link>
       </Menu.Item>
       <Menu.Item key="clients" icon={<ContactsOutlined />}>
-        <Link to="/clients">{t("term.client_plural")}</Link>
+        <Link to="/clients">{t("common.client_plural")}</Link>
       </Menu.Item>
       <Menu.Item key="slots" icon={<AppstoreAddOutlined />}>
-        <Link to="/slots">{t("term.slot_plural")}</Link>
+        <Link to="/slots">{t("common.slot_plural")}</Link>
       </Menu.Item>
     </Menu>
   )

@@ -74,7 +74,7 @@ const Manager = () => {
             {t("common.jobTitle")}: {jobTitle}
           </p>
           <p>
-            {t("term.team")}: {team.name}
+            {t("common.team")}: {team.name}
           </p>
           <PageActions manager={manager} edit={() => setModalToShow(MODALS.editManager)} t={t} />
         </div>
@@ -120,7 +120,7 @@ const Manager = () => {
         <Modal
           title={t("message.addClientsToManager", { manager: fullName })}
           onClose={() => setModalToShow("")}
-          submitButtonText={`${t("common.add")} ${t("term.clientWithCount", {
+          submitButtonText={`${t("common.add")} ${t("common.clientWithCount", {
             count: numOfClientsToAdd,
           })}`}
         >

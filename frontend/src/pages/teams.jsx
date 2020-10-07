@@ -31,7 +31,7 @@ const Teams = () => {
       <TeamsGrid teams={teams} />
       {modalToShow === MODALS.addTeam && (
         <Modal
-          title={`${t("common.create")} ${t("term.team")}`}
+          title={`${t("common.create")} ${t("common.team")}`}
           onClose={() => setModalToShow("")}
           submitButtonText={t("common.create")}
         >
@@ -42,7 +42,7 @@ const Teams = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addTeam)}
-        ariaLabel={`${t("common.create")} ${t("term.team")}`}
+        ariaLabel={`${t("common.create")} ${t("common.team")}`}
         rotate={!!modalToShow}
       />
     </>

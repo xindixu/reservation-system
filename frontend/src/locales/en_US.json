@@ -12,7 +12,7 @@
         "hint": "Already have an account?"
       }
     },
-    "term": {
+    "common": {
       "admin": "admin",
       "admin_plural": "admins",
       "client": "client",
@@ -28,9 +28,7 @@
       "team": "team",
       "team_plural": "teams",
       "visit": "visit",
-      "visit_plural": "visits"
-    },
-    "common": {
+      "visit_plural": "visits",
       "add": "add",
       "action": "action",
       "calendar": "calendar",
@@ -69,7 +67,9 @@
       "agenda": "agenda",
       "day": "day",
       "week": "week",
+      "thisWeek": "this week",
       "month": "month",
+      "thisMonth": "this month",
       "allDay": "all day",
       "days": "day(s)",
       "weeks": "week(s)",

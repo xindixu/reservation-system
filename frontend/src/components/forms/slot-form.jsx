@@ -34,7 +34,7 @@ const SlotForm = ({ initialSlot, form, onSubmit }) => {
       >
         <Checkbox />
       </Form.Item>
-      <Form.Item label={t("term.manager_plural")} name="managerIds" rules={[{ required: true }]}>
+      <Form.Item label={t("common.manager_plural")} name="managerIds" rules={[{ required: true }]}>
         <Select mode="multiple">
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>

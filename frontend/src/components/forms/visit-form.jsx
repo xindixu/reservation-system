@@ -91,7 +91,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       onFinish={onFinish}
     >
       <SelectWithFilterAndDisable
-        label={t("term.client")}
+        label={t("common.client")}
         name="clientId"
         data={clientData?.clients}
         filtered={filtered.clientIds}
@@ -100,24 +100,20 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       />
 
       <SelectWithFilterAndDisable
-        label={t("term.slot")}
+        label={t("common.slot")}
         name="slotId"
         data={slotData?.slots}
         filtered={filtered.slotIds}
         disabled={disabled.slotId}
         itemToString={(item) => item.name}
       />
-      <Form.Item
-        label={t("term.visit")}
-        name="visit"
-        rules={[{ type: "array", required: true, message: "Please select time!" }]}
-      >
+      <Form.Item label={t("common.visit")} name="visit" rules={[{ type: "array", required: true }]}>
         <DatePicker.RangePicker
           style={{ width: "100%" }}
           ranges={{
-            Today: [TODAY, TODAY],
-            "This Week": [startOfWeek(TODAY), endOfWeek(TODAY)],
-            "This Month": [startOfMonth(TODAY), endOfMonth(TODAY)],
+            [t("common.today")]: [TODAY, TODAY],
+            [t("common.thisWeek")]: [startOfWeek(TODAY), endOfWeek(TODAY)],
+            [t("common.thisMonth")]: [startOfMonth(TODAY), endOfMonth(TODAY)],
           }}
           showTime={!allDay}
         />

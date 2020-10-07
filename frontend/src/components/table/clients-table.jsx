@@ -26,7 +26,7 @@ const ClientsTable = ({ clients = [], deleteClient, editClient, fetchMore, hasNe
         />,
         <Column
           key="manager"
-          label={t("term.manager_plural")}
+          label={t("common.manager_plural")}
           dataKey="manager"
           width={(width / 5) * 3}
           flexGrow={1}

@@ -7,7 +7,7 @@ const SlotFilter = ({ t }) => {
   const { slots, loadingSlots, loadSlots } = useSlots()
 
   const props = {
-    label: startCase(t("term.slot_plural")),
+    label: startCase(t("common.slot_plural")),
     name: "slotIds",
     onFocus: loadSlots,
     loading: loadingSlots,

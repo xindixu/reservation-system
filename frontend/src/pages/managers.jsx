@@ -34,7 +34,7 @@ const Managers = () => {
       <ManagersGrid managers={managers} />
       {modalToShow === MODALS.addManager && (
         <Modal
-          title={`${t("common.create")} ${t("term.manager")}`}
+          title={`${t("common.create")} ${t("common.manager")}`}
           onClose={() => setModalToShow("")}
           submitButtonText={t("common.create")}
         >
@@ -45,7 +45,7 @@ const Managers = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addManager)}
-        ariaLabel={`${t("common.create")} ${t("term.manager")}`}
+        ariaLabel={`${t("common.create")} ${t("common.manager")}`}
         rotate={!!modalToShow}
       />
     </>

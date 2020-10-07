@@ -66,7 +66,7 @@ const ManagerForm = ({ form, initialManager, onSubmit }) => {
       <Form.Item label={t("common.phone")} name="phone" rules={[{ required: true }]}>
         <Input type="tel" />
       </Form.Item>
-      <Form.Item label={t("term.team")} name="teamId" rules={[{ required: true }]}>
+      <Form.Item label={t("common.team")} name="teamId" rules={[{ required: true }]}>
         <Select>
           {loadingTeams ||
             teams.map(({ id, name }) => (

@@ -183,7 +183,7 @@ const ClientForm = ({ initialClient, form, onSubmit }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label={t("term.manager_plural")} name="managerIds">
+      <Form.Item label={t("common.manager_plural")} name="managerIds">
         <Select mode="multiple">
           {data?.managers.map((manager) => (
             <Select.Option value={manager.id} key={manager.id}>

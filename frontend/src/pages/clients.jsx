@@ -70,7 +70,7 @@ const Clients = () => {
 
       {modalToShow === MODALS.addClient && (
         <Modal
-          title={`${t("common.create")} ${t("term.client")}`}
+          title={`${t("common.create")} ${t("common.client")}`}
           onClose={() => setModalToShow("")}
           submitButtonText={t("common.create")}
         >
@@ -99,7 +99,7 @@ const Clients = () => {
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addClient)}
-        title={`${t("common.create")} ${t("term.client")}`}
+        title={`${t("common.create")} ${t("common.client")}`}
         rotate={!!modalToShow}
       />
     </>

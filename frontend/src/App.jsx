@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ConfigProvider locale={antLocaleByKey[i18n.lng]}>
+      <ConfigProvider locale={antLocaleByKey[i18n.language]}>
         <Router>
           {isEmpty(user) ? (
             <AppRoutes />

@@ -101,7 +101,7 @@ const Page = ({
       )}
       {modalToShow === MODALS.addVisit && (
         <Modal
-          title={`${t("common.create")} ${t("term.visit")}`}
+          title={`${t("common.create")} ${t("common.visit")}`}
           onClose={modalOnCloseAndReset}
           submitButtonText={t("common.create")}
         >
@@ -119,7 +119,7 @@ const Page = ({
       )}
       <FAButton
         onClick={() => setModalToShow(MODALS.addVisit)}
-        title={`${t("common.create")} ${t("term.visit")}`}
+        title={`${t("common.create")} ${t("common.visit")}`}
         rotate={!!modalToShow}
       />
     </>

@@ -7,12 +7,12 @@
         "hint": "没有账号?"
       },
       "signUp": {
-        "title": "Welcome to Reservation System",
+        "title": "欢迎来到管理系统",
         "body": "管理系统可以帮助您管理周期性的客户访问，查看可用的资源，并且提醒您的客户下次访问的时间。",
         "hint": "已有账号？"
       }
     },
-    "term": {
+    "common": {
       "admin": "管理员",
       "admin_plural": "管理员",
       "client": "客户",
@@ -28,9 +28,7 @@
       "team": "团队",
       "team_plural": "团队",
       "visit": "访问",
-      "visit_plural": "访问"
-    },
-    "common": {
+      "visit_plural": "访问",
       "action": "操作",
       "calendar": "日历",
       "clear": "清空",
