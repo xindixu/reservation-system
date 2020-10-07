@@ -1,6 +1,7 @@
 {
   "translation": {
     "common": {
+      "add": "添加",
       "action": "操作",
       "admin_plural": "管理员",
       "admin": "管理员",
@@ -67,12 +68,13 @@
       "weeks": "周"
     },
     "message": {
+      "addClientsToManagerWithCount": "添加$t(common.clientWithCount_plural)",
       "addClientsToManager": "将$t(common.client_plural)加入{{manager}}",
       "addManagersToTeam": "将$t(common.manager_plural)加入{{team}}",
       "currentClientsInManager": "当前由{{manager}}负责的$t(common.client_plural)",
       "currentManagersInTeam": "当前在{{team}}里的$t(common.manager_plural)",
       "deleteClient": "您将要删除{{client}}。所有$t(common.client)的数据将会被移除，包括$t(common.visit_plural).",
-      "deleteSlot": "您将要删除{{slot}}. 所有$t(common.slot)的数据将会被移除，包括$t(common.visit_plural).",
+      "deleteSlot": "您将要删除{{slot}}。所有$t(common.slot)的数据将会被移除，包括$t(common.visit_plural).",
       "durationLessThanCycle": "$(common.duration)必须要小于$(common.cycle)",
       "isRequired": "请输入{{name}}",
       "isValidEmail": "请输入正确的{{name}}",

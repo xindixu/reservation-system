@@ -1,9 +1,11 @@
 import React, { useEffect } from "react"
+import { sortBy } from "lodash"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 import { Form, Select, List, Avatar } from "antd"
 import { FORM, MANAGER } from "lib/common-types"
-import { getFullName, getDefaultAvatar } from "lib/utils"
+
+import { getFullName, getDefaultAvatar, mapById } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import useClients from "data/use-clients"
 
@@ -22,10 +24,10 @@ const groupClients = (clients, managerId) => {
   }
   return { clientsServedByManager, clientsNotServedByManager }
 }
-const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToAdd }) => {
+const AddClientsToManager = ({ form, initialManager, onSubmit, setNumOfClientsToAdd }) => {
   const { t } = useTranslation()
 
-  const { clients, loadingClients, errorClients, loadClients } = useClients()
+  const { clients, loadingClients, loadClients } = useClients()
 
   useEffect(() => {
     loadClients()
@@ -37,22 +39,29 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
 
   // TODO: clients: search for clients by name
   const { clientsNotServedByManager } = groupClients(clients, initialManager.id)
-  const clientsServedByManager = initialManager.clients
+
+  const clientsById = mapById(clientsNotServedByManager)
 
   return (
     <>
       <Form
         {...defaultFormLayout}
         form={form}
-        initialValues={initialManager}
         validateMessages={defaultValidateMessages}
         onFinish={onSubmit}
       >
         <Form.Item
+          initialValue={initialManager.clientIds}
           label={t("message.addClientsToManager", { manager: getFullName(initialManager) })}
+          rules={[{ required: true }]}
           name="clientIds"
         >
-          <Select mode="multiple" onChange={(clientIds) => setNumOfClientsToAdd(clientIds.length)}>
+          <Select
+            mode="multiple"
+            onChange={(clintIds) => {
+              setNumOfClientsToAdd(clintIds.length)
+            }}
+          >
             {clientsNotServedByManager.map((client) => (
               <Select.Option value={client.id} key={client.id}>
                 {getFullName(client)}
@@ -61,12 +70,12 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
           </Select>
         </Form.Item>
       </Form>
-      <p className="capitalize">
-        {t("message.currentClientsInManager", { manager: getFullName(initialManager) })}
-      </p>
 
       <List
-        dataSource={clientsServedByManager}
+        dataSource={sortBy(
+          form.getFieldValue("clientIds")?.map((id) => clientsById[id]),
+          ["firstName", "lastName"]
+        )}
         renderItem={(client) => (
           <List.Item>
             <List.Item.Meta
@@ -80,10 +89,10 @@ const AddClientToManager = ({ form, initialManager, onSubmit, setNumOfClientsToA
   )
 }
 
-AddClientToManager.propTypes = {
+AddClientsToManager.propTypes = {
   form: PropTypes.shape(FORM).isRequired,
   initialManager: PropTypes.shape(MANAGER).isRequired,
   onSubmit: PropTypes.func.isRequired,
   setNumOfClientsToAdd: PropTypes.func.isRequired,
 }
-export default AddClientToManager
+export default AddClientsToManager

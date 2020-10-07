@@ -80,3 +80,11 @@ export const route = () => ({
   client: (id) => `/client/${id}`,
   team: (id) => `/team/${id}`,
 })
+
+export const mapByKey = (array, key) =>
+  array.reduce((memo, object) => {
+    memo[object[key]] = object
+    return memo
+  }, {})
+
+export const mapById = (array) => mapByKey(array, "id")

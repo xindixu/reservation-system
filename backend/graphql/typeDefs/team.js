@@ -43,6 +43,6 @@ export default gql`
     createTeam(input: TeamInput): Team @auth
     updateTeam(input: TeamInputWithId): Team @auth
     destroyTeam(id: ID!): ID @auth
-    # TODO: addManagersToTeam(id: ID!, managerIds: [ID!]!) @auth
+    addManagerToTeam(id: ID!, managerIds: [ID!]!): Team @auth
   }
 `

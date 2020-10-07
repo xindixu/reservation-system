@@ -47,6 +47,8 @@ const resolvers = {
       await Slot.deleteMany({ team: id })
       return result.n === 1 ? id : null
     },
+
+    addManagerToTeam: async (_, { id, managerIds }) => {},
   },
 
   Team: {

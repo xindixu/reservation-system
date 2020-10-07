@@ -7,7 +7,7 @@ import { getFullName, getDefaultAvatar } from "lib/utils"
 import ClientsTable from "components/table/clients-table"
 import Modal from "components/modal"
 import ManagerForm from "components/forms/manager-form"
-import AddClientsToManager from "components/forms/add-client-to-manager"
+import AddClientsToManager from "components/forms/add-clients-to-manager"
 import FAButton from "components/floating-action-button"
 import getConfirm from "components/confirm"
 import useManagers from "data/use-managers"
@@ -84,6 +84,7 @@ const Manager = () => {
       </div>
       <ClientsTable
         clients={clients}
+        onEditClient={() => {}}
         deleteClient={(client) => {
           getConfirm({
             content: (
@@ -120,7 +121,7 @@ const Manager = () => {
         <Modal
           title={t("message.addClientsToManager", { manager: fullName })}
           onClose={() => setModalToShow("")}
-          submitButtonText={`${t("common.add")} ${t("common.clientWithCount", {
+          submitButtonText={`${t("message.addClientsToManagerWithCount", {
             count: numOfClientsToAdd,
           })}`}
         >

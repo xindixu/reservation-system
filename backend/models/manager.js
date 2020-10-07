@@ -66,4 +66,8 @@ export const areManagerIdsValid = async (ids) => {
 
 export const getManagerByUserId = async (userId) => Manager.findOne({ user: { $eq: userId } })
 
+export const addManagersToTeam = async (teamId, managerIds) => {
+  await Manager.updateMany({ _id: { $in: managerIds } }, { team: teamId })
+}
+
 export default Manager

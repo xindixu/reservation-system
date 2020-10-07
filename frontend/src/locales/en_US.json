@@ -72,6 +72,7 @@
       "weeks": "week(s)"
     },
     "message": {
+      "addClientsToManagerWithCount": "Add $t(common.clientWithCount_plural)",
       "addClientsToManager": "Add $t(common.client_plural) to {{manager}}",
       "addManagersToTeam": "Add $t(common.manager_plural) to {{team}}",
       "currentClientsInManager": "Current $t(common.client_plural) in {{manager}}",
