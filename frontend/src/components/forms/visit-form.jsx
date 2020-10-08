@@ -1,7 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { useQuery } from "@apollo/client"
 import startOfDay from "date-fns/startOfDay"
 import startOfWeek from "date-fns/startOfWeek"
 import startOfMonth from "date-fns/startOfMonth"
@@ -15,8 +14,10 @@ import { VISIT, FORM } from "lib/common-types"
 import { getFullName } from "lib/utils"
 import DatePicker from "components/date-picker"
 import { toISOStringWithTZ } from "lib/datetime"
-import { GET_ALL_CLIENTS } from "graphql/clients"
-import { GET_ALL_SLOTS } from "graphql/slots"
+
+import useClients from "data/use-clients"
+import useSlots from "data/use-slots"
+
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 
 const TODAY = new Date()
@@ -57,8 +58,14 @@ const SelectWithFilterAndDisable = ({
 const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
   const { t } = useTranslation()
 
-  const { data: clientData } = useQuery(GET_ALL_CLIENTS)
-  const { data: slotData } = useQuery(GET_ALL_SLOTS)
+  const { slots, loadSlots, fetchMoreSlots } = useSlots()
+  const { clients, loadClients, fetchMoreClients } = useClients()
+
+  useEffect(() => {
+    loadSlots()
+    loadClients()
+  }, [])
+
   const { client, slot, start, end } = initialVisit
 
   const [allDay, setAllDay] = useState(true)
@@ -93,7 +100,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       <SelectWithFilterAndDisable
         label={t("common.client")}
         name="clientId"
-        data={clientData?.clients}
+        data={clients?.clients}
         filtered={filtered.clientIds}
         disabled={disabled.clientId}
         itemToString={(item) => getFullName(item)}
@@ -102,7 +109,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       <SelectWithFilterAndDisable
         label={t("common.slot")}
         name="slotId"
-        data={slotData?.slots}
+        data={slots?.slots}
         filtered={filtered.slotIds}
         disabled={disabled.slotId}
         itemToString={(item) => item.name}

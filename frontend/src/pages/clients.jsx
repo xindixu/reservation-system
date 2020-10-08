@@ -8,7 +8,6 @@ import FAButton from "components/floating-action-button"
 import { getFullName } from "lib/utils"
 import getConfirm from "components/confirm"
 import useClients from "data/use-clients"
-import useManagers from "data/use-managers"
 
 const MODALS = {
   addClient: "addClient",
@@ -18,8 +17,6 @@ const MODALS = {
 
 const Clients = () => {
   const { t } = useTranslation()
-
-  const { managers, loadingManagers, loadManagers } = useManagers()
 
   const {
     clients,
@@ -35,7 +32,6 @@ const Clients = () => {
 
   useEffect(() => {
     loadClients()
-    loadManagers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -50,7 +46,7 @@ const Clients = () => {
     <>
       <Filter enabledFilters={["manager"]} onFilterChange={setClientFilters} />
       <ClientsTable
-        loading={loadingClients || loadingManagers}
+        loading={loadingClients}
         clients={clients?.clients}
         hasNext={clients?.hasNext}
         fetchMore={fetchMoreClients}

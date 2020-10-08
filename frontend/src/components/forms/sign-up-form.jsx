@@ -40,7 +40,7 @@ const SignUpForm = ({ form, onSubmit, errors }) => {
         <Select>
           {ROLES.map((role) => (
             <Option key={role} value={role}>
-              {capitalize(role)}
+              {capitalize(t(`common.${role.toLowerCase()}`))}
             </Option>
           ))}
         </Select>
