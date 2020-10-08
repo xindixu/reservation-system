@@ -2,12 +2,16 @@ import { gql } from "@apollo/client"
 import { MANAGER, CLIENT } from "./fragments"
 
 export const GET_ALL_MANAGERS = gql`
-  query Managers {
-    managers {
-      ...ExtendedManager
-      team {
-        id
+  query Managers($size: Int!, $next: String) {
+    managers(size: $size, next: $next) {
+      managers {
+        ...ExtendedManager
+        team {
+          id
+        }
       }
+      hasNext
+      next
     }
   }
   ${MANAGER.extended}

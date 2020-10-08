@@ -31,7 +31,7 @@ const Managers = () => {
 
   return (
     <>
-      <ManagersGrid managers={managers} />
+      <ManagersGrid managers={managers?.managers} />
       {modalToShow === MODALS.addManager && (
         <Modal
           title={`${t("common.create")} ${t("common.manager")}`}

@@ -9,6 +9,22 @@ import {
 } from "graphql/managers"
 import { GET_CLIENT_BY_ID } from "graphql/clients"
 
+const PAGE_SIZE = 20
+
+const updateAfterFetchMore = (previousResult, { fetchMoreResult }) => {
+  if (!fetchMoreResult) {
+    return previousResult
+  }
+  const { managers } = fetchMoreResult.managers
+  return {
+    ...fetchMoreResult,
+    managers: {
+      ...fetchMoreResult.managers,
+      managers: [...previousResult.managers.managers, ...managers],
+    },
+  }
+}
+
 const updateAfterCreate = (cache, { data: { createManager } }) => {
   const manager = createManager
   try {
@@ -66,15 +82,19 @@ const useManagers = (id) => {
       called: calledManagers,
       data: { managers = [] } = {},
     },
-  ] = useLazyQuery(GET_ALL_MANAGERS)
+  ] = useLazyQuery(GET_ALL_MANAGERS, {
+    variables: { size: PAGE_SIZE },
+    fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true,
+  })
 
-  // const fetchMoreManagers = () =>
-  //   fetchMore({
-  //     variables: {
-  //       next: managers.next,
-  //     },
-  //     updateQuery: updateAfterFetchMore,
-  //   })
+  const fetchMoreManagers = () =>
+    fetchMore({
+      variables: {
+        next: managers.next,
+      },
+      updateQuery: updateAfterFetchMore,
+    })
 
   const [
     loadManager,
@@ -113,7 +133,7 @@ const useManagers = (id) => {
     loadingManagers: calledManagers ? loadingManagers : true,
     loadManager,
     loadManagers,
-    // fetchMoreManagers,
+    fetchMoreManagers,
     addManager,
     editManager,
     // deleteManager,
