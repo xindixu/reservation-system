@@ -1,4 +1,4 @@
-import { identity } from "lodash"
+import { first, identity } from "lodash"
 import { checkObjectId } from "../../utils/validators.js"
 import Manager from "../../models/manager.js"
 import { findTeamById } from "../../models/team.js"
@@ -38,7 +38,7 @@ const fetchManagers = async ({ size = 20, next }) => {
   const hasNext = managers.length > size
 
   return {
-    managers: managers.slice(0, -1),
+    managers: managers.length > 1 ? managers.slice(0, -1) : managers,
     hasNext,
     next: hasNext ? toCursorHash({ firstName: managers[managers.length - 1].firstName }) : "",
   }

@@ -41,7 +41,7 @@ const fetchSlots = async ({ filters = {}, size = 20, next }) => {
   const hasNext = slots.length > size
 
   return {
-    slots: slots.slice(0, -1),
+    slots: slots.length > 1 ? slots.slice(0, -1) : slots,
     hasNext,
     next: hasNext ? toCursorHash({ name: slots[slots.length - 1].name }) : "",
   }

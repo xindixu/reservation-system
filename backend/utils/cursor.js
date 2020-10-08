@@ -10,7 +10,7 @@ const toCursorHash = (object) => {
 
 const fromCursorHash = (string) => {
   try {
-    return JSON.parse(Buffer.from(string, "base64").toString("ascii"))
+    return JSON.parse(Buffer.from(string, "base64").toString())
   } catch (error) {
     throw new UserInputError("Invalid cursor")
   }

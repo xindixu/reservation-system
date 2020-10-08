@@ -44,7 +44,7 @@ const fetchClients = async ({ filters = {}, size = 20, next }) => {
   const hasNext = clients.length > size
 
   return {
-    clients: clients.slice(0, -1),
+    clients: clients.length > 1 ? clients.slice(0, -1) : clients,
     hasNext,
     next: hasNext ? toCursorHash({ firstName: clients[clients.length - 1].firstName }) : "",
   }
