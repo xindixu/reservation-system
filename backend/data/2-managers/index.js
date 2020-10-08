@@ -5,7 +5,7 @@ import teams from "../1-teams/index.js"
 const { ObjectId } = mongoose.Types
 
 const generateMangers = () =>
-  [...Array(15).keys()].map((index) => {
+  [...Array(100).keys()].map((index) => {
     const firstName = faker.name.firstName()
     const lastName = faker.name.lastName()
     return {

@@ -1,6 +1,14 @@
 import { gql } from "apollo-server-express"
 
 export default gql`
+  type ManagerConnection {
+    # previous: String!
+    # hasPrevious: Boolean!
+    next: String!
+    hasNext: Boolean!
+    managers: [Manager]!
+  }
+
   type Manager {
     id: ID!
     firstName: String!
@@ -39,7 +47,7 @@ export default gql`
   }
 
   extend type Query {
-    managers: [Manager!]
+    managers(next: String, size: Int): ManagerConnection!
     manager(id: ID!): Manager!
   }
 

@@ -1,3 +1,4 @@
+import { identity } from "lodash"
 import { checkObjectId } from "../../utils/validators.js"
 import Manager from "../../models/manager.js"
 import { findTeamById } from "../../models/team.js"
@@ -9,6 +10,39 @@ import {
   addClientsToManager,
   removeClientsFromManager,
 } from "../../models/client.js"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
+
+const fetchManagers = async ({ size = 20, next }) => {
+  let paginationSettings
+  if (next) {
+    const { firstName, lastName, id } = fromCursorHash(next)
+    paginationSettings = {
+      $or: [
+        { firstName: { $gte: firstName } },
+        {
+          $and: [{ firstName }, { lastName: { $gte: lastName } }],
+        },
+        {
+          $and: [{ firstName }, { lastName }, { id: { $gte: id } }],
+        },
+      ],
+    }
+  }
+
+  const options = [paginationSettings].filter(identity)
+
+  const managers = await Manager.find(options.length ? { $and: options } : {})
+    .sort({ firstName: 1, lastName: 1, id: 1 })
+    .limit(size + 1)
+
+  const hasNext = managers.length > size
+
+  return {
+    managers: managers.slice(0, -1),
+    hasNext,
+    next: hasNext ? toCursorHash({ firstName: managers[managers.length - 1].firstName }) : "",
+  }
+}
 
 const resolvers = {
   Query: {
@@ -16,9 +50,7 @@ const resolvers = {
       await checkObjectId(id)
       return Manager.findById(id)
     },
-    managers: async () => {
-      return Manager.find().sort({ firstName: 1, lastName: 1 })
-    },
+    managers: async (_, { next, size }) => fetchManagers({ next, size }),
   },
 
   Mutation: {

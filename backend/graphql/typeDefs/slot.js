@@ -6,7 +6,7 @@ export default gql`
     # hasPrevious: Boolean!
     next: String!
     hasNext: Boolean!
-    slots: [Slot!]!
+    slots: [Slot]!
   }
 
   type Slot {

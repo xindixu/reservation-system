@@ -6,7 +6,7 @@ export default gql`
     # hasPrevious: Boolean!
     next: String!
     hasNext: Boolean!
-    clients: [Client!]!
+    clients: [Client]!
   }
 
   type Client {
@@ -48,6 +48,7 @@ export default gql`
   input ClientFilters {
     managerIds: [ID!]
   }
+
   extend type Query {
     clients(next: String, size: Int, filters: ClientFilters): ClientConnection!
     client(id: ID!): Client!
@@ -57,7 +58,5 @@ export default gql`
     createClient(input: ClientInput): Client @auth
     updateClient(input: ClientInputWithID): Client @auth
     destroyClient(id: ID!): ID @auth
-    # addManagersToClient(id: ID!, managerIds: [ID!]!): Client @auth
-    # removeManagersFromClient(id: ID!, managerIds: [ID!]!): Client @auth
   }
 `
