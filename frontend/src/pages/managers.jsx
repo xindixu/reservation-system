@@ -13,7 +13,14 @@ const MODALS = {
 const Managers = () => {
   const { t } = useTranslation()
 
-  const { managers, errorManagers, loadingManagers, loadManagers, addManager } = useManagers()
+  const {
+    managers,
+    errorManagers,
+    loadingManagers,
+    loadManagers,
+    addManager,
+    fetchMoreManagers,
+  } = useManagers()
 
   useEffect(() => {
     loadManagers()
@@ -22,16 +29,18 @@ const Managers = () => {
 
   const [modalToShow, setModalToShow] = useState("")
 
-  if (loadingManagers) {
-    return "Loading..."
-  }
   if (errorManagers) {
     return `Error! ${errorManagers.message}`
   }
 
   return (
     <>
-      <ManagersGrid managers={managers?.managers} />
+      <ManagersGrid
+        managers={managers?.managers}
+        hasNext={managers?.hasNext}
+        fetchMore={fetchMoreManagers}
+        loading={loadingManagers}
+      />
       {modalToShow === MODALS.addManager && (
         <Modal
           title={`${t("common.create")} ${t("common.manager")}`}
