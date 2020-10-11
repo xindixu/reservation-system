@@ -1,6 +1,8 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { isEmpty } from "lodash"
+import { isEmpty, startCase } from "lodash"
+import { Helmet } from "react-helmet"
+import { useTranslation } from "react-i18next"
 
 // TODO: lazy load all these
 import Teams from "./pages/teams"
@@ -38,21 +40,71 @@ const PublicRoute = ({ ...rest }) => {
   return <Route {...rest} />
 }
 
+const Title = ({ page }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Helmet>
+      <title>
+        {startCase(t(`common.${page}`))} | {startCase(t("common.reservationSystem"))}
+      </title>
+    </Helmet>
+  )
+}
 export const AppRoutes = () => (
   <Switch>
-    <PrivateRoute path="/" exact component={Calendar} />
-    <PrivateRoute path="/calendar" exact component={Calendar} />
-    <PrivateRoute path="/teams" exact component={Teams} />
-    <PrivateRoute path="/managers" exact component={Managers} />
-    <PrivateRoute path="/clients" exact component={Clients} />
-    <PrivateRoute path="/settings" exact component={Settings} />
-    <PrivateRoute path="/slots" exact component={Slots} />
-    <PrivateRoute path="/team/:id" exact component={Team} />
-    <PrivateRoute path="/manager/:id" exact component={Manager} />
-    <PrivateRoute path="/client/:id" exact component={Client} />
-    <PrivateRoute path="/slot/:id" exact component={Slot} />
-    <PublicRoute path="/sign-in" exact component={SignIn} />
-    <PublicRoute path="/sign-up" exact component={SignUp} />
+    <PrivateRoute path="/" exact>
+      <Title page="calendar" />
+      <Calendar />
+    </PrivateRoute>
+    <PrivateRoute path="/calendar" exact>
+      <Title page="calendar" />
+      <Calendar />
+    </PrivateRoute>
+    <PrivateRoute path="/settings" exact>
+      <Title page="settings" />
+      <Settings />
+    </PrivateRoute>
+    <PrivateRoute path="/teams" exact>
+      <Title page="team_plural" />
+      <Teams />
+    </PrivateRoute>
+    <PrivateRoute path="/managers" exact>
+      <Title page="manager_plural" />
+      <Managers />
+    </PrivateRoute>
+    <PrivateRoute path="/clients" exact>
+      <Title page="client_plural" />
+      <Clients />
+    </PrivateRoute>
+    <PrivateRoute path="/slots" exact>
+      <Title page="slot_plural" />
+      <Slots />
+    </PrivateRoute>
+    <PrivateRoute path="/team/:id" exact>
+      <Title page="team" />
+      <Team />
+    </PrivateRoute>
+    <PrivateRoute path="/manager/:id" exact>
+      <Title page="manager" />
+      <Manager />
+    </PrivateRoute>
+    <PrivateRoute path="/client/:id" exact>
+      <Title page="client" />
+      <Client />
+    </PrivateRoute>
+    <PrivateRoute path="/slot/:id" exact>
+      <Title page="slot" />
+      <Slot />
+    </PrivateRoute>
+    <PublicRoute path="/sign-in" exact>
+      <Title page="signIn" />
+      <SignIn />
+    </PublicRoute>
+    <PublicRoute path="/sign-up" exact>
+      <Title page="signUp" />
+      <SignUp />
+    </PublicRoute>
     <PublicRoute>
       <Redirect to="/sign-in" />
     </PublicRoute>

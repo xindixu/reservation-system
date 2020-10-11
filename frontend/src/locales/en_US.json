@@ -1,6 +1,5 @@
 {
   "translation": {
-  
     "common": {
       "action": "action",
       "add": "add",
@@ -69,7 +68,8 @@
       "visit_plural": "visits",
       "visit": "visit",
       "week": "week",
-      "weeks": "week(s)"
+      "weeks": "week(s)",
+      "reservationSystem": "reservation system"
     },
     "message": {
       "addClientsToManagerWithCount": "Add $t(common.clientWithCount_plural)",

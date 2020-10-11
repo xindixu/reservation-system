@@ -30,7 +30,7 @@ const ManagersGrid = ({ managers = [], fetchMore, hasNext, loading }) => {
           >
             <Card
               cover={<img alt={getFullName(manager)} src={getDefaultAvatar(manager, "md")} />}
-              // hoverable
+              hoverable
             >
               <Meta
                 title={getFullName(manager)}
