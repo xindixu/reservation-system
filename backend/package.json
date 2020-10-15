@@ -11,15 +11,21 @@
     "start": "eval $(cat .env) nodemon -r esm index.js",
     "seed": "eval $(cat .env) node -r esm seed.js"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "apollo-server-express": "^2.16.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
+    "elasticsearch": "^16.7.1",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "graphql": "^15.3.0",
+    "graphql-compose": "^7.22.1",
+    "graphql-compose-elasticsearch": "^4.0.10",
     "graphql-iso-date": "^3.6.1",
     "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",
