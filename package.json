@@ -1,0 +1,7 @@
+{
+  "name": "reservation system",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "yarn install --prefix backend && yarn install --prefix frontend"
+  }
+}
