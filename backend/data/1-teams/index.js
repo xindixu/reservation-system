@@ -1,5 +1,6 @@
 import faker from "faker"
 import mongoose from "mongoose"
+import { phone } from "../utils.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -9,7 +10,7 @@ const generateTeams = () =>
     name: faker.company.companyName(),
     description: faker.lorem.sentences(2),
     email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
+    phone: phone(),
   }))
 
 const teams = generateTeams()

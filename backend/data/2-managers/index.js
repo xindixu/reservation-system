@@ -1,6 +1,7 @@
 import faker from "faker"
 import mongoose from "mongoose"
 import teams from "../1-teams/index.js"
+import { phone } from "../utils.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -13,7 +14,7 @@ const generateMangers = () =>
       firstName,
       lastName,
       email: faker.internet.email(firstName, lastName),
-      phone: faker.phone.phoneNumber(),
+      phone: phone(),
       jobTitle: faker.name.jobTitle(),
       team: teams[index % teams.length].id,
     }

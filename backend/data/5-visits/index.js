@@ -30,7 +30,7 @@ const addDays = (refDate, days) => {
 const generateVisits = () => {
   const visits = []
   clients.forEach(({ id: clientId, duration, managers }) => {
-    const num = faker.random.number({ min: 1, max: 3 })
+    const num = faker.random.number({ min: 5, max: 10 })
 
     ;[...Array(num).keys()].forEach(() => {
       const slot = getSlot(managers)

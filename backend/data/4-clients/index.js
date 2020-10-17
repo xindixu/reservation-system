@@ -2,7 +2,7 @@ import faker from "faker"
 import mongoose from "mongoose"
 import teams from "../1-teams/index.js"
 import managers from "../2-managers/index.js"
-import { dedupArray } from "../utils.js"
+import { dedupArray, phone } from "../utils.js"
 
 const { ObjectId } = mongoose.Types
 
@@ -12,7 +12,7 @@ const generateClients = () => {
   const clients = []
   teams.forEach(({ id: teamId }) => {
     const managersInTeam = getManagersInTeam(teamId)
-    const num = faker.random.number({ min: 1, max: 10 })
+    const num = faker.random.number({ min: 10, max: 20 })
 
     ;[...Array(num).keys()].forEach(() => {
       const firstName = faker.name.firstName()
@@ -26,7 +26,7 @@ const generateClients = () => {
         firstName,
         lastName,
         email: faker.internet.email(firstName, lastName),
-        phone: faker.phone.phoneNumber(),
+        phone: phone(),
         cycle,
         duration,
         managers: dedupArray(
