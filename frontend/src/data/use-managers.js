@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_MANAGERS,
   GET_MANAGER_BY_ID,
+  SEARCH_MANAGERS,
   CREATE_MANAGER,
   UPDATE_MANAGER,
   REMOVE_CLIENTS_FROM_MANAGER,
@@ -80,7 +81,7 @@ const useManagers = (id) => {
       error: errorManagers,
       loading: loadingManagers,
       called: calledManagers,
-      data: { managers = [] } = {},
+      data: { managers = {} } = {},
     },
   ] = useLazyQuery(GET_ALL_MANAGERS, {
     variables: { size: PAGE_SIZE },
@@ -107,6 +108,14 @@ const useManagers = (id) => {
   ] = useLazyQuery(GET_MANAGER_BY_ID, {
     variables: { id },
   })
+
+  const [search, { data: { searchManagers = [] } = {}, loading: searching }] = useLazyQuery(
+    SEARCH_MANAGERS,
+    {
+      variables: { q: "" },
+    }
+  )
+
   const [addManager] = useMutation(CREATE_MANAGER, {
     update: updateAfterCreate,
   })
@@ -127,13 +136,16 @@ const useManagers = (id) => {
   return {
     manager,
     managers,
+    searchManagers,
     errorManager,
     errorManagers,
     loadingManager: calledManager ? loadingManager : true,
     loadingManagers: calledManagers ? loadingManagers : true,
+    searching,
     loadManager,
     loadManagers,
     fetchMoreManagers,
+    search,
     addManager,
     editManager,
     // deleteManager,

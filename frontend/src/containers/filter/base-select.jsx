@@ -1,10 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Form, Select } from "antd"
+import { Form, Select, Spin } from "antd"
 
 const { Option } = Select
 
-const Base = ({ t, label, name, onFocus, loading, options, itemToString, mode }) => (
+const Base = ({ t, label, name, onFocus, loading, options, itemToString, mode, onInputChange }) => (
   <Form.Item label={label} name={name}>
     <Select
       allowClear
@@ -12,16 +12,15 @@ const Base = ({ t, label, name, onFocus, loading, options, itemToString, mode })
       onFocus={onFocus}
       mode={mode}
       placeholder={t("placeholder.multipleSelect")}
-      optionFilterProp="children"
-      filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-      loading={loading}
+      filterOption={false}
+      notFoundContent={loading ? <Spin size="small" /> : null}
+      onSearch={onInputChange}
     >
-      {options &&
-        options.map((opt) => (
-          <Option key={`${name}-${opt.id}`} value={opt.id}>
-            {itemToString(opt)}
-          </Option>
-        ))}
+      {options?.map((opt) => (
+        <Option key={opt.id} value={opt.id}>
+          {itemToString(opt)}
+        </Option>
+      ))}
     </Select>
   </Form.Item>
 )
@@ -37,6 +36,7 @@ Base.propTypes = {
   mode: PropTypes.string,
   name: PropTypes.string.isRequired,
   onFocus: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
