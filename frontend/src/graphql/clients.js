@@ -35,6 +35,15 @@ export const GET_CLIENT_BY_ID = gql`
   ${VISIT.extended}
 `
 
+export const SEARCH_CLIENTS = gql`
+  query SearchClients($q: String!) {
+    searchClients(q: $q) {
+      ...BasicClient
+    }
+  }
+  ${CLIENT.basic}
+`
+
 export const CREATE_CLIENT = gql`
   mutation CreateClient(
     $firstName: String!

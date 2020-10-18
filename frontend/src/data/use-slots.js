@@ -3,6 +3,7 @@ import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_SLOTS,
   GET_SLOT_BY_ID,
+  SEARCH_SLOTS,
   CREATE_SLOT,
   UPDATE_SLOT,
   DESTROY_SLOT,
@@ -87,6 +88,14 @@ const useSlots = (id) => {
   ] = useLazyQuery(GET_SLOT_BY_ID, {
     variables: { id },
   })
+
+  const [search, { data: { searchSlots = [] } = {}, loading: searching }] = useLazyQuery(
+    SEARCH_SLOTS,
+    {
+      variables: { q: "" },
+    }
+  )
+
   const [addSlot] = useMutation(CREATE_SLOT, {
     update: updateAfterCreate,
   })
@@ -99,13 +108,16 @@ const useSlots = (id) => {
   return {
     slot,
     slots,
+    searchSlots,
     errorSlot,
     errorSlots,
     loadingSlot: calledSlot ? loadingSlot : true,
     loadingSlots: calledSlots ? loadingSlots : true,
+    searching,
     loadSlot,
     loadSlots,
     fetchMoreSlots,
+    search,
     addSlot,
     editSlot,
     deleteSlot,

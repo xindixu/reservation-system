@@ -3,6 +3,7 @@ import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_CLIENTS,
   GET_CLIENT_BY_ID,
+  SEARCH_CLIENTS,
   CREATE_CLIENT,
   UPDATE_CLIENT,
   DESTROY_CLIENT,
@@ -108,6 +109,13 @@ const useClients = (id) => {
     variables: { id },
   })
 
+  const [search, { data: { searchClients = [] } = {}, loading: searching }] = useLazyQuery(
+    SEARCH_CLIENTS,
+    {
+      variables: { q: "" },
+    }
+  )
+
   const [addClient] = useMutation(CREATE_CLIENT, {
     update: updateAfterCreate,
   })
@@ -120,13 +128,16 @@ const useClients = (id) => {
   return {
     client,
     clients,
+    searchClients,
     errorClient,
     errorClients,
     loadingClient: calledClient ? loadingClient : true,
     loadingClients: calledClients ? loadingClients : true,
+    searching,
     loadClient,
     loadClients,
     fetchMoreClients,
+    search,
     addClient,
     editClient,
     deleteClient,

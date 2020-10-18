@@ -20,14 +20,14 @@ const ManagerFilter = ({ t }) => {
   )
 
   const props = {
+    itemToString: (item) => getFullName(item),
     label: startCase(t("common.manager_plural")),
+    loading: searching,
     name: "managerIds",
     onFocus: () => {},
-    loading: searching,
-    options: searchManagers,
-    itemToString: (item) => getFullName(item),
-    t,
     onInputChange: setInputValue,
+    options: searchManagers,
+    t,
   }
 
   return <Base {...props} />

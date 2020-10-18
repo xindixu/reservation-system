@@ -47,6 +47,15 @@ export const GET_SLOT_BY_ID = gql`
   ${CLIENT.basic}
 `
 
+export const SEARCH_SLOTS = gql`
+  query SearchSlots($q: String!) {
+    searchSlots(q: $q) {
+      ...ExtendedSlot
+    }
+  }
+  ${SLOT.extended}
+`
+
 export const CREATE_SLOT = gql`
   mutation CreateSlot(
     $name: String!
