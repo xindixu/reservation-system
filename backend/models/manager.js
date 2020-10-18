@@ -14,11 +14,15 @@ const managerSchema = new Schema(
       type: String,
       required: true,
       es_indexed: true,
+      es_analyzer: "autocomplete",
+      es_search_analyzer: "autocomplete_search",
     },
     lastName: {
       type: String,
       required: true,
       es_indexed: true,
+      es_analyzer: "autocomplete",
+      es_search_analyzer: "autocomplete_search",
     },
     email: {
       type: String,
@@ -33,6 +37,8 @@ const managerSchema = new Schema(
       type: String,
       required: true,
       es_indexed: true,
+      es_analyzer: "autocomplete",
+      es_search_analyzer: "autocomplete_search",
     },
     team: {
       type: ObjectId,
@@ -98,27 +104,6 @@ Manager.createMapping(
             min_gram: 2,
             max_gram: 10,
             token_chars: ["letter"],
-          },
-        },
-      },
-    },
-    mappings: {
-      manager: {
-        properties: {
-          firstName: {
-            type: "string",
-            analyzer: "autocomplete",
-            search_analyzer: "autocomplete_search",
-          },
-          lastName: {
-            type: "string",
-            analyzer: "autocomplete",
-            search_analyzer: "autocomplete_search",
-          },
-          jobTitle: {
-            type: "string",
-            analyzer: "autocomplete",
-            search_analyzer: "autocomplete_search",
           },
         },
       },
