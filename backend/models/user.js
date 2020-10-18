@@ -2,8 +2,8 @@ import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import { hash } from "bcryptjs"
-import { ADMIN, ROLE_TYPES, LINK_BY_ROLE_TYPE } from "../constants.js"
-import { checkObjectId } from "../utils/validators.js"
+import { ADMIN, ROLE_TYPES, LINK_BY_ROLE_TYPE } from "../constants"
+import { checkObjectId } from "../utils/validators"
 
 const { Schema } = mongoose
 

@@ -1,10 +1,10 @@
 import { GraphQLDate, GraphQLDateTime, GraphQLTime } from "graphql-iso-date"
-import teamResolvers from "./team.js"
-import managerResolvers from "./manager.js"
-import clientResolvers from "./client.js"
-import slotResolvers from "./slot.js"
-import visitResolvers from "./visit.js"
-import userResolvers from "./user.js"
+import teamResolvers from "./team"
+import managerResolvers from "./manager"
+import clientResolvers from "./client"
+import slotResolvers from "./slot"
+import visitResolvers from "./visit"
+import userResolvers from "./user"
 
 const utils = {
   Date: GraphQLDate,

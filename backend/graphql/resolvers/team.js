@@ -1,7 +1,7 @@
-import { checkObjectId } from "../../utils/validators.js"
-import Team from "../../models/team.js"
-import Manager, { areManagerIdsValid } from "../../models/manager.js"
-import Slot, { areSlotIdsValid } from "../../models/slot.js"
+import { checkObjectId } from "../../utils/validators"
+import Team from "../../models/team"
+import Manager, { areManagerIdsValid } from "../../models/manager"
+import Slot, { areSlotIdsValid } from "../../models/slot"
 
 const resolvers = {
   Query: {

@@ -4,11 +4,11 @@ import cookieParser from "cookie-parser"
 import { ApolloServer, AuthenticationError } from "apollo-server-express"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
-import User from "./models/user.js"
-import typeDefs from "./graphql/typeDefs/index.js"
-import resolvers from "./graphql/resolvers/index.js"
-import { createToken, accessTokenAge, refreshTokenAge } from "./utils/auth.js"
-import schemaDirectives from "./graphql/directives/index.js"
+import User from "./models/user"
+import typeDefs from "./graphql/typeDefs/index"
+import resolvers from "./graphql/resolvers/index"
+import { createToken, accessTokenAge, refreshTokenAge } from "./utils/auth"
+import schemaDirectives from "./graphql/directives/index"
 
 const corsOptions = {
   origin: "http://localhost:5000",

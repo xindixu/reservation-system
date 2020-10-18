@@ -1,5 +1,5 @@
 import { UserInputError } from "apollo-server-express"
-import { objectId } from "../validators/index.js"
+import { objectId } from "../validators/index"
 
 export const validatePhone = (phone) => /\d{10}/.test(phone)
 

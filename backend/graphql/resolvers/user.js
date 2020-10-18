@@ -1,11 +1,11 @@
 import { compare } from "bcryptjs"
-import { checkObjectId } from "../../utils/validators.js"
-import User from "../../models/user.js"
-import { getManagerByUserId } from "../../models/manager.js"
-import { getClientByUserId } from "../../models/client.js"
-import { getTeamByUserId } from "../../models/team.js"
-import { signUp, signIn } from "../../validators/index.js"
-import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth.js"
+import { checkObjectId } from "../../utils/validators"
+import User from "../../models/user"
+import { getManagerByUserId } from "../../models/manager"
+import { getClientByUserId } from "../../models/client"
+import { getTeamByUserId } from "../../models/team"
+import { signUp, signIn } from "../../validators/index"
+import { createToken, accessTokenAge, refreshTokenAge } from "../../utils/auth"
 
 const handleInvalidInputError = (error) =>
   error.details.reduce((memo, { path, message }) => {

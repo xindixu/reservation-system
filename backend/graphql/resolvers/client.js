@@ -1,14 +1,14 @@
 import { isEmpty, identity } from "lodash"
-import { checkObjectId } from "../../utils/validators.js"
+import { checkObjectId } from "../../utils/validators"
 import Client, {
   addManagersToClient,
   removeManagersFromClient,
   getManagersForClient,
-} from "../../models/client.js"
-import { findUserById } from "../../models/user.js"
-import { getVisitsForClient, deleteVisitsForClient } from "../../models/visit.js"
-import { areManagerIdsValid } from "../../models/manager.js"
-import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
+} from "../../models/client"
+import { findUserById } from "../../models/user"
+import { getVisitsForClient, deleteVisitsForClient } from "../../models/visit"
+import { areManagerIdsValid } from "../../models/manager"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor"
 
 const fetchClients = async ({ filters = {}, size = 20, next }) => {
   let paginationSettings

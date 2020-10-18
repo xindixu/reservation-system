@@ -1,11 +1,11 @@
 import { gql } from "apollo-server-express"
 
-import Team from "./team.js"
-import Manager from "./manager.js"
-import Client from "./client.js"
-import Slot from "./slot.js"
-import Visit from "./visit.js"
-import User from "./user.js"
+import Team from "./team"
+import Manager from "./manager"
+import Client from "./client"
+import Slot from "./slot"
+import Visit from "./visit"
+import User from "./user"
 
 const typeDefs = gql`
   directive @auth on FIELD_DEFINITION

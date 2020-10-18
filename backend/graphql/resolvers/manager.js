@@ -1,16 +1,16 @@
 import { first, identity } from "lodash"
-import { checkObjectId } from "../../utils/validators.js"
-import Manager from "../../models/manager.js"
-import { findTeamById } from "../../models/team.js"
-import { findUserById } from "../../models/user.js"
-import { getSlotsForManager, addSlotsToManager, removeSlotsFromManager } from "../../models/slot.js"
+import { checkObjectId } from "../../utils/validators"
+import Manager from "../../models/manager"
+import { findTeamById } from "../../models/team"
+import { findUserById } from "../../models/user"
+import { getSlotsForManager, addSlotsToManager, removeSlotsFromManager } from "../../models/slot"
 import {
   getClientsCountForManager,
   getClientsForManager,
   addClientsToManager,
   removeClientsFromManager,
-} from "../../models/client.js"
-import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
+} from "../../models/client"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor"
 
 const fetchManagers = async ({ size = 20, next }) => {
   let paginationSettings

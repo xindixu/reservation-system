@@ -1,7 +1,7 @@
-import { checkObjectId } from "../../utils/validators.js"
-import Visit, { getVisitsInRange } from "../../models/visit.js"
-import { findSlotById } from "../../models/slot.js"
-import Client, { findClientById } from "../../models/client.js"
+import { checkObjectId } from "../../utils/validators"
+import Visit, { getVisitsInRange } from "../../models/visit"
+import { findSlotById } from "../../models/slot"
+import Client, { findClientById } from "../../models/client"
 
 const sortOptions = { start: 1, end: 1, _id: 1 }
 const resolvers = {

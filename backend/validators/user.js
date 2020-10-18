@@ -1,6 +1,6 @@
 import Joi from "joi"
-import { email } from "./utils.js"
-import { ROLE_TYPES } from "../constants.js"
+import { email } from "./utils"
+import { ROLE_TYPES } from "../constants"
 // ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
 const password = Joi.string()
   .min(6)

@@ -1,14 +1,14 @@
 import { isEmpty, identity } from "lodash"
-import { checkObjectId } from "../../utils/validators.js"
+import { checkObjectId } from "../../utils/validators"
 import Slot, {
   addManagersToSlot,
   removeManagersFromSlot,
   getManagersForSlot,
-} from "../../models/slot.js"
-import { getVisitsForSlot } from "../../models/visit.js"
-import { findTeamById } from "../../models/team.js"
-import { areManagerIdsValid } from "../../models/manager.js"
-import { fromCursorHash, toCursorHash } from "../../utils/cursor.js"
+} from "../../models/slot"
+import { getVisitsForSlot } from "../../models/visit"
+import { findTeamById } from "../../models/team"
+import { areManagerIdsValid } from "../../models/manager"
+import { fromCursorHash, toCursorHash } from "../../utils/cursor"
 
 const fetchSlots = async ({ filters = {}, size = 20, next }) => {
   let paginationSettings

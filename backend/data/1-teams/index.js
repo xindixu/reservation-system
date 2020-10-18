@@ -1,6 +1,6 @@
 import faker from "faker"
 import mongoose from "mongoose"
-import { phone } from "../utils.js"
+import { phone } from "../utils"
 
 const { ObjectId } = mongoose.Types
 
