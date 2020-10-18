@@ -65,7 +65,7 @@ const useSlots = (id) => {
       error: errorSlots,
       loading: loadingSlots,
       called: calledSlots,
-      data: { slots = [] } = {},
+      data: { slots = {} } = {},
     },
   ] = useLazyQuery(GET_ALL_SLOTS, {
     variables: { size: PAGE_SIZE },

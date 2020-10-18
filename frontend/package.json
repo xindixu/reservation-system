@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@apollo/client": "^3.2.3",

@@ -80,7 +80,7 @@ const useClients = (id) => {
       error: errorClients,
       loading: loadingClients,
       called: calledClients,
-      data: { clients = [] } = {},
+      data: { clients = {} } = {},
     },
   ] = useLazyQuery(GET_ALL_CLIENTS, {
     variables: { size: PAGE_SIZE },

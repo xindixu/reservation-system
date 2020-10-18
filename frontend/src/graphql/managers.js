@@ -38,6 +38,15 @@ export const GET_MANAGER_BY_ID = gql`
   ${CLIENT.extended}
 `
 
+export const SEARCH_MANAGERS = gql`
+  query SearchManagers($q: String!) {
+    searchManagers(q: $q) {
+      ...BasicManager
+    }
+  }
+  ${MANAGER.basic}
+`
+
 export const CREATE_MANAGER = gql`
   mutation CreateManager(
     $firstName: String!

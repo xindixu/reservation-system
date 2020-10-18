@@ -1,5 +1,3 @@
-import colors from "./colors"
-
 const shadowColor = {
   light: "hsla(0,0%,0%, 0.05)",
   normal: "hsla(0,0%,0%, 0.1)",

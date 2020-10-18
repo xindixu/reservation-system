@@ -15,18 +15,21 @@ export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(() => getItemFromStorage(STORAGE.sessionStorage, KEYS.user))
   const { i18n } = useTranslation()
 
-  const updateUser = useCallback((newUser) => {
-    if (newUser?.locale !== user?.locale) {
-      i18n.changeLanguage(languageMapping[newUser?.locale])
-    }
-    if (newUser) {
-      setUser(newUser)
-      setItemToStorage(STORAGE.sessionStorage, KEYS.user, newUser)
-    } else {
-      setUser(null)
-      removeItemFromStorage(STORAGE.sessionStorage, KEYS.user)
-    }
-  }, [])
+  const updateUser = useCallback(
+    (newUser) => {
+      if (newUser?.locale !== user?.locale) {
+        i18n.changeLanguage(languageMapping[newUser?.locale])
+      }
+      if (newUser) {
+        setUser(newUser)
+        setItemToStorage(STORAGE.sessionStorage, KEYS.user, newUser)
+      } else {
+        setUser(null)
+        removeItemFromStorage(STORAGE.sessionStorage, KEYS.user)
+      }
+    },
+    [i18n, user?.locale]
+  )
 
   return <UserContext.Provider value={{ user, updateUser }}>{children}</UserContext.Provider>
 }

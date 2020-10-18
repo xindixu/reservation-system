@@ -130,6 +130,9 @@ Calendar.propTypes = {
   onEditVisit: PropTypes.func.isRequired,
   onSelectDateRange: PropTypes.func.isRequired,
   initialDate: PropTypes.string,
+  onDropVisit: PropTypes.func.isRequired,
+  onRangeChange: PropTypes.func.isRequired,
+  initialDate: PropTypes.string,
 }
 
 export default Calendar
