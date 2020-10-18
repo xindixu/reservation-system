@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 import mongoosastic from "mongoosastic"
 import uniqueValidator from "mongoose-unique-validator"
 import { phone } from "../utils/validators"
-import configureSearch from "../search/base"
+import configureSearch, { AUTOCOMPLETE, AUTOCOMPLETE_SEARCH } from "../search/base"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -14,15 +14,15 @@ const managerSchema = new Schema(
       type: String,
       required: true,
       es_indexed: true,
-      es_analyzer: "autocomplete",
-      es_search_analyzer: "autocomplete_search",
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     lastName: {
       type: String,
       required: true,
       es_indexed: true,
-      es_analyzer: "autocomplete",
-      es_search_analyzer: "autocomplete_search",
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     email: {
       type: String,
@@ -37,8 +37,8 @@ const managerSchema = new Schema(
       type: String,
       required: true,
       es_indexed: true,
-      es_analyzer: "autocomplete",
-      es_search_analyzer: "autocomplete_search",
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     team: {
       type: ObjectId,

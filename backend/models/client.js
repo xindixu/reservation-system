@@ -1,9 +1,10 @@
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
-import MongoPaging from "mongo-cursor-pagination"
+import mongoosastic from "mongoosastic"
 import { phone } from "../utils/validators"
 import { isManagerIdValid, areManagerIdsValid } from "./manager"
+import configureSearch, { AUTOCOMPLETE, AUTOCOMPLETE_SEARCH } from "../search/base"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -13,10 +14,16 @@ const clientSchema = new Schema(
     firstName: {
       type: String,
       required: true,
+      es_indexed: true,
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     lastName: {
       type: String,
       required: true,
+      es_indexed: true,
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     email: {
       type: String,
@@ -51,7 +58,9 @@ const clientSchema = new Schema(
 )
 
 clientSchema.plugin(uniqueValidator)
-clientSchema.plugin(MongoPaging.mongoosePlugin)
+clientSchema.plugin(mongoosastic, {
+  hosts: [process.env.ELASTIC_SEARCH],
+})
 
 const Client = mongoose.model("Client", clientSchema)
 
@@ -97,4 +106,5 @@ export const getClientsCountForManager = async (manager) =>
 
 export const getClientByUserId = async (userId) => Client.findOne({ user: { $eq: userId } })
 
+configureSearch(Client)
 export default Client

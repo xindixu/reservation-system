@@ -1,7 +1,9 @@
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
+import mongoosastic from "mongoosastic"
 import uniqueValidator from "mongoose-unique-validator"
 import { isManagerIdValid, areManagerIdsValid } from "./manager"
+import configureSearch, { AUTOCOMPLETE, AUTOCOMPLETE_SEARCH } from "../search/base"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -12,6 +14,9 @@ const slotSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      es_indexed: true,
+      es_analyzer: AUTOCOMPLETE,
+      es_search_analyzer: AUTOCOMPLETE_SEARCH,
     },
     description: {
       type: String,
@@ -37,7 +42,9 @@ const slotSchema = new Schema(
 )
 
 slotSchema.plugin(uniqueValidator)
-
+slotSchema.plugin(mongoosastic, {
+  hosts: [process.env.ELASTIC_SEARCH],
+})
 const Slot = mongoose.model("Slot", slotSchema)
 
 export const findSlotById = async (id) => {
@@ -85,4 +92,5 @@ export const removeSlotsFromManager = async (mangerId, slotIds) =>
 export const getSlotsForManager = async (manager) =>
   Slot.where("managers").in(manager.id).sort({ name: 1 })
 
+configureSearch(Slot)
 export default Slot

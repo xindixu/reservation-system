@@ -1,21 +1,24 @@
 import util from "util"
 
+export const AUTOCOMPLETE = "autocomplete"
+export const AUTOCOMPLETE_SEARCH = "autocomplete_search"
+
 const configureSearch = (model) => {
   model.createMapping(
     {
       settings: {
         analysis: {
           analyzer: {
-            autocomplete: {
-              tokenizer: "autocomplete",
+            [AUTOCOMPLETE]: {
+              tokenizer: AUTOCOMPLETE,
               filter: ["lowercase"],
             },
-            autocomplete_search: {
+            [AUTOCOMPLETE_SEARCH]: {
               tokenizer: "lowercase",
             },
           },
           tokenizer: {
-            autocomplete: {
+            [AUTOCOMPLETE]: {
               type: "edge_ngram",
               min_gram: 2,
               max_gram: 10,
@@ -29,6 +32,7 @@ const configureSearch = (model) => {
       if (err) {
         console.log("Error:", err)
       } else {
+        console.log(model)
         console.log("Success:", mapping)
       }
     }
@@ -48,7 +52,7 @@ const configureSearch = (model) => {
   })
 
   stream.on("error", (err) => {
-    console.log(err)
+    console.log(`Error ${err}`)
   })
 }
 
