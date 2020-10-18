@@ -1,9 +1,9 @@
-import util from "util"
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import mongoosastic from "mongoosastic"
 import uniqueValidator from "mongoose-unique-validator"
-import { phone } from "../utils/validators.js"
+import { phone } from "../utils/validators"
+import configureSearch from "../search/base"
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -85,53 +85,5 @@ export const addManagersToTeam = async (teamId, managerIds) => {
   await Manager.updateMany({ _id: { $in: managerIds } }, { team: teamId })
 }
 
-Manager.createMapping(
-  {
-    settings: {
-      analysis: {
-        analyzer: {
-          autocomplete: {
-            tokenizer: "autocomplete",
-            filter: ["lowercase"],
-          },
-          autocomplete_search: {
-            tokenizer: "lowercase",
-          },
-        },
-        tokenizer: {
-          autocomplete: {
-            type: "edge_ngram",
-            min_gram: 2,
-            max_gram: 10,
-            token_chars: ["letter"],
-          },
-        },
-      },
-    },
-  },
-  (err, mapping) => {
-    if (err) {
-      console.log("err", err)
-    } else {
-      console.log("success", mapping)
-    }
-  }
-)
-
-let count = 0
-const stream = Manager.synchronize()
-stream.on("data", () => {
-  count++
-})
-
-stream.on("close", () => {
-  console.log(`Indexed ${count} documents.`)
-})
-
-stream.on("error", (err) => {
-  console.log(err)
-})
-
-Manager.search = util.promisify(Manager.search, { context: Manager })
-Manager.esSearch = util.promisify(Manager.esSearch, { context: Manager })
+configureSearch(Manager)
 export default Manager
