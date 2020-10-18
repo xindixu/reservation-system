@@ -86,4 +86,23 @@ export const addManagersToTeam = async (teamId, managerIds) => {
 }
 
 configureSearch(Manager)
+
+export const searchManagers = async (q) => {
+  const result = await Manager.esSearch(
+    {
+      query: {
+        multi_match: {
+          query: q,
+          analyzer: "standard",
+          fuzziness: "AUTO",
+          fields: ["firstName", "lastName", "jobTitle"],
+        },
+      },
+    },
+    { hydrate: true }
+  )
+
+  const data = result.hits.hits.map((hit) => hit)
+  return data
+}
 export default Manager

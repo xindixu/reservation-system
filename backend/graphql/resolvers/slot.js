@@ -1,6 +1,7 @@
 import { isEmpty, identity } from "lodash"
 import { checkObjectId } from "../../utils/validators"
 import Slot, {
+  searchSlots,
   addManagersToSlot,
   removeManagersFromSlot,
   getManagersForSlot,
@@ -53,7 +54,10 @@ const resolvers = {
       await checkObjectId(id)
       return Slot.findById(id)
     },
+
     slots: async (_, { next, size, filters }) => fetchSlots({ next, size, filters }),
+
+    searchSlots: async (_, { q }) => searchSlots(q),
   },
 
   Mutation: {

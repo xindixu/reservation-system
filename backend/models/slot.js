@@ -93,4 +93,24 @@ export const getSlotsForManager = async (manager) =>
   Slot.where("managers").in(manager.id).sort({ name: 1 })
 
 configureSearch(Slot)
+
+export const searchSlots = async (q) => {
+  const result = await Slot.esSearch(
+    {
+      query: {
+        multi_match: {
+          query: q,
+          analyzer: "standard",
+          fuzziness: "AUTO",
+          fields: ["name"],
+        },
+      },
+    },
+    { hydrate: true }
+  )
+
+  const data = result.hits.hits.map((hit) => hit)
+  return data
+}
+
 export default Slot

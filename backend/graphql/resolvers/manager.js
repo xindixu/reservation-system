@@ -1,6 +1,6 @@
-import { first, identity } from "lodash"
+import { identity } from "lodash"
 import { checkObjectId } from "../../utils/validators"
-import Manager from "../../models/manager"
+import Manager, { searchManagers } from "../../models/manager"
 import { findTeamById } from "../../models/team"
 import { findUserById } from "../../models/user"
 import { getSlotsForManager, addSlotsToManager, removeSlotsFromManager } from "../../models/slot"
@@ -50,25 +50,10 @@ const resolvers = {
       await checkObjectId(id)
       return Manager.findById(id)
     },
-    managers: async (_, { next, size }) => fetchManagers({ next, size }),
-    searchManagers: async (_, { q }) => {
-      const result = await Manager.esSearch(
-        {
-          query: {
-            multi_match: {
-              query: q,
-              analyzer: "standard",
-              fuzziness: "AUTO",
-              fields: ["firstName", "lastName", "jobTitle"],
-            },
-          },
-        },
-        { hydrate: true }
-      )
 
-      const data = result.hits.hits.map((hit) => hit)
-      return data
-    },
+    managers: async (_, { next, size }) => fetchManagers({ next, size }),
+
+    searchManagers: async (_, { q }) => searchManagers(q),
   },
 
   Mutation: {

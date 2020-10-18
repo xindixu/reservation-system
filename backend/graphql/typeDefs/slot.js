@@ -45,6 +45,7 @@ export default gql`
   extend type Query {
     slots(next: String, size: Int, filters: SlotFilters): SlotConnection!
     slot(id: ID!): Slot!
+    searchSlots(q: String): [Slot]!
   }
 
   extend type Mutation {

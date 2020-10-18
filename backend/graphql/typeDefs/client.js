@@ -52,6 +52,7 @@ export default gql`
   extend type Query {
     clients(next: String, size: Int, filters: ClientFilters): ClientConnection!
     client(id: ID!): Client!
+    searchClients(q: String): [Client]!
   }
 
   extend type Mutation {

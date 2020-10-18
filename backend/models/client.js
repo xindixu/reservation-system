@@ -107,4 +107,24 @@ export const getClientsCountForManager = async (manager) =>
 export const getClientByUserId = async (userId) => Client.findOne({ user: { $eq: userId } })
 
 configureSearch(Client)
+
+export const searchClients = async (q) => {
+  const result = await Client.esSearch(
+    {
+      query: {
+        multi_match: {
+          query: q,
+          analyzer: "standard",
+          fuzziness: "AUTO",
+          fields: ["firstName", "lastName"],
+        },
+      },
+    },
+    { hydrate: true }
+  )
+
+  const data = result.hits.hits.map((hit) => hit)
+  return data
+}
+
 export default Client

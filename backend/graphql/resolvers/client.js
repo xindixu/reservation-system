@@ -1,6 +1,7 @@
 import { isEmpty, identity } from "lodash"
 import { checkObjectId } from "../../utils/validators"
 import Client, {
+  searchClients,
   addManagersToClient,
   removeManagersFromClient,
   getManagersForClient,
@@ -58,6 +59,8 @@ const resolvers = {
     },
 
     clients: async (_, { next, size, filters }) => fetchClients({ next, size, filters }),
+
+    searchClients: async (_, { q }) => searchClients(q),
   },
 
   Mutation: {
