@@ -51,6 +51,19 @@ const resolvers = {
       return Manager.findById(id)
     },
     managers: async (_, { next, size }) => fetchManagers({ next, size }),
+    searchManagers: async (_, { q }) => {
+      const result = await Manager.esSearch({
+        query: {
+          match: {
+            jobTitle: q,
+          },
+        },
+      })
+
+      console.log(result)
+      const data = result.hits.hits.map((hit) => hit._source)
+      return data
+    },
   },
 
   Mutation: {

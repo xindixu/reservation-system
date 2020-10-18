@@ -14,7 +14,7 @@ export default gql`
     firstName: String!
     lastName: String!
     email: String!
-    phone: String!
+    phone: String
     jobTitle: String!
     team: Team!
     user: User
@@ -49,6 +49,7 @@ export default gql`
   extend type Query {
     managers(next: String, size: Int): ManagerConnection!
     manager(id: ID!): Manager!
+    searchManagers(q: String): [Manager]!
   }
 
   extend type Mutation {
