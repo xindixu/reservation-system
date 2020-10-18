@@ -13,7 +13,6 @@ const managerSchema = new Schema(
     firstName: {
       type: String,
       required: true,
-      es_boost: 2.0,
       es_indexed: true,
     },
     lastName: {
@@ -83,20 +82,22 @@ export const addManagersToTeam = async (teamId, managerIds) => {
 Manager.createMapping(
   {
     settings: {
-      number_of_shards: 1,
       analysis: {
-        filter: {
-          autocomplete_filter: {
-            type: "edge_ngram",
-            min_gram: 1,
-            max_gram: 10,
-          },
-        },
         analyzer: {
           autocomplete: {
-            type: "custom",
-            tokenizer: "standard",
-            filter: ["lowercase", "autocomplete_filter"],
+            tokenizer: "autocomplete",
+            filter: ["lowercase"],
+          },
+          autocomplete_search: {
+            tokenizer: "lowercase",
+          },
+        },
+        tokenizer: {
+          autocomplete: {
+            type: "edge_ngram",
+            min_gram: 2,
+            max_gram: 10,
+            token_chars: ["letter"],
           },
         },
       },
@@ -107,14 +108,17 @@ Manager.createMapping(
           firstName: {
             type: "string",
             analyzer: "autocomplete",
+            search_analyzer: "autocomplete_search",
           },
           lastName: {
             type: "string",
             analyzer: "autocomplete",
+            search_analyzer: "autocomplete_search",
           },
           jobTitle: {
             type: "string",
             analyzer: "autocomplete",
+            search_analyzer: "autocomplete_search",
           },
         },
       },
