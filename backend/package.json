@@ -8,8 +8,8 @@
   },
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "eval $(cat .env) nodemon -r esm index.js",
-    "start": "nodemon -r esm index.js",
+    "start:dev": "eval $(cat .env) nodemon -r esm index.js",
+    "start": "node index.js",
     "seed": "eval $(cat .env) node -r esm seed.js"
   },
   "engines": {
