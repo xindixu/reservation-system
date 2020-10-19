@@ -1,7 +1,7 @@
 import express from "express"
-import bodyParser from "body-parser"
+import path from "path"
 import cookieParser from "cookie-parser"
-import { ApolloServer, AuthenticationError } from "apollo-server-express"
+import { ApolloServer } from "apollo-server-express"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
 import User from "./models/user"
@@ -69,6 +69,11 @@ server.applyMiddleware({ app, cors: corsOptions })
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 )
+
+app.use(express.static(path.join(__dirname, "build")))
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"))
+})
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reservation-system.bqumh.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,

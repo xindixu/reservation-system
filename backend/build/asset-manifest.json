@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.abdaf0a8.chunk.css",
+    "main.js": "/static/js/main.c9cf4378.chunk.js",
+    "main.js.map": "/static/js/main.c9cf4378.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.c8a21426.js",
+    "runtime-main.js.map": "/static/js/runtime-main.c8a21426.js.map",
+    "static/css/2.f06a5e30.chunk.css": "/static/css/2.f06a5e30.chunk.css",
+    "static/js/2.6c047864.chunk.js": "/static/js/2.6c047864.chunk.js",
+    "static/js/2.6c047864.chunk.js.map": "/static/js/2.6c047864.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.f5d997b618f1b50c87de6d2d0f8b28c3.js": "/precache-manifest.f5d997b618f1b50c87de6d2d0f8b28c3.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.f06a5e30.chunk.css.map": "/static/css/2.f06a5e30.chunk.css.map",
+    "static/css/main.abdaf0a8.chunk.css.map": "/static/css/main.abdaf0a8.chunk.css.map",
+    "static/js/2.6c047864.chunk.js.LICENSE.txt": "/static/js/2.6c047864.chunk.js.LICENSE.txt",
+    "static/media/checking-boxes.8ee1053e.svg": "/static/media/checking-boxes.8ee1053e.svg",
+    "static/media/index.less": "/static/media/index.c17ec543.less",
+    "static/media/schedule.d949932f.svg": "/static/media/schedule.d949932f.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c8a21426.js",
+    "static/css/2.f06a5e30.chunk.css",
+    "static/js/2.6c047864.chunk.js",
+    "static/css/main.abdaf0a8.chunk.css",
+    "static/js/main.c9cf4378.chunk.js"
+  ]
+}
