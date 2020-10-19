@@ -9,8 +9,10 @@ import "./global.css"
 import * as serviceWorker from "./serviceWorker"
 import App from "./App"
 
+const local = "localhost:4000"
+const prod = "https://auto-reservation-system.herokuapp.com"
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: `${prod}/graphql`,
   cache: new InMemoryCache(),
   typeDefs: gql`
     enum Role {
