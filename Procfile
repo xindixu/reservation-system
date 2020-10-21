@@ -1,1 +1,1 @@
-web: yarn build --prefix frontend && yarn start --prefix backend 
+web: cd frontend && yarn build && cd backend yarn start
