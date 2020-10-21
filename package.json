@@ -1,7 +1,6 @@
 {
   "name": "reservation",
   "version": "1.0.0",
-  "main": "index.js",
   "author": {
     "name": "Xindi Xu",
     "email": "xindixu@utexas.edu"
