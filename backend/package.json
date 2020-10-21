@@ -10,11 +10,7 @@
   "scripts": {
     "start:dev": "eval $(cat .env) nodemon -r esm index.js",
     "start": "node index.js",
-    "seed": "eval $(cat .env) node -r esm seed.js",
-    "postinstall": "cd ../frontend && yarn run build"
-  },
-  "engines": {
-    "node": "14.x"
+    "seed": "eval $(cat .env) node -r esm seed.js"
   },
   "dependencies": {
     "apollo-server-express": "^2.16.1",

@@ -1,0 +1,16 @@
+{
+  "name": "reservation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": {
+    "name": "Xindi Xu",
+    "email": "xindixu@utexas.edu"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "postinstall": "cd frontend && yarn run build"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
