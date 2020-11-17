@@ -44,6 +44,10 @@ const slotSchema = new Schema(
 slotSchema.plugin(uniqueValidator)
 slotSchema.plugin(mongoosastic, {
   hosts: [process.env.ELASTIC_SEARCH],
+  bulk: {
+    size: 50,
+    delay: 100,
+  },
 })
 const Slot = mongoose.model("Slot", slotSchema)
 

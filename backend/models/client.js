@@ -60,6 +60,10 @@ const clientSchema = new Schema(
 clientSchema.plugin(uniqueValidator)
 clientSchema.plugin(mongoosastic, {
   hosts: [process.env.ELASTIC_SEARCH],
+  bulk: {
+    size: 50,
+    delay: 100,
+  },
 })
 
 const Client = mongoose.model("Client", clientSchema)

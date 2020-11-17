@@ -59,6 +59,10 @@ const managerSchema = new Schema(
 managerSchema.plugin(uniqueValidator)
 managerSchema.plugin(mongoosastic, {
   hosts: [process.env.ELASTIC_SEARCH],
+  bulk: {
+    size: 50,
+    delay: 100,
+  },
 })
 
 const Manager = mongoose.model("Manager", managerSchema)
