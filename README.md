@@ -15,5 +15,10 @@ Tech Stack:
 - Ant Design
 - React-i18nNext
 
+# To run
+- `cd frontend && yarn run start`
+- `cd backend && yarn run start:dev`
+- `elasticsearch`
+
 # Deploy
 Commit files and run `git push heroku master`

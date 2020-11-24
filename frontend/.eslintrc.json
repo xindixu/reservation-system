@@ -14,6 +14,8 @@
     "prettier/prettier": ["error"],
     "camelcase": 0,
     "consistent-return": 0,
+    "import/first": 0,
+    "import/order": ["error", { "newlines-between": "ignore" }],
     "import/prefer-default-export": 0,
     "jsx-a11y/label-has-for": 0,
     "no-console": ["error", { "allow": ["error", "debug", "warn"] }],
@@ -23,15 +25,14 @@
     "no-underscore-dangle": 0,
     "no-unused-expressions": 0,
     "prefer-promise-reject-errors": 0,
-    "react/forbid-prop-types": 0,
-    "react/no-multi-comp": [1, { "ignoreStateless": true }],
-    "react/sort-comp": 0,
-    "react/jsx-props-no-spreading": 0,
-    "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "import/first": 0,
-    "import/order": ["error", { "newlines-between": "ignore" }],
-    "react/destructuring-assignment": 0
+    "react-hooks/rules-of-hooks": "error",
+    "react/destructuring-assignment": 0,
+    "react/forbid-prop-types": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/no-multi-comp": [1, { "ignoreStateless": true }],
+    "react/prop-types": 0,
+    "react/sort-comp": 0
   },
   "settings": {
     "import/resolver": {
