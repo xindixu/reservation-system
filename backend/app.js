@@ -75,7 +75,7 @@ app.get("/*", (req, res) => {
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reservation-system.bqumh.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }
 )
 
 mongoose.connection.once("open", () => console.log("🥭 MongoDB is connected!"))
