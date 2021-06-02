@@ -52,6 +52,6 @@ export const FAButtonPosition = styled.div`
     width: ${spacerMd};
     height: ${spacerMd};
 
-    ${({ rotate }) => (rotate ? rotateIn : rotateOut)}
+    ${({ $rotate }) => ($rotate ? rotateIn : rotateOut)}
   }
 `

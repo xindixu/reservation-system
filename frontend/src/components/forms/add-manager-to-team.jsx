@@ -1,22 +1,26 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { useQuery } from "@apollo/client"
 import { Form, Select, List, Avatar } from "antd"
 import { TEAM, FORM } from "lib/common-types"
 import { getFullName, getDefaultAvatar } from "lib/utils"
-import { GET_ALL_MANAGERS } from "graphql/managers"
+
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
+import useManagers from "data/use-managers"
 
 const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }) => {
   const { t } = useTranslation()
-  const { data, loading } = useQuery(GET_ALL_MANAGERS)
+  const { managers: { managers } = {}, loadingManagers, loadManagers } = useManagers()
 
-  if (loading) {
+  useEffect(() => {
+    loadManagers({ variables: { size: 100 } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (loadingManagers) {
     return "loading..."
   }
 
-  const { managers } = data
   const managersInTeam = []
   const managersNotInTeam = []
 

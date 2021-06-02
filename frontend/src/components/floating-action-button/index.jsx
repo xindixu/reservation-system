@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons"
 import { FAButtonPosition } from "./styles"
 
 const FAButton = ({ onClick, ariaLabel, rotate, icon }) => (
-  <FAButtonPosition rotate={rotate}>
+  <FAButtonPosition $rotate={rotate}>
     <Button type="primary" shape="circle" icon={icon} onClick={onClick} aria-label={ariaLabel} />
   </FAButtonPosition>
 )
