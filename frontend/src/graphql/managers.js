@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { MANAGER, CLIENT } from "./fragments"
+import { MANAGER, CLIENT, SLOT } from "./fragments"
 
 export const GET_ALL_MANAGERS = gql`
   query Managers($size: Int!, $next: String) {
@@ -31,11 +31,15 @@ export const GET_MANAGER_BY_ID = gql`
           ...BasicManager
         }
       }
+      slots {
+        ...ExtendedSlot
+      }
     }
   }
   ${MANAGER.extended}
   ${MANAGER.basic}
   ${CLIENT.extended}
+  ${SLOT.extended}
 `
 
 export const SEARCH_MANAGERS = gql`

@@ -19,9 +19,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   schemaDirectives,
-  context: ({ req, res }) => {
-    return { req, res }
-  },
+  context: ({ req, res }) => ({ req, res }),
 })
 
 const app = express()
