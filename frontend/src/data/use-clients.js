@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import {
   GET_ALL_CLIENTS,
+  GET_PAGINATED_CLIENTS,
   GET_CLIENT_BY_ID,
   SEARCH_CLIENTS,
   CREATE_CLIENT,
@@ -31,7 +32,7 @@ const updateAfterCreate = (cache, { data: { createClient } }) => {
   const client = createClient
   try {
     const { clients } = cache.readQuery({
-      query: GET_ALL_CLIENTS,
+      query: GET_PAGINATED_CLIENTS,
       variables: { size: PAGE_SIZE },
     })
 
@@ -40,7 +41,7 @@ const updateAfterCreate = (cache, { data: { createClient } }) => {
     )
 
     cache.writeQuery({
-      query: GET_ALL_CLIENTS,
+      query: GET_PAGINATED_CLIENTS,
       variables: { size: PAGE_SIZE },
       data: {
         clients: {
@@ -55,12 +56,12 @@ const updateAfterCreate = (cache, { data: { createClient } }) => {
 const updateAfterDelete = (cache, { data: { destroyClient } }) => {
   const clientId = destroyClient
   const { clients } = cache.readQuery({
-    query: GET_ALL_CLIENTS,
+    query: GET_PAGINATED_CLIENTS,
     variables: { size: PAGE_SIZE },
   })
 
   cache.writeQuery({
-    query: GET_ALL_CLIENTS,
+    query: GET_PAGINATED_CLIENTS,
     variables: { size: PAGE_SIZE },
     data: {
       clients: {
@@ -73,6 +74,7 @@ const updateAfterDelete = (cache, { data: { destroyClient } }) => {
 
 const useClients = (id) => {
   const [filters, setFilters] = useState({})
+
   const [
     loadClients,
     {
@@ -83,7 +85,7 @@ const useClients = (id) => {
       called: calledClients,
       data: { clients = {} } = {},
     },
-  ] = useLazyQuery(GET_ALL_CLIENTS, {
+  ] = useLazyQuery(GET_PAGINATED_CLIENTS, {
     variables: { size: PAGE_SIZE },
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
@@ -96,6 +98,11 @@ const useClients = (id) => {
       },
       updateQuery: updateAfterFetchMore,
     })
+
+  const [
+    loadAllClients,
+    { loading: loadingAllClients, called: calledAllClients, data: { allClients = [] } = {} },
+  ] = useLazyQuery(GET_ALL_CLIENTS)
 
   const [
     loadClient,
@@ -126,21 +133,25 @@ const useClients = (id) => {
   })
 
   return {
+    allClients,
     client,
     clients,
-    searchClients,
     errorClient,
     errorClients,
+    loadingAllClients: calledAllClients ? loadingAllClients : true,
     loadingClient: calledClient ? loadingClient : true,
     loadingClients: calledClients ? loadingClients : true,
+    searchClients,
     searching,
+    addClient,
+    deleteClient,
+    editClient,
+    fetchClients: fetchMore,
+    fetchMoreClients,
+    loadAllClients,
     loadClient,
     loadClients,
-    fetchMoreClients,
     search,
-    addClient,
-    editClient,
-    deleteClient,
     setClientFilters: (newFilters) => {
       if (filters === newFilters) {
         return

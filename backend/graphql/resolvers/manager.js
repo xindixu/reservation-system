@@ -53,6 +53,8 @@ const resolvers = {
 
     managers: async (_, { next, size }) => fetchManagers({ next, size }),
 
+    allManagers: async () => Manager.find().sort({ firstName: 1, lastName: 1, id: 1 }),
+
     searchManagers: async (_, { q }) => searchManagers(q),
   },
 

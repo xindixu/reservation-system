@@ -57,6 +57,8 @@ const resolvers = {
 
     slots: async (_, { next, size, filters }) => fetchSlots({ next, size, filters }),
 
+    allSlots: async () => Slot.find().sort({ name: 1 }),
+
     searchSlots: async (_, { q }) => searchSlots(q),
   },
 

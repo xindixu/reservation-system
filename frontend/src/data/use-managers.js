@@ -1,12 +1,13 @@
 import { useLazyQuery, useMutation } from "@apollo/client"
 import {
-  GET_ALL_MANAGERS,
+  GET_PAGINATED_MANAGERS,
   GET_MANAGER_BY_ID,
   SEARCH_MANAGERS,
   CREATE_MANAGER,
   UPDATE_MANAGER,
   REMOVE_CLIENTS_FROM_MANAGER,
   ADD_CLIENTS_TO_MANAGER,
+  GET_ALL_MANAGERS,
 } from "graphql/managers"
 import { GET_CLIENT_BY_ID } from "graphql/clients"
 
@@ -29,9 +30,9 @@ const updateAfterFetchMore = (previousResult, { fetchMoreResult }) => {
 const updateAfterCreate = (cache, { data: { createManager } }) => {
   const manager = createManager
   try {
-    const { managers } = cache.readQuery({ query: GET_ALL_MANAGERS })
+    const { managers } = cache.readQuery({ query: GET_PAGINATED_MANAGERS })
     cache.writeQuery({
-      query: GET_ALL_MANAGERS,
+      query: GET_PAGINATED_MANAGERS,
       data: {
         managers: [...managers, manager],
       },
@@ -83,7 +84,7 @@ const useManagers = (id) => {
       called: calledManagers,
       data: { managers = {} } = {},
     },
-  ] = useLazyQuery(GET_ALL_MANAGERS, {
+  ] = useLazyQuery(GET_PAGINATED_MANAGERS, {
     variables: { size: PAGE_SIZE },
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
@@ -98,13 +99,13 @@ const useManagers = (id) => {
     })
 
   const [
+    loadAllManagers,
+    { loading: loadingAllManagers, called: calledAllManagers, data: { allManagers = [] } = {} },
+  ] = useLazyQuery(GET_ALL_MANAGERS)
+
+  const [
     loadManager,
-    {
-      error: errorManager,
-      loading: loadingManager,
-      called: calledManager,
-      data: { manager = {} } = {},
-    },
+    { loading: loadingManager, called: calledManager, data: { manager = {} } = {} },
   ] = useLazyQuery(GET_MANAGER_BY_ID, {
     variables: { id },
   })
@@ -134,23 +135,25 @@ const useManagers = (id) => {
   })
 
   return {
-    manager,
-    managers,
-    searchManagers,
-    errorManager,
+    allManagers,
     errorManagers,
+    loadingAllManagers: calledAllManagers ? loadingAllManagers : true,
     loadingManager: calledManager ? loadingManager : true,
     loadingManagers: calledManagers ? loadingManagers : true,
+    manager,
+    managers,
     searching,
-    loadManager,
-    loadManagers,
-    fetchMoreManagers,
-    search,
-    addManager,
-    editManager,
+    searchManagers,
     // deleteManager,
     addClients,
+    addManager,
+    editManager,
+    fetchMoreManagers,
+    loadAllManagers,
+    loadManager,
+    loadManagers,
     removeClients,
+    search,
   }
 }
 export default useManagers

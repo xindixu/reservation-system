@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import {
-  GET_ALL_SLOTS,
+  GET_PAGINATED_SLOTS,
   GET_SLOT_BY_ID,
   SEARCH_SLOTS,
   CREATE_SLOT,
   UPDATE_SLOT,
   DESTROY_SLOT,
+  GET_ALL_SLOTS,
 } from "graphql/slots"
 import { GET_ALL_VISITS } from "graphql/visits"
 
@@ -28,9 +29,9 @@ const updateAfterFetchMore = (previousResult, { fetchMoreResult }) => {
 
 const updateAfterCreate = (cache, { data: { createSlot } }) => {
   const slot = createSlot
-  const { slots } = cache.readQuery({ query: GET_ALL_SLOTS })
+  const { slots } = cache.readQuery({ query: GET_PAGINATED_SLOTS })
   cache.writeQuery({
-    query: GET_ALL_SLOTS,
+    query: GET_PAGINATED_SLOTS,
     data: {
       slots: [...slots, slot],
     },
@@ -39,10 +40,10 @@ const updateAfterCreate = (cache, { data: { createSlot } }) => {
 
 const updateAfterDelete = (cache, { data: { destroySlot } }) => {
   const slot = destroySlot
-  const slots = cache.readQuery({ query: GET_ALL_SLOTS })
+  const slots = cache.readQuery({ query: GET_PAGINATED_SLOTS })
   const visits = cache.readQuery({ query: GET_ALL_VISITS })
   cache.writeQuery({
-    query: GET_ALL_SLOTS,
+    query: GET_PAGINATED_SLOTS,
     data: {
       slots: slots.filter((s) => s.id !== slot),
     },
@@ -68,7 +69,7 @@ const useSlots = (id) => {
       called: calledSlots,
       data: { slots = {} } = {},
     },
-  ] = useLazyQuery(GET_ALL_SLOTS, {
+  ] = useLazyQuery(GET_PAGINATED_SLOTS, {
     variables: { size: PAGE_SIZE },
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
@@ -81,6 +82,11 @@ const useSlots = (id) => {
       },
       updateQuery: updateAfterFetchMore,
     })
+
+  const [
+    loadAllSlots,
+    { loading: loadingAllSlots, called: calledAllSlots, data: { allSlots = [] } = {} },
+  ] = useLazyQuery(GET_ALL_SLOTS)
 
   const [
     loadSlot,
@@ -106,21 +112,24 @@ const useSlots = (id) => {
   })
 
   return {
-    slot,
-    slots,
-    searchSlots,
+    allSlots,
     errorSlot,
     errorSlots,
+    loadingAllSlots: calledAllSlots ? loadingAllSlots : true,
     loadingSlot: calledSlot ? loadingSlot : true,
     loadingSlots: calledSlots ? loadingSlots : true,
     searching,
+    searchSlots,
+    slot,
+    slots,
+    addSlot,
+    deleteSlot,
+    editSlot,
+    fetchMoreSlots,
+    loadAllSlots,
     loadSlot,
     loadSlots,
-    fetchMoreSlots,
     search,
-    addSlot,
-    editSlot,
-    deleteSlot,
     setSlotFilters: (newFilters) => {
       if (filters === newFilters) {
         return

@@ -10,6 +10,7 @@ import endOfMonth from "date-fns/endOfMonth"
 
 import { Form, Select, Switch } from "antd"
 
+import { compact } from "lodash"
 import { VISIT, FORM } from "lib/common-types"
 import { getFullName } from "lib/utils"
 import DatePicker from "components/date-picker"
@@ -31,7 +32,6 @@ const SelectWithFilterAndDisable = ({
   name,
 }) => {
   const [showAll, setShowAll] = useState(filtered.length === 0)
-
   const itemsToShow = showAll ? data : data.filter(({ id }) => filtered.includes(id))
 
   return (
@@ -61,12 +61,12 @@ const SelectWithFilterAndDisable = ({
 const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
   const { t } = useTranslation()
 
-  const { slots, loadSlots, fetchMoreSlots } = useSlots()
-  const { clients, loadClients, fetchMoreClients } = useClients()
+  const { allSlots, loadAllSlots } = useSlots()
+  const { allClients, loadAllClients } = useClients()
 
   useEffect(() => {
-    loadClients()
-    loadSlots()
+    loadAllClients()
+    loadAllSlots()
   }, [])
 
   const { client, slot, start, end } = initialVisit
@@ -103,7 +103,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       <SelectWithFilterAndDisable
         label={t("common.client")}
         name="clientId"
-        data={[...(clients?.clients || []), client]}
+        data={compact([...(allClients || []), client])}
         filtered={filtered.clientIds}
         disabled={disabled.clientId}
         itemToString={(item) => getFullName(item)}
@@ -112,7 +112,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       <SelectWithFilterAndDisable
         label={t("common.slot")}
         name="slotId"
-        data={slots?.slots}
+        data={compact([...(allSlots || []), slot])}
         filtered={filtered.slotIds}
         disabled={disabled.slotId}
         itemToString={(item) => item.name}

@@ -50,8 +50,9 @@ export default gql`
   }
 
   extend type Query {
-    clients(next: String, size: Int, filters: ClientFilters): ClientConnection!
+    allClients: [Client]!
     client(id: ID!): Client!
+    clients(next: String, size: Int, filters: ClientFilters): ClientConnection!
     searchClients(q: String): [Client]!
   }
 

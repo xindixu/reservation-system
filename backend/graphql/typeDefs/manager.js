@@ -47,8 +47,9 @@ export default gql`
   }
 
   extend type Query {
-    managers(next: String, size: Int): ManagerConnection!
+    allManagers: [Manager]!
     manager(id: ID!): Manager!
+    managers(next: String, size: Int): ManagerConnection!
     searchManagers(q: String): [Manager]!
   }
 

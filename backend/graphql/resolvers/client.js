@@ -60,6 +60,8 @@ const resolvers = {
 
     clients: async (_, { next, size, filters }) => fetchClients({ next, size, filters }),
 
+    allClients: async () => Client.find().sort({ firstName: 1, lastName: 1, id: 1 }),
+
     searchClients: async (_, { q }) => searchClients(q),
   },
 
