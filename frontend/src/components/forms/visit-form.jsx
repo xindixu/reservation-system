@@ -38,11 +38,14 @@ const SelectWithFilterAndDisable = ({
     <>
       <Form.Item label={label} name={name} rules={[{ required: true }]}>
         <Select disabled={!!disabled}>
-          {(itemsToShow || []).map((item) => (
-            <Select.Option value={item.id} key={item.id}>
-              {itemToString(item)}
-            </Select.Option>
-          ))}
+          {(itemsToShow || []).map(
+            (item) =>
+              item && (
+                <Select.Option value={item.id} key={item.id}>
+                  {itemToString(item)}
+                </Select.Option>
+              )
+          )}
         </Select>
       </Form.Item>
       {filtered.length > 0 && (
@@ -62,8 +65,8 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
   const { clients, loadClients, fetchMoreClients } = useClients()
 
   useEffect(() => {
-    loadSlots()
     loadClients()
+    loadSlots()
   }, [])
 
   const { client, slot, start, end } = initialVisit
@@ -100,7 +103,7 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
       <SelectWithFilterAndDisable
         label={t("common.client")}
         name="clientId"
-        data={clients?.clients}
+        data={[...(clients?.clients || []), client]}
         filtered={filtered.clientIds}
         disabled={disabled.clientId}
         itemToString={(item) => getFullName(item)}

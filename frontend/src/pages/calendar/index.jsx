@@ -6,7 +6,6 @@ import { Spin } from "antd"
 import { endOfMonth } from "date-fns/esm"
 import Page from "./page"
 import {
-  GET_ALL_VISITS,
   SEARCH_VISITS,
   CREATE_VISIT,
   UPDATE_VISIT,
@@ -15,29 +14,49 @@ import {
 } from "graphql/visits"
 import { toISOStringWithTZ } from "lib/datetime"
 
-const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { createVisit } }) => {
+const updateAfterCreateVisit = (
+  { searching, searchParams, from, to },
+  cache,
+  { data: { createVisit } }
+) => {
   const visit = createVisit
 
   if (searching) {
     const { clientIds, slotIds } = searchParams
     const { client, slot } = visit
 
+    const q = { query: SEARCH_VISITS, variables: searchParams }
     if ((clientIds || []).includes(client.id) || (slotIds || []).includes(slot.id)) {
-      const { searchVisits } = cache.readQuery({ query: SEARCH_VISITS, variables: searchParams })
+      const { searchVisits } = cache.readQuery(q)
       cache.writeQuery({
-        query: SEARCH_VISITS,
-        variables: searchParams,
+        ...q,
         data: {
           searchVisits: [...searchVisits, visit],
         },
       })
     }
   }
-  const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
+
+  const q = { query: GET_VISITS_IN_RANGE, variables: { from, to } }
+  const { visitsInRange } = cache.readQuery(q)
+
   cache.writeQuery({
-    query: GET_ALL_VISITS,
+    ...q,
     data: {
-      visits: [...visits, visit],
+      visitsInRange: [...visitsInRange, visit],
+    },
+  })
+}
+
+const updateAfterDeleteVisit = ({ from, to }, cache, { data: { destroyVisit } }) => {
+  const visitId = destroyVisit
+  const q = { query: GET_VISITS_IN_RANGE, variables: { from, to } }
+
+  const { visitsInRange } = cache.readQuery(q)
+  cache.writeQuery({
+    ...q,
+    data: {
+      visitsInRange: visitsInRange.filter((v) => v.id !== visitId),
     },
   })
 }
@@ -65,21 +84,13 @@ const CalendarPage = () => {
     }
   )
   const [addVisit] = useMutation(CREATE_VISIT, {
-    update: (...args) => updateAfterCreateVisit({ searching, searchParams }, ...args),
+    update: (...args) =>
+      updateAfterCreateVisit({ searching, searchParams, from: DATE_FROM, to: DATE_TO }, ...args),
   })
 
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
-    update: (cache, { data: { destroyVisit } }) => {
-      const visitId = destroyVisit
-      const { visits } = cache.readQuery({ query: GET_ALL_VISITS })
-      cache.writeQuery({
-        query: GET_ALL_VISITS,
-        data: {
-          visits: visits.filter((v) => v.id !== visitId),
-        },
-      })
-    },
+    update: (...args) => updateAfterDeleteVisit({ from: DATE_FROM, to: DATE_TO }, ...args),
   })
 
   if (error) {
