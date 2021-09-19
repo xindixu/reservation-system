@@ -2,6 +2,7 @@ import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import mongoosastic from "mongoosastic"
 import uniqueValidator from "mongoose-unique-validator"
+import { compact } from "lodash"
 import { isManagerIdValid, areManagerIdsValid } from "./manager"
 import configureSearch, { AUTOCOMPLETE, AUTOCOMPLETE_SEARCH } from "../search/base"
 
@@ -114,7 +115,7 @@ export const searchSlots = async (q) => {
   )
 
   const data = result.hits.hits.map((hit) => hit)
-  return data
+  return compact(data)
 }
 
 export default Slot

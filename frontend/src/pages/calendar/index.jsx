@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client"
+import { startOfMonth } from "date-fns"
 import { isEmpty } from "lodash"
 import { Spin } from "antd"
+import { endOfMonth } from "date-fns/esm"
 import Page from "./page"
 import {
   GET_ALL_VISITS,
@@ -40,6 +42,10 @@ const updateAfterCreateVisit = ({ searching, searchParams }, cache, { data: { cr
   })
 }
 
+const TODAY = new Date()
+const DATE_FROM = toISOStringWithTZ(startOfMonth(TODAY))
+const DATE_TO = toISOStringWithTZ(endOfMonth(TODAY))
+
 const CalendarPage = () => {
   const [searchParams, setSearchParams] = useState({})
   const searching = !isEmpty(searchParams)
@@ -47,8 +53,8 @@ const CalendarPage = () => {
     GET_VISITS_IN_RANGE,
     {
       variables: {
-        from: "2020-09-01T00:00:00.000Z",
-        to: "2020-10-01T00:00:00.000Z",
+        from: DATE_FROM,
+        to: DATE_TO,
       },
     }
   )

@@ -1,7 +1,6 @@
 import { UserInputError } from "apollo-server-express"
 import mongoose from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
-import { areManagerIdsValid } from "./manager"
 import { checkObjectId, phone } from "../utils/validators"
 
 const { Schema } = mongoose

@@ -23,7 +23,7 @@ import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 const TODAY = new Date()
 
 const SelectWithFilterAndDisable = ({
-  data,
+  data = [],
   disabled = false,
   filtered = [],
   itemToString,

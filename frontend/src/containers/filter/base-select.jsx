@@ -16,11 +16,13 @@ const Base = ({ t, label, name, onFocus, loading, options, itemToString, mode, o
       notFoundContent={loading ? <Spin size="small" /> : null}
       onSearch={onInputChange}
     >
-      {options?.map((opt) => (
-        <Option key={opt.id} value={opt.id}>
-          {itemToString(opt)}
-        </Option>
-      ))}
+      {options?.map((opt) =>
+        opt ? (
+          <Option key={opt.id} value={opt.id}>
+            {itemToString(opt)}
+          </Option>
+        ) : null
+      )}
     </Select>
   </Form.Item>
 )

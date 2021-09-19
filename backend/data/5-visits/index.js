@@ -30,11 +30,11 @@ const addDays = (refDate, days) => {
 const generateVisits = () => {
   const visits = []
   clients.forEach(({ id: clientId, duration, managers }) => {
-    const num = faker.random.number({ min: 5, max: 10 })
+    const num = faker.random.number({ min: 1, max: 5 })
 
     ;[...Array(num).keys()].forEach(() => {
       const slot = getSlot(managers)
-      const start = faker.date.between("2020-01-01", "2020-12-31")
+      const start = faker.date.between("2021-01-01", "2022-06-30")
       const end = addDays(start, duration)
       const visit = {
         id: ObjectId(),

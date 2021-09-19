@@ -17,6 +17,10 @@ Tech Stack:
 - Ant Design
 - React-i18nNext
 
+# Setup
+- `cd frontend && yarn install`
+- `cd backend && yarn install`
+- `cd backend && touch .env`
 # To run
 
 - `cd frontend && yarn run start`
@@ -27,3 +31,6 @@ Tech Stack:
 
 - Commit files and run `git push heroku master`
 - Config env vars in heroku
+
+## Elasticsearch
+Go to http://localhost:9200/clients to check for indexed data
