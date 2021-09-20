@@ -1,7 +1,2 @@
-import AuthDirective from "./auth"
-import GuestDirective from "./guest"
-
-export default {
-  auth: AuthDirective,
-  guest: GuestDirective,
-}
+export { default as authDirectiveTransformer } from "./auth"
+export { default as guestDirectiveTransformer } from "./guest"

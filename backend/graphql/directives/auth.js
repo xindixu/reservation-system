@@ -1,18 +1,26 @@
-import { SchemaDirectiveVisitor } from "apollo-server-express"
-
+import { mapSchema, getDirective, MapperKind } from "@graphql-tools/utils"
 import { defaultFieldResolver } from "graphql"
 import { ensureSignIn } from "../../utils/auth"
 
-class AuthDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field) {
-    const { resolve = defaultFieldResolver } = field
+const authDirectiveTransformer = (schema, directiveName) =>
+  mapSchema(schema, {
+    // Executes once for each object field definition in the schema
+    [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
+      // Check whether this field has the specified directive
+      const [authDirective] = getDirective(schema, fieldConfig, directiveName) || []
 
-    field.resolve = function (...args) {
-      const [, , context] = args
-      // ensureSignIn(context.req)
-      return resolve.apply(this, args)
-    }
-  }
-}
+      if (authDirective) {
+        // Get this field's original resolver
+        const { resolve = defaultFieldResolver } = fieldConfig
 
-export default AuthDirective
+        fieldConfig.resolve = async function (...args) {
+          const [, , context] = args
+          // ensureSignIn(context.req)
+          return resolve.apply(this, args)
+        }
+        return fieldConfig
+      }
+    },
+  })
+
+export default authDirectiveTransformer
