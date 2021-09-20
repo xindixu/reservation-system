@@ -2,6 +2,7 @@ import express from "express"
 import path from "path"
 import cookieParser from "cookie-parser"
 import { ApolloServer } from "apollo-server-express"
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
@@ -72,6 +73,7 @@ async function start() {
     resolvers,
     schema,
     context: ({ req, res }) => ({ req, res }),
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground({})],
   })
 
   await server.start()

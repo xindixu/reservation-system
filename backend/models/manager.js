@@ -63,7 +63,7 @@ managerSchema.plugin(mongoosastic, {
   ssl: { rejectUnauthorized: false },
   bulk: {
     size: 50,
-    delay: 100,
+    delay: 1000,
   },
 })
 
