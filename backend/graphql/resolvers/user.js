@@ -132,7 +132,7 @@ const resolvers = {
       const { id, ...updates } = input
       await checkObjectId(id)
       try {
-        return User.findByIdAndUpdate(id, updates, { omitUndefined: true })
+        return User.findByIdAndUpdate(id, updates, { omitUndefined: true, new: true })
       } catch (e) {
         const { email, password, locale } = e.errors
         return {
