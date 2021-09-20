@@ -21,43 +21,43 @@ async function start() {
   // user authentication
   const app = express()
   app.use(cookieParser())
-  // app.use(async (req, res, next) => {
-  //   const accessToken = req.cookies["access-token"]
-  //   const refreshToken = req.cookies["refresh-token"]
-  //   if (!accessToken && !refreshToken) {
-  //     return next()
-  //   }
+  app.use(async (req, res, next) => {
+    const accessToken = req.cookies["access-token"]
+    const refreshToken = req.cookies["refresh-token"]
+    if (!accessToken && !refreshToken) {
+      return next()
+    }
 
-  //   try {
-  //     const data = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN_HASH)
-  //     req.userId = data.userId
-  //     return next()
-  //   } catch (error) {}
+    try {
+      const data = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN_HASH)
+      req.userId = data.userId
+      return next()
+    } catch (error) {}
 
-  //   if (!refreshToken) {
-  //     return next()
-  //   }
+    if (!refreshToken) {
+      return next()
+    }
 
-  //   let data
+    let data
 
-  //   try {
-  //     data = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_HASH)
-  //     req.userId = data.userId
-  //   } catch (error) {}
+    try {
+      data = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_HASH)
+      req.userId = data.userId
+    } catch (error) {}
 
-  //   const user = await User.findById(data.userId)
-  //   if (!user || user.lastSeen !== data.lastSeen) {
-  //     return next()
-  //   }
+    const user = await User.findById(data.userId)
+    if (!user || user.lastSeen !== data.lastSeen) {
+      return next()
+    }
 
-  //   const token = createToken(user)
+    const token = createToken(user)
 
-  //   res.cookie("access-token", token.accessToken, { maxAge: accessTokenAge })
-  //   res.cookie("refresh-token", token.refreshToken, { maxAge: refreshTokenAge })
-  //   req.userId = user.id
+    res.cookie("access-token", token.accessToken, { maxAge: accessTokenAge })
+    res.cookie("refresh-token", token.refreshToken, { maxAge: refreshTokenAge })
+    req.userId = user.id
 
-  //   return next()
-  // })
+    return next()
+  })
 
   // apollo graphql
   let schema = makeExecutableSchema({
