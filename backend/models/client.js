@@ -61,6 +61,7 @@ const clientSchema = new Schema(
 clientSchema.plugin(uniqueValidator)
 clientSchema.plugin(mongoosastic, {
   hosts: [process.env.ELASTIC_SEARCH],
+  ssl: { rejectUnauthorized: false },
   bulk: {
     size: 50,
     delay: 100,

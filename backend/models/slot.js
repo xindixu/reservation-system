@@ -45,6 +45,7 @@ const slotSchema = new Schema(
 slotSchema.plugin(uniqueValidator)
 slotSchema.plugin(mongoosastic, {
   hosts: [process.env.ELASTIC_SEARCH],
+  ssl: { rejectUnauthorized: false },
   bulk: {
     size: 50,
     delay: 100,
