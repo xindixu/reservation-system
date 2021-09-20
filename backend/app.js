@@ -12,7 +12,7 @@ import { createToken, accessTokenAge, refreshTokenAge } from "./utils/auth"
 import { authDirectiveTransformer, guestDirectiveTransformer } from "./graphql/directives/index"
 
 const corsOptions = {
-  origin: "https://auto-reservation-system.herokuapp.com",
+  origin: "http://localhost:5000",
   credentials: true,
 }
 
