@@ -24,7 +24,6 @@ const updateAfterCreateVisit = (
   if (searching) {
     const { clientIds, slotIds } = searchParams
     const { client, slot } = visit
-
     const q = { query: SEARCH_VISITS, variables: searchParams }
     if ((clientIds || []).includes(client.id) || (slotIds || []).includes(slot.id)) {
       const { searchVisits } = cache.readQuery(q)
@@ -39,7 +38,6 @@ const updateAfterCreateVisit = (
 
   const q = { query: GET_VISITS_IN_RANGE, variables: { from, to } }
   const { visitsInRange } = cache.readQuery(q)
-
   cache.writeQuery({
     ...q,
     data: {
@@ -48,10 +46,24 @@ const updateAfterCreateVisit = (
   })
 }
 
-const updateAfterDeleteVisit = ({ from, to }, cache, { data: { destroyVisit } }) => {
+const updateAfterDeleteVisit = (
+  { searching, searchParams, from, to },
+  cache,
+  { data: { destroyVisit } }
+) => {
   const visitId = destroyVisit
-  const q = { query: GET_VISITS_IN_RANGE, variables: { from, to } }
+  if (searching) {
+    const q = { query: SEARCH_VISITS, variables: searchParams }
+    const { searchVisits } = cache.readQuery(q)
+    cache.writeQuery({
+      ...q,
+      data: {
+        searchVisits: searchVisits.filter((v) => v.id !== visitId),
+      },
+    })
+  }
 
+  const q = { query: GET_VISITS_IN_RANGE, variables: { from, to } }
   const { visitsInRange } = cache.readQuery(q)
   cache.writeQuery({
     ...q,
@@ -90,7 +102,8 @@ const CalendarPage = () => {
 
   const [editVisit] = useMutation(UPDATE_VISIT)
   const [deleteVisit] = useMutation(DESTROY_VISIT, {
-    update: (...args) => updateAfterDeleteVisit({ from: DATE_FROM, to: DATE_TO }, ...args),
+    update: (...args) =>
+      updateAfterDeleteVisit({ searching, searchParams, from: DATE_FROM, to: DATE_TO }, ...args),
   })
 
   if (error) {
