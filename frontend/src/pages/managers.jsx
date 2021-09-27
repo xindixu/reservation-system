@@ -13,14 +13,8 @@ const MODALS = {
 const Managers = () => {
   const { t } = useTranslation()
 
-  const {
-    managers,
-    errorManagers,
-    loadingManagers,
-    loadManagers,
-    addManager,
-    fetchMoreManagers,
-  } = useManagers()
+  const { managers, errorManagers, loadingManagers, loadManagers, addManager, fetchMoreManagers } =
+    useManagers()
 
   useEffect(() => {
     loadManagers()

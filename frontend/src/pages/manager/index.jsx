@@ -101,6 +101,7 @@ const Manager = () => {
           })
         }}
       />
+
       {modalToShow === MODALS.editManager && (
         <Modal
           title={`${t("common.edit")} ${fullName}`}
