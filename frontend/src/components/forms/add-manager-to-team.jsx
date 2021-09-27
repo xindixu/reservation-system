@@ -8,11 +8,27 @@ import { getFullName, getDefaultAvatar } from "lib/utils"
 import { defaultValidateMessages, defaultFormLayout } from "lib/constants"
 import useManagers from "data/use-managers"
 
+const groupManagers = (managers, teamId) => {
+  const managersInTeam = []
+  const managersNotInTeam = []
+
+  managers.forEach((manager) => {
+    if (manager.team.id === teamId) {
+      managersInTeam.push(manager)
+    } else {
+      managersNotInTeam.push(manager)
+    }
+  })
+
+  return { managersInTeam, managersNotInTeam }
+}
+
 const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }) => {
   const { t } = useTranslation()
   const { managers: { managers } = {}, loadingManagers, loadManagers } = useManagers()
 
   useEffect(() => {
+    // TODO: real pagination
     loadManagers({ variables: { size: 100 } })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -21,16 +37,7 @@ const AddManagerToTeam = ({ form, initialTeam, onSubmit, setNumOfManagersToAdd }
     return "loading..."
   }
 
-  const managersInTeam = []
-  const managersNotInTeam = []
-
-  managers.forEach((manager) => {
-    if (manager.team.id === initialTeam.id) {
-      managersInTeam.push(manager)
-    } else {
-      managersNotInTeam.push(manager)
-    }
-  })
+  const { managersInTeam, managersNotInTeam } = groupManagers(managers, initialTeam.id)
 
   return (
     <>

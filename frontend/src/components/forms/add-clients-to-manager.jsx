@@ -14,7 +14,7 @@ const groupClients = (clients, managerId) => {
   const clientsNotServedByManager = []
 
   if (clients) {
-    clients.clients.forEach((client) => {
+    clients.forEach((client) => {
       if (client.managers.some(({ id }) => id === managerId)) {
         clientsServedByManager.push(client)
       } else {
@@ -27,10 +27,12 @@ const groupClients = (clients, managerId) => {
 const AddClientsToManager = ({ form, initialManager, onSubmit, setNumOfClientsToAdd }) => {
   const { t } = useTranslation()
 
-  const { clients, loadingClients, loadClients } = useClients()
+  const { clients: { clients } = {}, loadingClients, loadClients } = useClients()
 
   useEffect(() => {
-    loadClients()
+    // TODO: real pagination
+    loadClients({ variables: { size: 200 } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (loadingClients) {
