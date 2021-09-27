@@ -23,13 +23,11 @@ const Settings = () => {
   })
 
   return (
-    <>
-      <SettingsForm
-        initialUser={user}
-        onSubmit={(values) => editUser({ variables: { id: user.id, ...values } })}
-        loading={loading}
-      />
-    </>
+    <SettingsForm
+      initialUser={user}
+      onSubmit={(values) => editUser({ variables: { id: user.id, ...values } })}
+      loading={loading}
+    />
   )
 }
 

@@ -128,10 +128,10 @@ const VisitForm = ({ initialVisit, form, disabled, onSubmit, filtered }) => {
           showTime={!allDay}
         />
       </Form.Item>
-      <div className="flex space-x-2 mb-4 justify-end">
+      {/* <div className="flex space-x-2 mb-4 justify-end">
         <span>{t("common.allDay")}</span>
         <Switch checked={allDay} onChange={setAllDay} />
-      </div>
+      </div> */}
     </Form>
   )
 }

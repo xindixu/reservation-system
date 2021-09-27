@@ -101,6 +101,7 @@ const ClientsTable = ({
                 icon={<EditOutlined />}
                 aria-label={t("common.edit")}
                 onClick={() => editClient(client)}
+                disabled={typeof editClient !== "function"}
               />,
               <Button
                 key={`delete-${client.id}`}

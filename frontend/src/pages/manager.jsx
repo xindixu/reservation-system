@@ -30,6 +30,7 @@ const PageActions = ({ t, manager: { email, phone }, edit }) => (
 
 const MODALS = {
   editManager: "editManager",
+  editClient: "editClient",
   addClientsToManager: "addClientsToManager",
   removeClient: "removeClient",
 }
@@ -84,7 +85,6 @@ const Manager = () => {
       </div>
       <ClientsTable
         clients={clients}
-        onEditClient={() => {}}
         deleteClient={(client) => {
           getConfirm({
             content: (

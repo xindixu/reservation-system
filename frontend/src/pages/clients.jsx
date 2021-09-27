@@ -51,6 +51,7 @@ const Clients = () => {
         hasNext={clients?.hasNext}
         fetchMore={fetchMoreClients}
         editClient={(client) => {
+          console.log(client)
           setSelectedClient(client)
           setModalToShow(MODALS.editClient)
         }}

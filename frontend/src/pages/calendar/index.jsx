@@ -1,9 +1,8 @@
 import React, { useState } from "react"
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client"
-import { startOfMonth } from "date-fns"
+import { startOfMonth, endOfMonth } from "date-fns"
 import { isEmpty } from "lodash"
 import { Spin } from "antd"
-import { endOfMonth } from "date-fns/esm"
 import Page from "./page"
 import {
   SEARCH_VISITS,
@@ -80,15 +79,17 @@ const DATE_TO = toISOStringWithTZ(endOfMonth(TODAY))
 const CalendarPage = () => {
   const [searchParams, setSearchParams] = useState({})
   const searching = !isEmpty(searchParams)
-  const { loading: loadingAllVisits, error, data: allVisitData, refetch } = useQuery(
-    GET_VISITS_IN_RANGE,
-    {
-      variables: {
-        from: DATE_FROM,
-        to: DATE_TO,
-      },
-    }
-  )
+  const {
+    loading: loadingAllVisits,
+    error,
+    data: allVisitData,
+    refetch,
+  } = useQuery(GET_VISITS_IN_RANGE, {
+    variables: {
+      from: DATE_FROM,
+      to: DATE_TO,
+    },
+  })
   const [searchVisits, { loading: loadingSearchVisits, data: searchedVisitsData }] = useLazyQuery(
     SEARCH_VISITS,
     {

@@ -18,7 +18,7 @@ const generateClients = () => {
       const firstName = faker.name.firstName()
       const lastName = faker.name.lastName()
       const cycle = faker.random.number({ min: 7, max: 30 })
-      const duration = faker.random.number({ min: 2, max: cycle - 10 })
+      const duration = faker.random.number({ min: 2, max: Math.max(2, cycle - 10) })
       const numOfManagers = faker.random.number({ min: 1, max: 3 })
 
       const client = {
